@@ -2,7 +2,7 @@
 
 This is a [ponyfill](https://ponyfoo.com/articles/polyfills-or-ponyfills) with the added ability of animating the scroll itself.
 
-Kudos to [@hsablonniere](https://github.com/hsablonniere) for sharing the [original polyfill](https://gist.github.com/hsablonniere/2581101)
+Kudos to [@hsablonniere](https://github.com/hsablonniere) for sharing the [original polyfill](https://gist.github.com/hsablonniere/2581101) and [@jocki84](https://github.com/jocki84) for [improving](https://gist.github.com/jocki84/6ffafd003387179a988e) it!
 
 ## Install
 
@@ -12,9 +12,10 @@ npm install scroll-into-view-if-needed
 
 ## API
 
-### scrollIntoViewIfNeeded(node:Element, centerIfNeeded:boolean || options:object)
+### scrollIntoViewIfNeeded(node:Element, centerIfNeeded:boolean, options:object)
 
 Returns a function that can be used to cancel a scroll animation.
+Inspired by [scroll-iv](https://www.npmjs.com/package/scroll-iv).
 
 #### Options
 
@@ -29,7 +30,7 @@ The duration of the animation in milliseconds, defaults to 0 for no animation.
 
 ##### easing
 
-@TODO
+default is ease. Possible values: `ease|easeIn|easeOut|easeInOut|linear`
 
 ## Examples
 
@@ -42,8 +43,7 @@ const activeNode = document.querySelector('li.active')
 scrollIntoViewIfNeeded(activeNode, false)
 
 // Animates it with a tiny animation lib, no need for jQuery or Velocity
-scrollIntoViewIfNeeded(activeNode, {
-  centerIfNeeded: false,
+scrollIntoViewIfNeeded(activeNode, false, {
   duration: 150
 })
 

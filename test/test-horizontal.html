@@ -106,7 +106,25 @@
   <button data-item-idx="99">#99</button>
 </div>
 
-<script src="../src/index.js"></script>
+<div id="buttons-animate">
+  <span><code>animate scrollIntoViewIfNeeded()</code> to item : </span>
+  <button data-item-idx="0">#0</button>
+  <button data-item-idx="11">#11</button>
+  <button data-item-idx="22">#22</button>
+  <button data-item-idx="24">#24</button>
+  <button data-item-idx="26">#26</button>
+  <button data-item-idx="33">#33</button>
+  <button data-item-idx="44">#44</button>
+  <button data-item-idx="55">#55</button>
+  <button data-item-idx="66">#66</button>
+  <button data-item-idx="77">#77</button>
+  <button data-item-idx="82">#82</button>
+  <button data-item-idx="84">#84</button>
+  <button data-item-idx="86">#86</button>
+  <button data-item-idx="99">#99</button>
+</div>
+
+<script src="./bundle.js"></script>
 <script>
   (function () {
     var scrollArea = document.getElementById('scroll-area'),
@@ -114,14 +132,15 @@
         buttonsCenterTrue = document.getElementById('buttons-centerTrue'),
         buttonsCenterUndefined = document.getElementById('buttons-centerUndefined'),
         buttonsCenterNoArgs = document.getElementById('buttons-centerNoArgs'),
+        buttonsAnimate = document.getElementById('buttons-animate'),
         scrollIntoViewIfNeededToItemAndSelect;
-    scrollIntoViewIfNeededToItemAndSelect = function (itemIdx, centerIfNeeded) {
+    scrollIntoViewIfNeededToItemAndSelect = function (itemIdx, centerIfNeeded, options) {
       scrollArea.querySelector('.selected').className = '';
       // Allow us to really have difference bewteen scrollIntoViewIfNeeded() and scrollIntoViewIfNeeded(undefined)
       if (arguments.length === 1) {
-        scrollArea.children[itemIdx].scrollIntoViewIfNeeded();
+        scrollIntoViewIfNeeded(scrollArea.children[itemIdx]);
       } else {
-        scrollArea.children[itemIdx].scrollIntoViewIfNeeded(centerIfNeeded);
+        scrollIntoViewIfNeeded(scrollArea.children[itemIdx], centerIfNeeded, options);
       }
       scrollArea.children[itemIdx].className = 'selected';
     };
@@ -143,6 +162,14 @@
     buttonsCenterNoArgs.addEventListener('click', function (e) {
       if (e.target.nodeName === 'BUTTON') {
         scrollIntoViewIfNeededToItemAndSelect(e.target.dataset.itemIdx);
+      }
+    }, false);
+    buttonsAnimate.addEventListener('click', function (e) {
+      if (e.target.nodeName === 'BUTTON') {
+        scrollIntoViewIfNeededToItemAndSelect(e.target.dataset.itemIdx, false, {
+          centerIfNeeded: false,
+          duration: 150
+        });
       }
     }, false);
   })();

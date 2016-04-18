@@ -102,7 +102,7 @@
   <button data-item-idx="99">#99</button>
 </div>
 
-<script src="index.js"></script>
+<script src="./bundle.js"></script>
 <script>
   (function () {
     var scrollArea = document.getElementById('scroll-area'),
@@ -115,9 +115,9 @@
       scrollArea.querySelector('.selected').className = '';
       // Allow us to really have difference bewteen scrollIntoViewIfNeeded() and scrollIntoViewIfNeeded(undefined)
       if (arguments.length === 1) {
-        scrollArea.children[itemIdx].scrollIntoViewIfNeeded();
+        scrollIntoViewIfNeeded(scrollArea.children[itemIdx]);
       } else {
-        scrollArea.children[itemIdx].scrollIntoViewIfNeeded(centerIfNeeded);
+        scrollIntoViewIfNeeded(scrollArea.children[itemIdx], centerIfNeeded);
       }
       scrollArea.children[itemIdx].className = 'selected';
     };

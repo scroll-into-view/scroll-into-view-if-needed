@@ -1,27 +1,78 @@
-if (!Element.prototype.scrollIntoViewIfNeeded) {
-  Element.prototype.scrollIntoViewIfNeeded = function (centerIfNeeded) {
-    centerIfNeeded = arguments.length === 0 ? true : !!centerIfNeeded;
+import animate from 'amator'
 
-    var parent = this.parentNode,
-        parentComputedStyle = window.getComputedStyle(parent, null),
-        parentBorderTopWidth = parseInt(parentComputedStyle.getPropertyValue('border-top-width')),
-        parentBorderLeftWidth = parseInt(parentComputedStyle.getPropertyValue('border-left-width')),
-        overTop = this.offsetTop - parent.offsetTop < parent.scrollTop,
-        overBottom = (this.offsetTop - parent.offsetTop + this.clientHeight - parentBorderTopWidth) > (parent.scrollTop + parent.clientHeight),
-        overLeft = this.offsetLeft - parent.offsetLeft < parent.scrollLeft,
-        overRight = (this.offsetLeft - parent.offsetLeft + this.clientWidth - parentBorderLeftWidth) > (parent.scrollLeft + parent.clientWidth),
-        alignWithTop = overTop && !overBottom;
+export default function (elem, centerIfNeeded, options) {
+  
+  if (!elem) throw new Error('Element is required in scrollIntoViewIfNeeded')
+  
+  function withinBounds(value, min, max, extent) {
+      if (false === centerIfNeeded || max <= value + extent && value <= min + extent) {
+          return Math.min(max, Math.max(min, value));
+      } else {
+          return (min + max) / 2;
+      }
+  }
 
-    if ((overTop || overBottom) && centerIfNeeded) {
-      parent.scrollTop = this.offsetTop - parent.offsetTop - parent.clientHeight / 2 - parentBorderTopWidth + this.clientHeight / 2;
-    }
+  function makeArea(left, top, width, height) {
+      return  { "left": left, "top": top, "width": width, "height": height
+              , "right": left + width, "bottom": top + height
+              , "translate":
+                  function (x, y) {
+                      return makeArea(x + left, y + top, width, height);
+                  }
+              , "relativeFromTo":
+                  function (lhs, rhs) {
+                      var newLeft = left, newTop = top;
+                      lhs = lhs.offsetParent;
+                      rhs = rhs.offsetParent;
+                      if (lhs === rhs) {
+                          return area;
+                      }
+                      for (; lhs; lhs = lhs.offsetParent) {
+                          newLeft += lhs.offsetLeft + lhs.clientLeft;
+                          newTop += lhs.offsetTop + lhs.clientTop;
+                      }
+                      for (; rhs; rhs = rhs.offsetParent) {
+                          newLeft -= rhs.offsetLeft + rhs.clientLeft;
+                          newTop -= rhs.offsetTop + rhs.clientTop;
+                      }
+                      return makeArea(newLeft, newTop, width, height);
+                  }
+              };
+  }
 
-    if ((overLeft || overRight) && centerIfNeeded) {
-      parent.scrollLeft = this.offsetLeft - parent.offsetLeft - parent.clientWidth / 2 - parentBorderLeftWidth + this.clientWidth / 2;
-    }
+  var parent, area = makeArea(
+      elem.offsetLeft, elem.offsetTop,
+      elem.offsetWidth, elem.offsetHeight);
+  while ((parent = elem.parentNode) instanceof HTMLElement) {
+      var clientLeft = parent.offsetLeft + parent.clientLeft;
+      var clientTop = parent.offsetTop + parent.clientTop;
 
-    if ((overTop || overBottom || overLeft || overRight) && !centerIfNeeded) {
-      this.scrollIntoView(alignWithTop);
-    }
-  };
+      // Make area relative to parent's client area.
+      area = area.
+          relativeFromTo(elem, parent).
+          translate(-clientLeft, -clientTop);
+
+      var scrollLeft = withinBounds(
+          parent.scrollLeft,
+          area.right - parent.clientWidth, area.left,
+          parent.clientWidth)
+      var scrollTop = withinBounds(
+          parent.scrollTop,
+          area.bottom - parent.clientHeight, area.top,
+          parent.clientHeight)
+      if(options) {
+        animate(parent, {
+           scrollLeft: scrollLeft,
+          scrollTop: scrollTop
+        }, options)
+      } else {
+        parent.scrollLeft = scrollLeft
+        parent.scrollTop = scrollTop
+      }
+
+      // Determine actual scroll amount by reading back scroll properties.
+      area = area.translate(clientLeft - parent.scrollLeft,
+                            clientTop - parent.scrollTop);
+      elem = parent;
+  }
 }
