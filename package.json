@@ -1,0 +1,26 @@
+{
+  "name": "scroll-into-view-if-needed",
+  "version": "1.0.0",
+  "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
+  },
+  "keywords": [
+    "ponyfill",
+    "smooth",
+    "scroll",
+    "scroll-into-view",
+    "scroll"
+  ],
+  "author": "Stian Didriksen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stipsan/scroll-into-view-if-needed/issues"
+  },
+  "homepage": "https://github.com/stipsan/scroll-into-view-if-needed#readme"
+}
