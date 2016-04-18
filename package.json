@@ -1,11 +1,11 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup src/index.js -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
+    "build": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
     "prepublish": "npm run build"
   },
   "repository": {
