@@ -31,7 +31,7 @@
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-preset-es2015-rollup": "^1.2.0",
-    "rollup": "^0.34.10",
+    "rollup": "^0.34.11",
     "rollup-plugin-babel": "^2.6.0",
     "rollup-plugin-commonjs": "^3.3.1",
     "rollup-plugin-node-resolve": "^2.0.0"
