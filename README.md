@@ -1,5 +1,8 @@
 # scroll-into-view-if-needed
 
+[![NPM](https://nodei.co/npm/ioredis-mock.png?downloadRank=true)](https://www.npmjs.com/package/ioredis-mock)
+[![NPM](https://nodei.co/npm-dl/ioredis-mock.png?months=3&height=2)](https://nodei.co/npm/ioredis-mock/)
+
 This is a [ponyfill](https://ponyfill.com) with the added ability of animating the scroll itself.
 
 Kudos to [@hsablonniere](https://github.com/hsablonniere) for sharing the [original polyfill](https://gist.github.com/hsablonniere/2581101) and [@jocki84](https://github.com/jocki84) for [improving](https://gist.github.com/jocki84/6ffafd003387179a988e) it!
