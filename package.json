@@ -1,6 +1,6 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "main": "dist/bundle.js",
   "scripts": {
