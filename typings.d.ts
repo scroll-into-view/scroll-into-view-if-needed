@@ -9,9 +9,9 @@ declare module 'scroll-into-view-if-needed' {
     (
       node: Element,
       centerIfNeeded: boolean,
-      options: ScrollIntoViewIfNeededOptions,
+      options?: ScrollIntoViewIfNeededOptions,
     ): void;
   }
   const ScrollIntoViewIfNeeded: ScrollIntoViewIfNeededFunction;
-  export default ScrollIntoViewIfNeeded;
+  export = ScrollIntoViewIfNeeded;
 }
