@@ -1,12 +1,14 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "postversion": "git add package.json && git commit -m \"chore(package): update version\"",
+    "postpublish": "gh-release"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-preset-es2015-rollup": "^1.2.0",
+    "gh-release": "^2.1.0",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.0",
     "rollup-plugin-commonjs": "^5.0.5",
