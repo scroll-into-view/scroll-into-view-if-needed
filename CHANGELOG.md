@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.5] - 2016-11-12
+### Fixed
+* Fix TypeScript definition file issues (#74 @forabi)
+
 ## [1.0.4] - 2016-10-31
 ### Added
 * Changelog readme.
@@ -29,4 +33,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * Initial release.
 
+[1.0.5]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.3...v1.0.4
