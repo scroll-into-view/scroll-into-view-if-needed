@@ -1,4 +1,4 @@
-module 'scroll-into-view-if-needed' {
+declare module 'scroll-into-view-if-needed' {
   interface ScrollIntoViewIfNeededOptions {
     centerIfNeeded: boolean;
     duration: number;
@@ -8,14 +8,10 @@ module 'scroll-into-view-if-needed' {
   interface ScrollIntoViewIfNeededFunction {
     (
       node: Element,
-      centerIfNeeded: boolean = false,
-      options: ScrollIntoViewIfNeededOptions = {
-        centerIfNeeded: false,
-        duration: 0,
-        easing: 'ease',
-      }
+      centerIfNeeded: boolean,
+      options?: ScrollIntoViewIfNeededOptions,
     ): void;
   }
   const ScrollIntoViewIfNeeded: ScrollIntoViewIfNeededFunction;
-  export default ScrollIntoViewIfNeeded;
+  export = ScrollIntoViewIfNeeded;
 }
