@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Fix TypeScript definition file issues (#74 @forabi)
 
+### Documentation
+* React example snippet in readme.
+
 ## [1.0.4] - 2016-10-31
 ### Added
 * Changelog readme.
