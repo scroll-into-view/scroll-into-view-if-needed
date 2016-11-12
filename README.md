@@ -36,6 +36,7 @@ The duration of the animation in milliseconds, defaults to 0 for no animation.
 default is ease. Possible values: `ease|easeIn|easeOut|easeInOut|linear`
 
 ## Examples
+### Vanilla JS
 
 ```javascript
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -49,5 +50,44 @@ scrollIntoViewIfNeeded(activeNode, false)
 scrollIntoViewIfNeeded(activeNode, false, {
   duration: 150
 })
+
+```
+
+### React
+
+```javascript
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+import { Component } from 'react'
+
+export default class Homepage extends Component {
+
+ constructor(props) {
+  super(props)
+  
+  this.setSignupNode = (node) => {
+   if(node) {
+    this._setupNode = node
+   }
+  }
+  this.goToSignup = (event) => {
+   event.preventDefault()
+   
+   // Passing the dom node from react is all you need for this to work
+   scrollIntoViewIfNeeded(this._signupNode, false, {
+    duration: 150
+   })
+  }
+ }
+
+ render() {
+  return (
+    ...
+    <a onClick={this.goToSignup}>Signup Now!</a>
+    ...
+    <form ref={this.setSignupNode}>
+    ...
+  )
+ }
+}
 
 ```
