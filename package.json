@@ -3,6 +3,7 @@
   "version": "1.0.4",
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "main": "dist/bundle.js",
+  "typings": "typings.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
