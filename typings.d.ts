@@ -9,11 +9,7 @@ module 'scroll-into-view-if-needed' {
     (
       node: Element,
       centerIfNeeded: boolean = false,
-      options: ScrollIntoViewIfNeededOptions = {
-        centerIfNeeded: false,
-        duration: 0,
-        easing: 'ease',
-      }
+      options: ScrollIntoViewIfNeededOptions,
     ): void;
   }
   const ScrollIntoViewIfNeeded: ScrollIntoViewIfNeededFunction;
