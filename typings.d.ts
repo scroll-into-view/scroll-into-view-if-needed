@@ -1,8 +1,8 @@
 declare module 'scroll-into-view-if-needed' {
   interface ScrollIntoViewIfNeededOptions {
-    centerIfNeeded: boolean;
-    duration: number;
-    easing: 'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear';
+    centerIfNeeded?: boolean;
+    duration?: number;
+    easing?: 'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear';
   }
 
   interface ScrollIntoViewIfNeededFunction {
