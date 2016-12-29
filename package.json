@@ -37,7 +37,7 @@
     "gh-release": "^2.2.0",
     "rollup": "^0.38.2",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^6.0.1",
+    "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0"
   }
 }
