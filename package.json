@@ -35,7 +35,7 @@
     "babel": "^6.5.2",
     "babel-preset-es2015-rollup": "^3.0.0",
     "gh-release": "^2.2.0",
-    "rollup": "^0.40.1",
+    "rollup": "^0.40.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0"
