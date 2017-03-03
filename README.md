@@ -66,7 +66,7 @@ export default class Homepage extends Component {
   
   this.setSignupNode = (node) => {
    if(node) {
-    this._setupNode = node
+    this._signupNode = node
    }
   }
   this.goToSignup = (event) => {
