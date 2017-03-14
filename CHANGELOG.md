@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+* MIT License (#107 @JKillian)
+
+### Changed
+* Reduced size of dist build by switching from rollup to babel (#106 @JKillian)
+
 ## [1.0.6] - 2006-11-17
 ### Changed
 * Updated typescript definition making options optional (#75 @pelotom)
