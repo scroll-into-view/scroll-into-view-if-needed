@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.7] - 2017-03-14
 ### Added
 * MIT License (#107 @JKillian)
 
 ### Changed
 * Reduced size of dist build by switching from rollup to babel (#106 @JKillian)
 
-## [1.0.6] - 2006-11-17
+## [1.0.6] - 2016-11-17
 ### Changed
 * Updated typescript definition making options optional (#75 @pelotom)
 
@@ -47,7 +47,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * Initial release.
 
-[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.6...HEAD
+[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.7...HEAD
+[1.0.7]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.3...v1.0.4
