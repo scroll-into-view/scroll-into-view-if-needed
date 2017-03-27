@@ -8,4 +8,5 @@ export default function(
   node: Element,
   centerIfNeeded: boolean,
   options?: ScrollIntoViewIfNeededOptions,
+  finalElement?: Element
 ): void;

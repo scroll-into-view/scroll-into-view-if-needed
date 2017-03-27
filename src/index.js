@@ -1,6 +1,6 @@
 import animate from 'amator'
 
-export default function (elem, centerIfNeeded, options) {
+export default function (elem, centerIfNeeded, options, finalElement) {
   
   if (!elem) throw new Error('Element is required in scrollIntoViewIfNeeded')
   
@@ -43,7 +43,7 @@ export default function (elem, centerIfNeeded, options) {
   var parent, area = makeArea(
       elem.offsetLeft, elem.offsetTop,
       elem.offsetWidth, elem.offsetHeight);
-  while ((parent = elem.parentNode) instanceof HTMLElement) {
+  while ((parent = elem.parentNode) instanceof HTMLElement && elem !== finalElement) {
       var clientLeft = parent.offsetLeft + parent.clientLeft;
       var clientTop = parent.offsetTop + parent.clientTop;
 
