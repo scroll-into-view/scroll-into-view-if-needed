@@ -1,5 +1,7 @@
 # scroll-into-view-if-needed
 
+[![npm package](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg)](https://www.npmjs.com/package/scroll-into-view-if-needed)
+
 [![NPM](https://nodei.co/npm/scroll-into-view-if-needed.png?downloadRank=true)](https://www.npmjs.com/package/scroll-into-view-if-needed)
 [![NPM](https://nodei.co/npm-dl/scroll-into-view-if-needed.png?months=3&height=2)](https://nodei.co/npm/scroll-into-view-if-needed/)
 
