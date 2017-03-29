@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0] - 2017-03-29
+### Added
+* An optional argument finalElement was added to limit the scope of the function (#108 @hemnstill)
+
 ## [1.0.7] - 2017-03-14
 ### Added
 * MIT License (#107 @JKillian)
@@ -47,7 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 * Initial release.
 
-[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.7...HEAD
+[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.7...v1.1.0
 [1.0.7]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.4...v1.0.5
