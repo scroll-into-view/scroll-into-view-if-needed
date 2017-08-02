@@ -1,6 +1,6 @@
 import animate from 'amator'
 
-export default function (elem, centerIfNeeded, options, finalElement) {
+export default function (elem, centerIfNeeded, options, finalElement, config) {
   
   if (!elem) throw new Error('Element is required in scrollIntoViewIfNeeded')
   
@@ -12,16 +12,21 @@ export default function (elem, centerIfNeeded, options, finalElement) {
       }
   }
 
+  const offsetTop = config.offsetTop || 0;
+  const offsetLeft = config.offsetLeft || 0;
+  const offsetBottom = config.offsetBottom || 0;
+  const offsetRight = config.offsetRight || 0;
+
   function makeArea(left, top, width, height) {
-      return  { "left": left, "top": top, "width": width, "height": height
-              , "right": left + width, "bottom": top + height
+      return  { "left": left + offsetLeft, "top": top + offsetTop, "width": width, "height": height
+              , "right": left + offsetLeft + width + offsetRight, "bottom": top + offsetTop + height + offsetBottom
               , "translate":
                   function (x, y) {
-                      return makeArea(x + left, y + top, width, height);
+                      return makeArea(x + left + offsetLeft, y + top + offsetTop, width, height);
                   }
               , "relativeFromTo":
                   function (lhs, rhs) {
-                      var newLeft = left, newTop = top;
+                      var newLeft = left + offsetLeft, newTop = top + offsetTop;
                       lhs = lhs.offsetParent;
                       rhs = rhs.offsetParent;
                       if (lhs === rhs) {
