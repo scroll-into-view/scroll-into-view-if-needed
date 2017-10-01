@@ -1,9 +1,4 @@
-# scroll-into-view-if-needed
-
-[![npm package](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg)](https://www.npmjs.com/package/scroll-into-view-if-needed)
-
-[![NPM](https://nodei.co/npm/scroll-into-view-if-needed.png?downloadRank=true)](https://www.npmjs.com/package/scroll-into-view-if-needed)
-[![NPM](https://nodei.co/npm-dl/scroll-into-view-if-needed.png?months=3&height=2)](https://nodei.co/npm/scroll-into-view-if-needed/)
+# scroll-into-view-if-needed &middot; [![CircleCI Status](https://img.shields.io/circleci/project/github/stipsan/scroll-into-view-if-needed.svg?style=flat-square)](https://circleci.com/gh/stipsan/scroll-into-view-if-needed) [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
 
 This is a [ponyfill](https://ponyfill.com) with the added ability of animating the scroll itself.
 
@@ -12,7 +7,7 @@ Kudos to [@hsablonniere](https://github.com/hsablonniere) for sharing the [origi
 ## Install
 
 ```bash
-npm install scroll-into-view-if-needed
+yarn add scroll-into-view-if-needed
 ```
 
 ## API
@@ -65,7 +60,7 @@ export default class Homepage extends Component {
 
  constructor(props) {
   super(props)
-  
+
   this.setSignupNode = (node) => {
    if(node) {
     this._signupNode = node
@@ -73,7 +68,7 @@ export default class Homepage extends Component {
   }
   this.goToSignup = (event) => {
    event.preventDefault()
-   
+
    // Passing the dom node from react is all you need for this to work
    scrollIntoViewIfNeeded(this._signupNode, false, {
     duration: 150
