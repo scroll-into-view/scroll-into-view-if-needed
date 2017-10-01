@@ -1,6 +1,5 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "1.1.0",
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "main": "dist/index.js",
   "typings": "typings.d.ts",
@@ -11,8 +10,15 @@
     "build-bundle": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
     "clean": "rm -rf dist",
     "prepublish": "npm run build",
-    "postversion": "git add package.json && git commit -m \"chore(package): update version\"",
-    "postpublish": "gh-release"
+    "changelog:preview": "sr-changelog",
+    "changelog:commit": "sr-changelog commit",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "release": {
+    "analyzeCommits": "semantic-release-tamia/analyzeCommits",
+    "verifyConditions": "condition-circle",
+    "generateNotes": "semantic-release-tamia/generateNotes",
+    "verifyRelease": "semantic-release-tamia/verifyRelease"
   },
   "repository": {
     "type": "git",
@@ -37,7 +43,6 @@
     "babel-cli": "^6.23.0",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
-    "gh-release": "^2.2.1",
     "release-relief": "^1.0.1",
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.7.1",
