@@ -1,2 +1,4 @@
+.circleci
 src
 test
+yarn.lock
