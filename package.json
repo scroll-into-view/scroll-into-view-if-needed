@@ -22,8 +22,7 @@
     "ponyfill",
     "smooth",
     "scroll",
-    "scroll-into-view",
-    "scroll"
+    "scroll-into-view"
   ],
   "author": "Stian Didriksen",
   "license": "MIT",
@@ -32,7 +31,7 @@
   },
   "homepage": "https://github.com/stipsan/scroll-into-view-if-needed#readme",
   "dependencies": {
-    "amator": "^1.0.1"
+    "amator": "1.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

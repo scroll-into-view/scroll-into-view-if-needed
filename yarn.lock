@@ -94,9 +94,9 @@ align-text@^0.1.1, align-text@^0.1.3:
     longest "^1.0.1"
     repeat-string "^1.5.2"
 
-amator@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/amator/-/amator-1.1.0.tgz#08c6b60bc93aec2b61bbfc0c4d677d30323cc0f1"
+amator@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/amator/-/amator-1.0.1.tgz#0fd3663fef5f3334d088cf68a70ba74398aa0e26"
   dependencies:
     bezier-easing "^2.0.3"
 
