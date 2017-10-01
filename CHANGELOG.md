@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.2.0] - 2017-10-01
 ### Added
 * Set offset feature (#127 @iwangulenko)
 
@@ -58,7 +60,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 * Initial release.
 
-[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.7...v1.1.0
 [1.0.7]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.6...v1.0.7
