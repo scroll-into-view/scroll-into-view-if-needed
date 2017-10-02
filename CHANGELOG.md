@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.1] - 2017-10-02
+### Fixed
+* Fifth option should be optional (#129)
+
 ## [1.2.0] - 2017-10-01
 ### Added
 * Set offset feature (#127 @iwangulenko)
