@@ -1,6 +1,6 @@
 import animate from 'amator'
 
-export default function (elem, centerIfNeeded, options, finalElement, config) {
+export default function (elem, centerIfNeeded, options, finalElement, config = {}) {
   
   if (!elem) throw new Error('Element is required in scrollIntoViewIfNeeded')
   
