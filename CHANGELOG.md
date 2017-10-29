@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.2] - 2017-10-29
+### Fixed
+* Incorrect export declaration in TS typings (#132)
+
 ## [1.2.1] - 2017-10-02
 ### Fixed
 * Fifth option should be optional (#129)
@@ -64,7 +68,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 * Initial release.
 
-[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.1...v1.2.2
+[1.2.1]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.0.7...v1.1.0
