@@ -55,7 +55,7 @@
   ],
   "lint-staged": {
     "*.html": [
-      "npx html-cli",
+      "npx html-cli -- --editorconfig",
       "git add"
     ],
     "*.ts": [
