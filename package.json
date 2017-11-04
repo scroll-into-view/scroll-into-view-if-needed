@@ -8,9 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "bugs": {
-    "url": "https://github.com/stipsan/scroll-into-view-if-needed/issues"
-  },
+  "bugs": { "url": "https://github.com/stipsan/scroll-into-view-if-needed/issues"},
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run clean && npm run build-module && npm run build-bundle",
@@ -35,7 +33,6 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4",
-    "prettier-package-json": "^1.4.0",
     "release-relief": "^1.0.1",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.4",
@@ -55,7 +52,7 @@
   ],
   "lint-staged": {
     "*.html": [
-      "npx html-cli -- --editorconfig",
+      "npx html-cli -- --editorconfig --indent-size 2",
       "git add"
     ],
     "*.ts": [
@@ -67,7 +64,7 @@
       "git add"
     ],
     "package.json": [
-      "prettier-package-json --write",
+      "npx prettier-package-json -- --write",
       "git add"
     ]
   },
