@@ -9,7 +9,7 @@
     "build-module": "tsc",
     "build-bundle": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
     "clean": "rimraf dist",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "yarn build",
     "changelog:preview": "sr-changelog",
     "changelog:commit": "sr-changelog commit",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
