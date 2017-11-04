@@ -1,4 +1,6 @@
 dist
+docs/**/*
+!docs/.nojekyll
 node_modules
 
 test/bundle.js
