@@ -42,6 +42,7 @@
     "lint-staged": "^4.3.0",
     "next": "^4.1.4",
     "prettier": "^1.7.4",
+    "prettier-package-json": "^1.4.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "release-relief": "^1.0.1",
@@ -75,7 +76,7 @@
       "git add"
     ],
     "package.json": [
-      "npx prettier-package-json --write",
+      "prettier-package-json --write",
       "git add"
     ]
   },
