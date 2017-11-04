@@ -55,7 +55,7 @@
   ],
   "lint-staged": {
     "*.html": [
-      "npx clean-html",
+      "npx html-cli",
       "git add"
     ],
     "*.ts": [
