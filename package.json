@@ -1,64 +1,31 @@
 {
   "name": "scroll-into-view-if-needed",
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
-  "main": "dist/index.js",
-  "typings": "typings.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run clean && npm run build-module && npm run build-bundle",
-    "build-module": "tsc",
-    "build-bundle": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
-    "clean": "rimraf dist",
-    "prepublishOnly": "yarn build",
-    "changelog:preview": "sr-changelog",
-    "changelog:commit": "sr-changelog commit",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
-  },
-  "release": {
-    "analyzeCommits": "semantic-release-tamia/analyzeCommits",
-    "verifyConditions": "condition-circle",
-    "generateNotes": "semantic-release-tamia/generateNotes",
-    "verifyRelease": "semantic-release-tamia/verifyRelease"
-  },
+  "author": "Stian Didriksen",
+  "license": "MIT",
+  "homepage": "https://github.com/stipsan/scroll-into-view-if-needed#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "keywords": [
-    "ponyfill",
-    "smooth",
-    "scroll",
-    "scrollIntoView",
-    "scrollIntoViewIfNeeded",
-    "smooth",
-    "scroll-into-view"
-  ],
-  "author": "Stian Didriksen",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/stipsan/scroll-into-view-if-needed/issues"
   },
-  "homepage": "https://github.com/stipsan/scroll-into-view-if-needed#readme",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run clean && npm run build-module && npm run build-bundle",
+    "build-bundle": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
+    "build-module": "tsc",
+    "changelog:commit": "sr-changelog commit",
+    "changelog:preview": "sr-changelog",
+    "clean": "rimraf dist",
+    "precommit": "lint-staged",
+    "prepublishOnly": "yarn build",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "amator": "1.0.1"
-  },
-  "lint-staged": {
-      "*.html": [
-        "npx clean-html",
-        "git add"
-      ],
-      "*.ts": [
-        "prettier --write",
-        "git add"
-      ],
-      "*.json": [
-        "prettier --write",
-        "git add"
-      ],
-      "package.json": [
-        "prettier-package-json --write",
-        "git add"
-      ]
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
@@ -76,5 +43,39 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^2.0.0",
     "typescript": "^2.6.1"
-  }
+  },
+  "keywords": [
+    "ponyfill",
+    "scroll",
+    "scroll-into-view",
+    "scrollIntoView",
+    "scrollIntoViewIfNeeded",
+    "smooth",
+    "smooth"
+  ],
+  "lint-staged": {
+    "*.html": [
+      "npx clean-html",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ]
+  },
+  "release": {
+    "analyzeCommits": "semantic-release-tamia/analyzeCommits",
+    "verifyConditions": "condition-circle",
+    "generateNotes": "semantic-release-tamia/generateNotes",
+    "verifyRelease": "semantic-release-tamia/verifyRelease"
+  },
+  "typings": "typings.d.ts"
 }
