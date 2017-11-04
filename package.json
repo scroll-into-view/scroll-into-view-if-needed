@@ -3,7 +3,6 @@
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "author": "Stian Didriksen",
   "license": "MIT",
-  "homepage": "https://github.com/stipsan/scroll-into-view-if-needed#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
@@ -76,5 +75,5 @@
     "generateNotes": "semantic-release-tamia/generateNotes",
     "verifyRelease": "semantic-release-tamia/verifyRelease"
   },
-  "typings": "typings.d.ts"
+  "typings": "dist/index.d.ts"
 }
