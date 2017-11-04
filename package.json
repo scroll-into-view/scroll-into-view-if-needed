@@ -21,7 +21,7 @@
     "precommit": "lint-staged",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc --noOutput"
   },
   "dependencies": {
     "amator": "1.0.1"
