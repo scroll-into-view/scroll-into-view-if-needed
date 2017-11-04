@@ -1,5 +1,5 @@
 module.exports = {
-  exportPathMaps() {
+  exportPathMap() {
     return {
       '/': { page: '/' },
     }
