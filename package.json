@@ -42,6 +42,24 @@
   "dependencies": {
     "amator": "1.0.1"
   },
+  "lint-staged": {
+      "*.html": [
+        "npx clean-html",
+        "git add"
+      ],
+      "*.ts": [
+        "prettier --write",
+        "git add"
+      ],
+      "*.json": [
+        "prettier --write",
+        "git add"
+      ],
+      "package.json": [
+        "prettier-package-json --write",
+        "git add"
+      ]
+  },
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-plugin-add-module-exports": "^0.2.1",
