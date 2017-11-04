@@ -28,6 +28,9 @@
     "ponyfill",
     "smooth",
     "scroll",
+    "scrollIntoView",
+    "scrollIntoViewIfNeeded",
+    "smooth",
     "scroll-into-view"
   ],
   "author": "Stian Didriksen",
