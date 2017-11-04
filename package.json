@@ -12,28 +12,39 @@
   },
   "main": "dist/bundle.js",
   "scripts": {
-    "build": "npm run clean && npm run build-module && npm run build-bundle",
-    "build-bundle": "rollup -c",
-    "build-module": "tsc",
+    "prebuild": "yarn clean",
+    "build": "yarn build:tsc && yarn build:rollup",
+    "build:rollup": "rollup -c",
+    "build:tsc": "tsc -p . -p docs",
     "changelog:commit": "sr-changelog commit",
     "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
+    "dev": "concurrently \"yarn build:tsc --watch\" \"yarn build:rollup -w\" \"next dev docs\"",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "tsc --noEmit"
+    "test": "yarn build:tsc --noEmit"
   },
   "dependencies": {
     "amator": "1.0.1"
   },
   "devDependencies": {
+    "@types/next": "^2.4.5",
+    "@types/react": "^16.0.20",
+    "@types/react-dom": "^16.0.2",
     "babel-cli": "^6.23.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "concurrently": "^3.5.0",
+    "cypress": "^1.0.3",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
+    "next": "^4.1.4",
     "prettier": "^1.7.4",
+    "prettier-package-json": "^1.4.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "release-relief": "^1.0.1",
     "rimraf": "^2.6.1",
     "rollup": "^0.50.0",
@@ -49,18 +60,14 @@
     "scrollIntoView",
     "scrollIntoViewIfNeeded",
     "smooth",
-    "smooth"
+    "smoothscroll"
   ],
   "lint-staged": {
-    "*.html": [
-      "npx https://gist.github.com/stipsan/0d0578fe92bcdeb024a0af2a3e2a9e2a",
-      "git add"
-    ],
     "*.js": [
       "prettier --write",
       "git add"
     ],
-    "*.ts": [
+    "*.{ts,tsx}": [
       "prettier --write",
       "git add"
     ],
@@ -69,7 +76,7 @@
       "git add"
     ],
     "package.json": [
-      "npx prettier-package-json --write",
+      "prettier-package-json --write",
       "git add"
     ]
   },
