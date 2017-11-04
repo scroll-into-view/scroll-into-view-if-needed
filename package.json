@@ -14,11 +14,12 @@
   "scripts": {
     "build": "npm run clean && npm run build-module && npm run build-bundle",
     "build-bundle": "rollup -c",
-    "build-module": "tsc",
+    "build-module": "tsc -p . -p docs",
     "changelog:commit": "sr-changelog commit",
     "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
+    "dev": "concurrently \"yarn build-module --watch\" \"yarn build-bundle -w\" \"next dev docs\"",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "tsc --noEmit"
@@ -57,18 +58,14 @@
     "scrollIntoView",
     "scrollIntoViewIfNeeded",
     "smooth",
-    "smooth"
+    "smoothscroll"
   ],
   "lint-staged": {
-    "*.html": [
-      "npx https://gist.github.com/stipsan/0d0578fe92bcdeb024a0af2a3e2a9e2a",
-      "git add"
-    ],
     "*.js": [
       "prettier --write",
       "git add"
     ],
-    "*.ts": [
+    "*.{ts,tsx}": [
       "prettier --write",
       "git add"
     ],
