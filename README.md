@@ -12,7 +12,7 @@ yarn add scroll-into-view-if-needed
 
 ## API
 
-### scrollIntoViewIfNeeded(node:Element, centerIfNeeded:boolean, options:object)
+### scrollIntoViewIfNeeded(node:Element, centerIfNeeded:boolean, AnimateOptions:object)
 
 Returns a function that can be used to cancel a scroll animation.
 Inspired by [scroll-iv](https://www.npmjs.com/package/scroll-iv).
@@ -24,11 +24,11 @@ Inspired by [scroll-iv](https://www.npmjs.com/package/scroll-iv).
 This defaults to true to match the behavior of the WebKit/Blink implementation.
 Set it to false to actually only scroll the parent when needed and not further than absolutely necessary.
 
-##### duration
+##### AnimateOptions.duration
 
 The duration of the animation in milliseconds, defaults to 0 for no animation.
 
-##### easing
+##### AnimateOptions.easing
 
 default is ease. Possible values: `ease|easeIn|easeOut|easeInOut|linear`
 
