@@ -26,7 +26,7 @@
     "docs": "next build example && next export -o ./docs example",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "yarn build:tsc --noEmit",
+    "test": "yarn tsc:main --noEmit && yarn tsc:example --noEmit",
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
   },
