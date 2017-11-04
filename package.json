@@ -3,6 +3,7 @@
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "author": "Stian Didriksen",
   "license": "MIT",
+  "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
@@ -15,15 +16,19 @@
     "prebuild": "yarn clean",
     "build": "yarn build:tsc && yarn build:rollup",
     "build:rollup": "rollup -c",
-    "build:tsc": "tsc -p . -p docs",
+    "build:tsc": "yarn tsc:main && yarn tsc:example",
     "changelog:commit": "sr-changelog commit",
     "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
-    "dev": "concurrently \"yarn build:tsc --watch\" \"yarn build:rollup -w\" \"next dev docs\"",
+    "dev": "concurrently \"yarn tsc:main --watch\" \"yarn tsc:example --watch\" \"yarn build:rollup -w\" \"next dev example\"",
+    "predocs": "yarn build",
+    "docs": "next build example && next export -o ./docs example",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "yarn build:tsc --noEmit"
+    "test": "yarn tsc:main --noEmit && yarn tsc:example --noEmit",
+    "tsc:example": "tsc -p example",
+    "tsc:main": "tsc -p ."
   },
   "dependencies": {
     "amator": "1.0.1"
