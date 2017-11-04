@@ -23,7 +23,7 @@
     "precommit": "lint-staged",
     "dev": "concurrently \"yarn tsc:main --watch\" \"yarn tsc:example --watch\" \"yarn build:rollup -w\" \"next dev example\"",
     "predocs": "yarn build",
-    "docs": "next build example && next export -o ./docs example",
+    "docs": "next build example && DOCS=true next export -o ./docs example && npx git-update-ghpages stipsan/scroll-into-view-if-needed docs",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "yarn tsc:main --noEmit && yarn tsc:example --noEmit",
