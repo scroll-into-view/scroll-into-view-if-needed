@@ -12,17 +12,18 @@
   },
   "main": "dist/bundle.js",
   "scripts": {
-    "build": "npm run clean && npm run build-module && npm run build-bundle",
-    "build-bundle": "rollup -c",
-    "build-module": "tsc -p . -p docs",
+    "prebuild": "yarn clean",
+    "build": "yarn build:tsc && yarn build:rollup",
+    "build:rollup": "rollup -c",
+    "build:tsc": "tsc -p . -p docs",
     "changelog:commit": "sr-changelog commit",
     "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
-    "dev": "concurrently \"yarn build-module --watch\" \"yarn build-bundle -w\" \"next dev docs\"",
+    "dev": "concurrently \"yarn build:tsc --watch\" \"yarn build:rollup -w\" \"next dev docs\"",
     "prepublishOnly": "yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "tsc --noEmit"
+    "test": "yarn build:tsc --noEmit"
   },
   "dependencies": {
     "amator": "1.0.1"
