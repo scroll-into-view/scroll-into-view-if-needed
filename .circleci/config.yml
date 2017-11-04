@@ -24,3 +24,10 @@ jobs:
           key: v2-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn semantic-release || true
+
+       - run:
+          name: Maybe deploy to gh-pages
+          command: |
+            if [[ $CIRCLE_BRANCH == master ]]; then
+              yarn docs
+            fi
