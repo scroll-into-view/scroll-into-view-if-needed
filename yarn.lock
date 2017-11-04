@@ -2,6 +2,19 @@
 # yarn lockfile v1
 
 
+"@cypress/listr-verbose-renderer@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@cypress/listr-verbose-renderer/-/listr-verbose-renderer-0.4.1.tgz#a77492f4b11dcc7c446a34b3e28721afd33c642a"
+  dependencies:
+    chalk "^1.1.3"
+    cli-cursor "^1.0.2"
+    date-fns "^1.27.2"
+    figures "^1.7.0"
+
+"@cypress/xvfb@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@cypress/xvfb/-/xvfb-1.0.4.tgz#e7391d534baef2b180bd84fdc2ffea1020f7d6a5"
+
 "@semantic-release/commit-analyzer@^3.0.1":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@semantic-release/commit-analyzer/-/commit-analyzer-3.0.4.tgz#040bd2b99909f5671063be0c68fd782fd4543997"

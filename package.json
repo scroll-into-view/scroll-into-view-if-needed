@@ -31,6 +31,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "cypress": "^1.0.3",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "prettier": "^1.7.4",
