@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean && npm run build-module && npm run build-bundle",
-    "build-module": "babel src -d dist",
+    "build-module": "tsc",
     "build-bundle": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
     "clean": "rimraf dist",
     "prepublishOnly": "npm run build",
@@ -52,6 +52,7 @@
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^2.0.0"
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "typescript": "^2.6.1"
   }
 }
