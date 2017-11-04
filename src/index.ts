@@ -12,7 +12,7 @@ export interface OffsetConfig {
   offsetRight?: number
 }
 
-export function scrollIntoViewIfNeeded(
+export default function scrollIntoViewIfNeeded(
   elem: HTMLElement,
   centerIfNeeded?: boolean,
   options?: AnimateOptions,
@@ -125,6 +125,3 @@ export function scrollIntoViewIfNeeded(
     elem = parent
   }
 }
-
-// Also provide default export
-export default scrollIntoViewIfNeeded

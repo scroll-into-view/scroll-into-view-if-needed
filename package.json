@@ -10,10 +10,10 @@
   "bugs": {
     "url": "https://github.com/stipsan/scroll-into-view-if-needed/issues"
   },
-  "main": "dist/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "build": "npm run clean && npm run build-module && npm run build-bundle",
-    "build-bundle": "rollup src/index.js --format cjs -c --output dist/bundle.js && rollup test/index.js -c -f umd --output test/bundle.js",
+    "build-bundle": "rollup -c",
     "build-module": "tsc",
     "changelog:commit": "sr-changelog commit",
     "changelog:preview": "sr-changelog",
@@ -36,7 +36,7 @@
     "prettier": "^1.7.4",
     "release-relief": "^1.0.1",
     "rimraf": "^2.6.1",
-    "rollup": "^0.41.4",
+    "rollup": "^0.50.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^2.0.0",
@@ -56,6 +56,10 @@
       "npx https://gist.github.com/stipsan/0d0578fe92bcdeb024a0af2a3e2a9e2a",
       "git add"
     ],
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ],
     "*.ts": [
       "prettier --write",
       "git add"
@@ -69,6 +73,7 @@
       "git add"
     ]
   },
+  "module": "dist/index.js",
   "release": {
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
     "verifyConditions": "condition-circle",

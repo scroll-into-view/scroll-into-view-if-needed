@@ -1,20 +1,20 @@
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
+const globals = {}
 
 export default {
-  plugins: [
-    nodeResolve({
-      jsnext: true,
-      main: true
-    }),
+  entry: 'dist/index.js',
+  dest: 'dist/bundle.js',
+  format: 'umd',
+  sourceMap: true,
+  moduleName: 'scrollIntoViewIfNeeded',
+  exports: 'named',
+  globals,
+  onwarn,
+}
 
-    commonjs({
-      // non-CommonJS modules will be ignored, but you can also
-      // specifically include/exclude files
-      include: 'node_modules/**',  // Default: undefined
+function onwarn(message) {
+  const suppressed = ['UNRESOLVED_IMPORT', 'THIS_IS_UNDEFINED']
 
-      // if false then skip sourceMap generation for CommonJS modules
-      sourceMap: false,  // Default: true
-    })
-  ]
+  if (!suppressed.find(code => message.code === code)) {
+    return console.warn(message.message)
+  }
 }
