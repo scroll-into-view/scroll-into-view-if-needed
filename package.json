@@ -3,6 +3,7 @@
   "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
   "author": "Stian Didriksen",
   "license": "MIT",
+  "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
