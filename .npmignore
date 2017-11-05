@@ -1,4 +1,6 @@
-.circleci
-src
-test
-yarn.lock
+**/*
+!dist
+!CHANGELOG.md
+!LICENSE
+!package.json
+!README.md
