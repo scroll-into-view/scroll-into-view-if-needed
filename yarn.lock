@@ -61,10 +61,6 @@
     lodash "^4.17.4"
     pify "^3.0.0"
 
-"@types/classnames@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.3.tgz#3f0ff6873da793870e20a260cada55982f38a9e5"
-
 "@types/next@^2.4.5":
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/@types/next/-/next-2.4.5.tgz#6c18502fec7d82c153f502da0562dfd5e6a15e27"
@@ -1326,10 +1322,6 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
-
-classnames@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
 cli-cursor@^1.0.2:
   version "1.0.2"
