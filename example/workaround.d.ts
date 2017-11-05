@@ -1,4 +1,4 @@
-// custom.d.ts
+// add support for styled-jsx attributes
 import 'react'
 
 declare module 'react' {

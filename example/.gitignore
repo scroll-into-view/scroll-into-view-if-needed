@@ -1,4 +1,3 @@
 .next
 **/*.js
 !out/**/*.js
-!scrollIntoViewIfNeeded.js
