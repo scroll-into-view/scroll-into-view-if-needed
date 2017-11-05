@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.8] - 2017-11-05
+### Fixed
+* Missing TypeScript definitions and rollup/webpack pkg.module files from published package (#145)
+
 ## [1.2.7] - 2017-11-05
 ### Fixed
 * Package published on npm contained unnecessary files bloating the package (#144)
@@ -88,7 +92,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 * Initial release.
 
-[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.7...HEAD
+[Unreleased]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.8...HEAD
+[1.2.8]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.7...v1.2.8
 [1.2.7]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.6...v1.2.7
 [1.2.6]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.5...v1.2.6
 [1.2.5]: https://github.com/stipsan/scroll-into-view-if-needed/compare/v1.2.4...v1.2.5
