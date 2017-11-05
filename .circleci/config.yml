@@ -11,7 +11,7 @@ jobs:
 
       - add-ssh-keys:
           fingerprints:
-            - "SO:ME:FIN:G:ER:PR:IN:T"
+            - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
 
       - restore_cache:
           keys:
