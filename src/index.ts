@@ -13,13 +13,14 @@ export interface OffsetConfig {
 }
 
 export default function scrollIntoViewIfNeeded(
-  elem: HTMLElement,
+  elem: Element,
   centerIfNeeded?: boolean,
   options?: AnimateOptions,
   finalElement?: Element,
   config: OffsetConfig = {}
 ) {
-  if (!elem) throw new Error('Element is required in scrollIntoViewIfNeeded')
+  if (!elem || !(elem instanceof HTMLElement))
+    throw new Error('Element is required in scrollIntoViewIfNeeded')
 
   function withinBounds(value, min, max, extent) {
     if (
@@ -74,12 +75,6 @@ export default function scrollIntoViewIfNeeded(
     }
   }
 
-  console.log(elem.getBoundingClientRect(), elem.getClientRects(), {
-    left: elem.offsetLeft,
-    top: elem.offsetTop,
-    width: elem.offsetWidth,
-    height: elem.offsetHeight,
-  })
   var parent,
     area = makeArea(
       elem.offsetLeft,

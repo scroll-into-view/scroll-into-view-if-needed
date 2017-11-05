@@ -26,9 +26,9 @@ export default class IndexPage extends Component<
   handleClick = event => {
     this.setState({ selected: parseInt(event.target.value, 10) }, (...args) => {
       console.log('handleClick', args, this.state, this._node.childNodes[9])
-      //const children: HTMLLIElement[] = this._node.children
-      //scrollIntoViewIfNeeded(this._node.children[this.state.selected])
-      scrollIntoViewIfNeeded(this._node)
+      scrollIntoViewIfNeeded(this._node.children[this.state.selected], false, {
+        duration: 300,
+      })
     })
   }
 
