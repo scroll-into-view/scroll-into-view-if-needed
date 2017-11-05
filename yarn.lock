@@ -61,6 +61,10 @@
     lodash "^4.17.4"
     pify "^3.0.0"
 
+"@types/classnames@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.3.tgz#3f0ff6873da793870e20a260cada55982f38a9e5"
+
 "@types/next@^2.4.5":
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/@types/next/-/next-2.4.5.tgz#6c18502fec7d82c153f502da0562dfd5e6a15e27"
@@ -558,7 +562,7 @@ babel-plugin-external-helpers@^6.18.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-module-resolver@2.7.1:
+babel-plugin-module-resolver@2.7.1, babel-plugin-module-resolver@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-2.7.1.tgz#18be3c42ddf59f7a456c9e0512cd91394f6e4be1"
   dependencies:
@@ -569,6 +573,12 @@ babel-plugin-module-resolver@2.7.1:
 babel-plugin-react-require@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-require/-/babel-plugin-react-require-3.0.0.tgz#2e4e7b4496b93a654a1c80042276de4e4eeb20e3"
+
+babel-plugin-root-import@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-root-import/-/babel-plugin-root-import-5.1.0.tgz#80ea1cd5945b463a5e3f7e204a69478c573e328c"
+  dependencies:
+    slash "^1.0.0"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
@@ -1322,6 +1332,10 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
+
+classnames@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
 cli-cursor@^1.0.2:
   version "1.0.2"
@@ -5151,9 +5165,9 @@ symbol-observable@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
 
-system-font-stack@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/system-font-stack/-/system-font-stack-1.0.2.tgz#1bf768da739e68d2931d7e04b8f276dedd22c0cf"
+system-font-stack@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/system-font-stack/-/system-font-stack-1.0.4.tgz#5adddc6befb5578ffd26c5c1fbbb39c088d03fb7"
 
 tapable@^0.2.7:
   version "0.2.8"

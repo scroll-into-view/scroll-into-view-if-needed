@@ -1,26 +1,12 @@
 import animate from 'amator'
-
-export interface AnimateOptions {
-  duration?: number
-  easing?: 'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear'
-}
-
-export interface OffsetConfig {
-  offsetTop?: number
-  offsetLeft?: number
-  offsetBottom?: number
-  offsetRight?: number
-}
-
 export default function scrollIntoViewIfNeeded(
-  elem: HTMLElement,
-  centerIfNeeded?: boolean,
-  options?: AnimateOptions,
-  finalElement?: Element,
-  config: OffsetConfig = {}
+  elem,
+  centerIfNeeded,
+  options,
+  finalElement,
+  config = {}
 ) {
   if (!elem) throw new Error('Element is required in scrollIntoViewIfNeeded')
-
   function withinBounds(value, min, max, extent) {
     if (
       false === centerIfNeeded ||
@@ -31,12 +17,10 @@ export default function scrollIntoViewIfNeeded(
       return (min + max) / 2
     }
   }
-
   const offsetTop = config.offsetTop || 0
   const offsetLeft = config.offsetLeft || 0
   const offsetBottom = config.offsetBottom || 0
   const offsetRight = config.offsetRight || 0
-
   function makeArea(left, top, width, height) {
     return {
       left: left + offsetLeft,
@@ -73,7 +57,6 @@ export default function scrollIntoViewIfNeeded(
       },
     }
   }
-
   console.log(elem.getBoundingClientRect(), elem.getClientRects(), {
     left: elem.offsetLeft,
     top: elem.offsetTop,
@@ -93,10 +76,8 @@ export default function scrollIntoViewIfNeeded(
   ) {
     var clientLeft = parent.offsetLeft + parent.clientLeft
     var clientTop = parent.offsetTop + parent.clientTop
-
     // Make area relative to parent's client area.
     area = area.relativeFromTo(elem, parent).translate(-clientLeft, -clientTop)
-
     var scrollLeft = withinBounds(
       parent.scrollLeft,
       area.right - parent.clientWidth,
@@ -122,7 +103,6 @@ export default function scrollIntoViewIfNeeded(
       parent.scrollLeft = scrollLeft
       parent.scrollTop = scrollTop
     }
-
     // Determine actual scroll amount by reading back scroll properties.
     area = area.translate(
       clientLeft - parent.scrollLeft,

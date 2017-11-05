@@ -18,7 +18,8 @@
     "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
-    "dev": "concurrently \"yarn tsc:main --watch\" \"yarn tsc:example --watch\" \"yarn build:rollup -w\" \"next dev example\"",
+    "predev": "yarn tsc:main && yarn build:rollup",
+    "dev": "concurrently \"yarn tsc:example --watch\" \"next dev example\"",
     "predocs": "yarn build",
     "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
     "prepublishOnly": "yarn build",
@@ -31,13 +32,17 @@
     "amator": "1.0.1"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/next": "^2.4.5",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
     "babel-cli": "^6.23.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-plugin-root-import": "^5.1.0",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "classnames": "^2.2.5",
     "concurrently": "^3.5.0",
     "cypress": "^1.0.3",
     "husky": "^0.14.3",
@@ -53,7 +58,7 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "system-font-stack": "^1.0.2",
+    "system-font-stack": "^1.0.4",
     "typescript": "^2.6.1"
   },
   "keywords": [

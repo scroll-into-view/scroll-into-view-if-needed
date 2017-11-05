@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["../"],
+        "alias": {
+          "scroll-into-view-if-needed": "./src"
+        }
+      }
+    ]
+  ]
+}
