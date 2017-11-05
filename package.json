@@ -8,9 +8,6 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "bugs": {
-    "url": "https://github.com/stipsan/scroll-into-view-if-needed/issues"
-  },
   "main": "dist/bundle.js",
   "scripts": {
     "prebuild": "yarn clean",
