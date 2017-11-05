@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import Head from 'next/head'
 import systemFontStack from 'system-font-stack'
-import cx from 'classnames'
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 
 export interface IndexPageProps {
@@ -56,21 +55,22 @@ export default class IndexPage extends Component<
             white-space: nowrap;
           }
 
-          ul li {
+          li {
             background: #eee;
             border-radius: 5px;
             display: inline-block;
             list-style: none;
             padding: 5px 10px;
+            margin: 3px;
           }
 
-          ul li:nth-child(2n + 1) {
+          li:nth-child(2n + 1) {
             background: #ddd;
             text-align: right;
           }
 
-          ul li.selected {
-            background: #bada55;
+          li:nth-child(8n + 1) {
+            display: block;
           }
         `}</style>
         <ul
@@ -82,7 +82,9 @@ export default class IndexPage extends Component<
         >
           {this.props.items.map(i => (
             <li
-              className={cx({ selected: this.state.selected === i })}
+              style={{
+                background: this.state.selected === i ? '#bada55' : null,
+              }}
               key={i.toString()}
             >
               item #{i}
@@ -90,7 +92,7 @@ export default class IndexPage extends Component<
           ))}
         </ul>
         <div>
-          {[0, 11, 22, 24, 26, 33, 44, 55, 66, 77, 82, 82, 86, 99].map(v => (
+          {[0, 11, 22, 24, 26, 33, 44, 55, 66, 77, 82, 84, 86, 99].map(v => (
             <button onClick={this.handleClick} value={v}>
               #{v}
             </button>

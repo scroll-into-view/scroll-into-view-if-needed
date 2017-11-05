@@ -33,7 +33,6 @@
     "amator": "1.0.1"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.3",
     "@types/next": "^2.4.5",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
@@ -41,7 +40,6 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
-    "classnames": "^2.2.5",
     "concurrently": "^3.5.0",
     "cypress": "^1.0.3",
     "husky": "^0.14.3",
