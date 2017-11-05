@@ -9,10 +9,14 @@ jobs:
     steps:
       - checkout
 
+      - add-ssh-keys:
+          fingerprints:
+            - "SO:ME:FIN:G:ER:PR:IN:T"
+
       - restore_cache:
           keys:
-          - v2-dependencies-{{ checksum "yarn.lock" }}
-          - v2-dependencies-
+            - v2-dependencies-{{ checksum "yarn.lock" }}
+            - v2-dependencies-
 
       - run: yarn install
 
