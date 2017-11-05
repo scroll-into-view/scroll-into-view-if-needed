@@ -23,8 +23,7 @@ export default class IndexPage extends Component<
   state = { selected: 0 }
 
   handleClick = event => {
-    this.setState({ selected: parseInt(event.target.value, 10) }, (...args) => {
-      console.log('handleClick', args, this.state, this._node.childNodes[9])
+    this.setState({ selected: parseInt(event.target.value, 10) }, () => {
       scrollIntoViewIfNeeded(this._node.children[this.state.selected], false, {
         duration: 300,
       })
@@ -33,18 +32,16 @@ export default class IndexPage extends Component<
 
   render() {
     return (
-      <div>
-        <style jsx global>{`
-          body {
-            font-family: ${systemFontStack};
-          }
-        `}</style>
+      <section>
         <Head>
-          <title>scrollIntoViewIfNeeded test page</title>
+          <title>scrollIntoViewIfNeeded example</title>
         </Head>
 
-        <h1>scrollIntoViewIfNeeded test page</h1>
+        <h1>scrollIntoViewIfNeeded example</h1>
         <style jsx>{`
+          section {
+            font-family: ${systemFontStack};
+          }
           ul {
             border: 1px solid #aaa;
             height: 7em;
@@ -72,6 +69,10 @@ export default class IndexPage extends Component<
           li:nth-child(8n + 1) {
             display: block;
           }
+
+          footer {
+            margin-top: 20px;
+          }
         `}</style>
         <ul
           ref={node => {
@@ -98,7 +99,15 @@ export default class IndexPage extends Component<
             </button>
           ))}
         </div>
-      </div>
+        <footer>
+          <a
+            href="https://github.com/stipsan/scroll-into-view-if-needed"
+            target="_blank"
+          >
+            GitHub
+          </a>
+        </footer>
+      </section>
     )
   }
 }
