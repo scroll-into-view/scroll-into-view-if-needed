@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import Head from 'next/head'
 import systemFontStack from 'system-font-stack'
-import cx from 'classnames'
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 
 export interface IndexPageProps {
@@ -68,10 +67,6 @@ export default class IndexPage extends Component<
             background: #ddd;
             text-align: right;
           }
-
-          ul li.selected {
-            background: #bada55;
-          }
         `}</style>
         <ul
           ref={node => {
@@ -82,7 +77,9 @@ export default class IndexPage extends Component<
         >
           {this.props.items.map(i => (
             <li
-              className={cx({ selected: this.state.selected === i })}
+              style={{
+                background: this.state.selected === i ? '#bada55' : 'auto',
+              }}
               key={i.toString()}
             >
               item #{i}
