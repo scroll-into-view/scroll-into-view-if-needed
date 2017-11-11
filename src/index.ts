@@ -19,19 +19,27 @@ export interface Options {
   offsetConfig?: OffsetConfig
 }
 
+function isBoolean(options: boolean | Options): options is boolean {
+  return typeof options === 'boolean'
+}
+
 export default function scrollIntoViewIfNeeded(
   elem: Element,
-  options?: boolean | Options
+  options: boolean | Options
 ) {
   if (!elem || !(elem instanceof HTMLElement))
     throw new Error('Element is required in scrollIntoViewIfNeeded')
+  let config
 
-  const optionsAreBool: boolean = typeof options === 'boolean'
+  if (isBoolean(options)) {
+    config.centerIfNeeded = options
+  } else {
+    config = options
+  }
 
   function withinBounds(value, min, max, extent) {
     if (
-      (optionsAreBool && options === false) ||
-      options.centerIfNeeded === false ||
+      config.centerIfNeeded === false ||
       (max <= value + extent && value <= min + extent)
     ) {
       return Math.min(max, Math.max(min, value))
@@ -40,7 +48,7 @@ export default function scrollIntoViewIfNeeded(
     }
   }
 
-  const { offsetConfig = {} } = options
+  const { offsetConfig = {} } = config
 
   const offsetTop = offsetConfig.offsetTop || 0
   const offsetLeft = offsetConfig.offsetLeft || 0
@@ -93,7 +101,7 @@ export default function scrollIntoViewIfNeeded(
     )
   while (
     (parent = elem.parentNode) instanceof HTMLElement &&
-    elem !== options.boundary
+    elem !== config.boundary
   ) {
     const clientLeft = parent.offsetLeft + parent.clientLeft
     const clientTop = parent.offsetTop + parent.clientTop
@@ -113,14 +121,14 @@ export default function scrollIntoViewIfNeeded(
       area.top,
       parent.clientHeight
     )
-    if (!optionsAreBool) {
+    if (!isBoolean(options)) {
       animate(
         parent,
         {
           scrollLeft: scrollLeft,
           scrollTop: scrollTop,
         },
-        options.animateOptions
+        config.animateOptions
       )
     } else {
       parent.scrollLeft = scrollLeft
