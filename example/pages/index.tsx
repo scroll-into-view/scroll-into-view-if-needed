@@ -22,13 +22,14 @@ export default class IndexPage extends Component<IndexPageProps> {
         <Head>
           <title>{description}</title>
         </Head>
-
         <Section>
-          <h1>{description}</h1>
-
+          <h1 style={{ display: 'inline-block', width: '440px' }}>
+            {description}
+          </h1>
+        </Section>
+        <Section>
           <List items={this.props.items} />
         </Section>
-
         <Footer />
         <style jsx global>{`
           body {
