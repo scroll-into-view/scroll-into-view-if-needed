@@ -28,7 +28,30 @@ export default class IndexPage extends Component<IndexPageProps> {
           </h1>
         </Section>
         <Section>
-          <List items={this.props.items} />
+          <List
+            id={1}
+            items={this.props.items}
+            centerIfNeeded={false}
+            options={{ duration: 300 }}
+          />
+          <List
+            id={2}
+            wrapInScrollView
+            items={this.props.items}
+            centerIfNeeded={true}
+            options={{ duration: 300 }}
+          />
+          <List
+            id={3}
+            items={this.props.items}
+            centerIfNeeded={false}
+            config={{
+              offsetTop: -3,
+              offsetRight: 9,
+              offsetBottom: 9,
+              offsetLeft: -3,
+            }}
+          />
         </Section>
         <Footer />
         <style jsx global>{`

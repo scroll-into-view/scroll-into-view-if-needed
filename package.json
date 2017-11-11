@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/next": "^2.4.5",
+    "@types/prettier": "^1.8.0",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
     "babel-cli": "^6.23.0",
@@ -45,6 +46,7 @@
     "lint-staged": "^4.3.0",
     "next": "^4.1.4",
     "prettier": "^1.7.4",
+    "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
     "prettier-package-json": "^1.4.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
