@@ -26,15 +26,10 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "yarn.lock" }}
-            - v2-dependencies-
+            - v3-dependencies-{{ checksum "yarn.lock" }}
+            - v3-dependencies-
 
       - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v2-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn build
 
@@ -54,6 +49,11 @@ jobs:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v3-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn semantic-release || true
 
