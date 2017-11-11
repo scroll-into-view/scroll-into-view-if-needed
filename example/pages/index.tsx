@@ -24,8 +24,8 @@ export default class IndexPage extends Component<
 
   handleClick = event => {
     this.setState({ selected: parseInt(event.target.value, 10) }, () => {
-      scrollIntoViewIfNeeded(this._node.children[this.state.selected], false, {
-        duration: 300,
+      scrollIntoViewIfNeeded(this._node.children[this.state.selected], {
+        animateOptions: { duration: 300 },
       })
     })
   }
