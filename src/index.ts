@@ -25,7 +25,10 @@ function isBoolean(options: boolean | Options): options is boolean {
 
 export default function scrollIntoViewIfNeeded(
   elem: Element,
-  options: boolean | Options
+  options: boolean | Options,
+  animateOptions?: AnimateOptions,
+  finalElement?: Element,
+  offsetOptions: OffsetConfig = {}
 ) {
   if (!elem || !(elem instanceof HTMLElement))
     throw new Error('Element is required in scrollIntoViewIfNeeded')
@@ -35,6 +38,18 @@ export default function scrollIntoViewIfNeeded(
     config.centerIfNeeded = options
   } else {
     config = options
+  }
+
+  if (animateOptions) {
+    config.animateOptions = animateOptions
+  }
+
+  if (finalElement) {
+    config.boundary = finalElement
+  }
+
+  if (offsetOptions) {
+    config.offsetConfig = offsetOptions
   }
 
   function withinBounds(value, min, max, extent) {
