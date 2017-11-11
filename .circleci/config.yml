@@ -2,12 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      #- image: cypress/base:8
-      - image: circleci/node:carbon
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-          #API_URL: https://api.cypress.io/
+      - image: circleci/node:carbon-browsers
 
     working_directory: ~/repo
 
