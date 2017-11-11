@@ -70,17 +70,7 @@ export default class List extends Component<ListProps, ListState> {
 
     return (
       <div id={`list${this.props.id}`}>
-        <header
-          style={
-            this.props.wrapInScrollView
-              ? {
-                  //width: '200px',
-                  height: '6em',
-                  overflow: 'auto',
-                }
-              : {}
-          }
-        >
+        <header>
           <ul
             id={`instance${this.props.id}`}
             ref={node => {
@@ -96,7 +86,7 @@ export default class List extends Component<ListProps, ListState> {
                 }}
                 key={i.toString()}
               >
-                item #{i}
+                item #{i + 1}
               </li>
             ))}
           </ul>
@@ -104,7 +94,7 @@ export default class List extends Component<ListProps, ListState> {
         <nav>
           {[0, 22, 24, 26, 33, 44, 55, 66, 77, 82, 84, 86, 99].map(v => (
             <button key={v.toString()} onClick={this.handleClick} value={v}>
-              #{v}
+              #{v + 1}
             </button>
           ))}
         </nav>
