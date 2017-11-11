@@ -20,6 +20,10 @@ jobs:
 
       - run: npm --version
 
+      - run:
+          name: Install Cypress dependencies
+          command: apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
       - add-ssh-keys:
           fingerprints:
             - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
