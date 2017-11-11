@@ -69,7 +69,7 @@ export default class List extends Component<ListProps, ListState> {
     ]
 
     return (
-      <div>
+      <div id={`list${this.props.id}`}>
         <header
           style={
             this.props.wrapInScrollView
