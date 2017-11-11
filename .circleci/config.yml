@@ -6,7 +6,7 @@ jobs:
         environment:
           ## this enables colors in the output
           TERM: xterm
-          CYPRESS_ENV: production
+          API_URL: https://api.cypress.io/
 
     working_directory: ~/repo
 
