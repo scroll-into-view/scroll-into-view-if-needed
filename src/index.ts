@@ -39,7 +39,8 @@ export default function scrollIntoViewIfNeeded(
       return (min + max) / 2
     }
   }
-  let { offsetConfig = {} } = options
+
+  const { offsetConfig = {} } = options
 
   const offsetTop = offsetConfig.offsetTop || 0
   const offsetLeft = offsetConfig.offsetLeft || 0
