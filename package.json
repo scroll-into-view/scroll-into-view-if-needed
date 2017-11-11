@@ -26,7 +26,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prestart": "yarn build",
     "start": "next build example && next start example",
-    "test": "cypress run",
+    "test": "cypress run --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'",
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
   },
