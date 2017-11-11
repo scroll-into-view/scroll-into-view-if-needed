@@ -3,6 +3,10 @@ jobs:
   build:
     docker:
       - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+          CYPRESS_ENV: production
 
     working_directory: ~/repo
 
