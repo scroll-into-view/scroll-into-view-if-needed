@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:carbon
+      - image: cypress/base:8
 
     working_directory: ~/repo
 
@@ -21,6 +21,9 @@ jobs:
       - run: yarn install
 
       - run: yarn build
+
+      - run: 
+          command: yarn start
 
       - run: yarn test
 
