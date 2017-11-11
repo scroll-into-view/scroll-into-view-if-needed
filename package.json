@@ -24,6 +24,8 @@
     "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "prestart": "yarn build",
+    "start": "next build example && next start example",
     "test": "yarn tsc:main --noEmit && yarn tsc:example --noEmit",
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
@@ -58,7 +60,8 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "scroll-into-view-if-needed": "link:.",
     "system-font-stack": "^1.0.4",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "uglifyjs-webpack-plugin": "^1.0.1"
   },
   "keywords": [
     "ponyfill",
