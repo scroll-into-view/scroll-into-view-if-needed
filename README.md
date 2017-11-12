@@ -117,7 +117,7 @@ Type: `number`<br> Default: `0`
 
 Type: `boolean`<br> Default: `false`
 
-Legacy alias for [`options.centerIfNeeded`](#centerIfNeeded)
+Legacy alias for [`options.centerIfNeeded`](#centerifneeded)
 
 #### animateOptions
 
@@ -149,25 +149,25 @@ Type: `Object`
 
 Type: `number`
 
-Legacy alias for [`options.offset.top`](#offset-top)
+Legacy alias for [`options.offset.top`](#top)
 
 ##### offsetRight
 
 Type: `number`
 
-Legacy alias for [`options.offset.right`](#offset-right)
+Legacy alias for [`options.offset.right`](#right)
 
 ##### offsetBottom
 
 Type: `number`
 
-Legacy alias for [`options.offset.bottom`](#offset-bottom)
+Legacy alias for [`options.offset.bottom`](#bottom)
 
 ##### offsetLeft
 
 Type: `number`
 
-Legacy alias for [`options.offset.left`](#offset-left)
+Legacy alias for [`options.offset.left`](#left)
 
 ## Examples
 
