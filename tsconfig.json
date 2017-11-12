@@ -6,7 +6,7 @@
     "declaration": true,
     "rootDir": "src",
     "outDir": "./dist",
-    "removeComments": true,
+    "removeComments": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,

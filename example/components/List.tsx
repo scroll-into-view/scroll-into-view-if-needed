@@ -1,18 +1,12 @@
 import { Component } from 'react'
 import { format } from '../utils'
-import scrollIntoViewIfNeeded, {
-  AnimateOptions,
-  OffsetConfig,
-} from 'scroll-into-view-if-needed'
+import scrollIntoViewIfNeeded, { Options } from 'scroll-into-view-if-needed'
 
 export interface ListProps {
   items: number[]
   id: number
-  wrapInScrollView?: boolean
-  centerIfNeeded?: boolean
-  options?: AnimateOptions
-  finalElement?: Element
-  config?: OffsetConfig
+  boundary?: boolean
+  options?: Options
 }
 
 export interface ListState {
@@ -34,6 +28,10 @@ if (process.browser) {
 export default class List extends Component<ListProps, ListState> {
   private _node: HTMLUListElement
 
+  static defaultProps = {
+    options: {},
+  }
+
   state = { selected: 0 }
 
   handleClick = event => {
@@ -42,31 +40,25 @@ export default class List extends Component<ListProps, ListState> {
         selected: parseInt(event.target.value, 10),
       },
       () => {
-        const finalElement = this.getFinalElement()
-        scrollIntoViewIfNeeded(
-          this._node.children[this.state.selected],
-          this.props.centerIfNeeded,
-          this.props.options,
-          finalElement && document.getElementById(finalElement),
-          this.props.config
-        )
+        const boundary = this.getBoundary()
+        const options = this.props.options || {}
+        scrollIntoViewIfNeeded(this._node.children[this.state.selected], {
+          ...options,
+          boundary: boundary ? document.getElementById(boundary) : undefined,
+        })
       }
     )
   }
-  getFinalElement() {
-    return this.props.finalElement || this.props.wrapInScrollView
-      ? `instance${this.props.id}`
-      : undefined
+  getBoundary() {
+    return this.props.boundary ? `instance${this.props.id}` : undefined
   }
   render() {
-    const finalElement = this.getFinalElement()
-    const args = [
-      'node',
-      JSON.stringify(this.props.centerIfNeeded),
-      JSON.stringify(this.props.options) || 'undefined',
-      finalElement ? `parent` : 'undefined',
-      JSON.stringify(this.props.config),
-    ]
+    const boundary = this.getBoundary()
+
+    let options = {
+      ...this.props.options,
+      boundary: boundary ? 'parent' : undefined,
+    }
 
     return (
       <div id={`list${this.props.id}`}>
@@ -108,7 +100,14 @@ var parent = document.getElementById("instance${
               this.props.id
             }"), list = parent.children, node = list[Math.floor(Math.random() * list.length)]
 
-scrollIntoViewIfNeeded(${args.join(', ')})
+scrollIntoViewIfNeeded(${
+              Object.keys(this.props.options).length > 0
+                ? `node, ${JSON.stringify(options).replace(
+                    /"parent"/gi,
+                    'parent'
+                  )}`
+                : 'node'
+            })
         `)}
           </code>
         </pre>
