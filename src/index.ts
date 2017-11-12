@@ -12,19 +12,50 @@ export interface OffsetConfig {
   offsetRight?: number
 }
 
+export interface Options {
+  animateOptions?: AnimateOptions
+  boundary?: Element
+  centerIfNeeded?: boolean
+  offsetConfig?: OffsetConfig
+}
+
+function isBoolean(options: boolean | Options): options is boolean {
+  return typeof options === 'boolean'
+}
+
 export default function scrollIntoViewIfNeeded(
   elem: Element,
-  centerIfNeeded?: boolean,
-  options?: AnimateOptions,
+  options: boolean | Options,
+  animateOptions?: AnimateOptions,
   finalElement?: Element,
-  config: OffsetConfig = {}
+  offsetOptions: OffsetConfig = {}
 ) {
   if (!elem || !(elem instanceof HTMLElement))
     throw new Error('Element is required in scrollIntoViewIfNeeded')
 
+  let config: Options = {}
+
+  if (isBoolean(options)) {
+    config.centerIfNeeded = options
+  } else {
+    config = options
+  }
+
+  if (animateOptions) {
+    config.animateOptions = animateOptions
+  }
+
+  if (finalElement) {
+    config.boundary = finalElement
+  }
+
+  if (offsetOptions) {
+    config.offsetConfig = offsetOptions
+  }
+
   function withinBounds(value, min, max, extent) {
     if (
-      false === centerIfNeeded ||
+      config.centerIfNeeded === false ||
       (max <= value + extent && value <= min + extent)
     ) {
       return Math.min(max, Math.max(min, value))
@@ -33,10 +64,12 @@ export default function scrollIntoViewIfNeeded(
     }
   }
 
-  const offsetTop = config.offsetTop || 0
-  const offsetLeft = config.offsetLeft || 0
-  const offsetBottom = config.offsetBottom || 0
-  const offsetRight = config.offsetRight || 0
+  const { offsetConfig = {} } = config
+
+  const offsetTop = offsetConfig.offsetTop || 0
+  const offsetLeft = offsetConfig.offsetLeft || 0
+  const offsetBottom = offsetConfig.offsetBottom || 0
+  const offsetRight = offsetConfig.offsetRight || 0
 
   function makeArea(left, top, width, height) {
     return {
@@ -55,7 +88,7 @@ export default function scrollIntoViewIfNeeded(
         )
       },
       relativeFromTo: function(lhs, rhs) {
-        var newLeft = left + offsetLeft,
+        let newLeft = left + offsetLeft,
           newTop = top + offsetTop
         lhs = lhs.offsetParent
         rhs = rhs.offsetParent
@@ -75,7 +108,7 @@ export default function scrollIntoViewIfNeeded(
     }
   }
 
-  var parent,
+  let parent,
     area = makeArea(
       elem.offsetLeft,
       elem.offsetTop,
@@ -84,34 +117,34 @@ export default function scrollIntoViewIfNeeded(
     )
   while (
     (parent = elem.parentNode) instanceof HTMLElement &&
-    elem !== finalElement
+    elem !== config.boundary
   ) {
-    var clientLeft = parent.offsetLeft + parent.clientLeft
-    var clientTop = parent.offsetTop + parent.clientTop
+    const clientLeft = parent.offsetLeft + parent.clientLeft
+    const clientTop = parent.offsetTop + parent.clientTop
 
     // Make area relative to parent's client area.
     area = area.relativeFromTo(elem, parent).translate(-clientLeft, -clientTop)
 
-    var scrollLeft = withinBounds(
+    const scrollLeft = withinBounds(
       parent.scrollLeft,
       area.right - parent.clientWidth,
       area.left,
       parent.clientWidth
     )
-    var scrollTop = withinBounds(
+    const scrollTop = withinBounds(
       parent.scrollTop,
       area.bottom - parent.clientHeight,
       area.top,
       parent.clientHeight
     )
-    if (options) {
+    if (config.animateOptions) {
       animate(
         parent,
         {
           scrollLeft: scrollLeft,
           scrollTop: scrollTop,
         },
-        options
+        config.animateOptions
       )
     } else {
       parent.scrollLeft = scrollLeft
