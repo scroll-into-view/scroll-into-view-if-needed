@@ -19,12 +19,14 @@
     "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
+    "predev": "yarn build",
     "dev": "concurrently \"yarn tsc:main --watch\" \"yarn tsc:example --watch\" \"yarn build:rollup -w\" \"next dev example\"",
-    "predocs": "yarn build",
     "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "yarn tsc:main --noEmit && yarn tsc:example --noEmit",
+    "prestart": "yarn build",
+    "start": "next build example && next start example",
+    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'",
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
   },
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@types/next": "^2.4.5",
+    "@types/prettier": "^1.8.0",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
     "babel-cli": "^6.23.0",
@@ -45,6 +48,7 @@
     "lint-staged": "^4.3.0",
     "next": "^4.1.4",
     "prettier": "^1.7.4",
+    "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
     "prettier-package-json": "^1.4.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -56,7 +60,8 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "scroll-into-view-if-needed": "link:.",
     "system-font-stack": "^1.0.4",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "uglifyjs-webpack-plugin": "^1.0.1"
   },
   "keywords": [
     "ponyfill",

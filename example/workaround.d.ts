@@ -7,3 +7,10 @@ declare module 'react' {
     global?: boolean
   }
 }
+
+// add support for setting a global
+declare global {
+  interface Window {
+    scrollIntoViewIfNeeded: any
+  }
+}

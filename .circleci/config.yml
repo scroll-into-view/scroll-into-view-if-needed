@@ -2,12 +2,18 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:carbon
+      - image: circleci/node:carbon-browsers
 
     working_directory: ~/repo
 
     steps:
       - checkout
+
+      - run: node --version && npm --version && npx --version && yarn --version
+
+      - run:
+          name: Install Cypress dependencies
+          command: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
 
       - add-ssh-keys:
           fingerprints:
@@ -15,19 +21,31 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "yarn.lock" }}
-            - v2-dependencies-
+            - v3-dependencies-{{ checksum "yarn.lock" }}
+            - v3-dependencies-
 
       - run: yarn install
 
       - run: yarn build
 
+      - run: 
+          command: yarn start
+          background: true
+
+      - run: npx wait-on http://localhost:3000
+
       - run: yarn test
+
+      - store_test_results:
+          path: junit
+
+      - store_artifacts:
+          path: cypress/screenshots
 
       - save_cache:
           paths:
             - node_modules
-          key: v2-dependencies-{{ checksum "yarn.lock" }}
+          key: v3-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn semantic-release || true
 
