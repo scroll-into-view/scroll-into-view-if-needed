@@ -57,7 +57,7 @@ scrollIntoViewIfNeeded(activeNode, false, {
 
 ### React
 
-```js
+```jsx
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 import { Component } from 'react'
 
@@ -70,7 +70,7 @@ export default class Homepage extends Component {
    if(node) {
     this._signupNode = node
    }
-  }
+  };
   this.goToSignup = (event) => {
    event.preventDefault()
 
