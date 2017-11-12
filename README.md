@@ -70,7 +70,8 @@ export default class Homepage extends Component {
    if(node) {
     this._signupNode = node
    }
-  };
+     }
+
   this.goToSignup = (event) => {
    event.preventDefault()
 
