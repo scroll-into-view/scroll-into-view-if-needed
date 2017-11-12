@@ -4538,7 +4538,7 @@ prettier-package-json@^1.4.0:
     sort-object-keys "^1.1.2"
     sort-order "^1.0.1"
 
-prettier@^1.7.4:
+prettier@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.8.2.tgz#bff83e7fd573933c607875e5ba3abbdffb96aeb8"
 

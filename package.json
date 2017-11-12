@@ -47,7 +47,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "next": "^4.1.4",
-    "prettier": "^1.7.4",
+    "prettier": "^1.8.2",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
     "prettier-package-json": "^1.4.0",
     "react": "^16.0.0",
@@ -82,6 +82,10 @@
       "git add"
     ],
     "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.md": [
       "prettier --write",
       "git add"
     ],
