@@ -32,7 +32,8 @@ export default function scrollIntoViewIfNeeded(
 ) {
   if (!elem || !(elem instanceof HTMLElement))
     throw new Error('Element is required in scrollIntoViewIfNeeded')
-  let config
+
+  let config: Options = {}
 
   if (isBoolean(options)) {
     config.centerIfNeeded = options
@@ -136,7 +137,7 @@ export default function scrollIntoViewIfNeeded(
       area.top,
       parent.clientHeight
     )
-    if (!isBoolean(options)) {
+    if (config.animateOptions) {
       animate(
         parent,
         {
