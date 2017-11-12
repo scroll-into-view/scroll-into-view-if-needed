@@ -9,11 +9,7 @@ jobs:
     steps:
       - checkout
 
-      - run: node --version
-
-      - run: npx --version
-
-      - run: npm --version
+      - run: node --version && npm --version && npx --version && yarn --version
 
       - run:
           name: Install Cypress dependencies
@@ -42,10 +38,7 @@ jobs:
 
       - store_test_results:
           path: junit
-      - store_artifacts:
-          path: junit  
-      - store_artifacts:
-          path: cypress/videos
+
       - store_artifacts:
           path: cypress/screenshots
 
