@@ -70,7 +70,8 @@
     "scrollIntoView",
     "scrollIntoViewIfNeeded",
     "smooth",
-    "smoothscroll"
+    "smoothscroll",
+    "typescript"
   ],
   "lint-staged": {
     "*.js": [
