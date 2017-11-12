@@ -83,13 +83,13 @@ export default class Homepage extends Component {
  }
 
  render() {
-  return (
+  return <div>
     ...
     <a onClick={this.goToSignup}>Signup Now!</a>
     ...
     <form ref={this.setSignupNode}>
     ...
-  )
+  </div>
  }
 }
 ```
