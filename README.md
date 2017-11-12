@@ -57,39 +57,40 @@ scrollIntoViewIfNeeded(activeNode, false, {
 
 ### React
 
-```js
+```jsx
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 import { Component } from 'react'
 
 export default class Homepage extends Component {
+  constructor(props) {
+    super(props)
 
- constructor(props) {
-  super(props)
+    this.setSignupNode = node => {
+      if (node) {
+        this._signupNode = node
+      }
+    }
 
-  this.setSignupNode = (node) => {
-   if(node) {
-    this._signupNode = node
-   }
-     }
+    this.goToSignup = event => {
+      event.preventDefault()
 
-  this.goToSignup = (event) => {
-   event.preventDefault()
-
-   // Passing the dom node from react is all you need for this to work
-   scrollIntoViewIfNeeded(this._signupNode, false, {
-    duration: 150
-   })
+      // Passing the dom node from react is all you need for this to work
+      scrollIntoViewIfNeeded(this._signupNode, false, {
+        duration: 150,
+      })
+    }
   }
- }
 
- render() {
-  return <div>
-    ...
-    <a onClick={this.goToSignup}>Signup Now!</a>
-    ...
-    <form ref={this.setSignupNode}>
-    ...
-  </div>
- }
+  render() {
+    return (
+      <div>
+        ...
+        <a onClick={this.goToSignup}>Signup Now!</a>
+        ...
+        <form ref={this.setSignupNode}>...</form>
+        ...
+      </div>
+    )
+  }
 }
 ```
