@@ -6,11 +6,6 @@ export default () => (
         text-align: center;
       }
     `}</style>
-    <a
-      href="https://github.com/stipsan/scroll-into-view-if-needed"
-      target="_blank"
-    >
-      GitHub
-    </a>
+    <a href="https://github.com/stipsan/scroll-into-view-if-needed">GitHub</a>
   </footer>
 )

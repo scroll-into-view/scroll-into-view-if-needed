@@ -1,10 +1,12 @@
 import animate from 'amator'
 
+// Legacy
 export interface AnimateOptions {
   duration?: number
   easing?: 'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear'
 }
 
+// Legacy
 export interface OffsetConfig {
   offsetTop?: number
   offsetLeft?: number
@@ -12,11 +14,21 @@ export interface OffsetConfig {
   offsetRight?: number
 }
 
+export interface Offset {
+  top?: number
+  right?: number
+  bottom?: number
+  left?: number
+}
+
 export interface Options {
-  animateOptions?: AnimateOptions
   boundary?: Element
   centerIfNeeded?: boolean
-  offsetConfig?: OffsetConfig
+  // Setting a duration will enable animations
+  duration?: number
+  // Easing only take effect if a duration is set
+  easing?: 'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear'
+  offset?: Offset
 }
 
 function isBoolean(options: boolean | Options): options is boolean {
@@ -24,33 +36,48 @@ function isBoolean(options: boolean | Options): options is boolean {
 }
 
 export default function scrollIntoViewIfNeeded(
-  elem: Element,
+  target: Element,
   options: boolean | Options,
   animateOptions?: AnimateOptions,
   finalElement?: Element,
   offsetOptions: OffsetConfig = {}
 ) {
-  if (!elem || !(elem instanceof HTMLElement))
+  if (!target || !(target instanceof HTMLElement))
     throw new Error('Element is required in scrollIntoViewIfNeeded')
 
-  let config: Options = {}
+  let config: Options = { centerIfNeeded: false }
 
   if (isBoolean(options)) {
     config.centerIfNeeded = options
   } else {
-    config = options
+    config = { ...config, ...options }
   }
 
+  const defaultOffset = { top: 0, right: 0, bottom: 0, left: 0 }
+  config.offset = config.offset
+    ? { ...defaultOffset, ...config.offset }
+    : defaultOffset
+
   if (animateOptions) {
-    config.animateOptions = animateOptions
+    config.duration = animateOptions.duration
+    config.easing = animateOptions.easing
   }
 
   if (finalElement) {
     config.boundary = finalElement
   }
 
-  if (offsetOptions) {
-    config.offsetConfig = offsetOptions
+  if (offsetOptions.offsetTop) {
+    config.offset.top = offsetOptions.offsetTop
+  }
+  if (offsetOptions.offsetRight) {
+    config.offset.right = offsetOptions.offsetRight
+  }
+  if (offsetOptions.offsetBottom) {
+    config.offset.bottom = offsetOptions.offsetBottom
+  }
+  if (offsetOptions.offsetLeft) {
+    config.offset.left = offsetOptions.offsetLeft
   }
 
   function withinBounds(value, min, max, extent) {
@@ -64,12 +91,11 @@ export default function scrollIntoViewIfNeeded(
     }
   }
 
-  const { offsetConfig = {} } = config
-
-  const offsetTop = offsetConfig.offsetTop || 0
-  const offsetLeft = offsetConfig.offsetLeft || 0
-  const offsetBottom = offsetConfig.offsetBottom || 0
-  const offsetRight = offsetConfig.offsetRight || 0
+  const { offset } = config
+  const offsetTop = offset.top
+  const offsetLeft = offset.left
+  const offsetBottom = offset.bottom
+  const offsetRight = offset.right
 
   function makeArea(left, top, width, height) {
     return {
@@ -110,20 +136,22 @@ export default function scrollIntoViewIfNeeded(
 
   let parent,
     area = makeArea(
-      elem.offsetLeft,
-      elem.offsetTop,
-      elem.offsetWidth,
-      elem.offsetHeight
+      target.offsetLeft,
+      target.offsetTop,
+      target.offsetWidth,
+      target.offsetHeight
     )
   while (
-    (parent = elem.parentNode) instanceof HTMLElement &&
-    elem !== config.boundary
+    (parent = target.parentNode) instanceof HTMLElement &&
+    target !== config.boundary
   ) {
     const clientLeft = parent.offsetLeft + parent.clientLeft
     const clientTop = parent.offsetTop + parent.clientTop
 
     // Make area relative to parent's client area.
-    area = area.relativeFromTo(elem, parent).translate(-clientLeft, -clientTop)
+    area = area
+      .relativeFromTo(target, parent)
+      .translate(-clientLeft, -clientTop)
 
     const scrollLeft = withinBounds(
       parent.scrollLeft,
@@ -137,14 +165,14 @@ export default function scrollIntoViewIfNeeded(
       area.top,
       parent.clientHeight
     )
-    if (config.animateOptions) {
+    if (config.duration) {
       animate(
         parent,
         {
           scrollLeft: scrollLeft,
           scrollTop: scrollTop,
         },
-        config.animateOptions
+        { duration: config.duration, easing: config.easing }
       )
     } else {
       parent.scrollLeft = scrollLeft
@@ -156,6 +184,6 @@ export default function scrollIntoViewIfNeeded(
       clientLeft - parent.scrollLeft,
       clientTop - parent.scrollTop
     )
-    elem = parent
+    target = parent
   }
 }
