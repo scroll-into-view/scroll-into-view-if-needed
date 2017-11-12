@@ -57,7 +57,7 @@ scrollIntoViewIfNeeded(activeNode, false, {
 
 ### React
 
-```javascript
+```jsx
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 import { Component } from 'react'
 
