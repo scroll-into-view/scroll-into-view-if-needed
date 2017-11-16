@@ -8,6 +8,18 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.4.0] - 2017-11-17
+
+### Added
+
+* New `handleScroll` option allows customizing scrolling behavior.
+
+### Changed
+
+* Animation logic is separated from scroll calculation logic. This allows skip
+  importing animation dependencies and reduces bundle sizes when you don't need
+  the built in animation feature.
+
 ## [1.3.0] - 2017-11-12
 
 ### Added
