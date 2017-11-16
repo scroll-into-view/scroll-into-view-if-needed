@@ -7,6 +7,7 @@ src
 .editorconfig
 .prettierignore
 .prettierrc
+config.json
 cypress.json
 rollup.config.js
 tsconfig.json
