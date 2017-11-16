@@ -77,6 +77,32 @@ Change the easing mechanism. This option takes effect when `duration` is set. In
 [bezier easing](https://www.npmjs.com/package/bezier-easing) similar to CSS
 [`cubic-bezier()`](<https://developer.mozilla.org/en-US/docs/Web/CSS/single-transition-timing-function#cubic-bezier()>).
 
+#### handleScroll(parent, {scrollLeft, scrollTop}, options)
+
+Type: `function`
+
+Take control over how the target is scrolled into view. This function is called
+for each parent node that need scrolling. `scrollLeft` and `scrollTop` are
+destination coordinates. The from coordinates you'll have to get yourself if you
+want to animate the transition using a different library.
+
+When using this option you likely don't need the built in animation feature. To
+cut down on filesize you can do the following adjustment if you are using a
+recent version of webpack or rollbar (and use ES6 imports):
+
+```diff
+-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
++import maybeScrollIntoView from 'scroll-into-view-if-needed/dist/calculate'
+
+-scrollIntoViewIfNeeded(node)
++maybeScrollIntoView(node, {handleScroll: (parent, {scrollLeft, scrollTop}, config) => {
++  // The following is actually the default implementation
++  // if this is all you need you can skip passing this option
++  parent.scrollLeft = scrollLeft
++  parent.scrollTop = scrollTop
++}})
+```
+
 #### offset
 
 Type: `Object`
