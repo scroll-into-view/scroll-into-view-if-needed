@@ -79,6 +79,8 @@ Change the easing mechanism. This option takes effect when `duration` is set. In
 
 #### handleScroll(parent, {scrollLeft, scrollTop}, options)
 
+> Introduced in v1.4.0
+
 Type: `function`
 
 Take control over how the target is scrolled into view. This function is called
