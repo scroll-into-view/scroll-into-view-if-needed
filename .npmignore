@@ -3,6 +3,7 @@
 cypress
 docs
 example
+junit
 src
 .editorconfig
 .prettierignore

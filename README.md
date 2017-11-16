@@ -81,7 +81,7 @@ Change the easing mechanism. This option takes effect when `duration` is set. In
 
 > Introduced in `v1.4.0`
 
-Type: `function`
+Type: `Function`
 
 Take control over how the target is scrolled into view. This function is called
 for each parent node that need scrolling. `scrollLeft` and `scrollTop` are
