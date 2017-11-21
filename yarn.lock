@@ -66,15 +66,15 @@
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-6.25.1.tgz#ce8f126a4403e11e1b0033a424f11638afac7889"
 
 "@types/next@^2.4.5":
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/@types/next/-/next-2.4.5.tgz#6c18502fec7d82c153f502da0562dfd5e6a15e27"
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/@types/next/-/next-2.4.6.tgz#0c94dd99f3fa9c3bc023502e8bf014ec094ab039"
   dependencies:
     "@types/node" "*"
     "@types/react" "*"
 
 "@types/node@*":
-  version "8.0.51"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.51.tgz#b31d716fb8d58eeb95c068a039b9b6292817d5fb"
+  version "8.0.53"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.53.tgz#396b35af826fa66aad472c8cb7b8d5e277f4e6d8"
 
 "@types/prettier@^1.8.0":
   version "1.8.0"
@@ -90,8 +90,8 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^16.0.20":
-  version "16.0.22"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.22.tgz#19ad106e124aceebd2b4d430a278d55413ee8759"
+  version "16.0.25"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.25.tgz#bf696b83fe480c5e0eff4335ee39ebc95884a1ed"
 
 JSONStream@^1.0.4:
   version "1.3.1"
@@ -1408,8 +1408,8 @@ chownr@^1.0.1:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
 
 ci-info@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.1.1.tgz#47b44df118c48d2597b56d342e7e25791060171a"
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.1.2.tgz#03561259db48d0474c8bdc90f5b47b068b6bbfb4"
 
 cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
   version "1.0.4"
@@ -1477,8 +1477,8 @@ collapse-white-space@^1.0.2:
   resolved "https://registry.yarnpkg.com/collapse-white-space/-/collapse-white-space-1.0.3.tgz#4b906f670e5a963a87b76b0e1689643341b6023c"
 
 color-convert@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.1.tgz#c1261107aeb2f294ebffec9ed9ecad529a6097ed"
   dependencies:
     color-name "^1.1.1"
 
@@ -1543,8 +1543,8 @@ concat-stream@1.6.0, concat-stream@^1.5.0, concat-stream@^1.5.2:
     typedarray "^0.0.6"
 
 concurrently@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-3.5.0.tgz#8cf1b7707a6916a78a4ff5b77bb04dec54b379b2"
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/concurrently/-/concurrently-3.5.1.tgz#ee8b60018bbe86b02df13e5249453c6ececd2521"
   dependencies:
     chalk "0.5.1"
     commander "2.6.0"
@@ -1789,8 +1789,8 @@ cyclist@~0.2.2:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
 cypress@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-1.0.3.tgz#ef3a8fbe72d6f69b2c02e384db405cc49c5773be"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-1.1.1.tgz#e7854aad74a4abc12e63f7f486f7990624ff9346"
   dependencies:
     "@cypress/listr-verbose-renderer" "0.4.1"
     "@cypress/xvfb" "1.0.4"
@@ -2694,8 +2694,8 @@ glob@^6.0.1:
     path-is-absolute "^1.0.0"
 
 global-dirs@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/global-dirs/-/global-dirs-0.1.0.tgz#10d34039e0df04272e262cf24224f7209434df4f"
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/global-dirs/-/global-dirs-0.1.1.tgz#b319c0dd4607f353f3be9cca4c72fc148c49f445"
   dependencies:
     ini "^1.3.4"
 
@@ -3018,9 +3018,13 @@ inherits@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.1.tgz#b17d08d326b4423e568eff719f91b0b1cbdf69f1"
 
-ini@^1.2.0, ini@^1.3.2, ini@^1.3.4, ini@~1.3.0:
+ini@^1.2.0, ini@^1.3.2, ini@~1.3.0:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
+
+ini@^1.3.4:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
 
 interpret@^1.0.0:
   version "1.0.4"
@@ -4717,8 +4721,8 @@ react-deep-force-update@^2.1.1:
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.1.1.tgz#8ea4263cd6455a050b37445b3f08fd839d86e909"
 
 react-dom@^16.0.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.1.0.tgz#ab6fd2a285096f388aeba51919a573d06c9bdde4"
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.1.1.tgz#b2e331b6d752faf1a2d31399969399a41d8d45f8"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -4742,8 +4746,8 @@ react-proxy@^3.0.0-alpha.0:
     lodash "^4.6.1"
 
 react@^16.0.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.1.0.tgz#1c2bdac3c17fe7ee9282fa35aca6cc36387903e1"
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.1.1.tgz#d5c4ef795507e3012282dd51261ff9c0e824fe1f"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -5395,8 +5399,8 @@ sourcemapped-stacktrace@^1.1.6:
     source-map "0.5.6"
 
 spawn-command@^0.0.2-1:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/spawn-command/-/spawn-command-0.0.2.tgz#9544e1a43ca045f8531aac1a48cb29bdae62338e"
+  version "0.0.2-1"
+  resolved "https://registry.yarnpkg.com/spawn-command/-/spawn-command-0.0.2-1.tgz#62f5e9466981c1b796dc5929937e11c9c6921bd0"
 
 spawn-error-forwarder@~1.0.0:
   version "1.0.0"
@@ -5664,13 +5668,7 @@ supports-color@^3.2.3:
   dependencies:
     has-flag "^1.0.0"
 
-supports-color@^4.0.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.4.0.tgz#883f7ddabc165142b2a61427f3352ded195d1a3e"
-  dependencies:
-    has-flag "^2.0.0"
-
-supports-color@^4.2.1, supports-color@^4.4.0:
+supports-color@^4.0.0, supports-color@^4.2.1, supports-color@^4.4.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.5.0.tgz#be7a0de484dec5c5cddf8b3d59125044912f635b"
   dependencies:
