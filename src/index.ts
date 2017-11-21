@@ -1,2 +1,6 @@
-export { calculate } from './calculate'
-export { default, Options } from './transition'
+export { calculate } from './calculate' /*esm pure*/
+export {
+  default,
+  default as scrollIntoViewIfNeeded,
+  Options,
+} from './transition' /*esm pure*/

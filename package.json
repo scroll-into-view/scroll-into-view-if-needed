@@ -30,9 +30,6 @@
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
   },
-  "dependencies": {
-    "amator": "1.0.1"
-  },
   "devDependencies": {
     "@types/next": "^2.4.5",
     "@types/prettier": "^1.8.0",

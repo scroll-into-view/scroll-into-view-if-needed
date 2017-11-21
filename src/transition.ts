@@ -1,4 +1,4 @@
-import animate from 'amator' /*esm pure*/
+import { animate } from './legacy' /*esm pure*/
 import { calculate, CalculateOptions } from './calculate' /*esm pure*/
 
 // Legacy

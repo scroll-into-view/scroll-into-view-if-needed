@@ -19,7 +19,7 @@ yarn add scroll-into-view-if-needed
 ## Usage
 
 ```js
-const scrollIntoViewIfNeeded = require('scroll-into-view-if-needed')
+const { scrollIntoViewIfNeeded } = require('scroll-into-view-if-needed')
 const node = document.getElementById('hero')
 
 // similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})

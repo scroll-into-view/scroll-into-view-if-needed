@@ -7,7 +7,7 @@ export default {
   dest: 'dist/bundle.js',
   format: 'umd',
   moduleName: 'scrollIntoViewIfNeeded',
-  exports: 'named',
+  exports: 'default',
   globals,
   onwarn,
   plugins: [
