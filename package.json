@@ -100,7 +100,8 @@
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
     "verifyConditions": "condition-circle",
     "generateNotes": "semantic-release-tamia/generateNotes",
-    "verifyRelease": "semantic-release-tamia/verifyRelease"
+    "verifyRelease": "semantic-release-tamia/verifyRelease",
+    "branch": "next"
   },
   "typings": "dist/index.d.ts"
 }
