@@ -20,10 +20,10 @@ const float32ArraySupported = typeof Float32Array === 'function'
 const A = (aA1, aA2) => {
   return 1.0 - 3.0 * aA2 + 3.0 * aA1
 }
-function B(aA1, aA2) {
+const B = (aA1, aA2) => {
   return 3.0 * aA2 - 6.0 * aA1
 }
-function C(aA1) {
+const C = aA1 => {
   return 3.0 * aA1
 }
 
@@ -38,7 +38,7 @@ const getSlope = (aT, aA1, aA2) => {
 }
 
 const binarySubdivide = (aX, aA, aB, mX1, mX2) => {
-  var currentX,
+  let currentX,
     currentT,
     i = 0
   do {
@@ -74,19 +74,19 @@ const bezier = (mX1, mY1, mX2, mY2) => {
   }
 
   // Precompute samples table
-  var sampleValues = float32ArraySupported
+  const sampleValues = float32ArraySupported
     ? new Float32Array(kSplineTableSize)
     : new Array(kSplineTableSize)
   if (mX1 !== mY1 || mX2 !== mY2) {
-    for (var i = 0; i < kSplineTableSize; ++i) {
+    for (let i = 0; i < kSplineTableSize; ++i) {
       sampleValues[i] = calcBezier(i * kSampleStepSize, mX1, mX2)
     }
   }
 
   const getTForX = aX => {
-    var intervalStart = 0.0
-    var currentSample = 1
-    var lastSample = kSplineTableSize - 1
+    let intervalStart = 0.0
+    let currentSample = 1
+    let lastSample = kSplineTableSize - 1
 
     for (
       ;
@@ -134,21 +134,49 @@ const bezier = (mX1, mY1, mX2, mY2) => {
   }
 }
 
-// Predefined set of animations. Similar to CSS easing functions
-const animations = {
-  ease: bezier(0.25, 0.1, 0.25, 1),
-  easeIn: bezier(0.42, 0, 1, 1),
-  easeOut: bezier(0, 0, 0.58, 1),
-  easeInOut: bezier(0.42, 0, 0.58, 1),
-  linear: bezier(0, 0, 1, 1),
+const noop = () => {}
+
+const getScheduler = scheduler => {
+  if (!scheduler) {
+    var canRaf = typeof window !== 'undefined' && window.requestAnimationFrame
+    return canRaf ? rafScheduler() : timeoutScheduler()
+  }
+  if (typeof scheduler.next !== 'function')
+    throw new Error('Scheduler is supposed to have next(cb) function')
+  if (typeof scheduler.cancel !== 'function')
+    throw new Error('Scheduler is supposed to have cancel(handle) function')
+
+  return scheduler
+}
+
+const rafScheduler = () => {
+  return {
+    next: window.requestAnimationFrame.bind(window),
+    cancel: window.cancelAnimationFrame.bind(window),
+  }
+}
+
+const timeoutScheduler = () => {
+  return {
+    next: cb => setTimeout(cb, 1000 / 60),
+    cancel: id => clearTimeout(id),
+  }
 }
 
 export const animate = (source, target, options) => {
-  var start = Object.create(null)
-  var diff = Object.create(null)
+  const start = Object.create(null)
+  const diff = Object.create(null)
+  // Predefined set of animations. Similar to CSS easing functions
+  const animations = {
+    ease: bezier(0.25, 0.1, 0.25, 1),
+    easeIn: bezier(0.42, 0, 1, 1),
+    easeOut: bezier(0, 0, 0.58, 1),
+    easeInOut: bezier(0.42, 0, 0.58, 1),
+    linear: bezier(0, 0, 1, 1),
+  }
   options = options || {}
   // We let clients specify their own easing function
-  var easing =
+  let easing =
     typeof options.easing === 'function'
       ? options.easing
       : animations[options.easing]
@@ -161,34 +189,29 @@ export const animate = (source, target, options) => {
     easing = animations.ease
   }
 
-  var step = typeof options.step === 'function' ? options.step : noop
-  var done = typeof options.done === 'function' ? options.done : noop
+  const step = typeof options.step === 'function' ? options.step : noop
+  const done = typeof options.done === 'function' ? options.done : noop
 
-  var scheduler = getScheduler(options.scheduler)
+  const scheduler = getScheduler(options.scheduler)
 
-  var keys = Object.keys(target)
+  const keys = Object.keys(target)
   keys.forEach(key => {
     start[key] = source[key]
     diff[key] = target[key] - source[key]
   })
 
-  var durationInMs = options.duration || 400
-  var durationInFrames = Math.max(1, durationInMs * 0.06) // 0.06 because 60 frames pers 1,000 ms
-  var previousAnimationId
-  var frame = 0
+  const durationInMs = options.duration || 400
+  const durationInFrames = Math.max(1, durationInMs * 0.06) // 0.06 because 60 frames pers 1,000 ms
+  let previousAnimationId
+  let frame = 0
 
-  previousAnimationId = scheduler.next(loop)
-
-  return {
-    cancel: cancel,
+  const setValues = t => {
+    keys.forEach(function(key) {
+      source[key] = diff[key] * t + start[key]
+    })
   }
 
-  function cancel() {
-    scheduler.cancel(previousAnimationId)
-    previousAnimationId = 0
-  }
-
-  function loop() {
+  const loop = () => {
     var t = easing(frame / durationInFrames)
     frame += 1
     setValues(t)
@@ -203,42 +226,12 @@ export const animate = (source, target, options) => {
     }
   }
 
-  function setValues(t) {
-    keys.forEach(function(key) {
-      source[key] = diff[key] * t + start[key]
-    })
+  previousAnimationId = scheduler.next(loop)
+
+  const cancel = () => {
+    scheduler.cancel(previousAnimationId)
+    previousAnimationId = 0
   }
-}
 
-function noop() {}
-
-function getScheduler(scheduler) {
-  if (!scheduler) {
-    var canRaf = typeof window !== 'undefined' && window.requestAnimationFrame
-    return canRaf ? rafScheduler() : timeoutScheduler()
-  }
-  if (typeof scheduler.next !== 'function')
-    throw new Error('Scheduler is supposed to have next(cb) function')
-  if (typeof scheduler.cancel !== 'function')
-    throw new Error('Scheduler is supposed to have cancel(handle) function')
-
-  return scheduler
-}
-
-function rafScheduler() {
-  return {
-    next: window.requestAnimationFrame.bind(window),
-    cancel: window.cancelAnimationFrame.bind(window),
-  }
-}
-
-function timeoutScheduler() {
-  return {
-    next: function(cb) {
-      return setTimeout(cb, 1000 / 60)
-    },
-    cancel: function(id) {
-      return clearTimeout(id)
-    },
-  }
+  return { cancel }
 }

@@ -6,12 +6,13 @@
     "declaration": true,
     "rootDir": "src",
     "outDir": "./dist",
-    "removeComments": false,
+    "removeComments": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "alwaysStrict": true
   },
   "exclude": ["node_modules", "dist", "example", "**/*-test.ts"]
 }
