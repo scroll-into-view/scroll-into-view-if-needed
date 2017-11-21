@@ -38,17 +38,17 @@ export interface Options extends CalculateOptions {
   easing?: 'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear'
 }
 
-function isBoolean(options: boolean | Options): options is boolean {
+const isBoolean = (options: boolean | Options): options is boolean => {
   return typeof options === 'boolean'
 }
 
-export default function scrollIntoViewIfNeeded(
+const scrollIntoViewIfNeeded = (
   target: Element,
   options: boolean | Options,
   animateOptions?: AnimateOptions,
   finalElement?: Element,
   offsetOptions: OffsetConfig = {}
-) {
+) => {
   if (!target || !(target instanceof HTMLElement))
     throw new Error('Element is required in scrollIntoViewIfNeeded')
 
@@ -89,3 +89,5 @@ export default function scrollIntoViewIfNeeded(
 
   return calculate(target, config)
 }
+
+export default scrollIntoViewIfNeeded
