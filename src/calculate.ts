@@ -12,10 +12,10 @@ export interface ScrollCoordinates {
 export type handleScrollCallback = (
   parent: HTMLElement,
   coordinates: ScrollCoordinates,
-  config: Options
+  config: CalculateOptions
 ) => void
 
-export interface Options {
+export interface CalculateOptions {
   // A handler that handles scrolling the view to the new coordinates
   handleScroll?: handleScrollCallback
   boundary?: Element
@@ -31,9 +31,10 @@ const handleScroll: handleScrollCallback = (
   parent.scrollTop = scrollTop
 }
 
-export default function calculate(target: Element, options: Options) {
-  if (!target || !(target instanceof HTMLElement))
+export function calculate(target: Element, options: CalculateOptions) {
+  if (!target || !(target instanceof HTMLElement)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
+  }
 
   const config = { handleScroll, ...options }
   const defaultOffset = { top: 0, right: 0, bottom: 0, left: 0 }
