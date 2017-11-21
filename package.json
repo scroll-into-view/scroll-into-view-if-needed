@@ -73,6 +73,9 @@
     "smoothscroll",
     "typescript"
   ],
+  "publishConfig": {
+    "tag": "next"
+  },
   "lint-staged": {
     "*.js": [
       "prettier --write",
