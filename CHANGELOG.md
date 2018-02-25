@@ -8,8 +8,6 @@ and this project adheres to
 
 ## [Unreleased]
 
-## [1.5.0] - 2018-02-25
-
 ### Added
 
 * `sideEffects: false` in package.json to enable optimizations introduced in webpack v4.
