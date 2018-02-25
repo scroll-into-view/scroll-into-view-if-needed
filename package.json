@@ -30,6 +30,7 @@
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
   },
+  "sideEffects": false,
   "dependencies": {
     "amator": "1.0.1"
   },
