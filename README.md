@@ -1,7 +1,6 @@
 [![CircleCI Status](https://img.shields.io/circleci/project/github/stipsan/scroll-into-view-if-needed.svg?style=flat-square)](https://circleci.com/gh/stipsan/scroll-into-view-if-needed) [![npm stat](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg?style=flat-square)](https://npm-stat.com/charts.html?package=scroll-into-view-if-needed) [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/36357426-2f0f3152-14fe-11e8-892a-915d06488171.png)
 
-
 This is a [ponyfill](https://ponyfill.com) with the added ability of animating
 the scroll itself.
 
@@ -116,8 +115,7 @@ Useful in scenarios where a `position: fixed` element might overlay the scroll
 container to "offset" the `target`.
 
 However this option has known bugs and may be dropped or replaced in `v2.0.0`.
-If possible wrap your `target` in an element and create spacing using `CSS
-padding` or similar. This way you won't be affected by breaking changes here or
+If possible wrap your `target` in an element and create spacing using `CSS padding` or similar. This way you won't be affected by breaking changes here or
 the current bugs.
 
 ##### top
