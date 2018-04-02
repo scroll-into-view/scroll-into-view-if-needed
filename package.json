@@ -1,6 +1,6 @@
 {
   "name": "scroll-into-view-if-needed",
-  "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed and behavior: smooth",
   "author": "Stian Didriksen",
   "license": "MIT",
   "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
@@ -66,6 +66,9 @@
     "scroll-into-view",
     "scrollIntoView",
     "scrollIntoViewIfNeeded",
+    "behavior-smooth",
+    "scrollMode",
+    "if-needed",
     "smooth",
     "smoothscroll",
     "typescript"
