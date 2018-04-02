@@ -15,8 +15,6 @@
     "build": "yarn build:tsc && yarn build:rollup",
     "build:rollup": "rollup -c",
     "build:tsc": "yarn tsc:main && yarn tsc:example",
-    "changelog:commit": "sr-changelog commit",
-    "changelog:preview": "sr-changelog",
     "clean": "rimraf dist",
     "precommit": "lint-staged",
     "predev": "yarn build",
