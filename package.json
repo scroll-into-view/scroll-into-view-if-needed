@@ -30,7 +30,6 @@
     "tsc:example": "tsc -p example",
     "tsc:main": "tsc -p ."
   },
-  "sideEffects": false,
   "devDependencies": {
     "@types/next": "^2.4.5",
     "@types/prettier": "^1.8.0",
@@ -62,21 +61,18 @@
     "uglifyjs-webpack-plugin": "^1.0.1"
   },
   "keywords": [
+    "behavior-smooth",
+    "if-needed",
     "ponyfill",
     "scroll",
     "scroll-into-view",
     "scrollIntoView",
     "scrollIntoViewIfNeeded",
-    "behavior-smooth",
     "scrollMode",
-    "if-needed",
     "smooth",
     "smoothscroll",
     "typescript"
   ],
-  "publishConfig": {
-    "tag": "next"
-  },
   "lint-staged": {
     "*.js": [
       "prettier --write",
@@ -104,8 +100,8 @@
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
     "verifyConditions": "condition-circle",
     "generateNotes": "semantic-release-tamia/generateNotes",
-    "verifyRelease": "semantic-release-tamia/verifyRelease",
-    "branch": "next"
+    "verifyRelease": "semantic-release-tamia/verifyRelease"
   },
+  "sideEffects": false,
   "typings": "dist/index.d.ts"
 }
