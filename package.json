@@ -57,7 +57,7 @@
     "scroll-into-view-if-needed": "link:.",
     "styled-components": "^2.1.0",
     "system-font-stack": "^1.0.4",
-    "typescript": "^2.6.1",
+    "typescript": "^2.8.1",
     "uglifyjs-webpack-plugin": "^1.0.1"
   },
   "keywords": [

@@ -31,13 +31,13 @@ const handleScroll: handleScrollCallback = (
   parent.scrollTop = scrollTop
 }
 
-export const calculate = (
-  target: HTMLElement | SVGElement,
-  options: CalculateOptions
-) => {
-  if (!(target != null && typeof target == 'object' && target.nodeType === 1)) {
+const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
+
+export const calculate = (maybeElement: any, options: CalculateOptions) => {
+  if (!isElement(maybeElement)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
+  let target = maybeElement as HTMLElement
 
   const config = { handleScroll, ...options }
   const defaultOffset = { top: 0, right: 0, bottom: 0, left: 0 }
@@ -107,7 +107,7 @@ export const calculate = (
       target.offsetHeight
     )
   while (
-    (parent = target.parentNode) instanceof HTMLElement &&
+    isElement((parent = target.parentNode)) &&
     target !== config.boundary
   ) {
     const clientLeft = parent.offsetLeft + parent.clientLeft
