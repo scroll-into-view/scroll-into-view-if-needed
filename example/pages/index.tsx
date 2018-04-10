@@ -7,6 +7,8 @@ import Footer from '../components/Footer'
 import List from '../components/List'
 import { Text as TextIcon, Chrome } from '../components/Icons'
 
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+
 export interface IndexPageProps {
   items: number[]
 }
@@ -24,6 +26,7 @@ const Hero = styled.header`
 `
 const Wrapper = styled.div`
   position: relative;
+  max-height: 389px;
 
   svg {
     max-width: 100%;
@@ -51,11 +54,10 @@ export default class IndexPage extends Component<IndexPageProps> {
 
   componentDidMount() {
     setTimeout(
-      () =>
-        document
+      () => scrollIntoViewIfNeeded(document.getElementById('IF-NEEDED'), {}),
+      /*document
           .getElementById('IF-NEEDED')
-          .scrollIntoView({ behavior: 'smooth', block: 'nearest' }),
-      3000
+          .scrollIntoView({ behavior: 'smooth', block: 'nearest' })*/ 3000
     )
   }
 

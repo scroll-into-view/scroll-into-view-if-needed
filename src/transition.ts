@@ -43,15 +43,12 @@ const isBoolean = (options: boolean | Options): options is boolean => {
 }
 
 const scrollIntoViewIfNeeded = (
-  target: Element,
+  target: any,
   options: boolean | Options,
   animateOptions?: AnimateOptions,
   finalElement?: Element,
   offsetOptions: OffsetConfig = {}
 ) => {
-  if (!target || !(target instanceof HTMLElement))
-    throw new Error('Element is required in scrollIntoViewIfNeeded')
-
   let config: Options = { centerIfNeeded: false, handleScroll }
 
   if (isBoolean(options)) {

@@ -38,6 +38,7 @@ export const calculate = (maybeElement: any, options: CalculateOptions) => {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
   let target = maybeElement as HTMLElement
+  console.log(target)
 
   const config = { handleScroll, ...options }
   const defaultOffset = { top: 0, right: 0, bottom: 0, left: 0 }
