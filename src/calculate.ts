@@ -31,7 +31,10 @@ const handleScroll: handleScrollCallback = (
   parent.scrollTop = scrollTop
 }
 
-export const calculate = (target: HTMLElement, options: CalculateOptions) => {
+export const calculate = (
+  target: HTMLElement | SVGElement,
+  options: CalculateOptions
+) => {
   if (!(target != null && typeof target == 'object' && target.nodeType === 1)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
