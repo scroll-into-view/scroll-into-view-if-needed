@@ -45,6 +45,12 @@ const ScrollWrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 3px;
+  opacity: 0.6;
+
+  @supports (mix-blend-mode: overlay) {
+    opacity: 1;
+    mix-blend-mode: overlay;
+  }
 `
 
 export default class IndexPage extends Component<IndexPageProps> {
