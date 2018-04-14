@@ -17,8 +17,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v3-dependencies-{{ checksum "yarn.lock" }}
-            - v3-dependencies-
+            - v4-dependencies-{{ checksum "yarn.lock" }}
+            - v4-dependencies-
 
       - run: yarn install
 
@@ -41,7 +41,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v3-dependencies-{{ checksum "yarn.lock" }}
+          key: v4-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn semantic-release || true
 
