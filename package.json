@@ -39,7 +39,7 @@
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
     "concurrently": "^3.5.0",
-    "cypress": "^1.0.3",
+    "cypress": "2.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "next": "^4.1.4",
