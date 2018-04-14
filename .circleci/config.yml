@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: cypress/browsers:chrome64
 
-    working_directory: ~/repo
+    working_directory: ~/app
 
     steps:
       - checkout
