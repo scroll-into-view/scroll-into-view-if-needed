@@ -8,7 +8,7 @@ export interface SectionProps {
 const Wrapper = styled.section`
   margin-left: auto;
   margin-right: auto;
-  max-width: 780px;
+  max-width: 1220px;
 `
 
 const Section: React.StatelessComponent<SectionProps> = ({

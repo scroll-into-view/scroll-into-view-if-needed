@@ -51,11 +51,6 @@ export default class TestsPage extends Component<TestsPageProps> {
           <List id={4} items={this.props.items} />
         </Section>
         <Footer />
-        <style jsx global>{`
-          body {
-            font-family: ${systemFontStack};
-          }
-        `}</style>
       </div>
     )
   }

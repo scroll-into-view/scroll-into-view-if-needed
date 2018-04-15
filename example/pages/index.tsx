@@ -117,12 +117,43 @@ export default class IndexPage extends Component<IndexPageProps> {
         <IntroductionSection className="columns">
           <div className="column">
             <h2 className="is-size-4">Ponyfill</h2>
+            <p>
+              This package <a href="http://ponyfill.com/">ponyfills</a>
+              &nbsp;new features in the&nbsp;
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView">
+                Element.scrollIntoView
+              </a>{' '}
+              API. Including features in the non-standard{' '}
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded">
+                Element.scrollIntoViewIfNeeded
+              </a>{' '}
+              API, that the CSS working group is{' '}
+              <a href="https://github.com/w3c/csswg-drafts/pull/1805">
+                proposing
+              </a>{' '}
+              to add to <code>scrollIntoVIew</code> as another option:{' '}
+              <code>scrollMode: "if-needed"</code>.
+            </p>
           </div>
           <div className="column">
             <h2 className="is-size-4">Minimal</h2>
+            <p>
+              To keep the filesize as small as possible only the absolute
+              essentials is included by default. Using{' '}
+              <code>behavior: "smooth"</code> thus only works in browsers that
+              implement it, unless you opt-in to polyfilling it by importing
+              from <code>scroll-into-view-if-needed/smooth</code>.
+            </p>
           </div>
           <div className="column">
             <h2 className="is-size-4">Customizable</h2>
+            <p>
+              The available options cover most use cases, but for advanced users
+              it's posible to pass in a function to <code>scrollMode</code> to
+              control the logic of when to scroll or not, and{' '}
+              <code>behavior</code> to if you only need to know if and what to
+              scroll but bring your own logic for the actual scrolling.
+            </p>
           </div>
         </IntroductionSection>
         <Section>
