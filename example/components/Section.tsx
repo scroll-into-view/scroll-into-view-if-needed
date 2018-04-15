@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { dimensions } from '../utils'
 
 export interface SectionProps {
   children: React.ReactNode
@@ -8,7 +9,8 @@ export interface SectionProps {
 const Wrapper = styled.section`
   margin-left: auto;
   margin-right: auto;
-  max-width: 1220px;
+  padding: 20px 0;
+  max-width: ${dimensions.maxWidth}px;
 `
 
 const Section: React.StatelessComponent<SectionProps> = ({

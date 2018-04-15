@@ -1,12 +1,15 @@
-import { Component } from 'react'
+import { Component, Fragment } from 'react'
 import systemFontStack from 'system-font-stack'
 import styled, { injectGlobal } from 'styled-components'
 import Section from '../components/Section'
 import Footer from '../components/Footer'
 import List from '../components/List'
+import Iframe from '../components/Iframe'
 import { Text as TextIcon, Chrome } from '../components/Icons'
+import IfNeeded from '../components/Examples/IfNeeded'
+import Alignment from '../components/Examples/Alignment'
 
-//import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+import { scrollIntoView } from '../utils'
 
 injectGlobal`
   html,
@@ -83,6 +86,12 @@ Examples:
 
 */
 
+const ScrollContainer = styled.main`
+  overflow: auto;
+  height: 100vh;
+  width: 100vw;
+`
+
 const IntroductionSection = styled(Section)`
   margin-top: 10px;
 `
@@ -96,10 +105,7 @@ export default class IndexPage extends Component<IndexPageProps> {
 
   componentDidMount() {
     setTimeout(() => {
-      //scrollIntoViewIfNeeded(document.getElementById('IF-NEEDED'), {})
-      ///*
-      this.scrollToRef.scrollIntoView({ behavior: 'smooth', block: 'end' })
-      //*/
+      scrollIntoView(this.scrollToRef, { behavior: 'smooth', block: 'end' })
     }, 100)
   }
 
@@ -156,6 +162,63 @@ export default class IndexPage extends Component<IndexPageProps> {
             </p>
           </div>
         </IntroductionSection>
+        <Section>
+          <div className="columns">
+            <div className="column is-one-third">
+              <h3 className="title">Scrolling if needed</h3>
+              <p className="subtitle">
+                When deciding if scrolling is needed the visibility of the
+                target element is checked. If it's less than 100% it will be
+                scrolled. Pass a function to <code>scrollMode</code> only
+                scrolls the element if it's not visible. Anything less than a
+                100% visible will trigger a scroll.
+              </p>
+              <p>
+                Pass a function to&nbsp;
+                <code>scrollMode</code> to allow differen't visibility ratios or
+                other custom logic.
+              </p>
+            </div>
+            <div className="column">
+              <IfNeeded />
+            </div>
+          </div>
+        </Section>
+        <Section>
+          <div className="columns">
+            <div className="column is-one-third">
+              <h3 className="title">Scroll alignment</h3>
+              <p className="subtitle">
+                When deciding if scrolling is needed the visibility of the
+                target element is checked. If it's less than 100% it will be
+                scrolled. Pass a function to <code>scrollMode</code> only
+                scrolls the element if it's not visible. Anything less than a
+                100% visible will trigger a scroll.
+              </p>
+              <p>
+                Pass a function to&nbsp;
+                <code>scrollMode</code> to allow differen't visibility ratios or
+                other custom logic.
+              </p>
+            </div>
+            <div className="column">
+              <Alignment />
+            </div>
+          </div>
+        </Section>
+        <Section>
+          <div className="columns">
+            <div className="column" />
+            <div className="column" />
+            <div className="column">
+              <Iframe>
+                <ScrollContainer>
+                  test<h2 className="is-size-4">Minimal</h2>
+                </ScrollContainer>
+              </Iframe>
+            </div>
+          </div>
+        </Section>
         <Section>
           <List id={1} items={this.props.items} options={{ duration: 300 }} />
           <List

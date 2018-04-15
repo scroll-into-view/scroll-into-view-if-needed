@@ -1,6 +1,5 @@
 import { Component } from 'react'
 import Head from 'next/head'
-import systemFontStack from 'system-font-stack'
 import Section from '../components/Section'
 import Footer from '../components/Footer'
 import List from '../components/List'

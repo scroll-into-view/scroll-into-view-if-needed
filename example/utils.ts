@@ -1,6 +1,11 @@
 import parse from 'prettier-browser/src/parser-babylon'
 import { printAstToDoc } from 'prettier-browser/src/printer'
 import { printDocToString } from 'prettier-browser/src/doc-printer'
+//import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+
+export const dimensions = {
+  maxWidth: 1220,
+}
 
 export function format(code) {
   let opts = {
@@ -24,4 +29,19 @@ export function format(code) {
   const doc = printAstToDoc(ast, opts)
   const result = printDocToString(doc, opts)
   return result.formatted
+}
+
+export function scrollIntoView(target, options) {
+  console.log({
+    behavior: 'smooth',
+    inline: 'center',
+    block: 'center',
+    ...options,
+  })
+  target.scrollIntoView({
+    behavior: 'smooth',
+    inline: 'nearest',
+    block: 'center',
+    ...options,
+  })
 }

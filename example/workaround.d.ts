@@ -11,6 +11,6 @@ declare module 'react' {
 // add support for setting a global
 declare global {
   interface Window {
-    scrollIntoViewIfNeeded: any
+    scrollIntoView: any
   }
 }
