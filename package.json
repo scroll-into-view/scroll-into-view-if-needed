@@ -38,6 +38,7 @@
     "babel-plugin-styled-components": "^1.1.5",
     "babel-preset-env": "^1.2.1",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "bulma": "0.7.0",
     "concurrently": "^3.5.0",
     "cypress": "2.1.0",
     "husky": "^0.14.3",
