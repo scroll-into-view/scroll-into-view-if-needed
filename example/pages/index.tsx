@@ -1,19 +1,27 @@
 import { Component } from 'react'
-import Head from 'next/head'
 import systemFontStack from 'system-font-stack'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import Section from '../components/Section'
 import Footer from '../components/Footer'
 import List from '../components/List'
 import { Text as TextIcon, Chrome } from '../components/Icons'
 
-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+//import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+
+injectGlobal`
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: ${systemFontStack};
+  }
+`
 
 export interface IndexPageProps {
   items: number[]
 }
-
-const { description } = require('scroll-into-view-if-needed/package.json')
 
 const Hero = styled.header`
   display: flex;
@@ -53,40 +61,70 @@ const ScrollWrapper = styled.div`
   }
 `
 
+/*
+
+Show 3 boxes up top
+
+Examples:
+* simple 9 x 9 grid that showcases the "if-needed" mode, by making "5" never scroll
+* showcase the "center" mode compared to normal scrollIntoView
+* and show the "smooth" behavior mode
+
+
+
+* normal counter grid
+  simple version that do not animate
+  or ios like contacts list
+* color parallax grid
+  introduce animation
+* metro grid
+* calendar, clicking on a month scrolls the month into view (based on what-she-said) 
+* slack like "jump to message"?
+
+*/
+
+const IntroductionSection = styled(Section)`
+  margin-top: 10px;
+`
+
 export default class IndexPage extends Component<IndexPageProps> {
   static defaultProps = {
     items: Array.apply(null, { length: 100 }).map(Number.call, Number),
   }
 
+  scrollToRef = null
+
   componentDidMount() {
-    setTimeout(
-      () => scrollIntoViewIfNeeded(document.getElementById('IF-NEEDED'), {}),
-      /*document
-          .getElementById('IF-NEEDED')
-          .scrollIntoView({ behavior: 'smooth', block: 'nearest' })*/ 3000
-    )
+    setTimeout(() => {
+      //scrollIntoViewIfNeeded(document.getElementById('IF-NEEDED'), {})
+      ///*
+      this.scrollToRef.scrollIntoView({ behavior: 'smooth', block: 'end' })
+      //*/
+    }, 100)
   }
 
   render() {
     return (
       <div>
-        <Head>
-          <title>{description}</title>
-        </Head>
-
         <Hero>
           <Wrapper>
             <Chrome />
             <ScrollWrapper>
-              <TextIcon />
+              <TextIcon innerRef={node => (this.scrollToRef = node)} />
             </ScrollWrapper>
           </Wrapper>
         </Hero>
-        <Section>
-          <h1 style={{ display: 'inline-block', width: '440px' }}>
-            {description}
-          </h1>
-        </Section>
+        <IntroductionSection className="columns">
+          <div className="column">
+            <h2 className="is-size-4">Ponyfill</h2>
+          </div>
+          <div className="column">
+            <h2 className="is-size-4">Minimal</h2>
+          </div>
+          <div className="column">
+            <h2 className="is-size-4">Customizable</h2>
+          </div>
+        </IntroductionSection>
         <Section>
           <List id={1} items={this.props.items} options={{ duration: 300 }} />
           <List
@@ -110,16 +148,6 @@ export default class IndexPage extends Component<IndexPageProps> {
           <List id={4} items={this.props.items} />
         </Section>
         <Footer />
-        <style jsx global>{`
-          html,
-          body {
-            margin: 0;
-            padding: 0;
-          }
-          body {
-            font-family: ${systemFontStack};
-          }
-        `}</style>
       </div>
     )
   }

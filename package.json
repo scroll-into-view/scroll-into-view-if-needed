@@ -1,6 +1,6 @@
 {
   "name": "scroll-into-view-if-needed",
-  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed and behavior: smooth",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth amd block: center",
   "author": "Stian Didriksen",
   "license": "MIT",
   "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
@@ -29,10 +29,10 @@
     "tsc:main": "tsc -p ."
   },
   "devDependencies": {
-    "@types/next": "^2.4.5",
-    "@types/prettier": "^1.8.0",
-    "@types/react": "^16.0.20",
-    "@types/react-dom": "^16.0.2",
+    "@types/next": "2.4.9",
+    "@types/prettier": "1.12.0",
+    "@types/react": "16.3.10",
+    "@types/react-dom": "16.0.5",
     "babel-cli": "^6.23.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-styled-components": "^1.1.5",
@@ -43,12 +43,12 @@
     "cypress": "2.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
-    "next": "^4.1.4",
-    "prettier": "^1.8.2",
+    "next": "5.1.0",
+    "prettier": "1.12.0",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
     "prettier-package-json": "^1.4.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "16.3.1",
+    "react-dom": "16.3.1",
     "release-relief": "^1.0.1",
     "rimraf": "^2.6.1",
     "rollup": "^0.50.0",
@@ -58,7 +58,7 @@
     "scroll-into-view-if-needed": "link:.",
     "styled-components": "^2.1.0",
     "system-font-stack": "^1.0.4",
-    "typescript": "^2.8.1",
+    "typescript": "2.8.1",
     "uglifyjs-webpack-plugin": "^1.0.1"
   },
   "keywords": [
@@ -102,6 +102,9 @@
     "verifyConditions": "condition-circle",
     "generateNotes": "semantic-release-tamia/generateNotes",
     "verifyRelease": "semantic-release-tamia/verifyRelease"
+  },
+  "resolutions": {
+    "@types/react": "16.3.10"
   },
   "sideEffects": false,
   "typings": "dist/index.d.ts"

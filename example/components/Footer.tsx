@@ -1,11 +1,12 @@
+import styled from 'styled-components'
+
+const Wrapper = styled.footer`
+  margin-top: 20px;
+  text-align: center;
+`
+
 export default () => (
-  <footer>
-    <style jsx>{`
-      footer {
-        margin-top: 20px;
-        text-align: center;
-      }
-    `}</style>
+  <Wrapper>
     <a href="https://github.com/stipsan/scroll-into-view-if-needed">GitHub</a>
-  </footer>
+  </Wrapper>
 )

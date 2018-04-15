@@ -1,15 +1,17 @@
+import * as React from 'react'
 import styled from 'styled-components'
 
-export const Text = () => (
-  <svg
+const Svg = styled.svg``
+
+export const Text = props => (
+  <Svg
     width="744px"
     height="454px"
     viewBox="0 0 744 454"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
+    {...props}
   >
-    <desc>Created with Sketch.</desc>
-    <defs />
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="innerHTML-Copy">
         <rect
@@ -43,12 +45,12 @@ export const Text = () => (
         />
       </g>
     </g>
-  </svg>
+  </Svg>
 )
 
 const ChromeWrapper = styled.div`
-      position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 `
 export const Chrome = () => (
