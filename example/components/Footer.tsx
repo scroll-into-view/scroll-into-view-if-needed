@@ -6,7 +6,7 @@ const Wrapper = styled.footer`
 `
 
 export default () => (
-  <Wrapper>
+  <Wrapper className="footer">
     <a href="https://github.com/stipsan/scroll-into-view-if-needed">GitHub</a>
   </Wrapper>
 )

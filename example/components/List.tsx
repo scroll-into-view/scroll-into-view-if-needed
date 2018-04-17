@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { format } from '../utils'
-import { Options } from 'scroll-into-view-if-needed'
+import scrollIntoViewIfNeeded, { Options } from 'scroll-into-view-if-needed'
 import { scrollIntoView } from '../utils'
 
 export interface ListProps {
@@ -23,7 +23,7 @@ declare var process: Process
 
 // enable devtools to play with the api
 if (process.browser) {
-  window.scrollIntoView = scrollIntoView
+  window.scrollIntoView = scrollIntoViewIfNeeded
 }
 
 export default class List extends Component<ListProps, ListState> {

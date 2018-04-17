@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react'
+import { Component } from 'react'
 import systemFontStack from 'system-font-stack'
 import styled, { injectGlobal } from 'styled-components'
 import Section from '../components/Section'
@@ -169,9 +169,7 @@ export default class IndexPage extends Component<IndexPageProps> {
               <p className="subtitle">
                 When deciding if scrolling is needed the visibility of the
                 target element is checked. If it's less than 100% it will be
-                scrolled. Pass a function to <code>scrollMode</code> only
-                scrolls the element if it's not visible. Anything less than a
-                100% visible will trigger a scroll.
+                scrolled.
               </p>
               <p>
                 Pass a function to&nbsp;
@@ -189,57 +187,16 @@ export default class IndexPage extends Component<IndexPageProps> {
             <div className="column is-one-third">
               <h3 className="title">Scroll alignment</h3>
               <p className="subtitle">
-                When deciding if scrolling is needed the visibility of the
-                target element is checked. If it's less than 100% it will be
-                scrolled. Pass a function to <code>scrollMode</code> only
-                scrolls the element if it's not visible. Anything less than a
-                100% visible will trigger a scroll.
+                The options <code>block</code> and <code>inline</code> each have one of <code>"start"</code>, <code>"center"</code>, <code>"end"</code> or <code>"nearest"</code>.
+                The default values are <code>block: "center"</code> and <code>inline: "nearest"</code>.
+                </p><p>Usually <code>block</code> aligns vertically, while <code>inline</code> aligns horizontally. It depends on the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode">writing-mode</a>.
               </p>
-              <p>
-                Pass a function to&nbsp;
-                <code>scrollMode</code> to allow differen't visibility ratios or
-                other custom logic.
-              </p>
+             
             </div>
             <div className="column">
               <Alignment />
             </div>
           </div>
-        </Section>
-        <Section>
-          <div className="columns">
-            <div className="column" />
-            <div className="column" />
-            <div className="column">
-              <Iframe>
-                <ScrollContainer>
-                  test<h2 className="is-size-4">Minimal</h2>
-                </ScrollContainer>
-              </Iframe>
-            </div>
-          </div>
-        </Section>
-        <Section>
-          <List id={1} items={this.props.items} options={{ duration: 300 }} />
-          <List
-            boundary
-            id={2}
-            items={this.props.items}
-            options={{ centerIfNeeded: true, duration: 300 }}
-          />
-          <List
-            id={3}
-            items={this.props.items}
-            options={{
-              offset: {
-                top: -3,
-                right: 9,
-                bottom: 9,
-                left: -3,
-              },
-            }}
-          />
-          <List id={4} items={this.props.items} />
         </Section>
         <Footer />
       </div>
