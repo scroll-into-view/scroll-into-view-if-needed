@@ -4,5 +4,7 @@ docs/**/*
 node_modules
 cypress/videos
 cypress/screenshots
-
+/*.js
+/typings/*.d.ts
+!rollup.config.js
 test/bundle.js

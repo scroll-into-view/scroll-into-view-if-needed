@@ -5,7 +5,8 @@
     "moduleResolution": "node",
     "declaration": true,
     "rootDir": "src",
-    "outDir": "./dist",
+    "outDir": ".",
+    "declarationDir": "typings",
     "removeComments": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -13,7 +14,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "alwaysStrict": true,
-    "lib": ["es2015.promise"]
+    "lib": ["es5", "es2015.promise", "dom"]
   },
   "exclude": ["node_modules", "dist", "example", "**/*-test.ts"]
 }
