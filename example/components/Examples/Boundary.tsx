@@ -7,7 +7,8 @@ import { scrollIntoView } from '../../utils'
 const SIZE = 200
 
 const ScrollContainer = styled.div`
-  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1);
+  border: 1px solid hsla(0, 0%, 0%, 0.05);
+  box-sizing: content-box;
   background: hsla(0, 0%, 0%, 0.05);
   height: ${SIZE}px;
   overflow: scroll;
@@ -51,7 +52,7 @@ class Boundary extends PureComponent {
     })
 
   render() {
-    const { selectedBehavior, boundary, block } = this.state
+    const { boundary, block } = this.state
 
     return (
       <Fragment>
@@ -108,28 +109,14 @@ class Boundary extends PureComponent {
         </div>
         <div className="field is-grouped">
           <div className="control">
-            Boundary:&nbsp;
-            <label className="radio">
-              <input
-                type="radio"
-                name="boundary"
+            <label className="checkbox">
+              Boundary:&nbsp;<input
+                type="checkbox"
                 checked={boundary}
                 onChange={event =>
                   this.setState({ boundary: event.target.checked })
                 }
               />
-              &nbsp;Yes
-            </label>
-            <label className="radio">
-              <input
-                type="radio"
-                name="boundary"
-                checked={!boundary}
-                onChange={event =>
-                  this.setState({ boundary: !event.target.checked })
-                }
-              />
-              &nbsp;No
             </label>
           </div>
           <div className="control">

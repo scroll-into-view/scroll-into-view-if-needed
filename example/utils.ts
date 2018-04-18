@@ -2,6 +2,7 @@ import parse from 'prettier-browser/src/parser-babylon'
 import { printAstToDoc } from 'prettier-browser/src/printer'
 import { printDocToString } from 'prettier-browser/src/doc-printer'
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+import smoothScrollIntoViewIfNeeded from 'scroll-into-view-if-needed/smooth'
 
 export const dimensions = {
   maxWidth: 1220,
@@ -31,7 +32,12 @@ export function format(code) {
   return result.formatted
 }
 
-export function scrollIntoView(target, defaults: {nativeSmooth?: boolean, [key: string]: any} = { nativeSmooth: true}) {
+export function scrollIntoView(
+  target,
+  defaults: { nativeSmooth?: boolean; [key: string]: any } = {
+    nativeSmooth: true,
+  }
+) {
   const { nativeSmooth = true, ...rest } = defaults
   const options = {
     behavior: 'auto',
@@ -39,10 +45,16 @@ export function scrollIntoView(target, defaults: {nativeSmooth?: boolean, [key: 
     block: 'center',
     ...rest,
   }
+  // return target.scrollIntoView(options)
   nativeSmooth
     ? // this will use the default export
-      target.scrollIntoView(options)
-    : // while this will use /smooth
       scrollIntoViewIfNeeded(target, options as any)
-  console.log(nativeSmooth ? 'native scrolled' : 'pony scrolled', target, 'with', options)
+    : // while this will use /smooth
+      smoothScrollIntoViewIfNeeded(target, options as any)
+  console.log(
+    nativeSmooth ? 'native scrolled' : 'pony scrolled',
+    target,
+    'with',
+    options
+  )
 }

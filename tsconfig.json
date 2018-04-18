@@ -12,7 +12,8 @@
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "lib": ["es2015.promise"]
   },
   "exclude": ["node_modules", "dist", "example", "**/*-test.ts"]
 }

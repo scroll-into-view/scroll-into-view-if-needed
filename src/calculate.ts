@@ -1,3 +1,17 @@
+/**
+ * v2 rewrite
+ * 1. first identify all scrolling boxes all the way up to outermost, take boundary into account if specified.
+ * 2. boundary should be null by default so that we can scroll parent frames.
+ * 3. calculate required scrolling by looping scrolling boxes from innermost to outermost.
+ * 4. each calculation should be an array of [scrollingbox: Element, block: number, inline: number]
+ * 5. Default implementation: calculations.forEach(([el, scrollTop, scrollLeft]) => {
+ *     el.scrollTop = scrollTop
+ *     el.scrollLeft = scrollLeft
+ *  })
+ * 6. ponyfill applies it as an animation, if using default smooth scroll behavior without ponyfill we can see if it's possible to use Element.scroll(),
+ * do a simple check for it up top so that if it does not exist and somebody tries to use "smooth" outside ponyfill we can throw a warning
+ */
+
 export interface Offset {
   top?: number
   right?: number

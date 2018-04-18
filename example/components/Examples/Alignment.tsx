@@ -6,7 +6,8 @@ import { scrollIntoView } from '../../utils'
 const SIZE = 200
 
 const ScrollContainer = styled.div`
-  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1);
+  box-sizing: content-box;
+  border: 1px solid hsla(0, 0%, 0%, 0.05);
   background: hsla(0, 0%, 0%, 0.05);
   height: ${SIZE}px;
   overflow: scroll;
@@ -18,6 +19,7 @@ const layerPadding = SIZE / 12
 const ScrollLayer = styled.div.attrs({
   className: 'columns is-multiline is-mobile is-gapless',
 })`
+  box-sizing: border-box;
   padding: ${layerPadding}px;
   height: ${layerSize}px;
   width: ${layerSize}px;
@@ -59,102 +61,97 @@ class Alignment extends PureComponent {
       behavior,
       scrollMode,
       block: this.state.block,
-      inline: this.state.inline
+      inline: this.state.inline,
     })
 
   render() {
-
-    const {block, inline} = this.state
+    const { block, inline } = this.state
 
     return (
       <Fragment>
-      <div className="columns">
-        <div className="column"><Code>{`
+        <div className="columns">
+          <div className="column">
+            <Code>{`
         import scrollIntoView from 'scroll-into-view-if-needed';
 
         const nodes = document.querySelectorAll('#example-alignment > *')
 
-        scrollIntoView(nodes[5], ${JSON.stringify({ scrollMode, behavior, block, inline })})
-        `}</Code></div>
-        <div className="column is-narrow has-text-centered">
-        
-          <div className="buttons is-centered">
-          <span className="label">Scroll to:&nbsp;</span>
-          <a
-  className="button is-small"
-            onClick={() => this.doScroll(this.items[1])
-              
-            }
-          >
-            1
-          </a>
-          <a
-          className="button is-small"
-            onClick={() =>
-              this.doScroll(this.items[5])
-            }
-          >
-            5
-          </a>
-          <a
-          className="button is-small"
-            onClick={() =>
-              this.doScroll(this.items[9])
-            }
-          >
-            9
-          </a>
+        scrollIntoView(nodes[5], ${JSON.stringify({
+          scrollMode,
+          behavior,
+          block,
+          inline,
+        })})
+        `}</Code>
           </div>
-          
-          <ScrollContainer>
-            <ScrollLayer id="example-alignment">
-              {range.map(number => (
-                <Item key={number}>
-                  <Tile innerRef={node => (this.items[number] = node)}>
-                    {number}
-                  </Tile>
-                </Item>
-              ))}
-            </ScrollLayer>
-          </ScrollContainer>
+          <div className="column is-narrow has-text-centered">
+            <div className="buttons is-centered">
+              <span className="label">Scroll to:&nbsp;</span>
+              <a
+                className="button is-small"
+                onClick={() => this.doScroll(this.items[1])}
+              >
+                1
+              </a>
+              <a
+                className="button is-small"
+                onClick={() => this.doScroll(this.items[5])}
+              >
+                5
+              </a>
+              <a
+                className="button is-small"
+                onClick={() => this.doScroll(this.items[9])}
+              >
+                9
+              </a>
+            </div>
+
+            <ScrollContainer>
+              <ScrollLayer id="example-alignment">
+                {range.map(number => (
+                  <Item key={number}>
+                    <Tile innerRef={node => (this.items[number] = node)}>
+                      {number}
+                    </Tile>
+                  </Item>
+                ))}
+              </ScrollLayer>
+            </ScrollContainer>
+          </div>
         </div>
-      </div>
-      <div className="field is-grouped">
-      <div className="control">
-      
+        <div className="field is-grouped">
+          <div className="control">
             Block:&nbsp;
             <div className="select is-small">
-            <select
-              onChange={event =>
-                this.setState({ block: event.target.value })
-              }
-              value={block}
-            >
-              <option value="start">Start</option>
-              <option value="center">Center</option>
-              <option value="end">End</option>
-              <option value="nearest">Nearest</option>
-            </select>
+              <select
+                onChange={event => this.setState({ block: event.target.value })}
+                value={block}
+              >
+                <option value="start">Start</option>
+                <option value="center">Center</option>
+                <option value="end">End</option>
+                <option value="nearest">Nearest</option>
+              </select>
             </div>
-          
           </div>
           <div className="control">
             Inline:&nbsp;
             <div className="select is-small">
-            <select
-              onChange={event =>
-                this.setState({ inline: event.target.value })
-              }
-              value={inline}
-            >
-              <option value="start">Start</option>
-              <option value="center">Center</option>
-              <option value="end">End</option>
-              <option value="nearest">Nearest</option>
-            </select>
+              <select
+                onChange={event =>
+                  this.setState({ inline: event.target.value })
+                }
+                value={inline}
+              >
+                <option value="start">Start</option>
+                <option value="center">Center</option>
+                <option value="end">End</option>
+                <option value="nearest">Nearest</option>
+              </select>
             </div>
-      </div>
-      </div>
+          </div>
+        </div>
       </Fragment>
     )
   }

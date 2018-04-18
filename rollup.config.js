@@ -2,9 +2,15 @@ import commonjs from 'rollup-plugin-commonjs'
 import nodeResolve from 'rollup-plugin-node-resolve'
 const globals = {}
 
-export default {
-  entry: 'dist/index.js',
-  dest: 'dist/bundle.js',
+const onwarn = message => {
+  const suppressed = ['UNRESOLVED_IMPORT', 'THIS_IS_UNDEFINED']
+
+  if (!suppressed.find(code => message.code === code)) {
+    return console.warn(message.message)
+  }
+}
+
+const shared = {
   format: 'umd',
   moduleName: 'scrollIntoViewIfNeeded',
   exports: 'default',
@@ -27,10 +33,15 @@ export default {
   ],
 }
 
-function onwarn(message) {
-  const suppressed = ['UNRESOLVED_IMPORT', 'THIS_IS_UNDEFINED']
-
-  if (!suppressed.find(code => message.code === code)) {
-    return console.warn(message.message)
-  }
-}
+export default [
+  {
+    entry: 'dist/index.js',
+    dest: 'dist/bundle.js',
+    ...shared,
+  },
+  {
+    entry: 'dist/smooth.js',
+    dest: 'smooth/bundle.js',
+    ...shared,
+  },
+]

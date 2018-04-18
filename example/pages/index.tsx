@@ -7,8 +7,11 @@ import { Text as TextIcon, Chrome } from '../components/Icons'
 import IfNeeded from '../components/Examples/IfNeeded'
 import Alignment from '../components/Examples/Alignment'
 import Boundary from '../components/Examples/Boundary'
+import OverrideBehavior from '../components/Examples/OverrideBehavior'
 
 import { scrollIntoView } from '../utils'
+
+// @TODO last demo should be a horizontal slider with overflow hidden, 3 links and use custom behavior to animate background color with the scrolling
 
 injectGlobal`
   html,
@@ -252,7 +255,7 @@ export default class IndexPage extends Component<IndexPageProps> {
               </p>
             </div>
             <div className="column">
-              <Alignment />
+              <OverrideBehavior />
             </div>
           </div>
         </Section>
