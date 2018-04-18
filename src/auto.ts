@@ -1,1 +1,1 @@
-export const instant = () => {}
+export const auto = () => {}

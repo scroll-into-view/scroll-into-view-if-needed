@@ -10,7 +10,9 @@ const onwarn = message => {
   }
 }
 
-const shared = {
+export default {
+  entry: 'index.js',
+  dest: 'dist/bundle.js',
   format: 'umd',
   moduleName: 'scrollIntoViewIfNeeded',
   exports: 'default',
@@ -32,16 +34,3 @@ const shared = {
     }),
   ],
 }
-
-export default [
-  {
-    entry: 'dist/index.js',
-    dest: 'dist/bundle.js',
-    ...shared,
-  },
-  {
-    entry: 'dist/smooth.js',
-    dest: 'smooth/bundle.js',
-    ...shared,
-  },
-]

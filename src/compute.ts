@@ -24,5 +24,5 @@ export const compute = (maybeElement: any, options: Options) => {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
   let target = maybeElement as HTMLElement
-  console.log(target)
+  console.log(target, options)
 }

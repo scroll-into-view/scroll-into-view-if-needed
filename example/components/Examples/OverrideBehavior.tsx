@@ -76,8 +76,6 @@ class Boundary extends PureComponent {
   }
   component
   render() {
-    const { inline } = this.state
-
     return (
       <Fragment>
         <div className="columns">

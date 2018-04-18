@@ -64,7 +64,7 @@ class IfNeeded extends PureComponent {
           <div className="column">
             <Code>{`
         import scrollIntoView from 'scroll-into-view-if-needed${
-          selectedBehavior === 'smooth-ponyfill' ? '/smooth' : ''
+          selectedBehavior === 'smooth-ponyfill' ? '/ponyfill' : ''
         }';
 
         const nodes = document.querySelectorAll('#example-if-needed > *')

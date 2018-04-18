@@ -144,7 +144,7 @@ export default class IndexPage extends Component<IndexPageProps> {
               essentials is included by default. Using{' '}
               <code>behavior: "smooth"</code> thus only works in browsers that
               implement it, unless you opt-in to polyfilling it by importing
-              from <code>scroll-into-view-if-needed/smooth</code>.
+              from <code>scroll-into-view-if-needed/ponyfill</code>.
             </p>
           </div>
           <div className="column">
@@ -250,7 +250,7 @@ export default class IndexPage extends Component<IndexPageProps> {
               <p>
                 Just like <code>behavior</code> this is not in the spec. Also
                 note that you shouldn't combine this option with{' '}
-                <code>scroll-into-view-if-needed/smooth</code> or you'll bloat
+                <code>scroll-into-view-if-needed/ponyfill</code> or you'll bloat
                 your bundle for no reason.
               </p>
             </div>
