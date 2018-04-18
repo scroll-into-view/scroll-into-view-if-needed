@@ -5,13 +5,6 @@
 // https://drafts.csswg.org/cssom-view/
 
 // For a definition on what is "block flow direction" exactly, check this: https://drafts.csswg.org/css-writing-modes-4/#block-flow-direction
-export type BlockFlowDirection =
-  | 'cache-first'
-  | 'cache-and-network'
-  | 'network-only'
-  | 'cache-only'
-  | 'no-cache'
-  | 'standby'
 
 export interface Options {
   block: ScrollLogicalPosition

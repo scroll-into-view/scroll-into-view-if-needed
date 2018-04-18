@@ -47,7 +47,7 @@
     "next": "5.1.0",
     "prettier": "1.12.0",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
-    "prettier-package-json": "^1.4.0",
+    "prettier-package-json": "1.5.1",
     "react": "16.3.1",
     "react-codemirror2": "4.2.1",
     "react-dom": "16.3.1",
@@ -99,7 +99,7 @@
       "git add"
     ]
   },
-  "module": "dist/index.js",
+  "module": "index.js",
   "release": {
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
     "verifyConditions": "condition-circle",
@@ -110,5 +110,5 @@
     "@types/react": "16.3.11"
   },
   "sideEffects": false,
-  "typings": "dist/index.d.ts"
+  "typings": "typings/index.d.ts"
 }
