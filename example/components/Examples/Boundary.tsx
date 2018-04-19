@@ -37,18 +37,21 @@ const range = ['😁', '🤯', '😅', '🤔', '🤩', '🤨', '😲']
 class Boundary extends PureComponent {
   state = {
     selectedBehavior: 'smooth',
-    block: 'end',
+    // @TODO replace type casting with Options from scroll-into-view-if-needed
+    block: 'end' as 'end',
     boundary: true,
-    scrollMode: 'if-needed',
+    scrollMode: 'if-needed' as 'if-needed',
     position: ['nearest', 'center'],
   }
 
+  frameBoundary: Element
   items: { [key: string]: HTMLElement } = {}
 
   doScroll = target =>
     scrollIntoView(target, {
       behavior: 'smooth',
       block: this.state.block,
+      boundary: this.state.boundary ? this.frameBoundary : undefined,
     })
 
   render() {
@@ -96,7 +99,7 @@ class Boundary extends PureComponent {
                 {range[5]}
               </a>
             </div>
-            <ScrollContainer>
+            <ScrollContainer innerRef={node => (this.frameBoundary = node)}>
               <ScrollLayer id="example-boundary">
                 {range.map(name => (
                   <Item key={name} innerRef={node => (this.items[name] = node)}>

@@ -66,28 +66,6 @@ const ScrollWrapper = styled.div`
   }
 `
 
-/*
-
-Show 3 boxes up top
-
-Examples:
-* simple 9 x 9 grid that showcases the "if-needed" mode, by making "5" never scroll
-* showcase the "center" mode compared to normal scrollIntoView
-* and show the "smooth" behavior mode
-
-
-
-* normal counter grid
-  simple version that do not animate
-  or ios like contacts list
-* color parallax grid
-  introduce animation
-* metro grid
-* calendar, clicking on a month scrolls the month into view (based on what-she-said) 
-* slack like "jump to message"?
-
-*/
-
 const IntroductionSection = styled(Section)`
   margin-top: 10px;
 `
@@ -97,19 +75,29 @@ export default class IndexPage extends Component<IndexPageProps> {
     items: Array.apply(null, { length: 100 }).map(Number.call, Number),
   }
 
-  scrollToRef = null
+  scrollToBoundary: HTMLElement
+  scrollToRef: SVGElement
 
   componentDidMount() {
     setTimeout(() => {
-      scrollIntoView(this.scrollToRef, { behavior: 'smooth', block: 'end' })
-    }, 100)
+      console.log(
+        'this.scrollToRef',
+        this.scrollToRef,
+        this.scrollToRef.parentNode
+      )
+      scrollIntoView(this.scrollToRef, {
+        behavior: 'smooth',
+        block: 'end',
+        boundary: this.scrollToBoundary,
+      })
+    }, 3000)
   }
 
   render() {
     return (
       <div>
         <Hero>
-          <Wrapper>
+          <Wrapper innerRef={node => (this.scrollToBoundary = node)}>
             <Chrome />
             <ScrollWrapper>
               <TextIcon innerRef={node => (this.scrollToRef = node)} />

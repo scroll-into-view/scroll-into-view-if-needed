@@ -50,8 +50,8 @@ const range = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 class Alignment extends PureComponent {
   state = {
-    block: 'center',
-    inline: 'center',
+    block: 'center' as 'center',
+    inline: 'center' as 'center',
   }
 
   items: HTMLElement[] = []

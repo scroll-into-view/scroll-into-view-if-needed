@@ -1,35 +1,17 @@
 // Compute what scrolling needs to be done on required scrolling boxes for target to be in view
-
-// The type names here are named after the spec to make it easier to find more information around what they mean:
-// To reduce churn and reduce things that need be maintained things from the official TS DOM library is used here
-// https://drafts.csswg.org/cssom-view/
-
-// For a definition on what is "block flow direction" exactly, check this: https://drafts.csswg.org/css-writing-modes-4/#block-flow-direction
-
-export interface Options extends ScrollIntoViewOptions {
-  // This new option is tracked in this PR, which is the most likely candidate at the time: https://github.com/w3c/csswg-drafts/pull/1805
-  scrollMode?: 'always' | 'if-needed'
-  // This option is not in any spec and specific to this library
-  boundary?: Element
-}
-
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
-
 /**
  * indicates if an element has scrollable space in the provided axis
  */
-function hasScrollableSpace(el, axis: 'Y' | 'X') {
+function hasScrollableSpace(el, axis) {
   if (axis === 'Y') {
     return el.clientHeight < el.scrollHeight
   }
-
   if (axis === 'X') {
     return el.clientWidth < el.scrollWidth
   }
-
   return false
 }
-
 /**
  * indicates if an element has a scrollable overflow property in the axis
  * @method canOverflow
@@ -39,10 +21,8 @@ function hasScrollableSpace(el, axis: 'Y' | 'X') {
  */
 function canOverflow(el, axis) {
   var overflowValue = getComputedStyle(el, null)['overflow' + axis]
-
   return overflowValue === 'auto' || overflowValue === 'scroll'
 }
-
 /**
  * indicates if an element can be scrolled in either axis
  * @method isScrollable
@@ -53,37 +33,29 @@ function canOverflow(el, axis) {
 function isScrollable(el) {
   var isScrollableY = hasScrollableSpace(el, 'Y') && canOverflow(el, 'Y')
   var isScrollableX = hasScrollableSpace(el, 'X') && canOverflow(el, 'X')
-
   return isScrollableY || isScrollableX
 }
-
-export const compute = (maybeElement: Element, options: Options = {}) => {
+export const compute = (maybeElement, options = {}) => {
   const { scrollMode = 'always', block = 'center', boundary } = options
-
   if (!isElement(maybeElement)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
-
   let target = maybeElement
   let targetRect = target.getBoundingClientRect()
-
   // Collect parents
-  const frames: HTMLElement[] = []
+  const frames = []
   let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
     if (isScrollable(parent)) {
       frames.push(parent)
     }
-
     // next tick
     target = parent
   }
-
   // These values mutate as we loop through and generate scroll coordinates
   let offsetTop = 0
   let targetBlock
   let targetInline
-
   // Collect new scroll positions
   return frames.map(frame => {
     const frameRect = frame.getBoundingClientRect()
@@ -137,7 +109,6 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
           blockScroll = frame.scrollTop + offset
           targetBlock += frame.scrollTop - blockScroll
         }
-
         if (offset < 0) {
           console.log(
             targetBlock,
@@ -166,7 +137,6 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         }
       }
     }
-
     // @TODO fix hardcoding of inline => left/X
     const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left
     return [frame, blockScroll, inlineScroll]

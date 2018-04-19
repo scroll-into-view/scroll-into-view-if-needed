@@ -36,9 +36,9 @@ const range = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
 class IfNeeded extends PureComponent {
   state = {
-    selectedBehavior: 'smooth',
-    scrollMode: 'if-needed',
-    position: ['nearest', 'center'],
+    selectedBehavior: 'smooth' as 'smooth',
+    scrollMode: 'if-needed' as 'if-needed',
+    position: ['nearest' as 'nearest', 'center' as 'center'],
   }
 
   items: { [key: string]: HTMLElement } = {}
@@ -46,8 +46,8 @@ class IfNeeded extends PureComponent {
   doScroll = target =>
     scrollIntoView(target, {
       behavior:
-        this.state.selectedBehavior === 'smooth-ponyfill'
-          ? 'smooth'
+        (this.state.selectedBehavior as 'smooth-ponyfill') === 'smooth-ponyfill'
+          ? ('smooth' as 'smooth')
           : this.state.selectedBehavior,
       scrollMode: this.state.scrollMode,
       nativeSmooth: this.state.selectedBehavior === 'smooth',
@@ -56,7 +56,9 @@ class IfNeeded extends PureComponent {
   render() {
     const { selectedBehavior, scrollMode } = this.state
     const behavior =
-      selectedBehavior === 'smooth-ponyfill' ? 'smooth' : selectedBehavior
+      (selectedBehavior as 'smooth-ponyfill') === 'smooth-ponyfill'
+        ? 'smooth'
+        : selectedBehavior
 
     return (
       <Fragment>
@@ -64,7 +66,9 @@ class IfNeeded extends PureComponent {
           <div className="column">
             <Code>{`
         import scrollIntoView from 'scroll-into-view-if-needed${
-          selectedBehavior === 'smooth-ponyfill' ? '/ponyfill' : ''
+          (selectedBehavior as 'smooth-ponyfill') === 'smooth-ponyfill'
+            ? '/ponyfill'
+            : ''
         }';
 
         const nodes = document.querySelectorAll('#example-if-needed > *')
