@@ -92,10 +92,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     //*/
     let blockScroll
     let inlineScroll
-    // @TODO temp, need to follow steps outlined in spec
-    if (true) {
-      blockScroll = frame.scrollTop + targetRect.top - frameRect.top
-    }
+
     // @TODO fix the if else pyramid nightmare
     // block: 'start' is complete
     if (block === 'start') {
@@ -117,7 +114,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
       }
     }
     // block: 'center' is complete
-    if (block === 'center') {
+    if (block === 'center' || block === 'nearest') {
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
