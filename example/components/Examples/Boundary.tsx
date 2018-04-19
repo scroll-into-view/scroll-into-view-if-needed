@@ -38,8 +38,8 @@ class Boundary extends PureComponent {
   state = {
     selectedBehavior: 'smooth',
     // @TODO replace type casting with Options from scroll-into-view-if-needed
-    block: 'start' as 'start',
-    boundary: false,
+    block: 'end' as 'end',
+    boundary: true,
     scrollMode: 'if-needed' as 'if-needed',
     position: ['nearest', 'center'],
   }
