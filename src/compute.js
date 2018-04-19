@@ -1,17 +1,16 @@
 // Compute what scrolling needs to be done on required scrolling boxes for target to be in view
-const isElement = el =>
-  el != null && typeof el == 'object' && el.nodeType === 1;
+const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
 /**
  * indicates if an element has scrollable space in the provided axis
  */
 function hasScrollableSpace(el, axis) {
   if (axis === 'Y') {
-    return el.clientHeight < el.scrollHeight;
+    return el.clientHeight < el.scrollHeight
   }
   if (axis === 'X') {
-    return el.clientWidth < el.scrollWidth;
+    return el.clientWidth < el.scrollWidth
   }
-  return false;
+  return false
 }
 /**
  * indicates if an element has a scrollable overflow property in the axis
@@ -21,8 +20,8 @@ function hasScrollableSpace(el, axis) {
  * @returns {Boolean}
  */
 function canOverflow(el, axis) {
-  var overflowValue = getComputedStyle(el, null)['overflow' + axis];
-  return overflowValue === 'auto' || overflowValue === 'scroll';
+  var overflowValue = getComputedStyle(el, null)['overflow' + axis]
+  return overflowValue === 'auto' || overflowValue === 'scroll'
 }
 /**
  * indicates if an element can be scrolled in either axis
@@ -32,78 +31,87 @@ function canOverflow(el, axis) {
  * @returns {Boolean}
  */
 function isScrollable(el) {
-  var isScrollableY = hasScrollableSpace(el, 'Y') && canOverflow(el, 'Y');
-  var isScrollableX = hasScrollableSpace(el, 'X') && canOverflow(el, 'X');
-  return isScrollableY || isScrollableX;
+  var isScrollableY = hasScrollableSpace(el, 'Y') && canOverflow(el, 'Y')
+  var isScrollableX = hasScrollableSpace(el, 'X') && canOverflow(el, 'X')
+  return isScrollableY || isScrollableX
 }
 export const compute = (maybeElement, options = {}) => {
-  const { scrollMode = 'always', block = 'center', boundary } = options;
+  const { scrollMode = 'always', block = 'center', boundary } = options
   if (!isElement(maybeElement)) {
-    throw new Error('Element is required in scrollIntoViewIfNeeded');
+    throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
-  let target = maybeElement;
-  let targetRect = target.getBoundingClientRect();
+  let target = maybeElement
+  let targetRect = target.getBoundingClientRect()
   // Collect parents
-  const frames = [];
-  let parent;
+  const frames = []
+  let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
     if (isScrollable(parent)) {
-      frames.push(parent);
+      frames.push(parent)
     }
     // next tick
-    target = parent;
+    target = parent
   }
   // These values mutate as we loop through and generate scroll coordinates
-  let offsetTop = 0;
-  let targetBlock;
-  let targetInline;
+  let offsetTop = 0
+  let targetBlock
+  let targetInline
   // Collect new scroll positions
   return frames.map(frame => {
-    const frameRect = frame.getBoundingClientRect();
+    const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
-    console.warn(
-      'test',
-      frame,
-      frame.scrollTop,
-      targetRect.top,
-      frameRect.top,
-      frame.scrollTop + targetRect.top - frameRect.top
-    );
-    let blockScroll;
+    /*
+        console.warn(
+          'test',
+          frame,
+          frame.scrollTop,
+          targetRect.top,
+          frameRect.top,
+          frame.scrollTop + targetRect.top - frameRect.top
+        );
+        //*/
+    let blockScroll
     // @TODO temp, need to follow steps outlined in spec
     if (true) {
-      blockScroll = frame.scrollTop + targetRect.top - frameRect.top;
+      blockScroll = frame.scrollTop + targetRect.top - frameRect.top
     }
     // @TODO fix the if else pyramid nightmare
+    // block: 'start' is complete
     if (block === 'start') {
       if (!targetBlock) {
-        targetBlock = targetRect.top;
+        targetBlock = targetRect.top
       }
       if (document.documentElement === frame) {
-        blockScroll = frame.scrollTop + targetBlock;
+        blockScroll = frame.scrollTop + targetBlock
       } else {
-        blockScroll = frame.scrollTop + targetBlock - frameRect.top;
-        targetBlock -= blockScroll - frame.scrollTop;
+        // prevent scrollTop values that overflow the scrollHeight
+        const offset = Math.min(
+          targetBlock - frameRect.top,
+          frame.scrollHeight - frame.clientHeight - frame.scrollTop
+        )
+        blockScroll = frame.scrollTop + offset
+        targetBlock -= blockScroll - frame.scrollTop
+        console.log('targetBlock', targetBlock)
       }
     }
+    // block: 'end' is complete
     if (block === 'end') {
       if (!targetBlock) {
-        targetBlock = targetRect.bottom;
+        targetBlock = targetRect.bottom
       }
       if (document.documentElement === frame) {
-        console.log('frameRect.height', frameRect.height);
-        blockScroll = frame.scrollTop + targetBlock - frame.clientHeight;
+        blockScroll = frame.scrollTop + targetBlock - frame.clientHeight
       } else {
         // prevent negative scrollTop values
         const offset =
-          0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop);
-        blockScroll = frame.scrollTop + offset;
+          0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
+        blockScroll = frame.scrollTop + offset
         // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock += frame.scrollTop - blockScroll;
+        targetBlock += frame.scrollTop - blockScroll
       }
     }
     // @TODO fix hardcoding of inline => left/X
-    const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left;
-    return [frame, blockScroll, inlineScroll];
-  });
-};
+    const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left
+    return [frame, blockScroll, inlineScroll]
+  })
+}
