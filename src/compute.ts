@@ -227,7 +227,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
   let targetInline
 
   // Collect new scroll positions
-  return frames.map(frame => {
+  const computations = frames.map(frame => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
     /*
@@ -417,4 +417,6 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     //const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left
     return [frame, blockScroll, inlineScroll]
   })
+
+  return computations as [[Element, number, number]]
 }

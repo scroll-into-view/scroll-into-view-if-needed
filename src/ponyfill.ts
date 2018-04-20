@@ -14,11 +14,6 @@ function ease(k) {
   return 0.5 * (1 - Math.cos(Math.PI * k))
 }
 
-function scrollElement(x, y) {
-  this.scrollLeft = x
-  this.scrollTop = y
-}
-
 function step(context) {
   var time = now()
   var value
@@ -51,7 +46,7 @@ function smoothScroll(el, x, y, cb) {
   var startTime = now()
 
   // define scroll context
-  if (el === document.body) {
+  if (el === document.body || el === document.documentElement) {
     scrollable = window
     startX = window.scrollX || window.pageXOffset
     startY = window.scrollY || window.pageYOffset
