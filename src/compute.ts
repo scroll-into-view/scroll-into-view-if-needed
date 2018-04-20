@@ -44,6 +44,157 @@ function isScrollable(el) {
   return isScrollableY || isScrollableX
 }
 
+// Find out which edge to align against when logical scroll position is "nearest"
+const alignNearestBlock = (
+  targetStart: number,
+  targetSize: number,
+  frame: HTMLElement,
+  frameRect: ClientRect | DOMRect
+) => {
+  // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
+  const targetEnd = targetStart + targetSize
+
+  // Is not hidden by the starting edge (if block then this is typically frameRect.top)
+  if (targetStart >= frameRect.top && targetEnd <= frameRect.bottom) {
+    console.warn('bail', targetStart, frameRect.top)
+    return 0
+  }
+
+  console.warn(
+    'top',
+    'target',
+    targetStart,
+    'frame',
+    frameRect.top,
+    frameRect.width,
+    frame.clientWidth,
+    targetStart < frameRect.top
+  )
+  console.warn(
+    'bottom',
+    'target',
+    targetEnd,
+    'frame',
+    frameRect.bottom,
+    targetEnd > frameRect.bottom
+  )
+
+  if (
+    (targetStart < frameRect.top && targetSize < frame.clientHeight) ||
+    (targetEnd > frameRect.bottom && targetSize > frame.clientHeight)
+  ) {
+    console.log('align to start', targetStart, frameRect.top)
+    return targetStart - frameRect.top
+  }
+
+  if (
+    (targetEnd > frameRect.bottom && targetSize < frame.clientHeight) ||
+    (targetStart < frameRect.top && targetSize > frame.clientHeight)
+  ) {
+    console.log('align to end', targetStart, frameRect.top)
+    return targetStart - frameRect.top
+  }
+
+  console.log(
+    'alignToNearest',
+    'targetStart',
+    targetStart,
+    'should be 33 if clicking on 1',
+    Math.min(
+      targetStart,
+      Math.max(targetEnd - frame.clientHeight, frame.scrollTop)
+    )
+  )
+
+  // start
+  // Math.min(targetStart - frameRect.top, frame.scrollHeight - frame.clientHeight - frame.scrollTop)
+
+  // center
+  // Math.min(frameRect.top + frameRect.height / 2 - targetEnd / 2, frame.scrollTop)
+
+  // end
+  // Math.min(frameRect.bottom - targetEnd, frame.scrollTop)
+
+  console.error('failure?', targetStart, frame)
+
+  return 0
+}
+// Find out the
+const alignNearestInline = (
+  targetStart: number,
+  targetSize: number,
+  frame: HTMLElement,
+  frameRect: ClientRect | DOMRect
+) => {
+  // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
+  const targetEnd = targetStart + targetSize
+
+  // Is not hidden by the starting edge (if block then this is typically frameRect.top)
+  if (targetStart >= frameRect.left && targetEnd <= frameRect.right) {
+    console.warn('bail', targetStart, frameRect.left)
+    return 0
+  }
+
+  console.warn(
+    'left',
+    'target',
+    targetStart,
+    'frame',
+    frameRect.left,
+    frameRect.width,
+    frame.clientWidth,
+    targetStart < frameRect.left
+  )
+  console.warn(
+    'right',
+    'target',
+    targetEnd,
+    'frame',
+    frameRect.right,
+    targetEnd > frameRect.right
+  )
+
+  if (
+    (targetStart < frameRect.left && targetSize < frame.clientWidth) ||
+    (targetEnd > frameRect.right && targetSize > frame.clientWidth)
+  ) {
+    console.log('align to start', targetStart, frameRect.left)
+    return targetStart - frameRect.left
+  }
+
+  if (
+    (targetEnd > frameRect.right && targetSize < frame.clientWidth) ||
+    (targetStart < frameRect.left && targetSize > frame.clientWidth)
+  ) {
+    console.log('align to end', targetStart, frameRect.left)
+    return targetStart - frameRect.left
+  }
+
+  console.log(
+    'alignToNearest',
+    'targetStart',
+    targetStart,
+    'should be 33 if clicking on 1',
+    Math.min(
+      targetStart,
+      Math.max(targetEnd - frame.clientWidth, frame.scrollTop)
+    )
+  )
+
+  // start
+  // Math.min(targetStart - frameRect.left, frame.scrollHeight - frame.clientWidth - frame.scrollTop)
+
+  // center
+  // Math.min(frameRect.left + frameRect.height / 2 - targetEnd / 2, frame.scrollTop)
+
+  // end
+  // Math.min(frameRect.right - targetEnd, frame.scrollTop)
+
+  console.error('failure?', targetStart, frame)
+
+  return 0
+}
+
 export const compute = (maybeElement: Element, options: Options = {}) => {
   const {
     scrollMode = 'always',
@@ -72,7 +223,6 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
   }
 
   // These values mutate as we loop through and generate scroll coordinates
-  let offsetTop = 0
   let targetBlock
   let targetInline
 
@@ -110,11 +260,11 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         blockScroll = frame.scrollTop + offset
 
         targetBlock -= blockScroll - frame.scrollTop
-        console.log('targetBlock', targetBlock)
+        console.log('targetBlock', targetBlock, 'scrollMode', scrollMode)
       }
     }
     // block: 'center' is complete
-    if (block === 'center' || block === 'nearest') {
+    if (block === 'center') {
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
@@ -153,6 +303,31 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         targetBlock += frame.scrollTop - blockScroll
       }
     }
+    // block: 'nearest' is complete
+    if (block === 'nearest') {
+      if (!targetBlock) {
+        targetBlock = targetRect.top
+      }
+
+      if (document.documentElement === frame) {
+        // @TODO silently ignore for now
+        // blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
+      } else {
+        // prevent negative scrollTop values
+
+        const offset = alignNearestBlock(
+          targetBlock,
+          targetRect.height,
+          frame,
+          frameRect
+        )
+
+        blockScroll = frame.scrollTop + offset
+
+        // Cache the offset so that parent frames can scroll this into view correctly
+        targetBlock -= offset
+      }
+    }
 
     // inline: 'start' is complete
     if (inline === 'start') {
@@ -174,7 +349,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
       }
     }
     // inline: 'center' is complete
-    if (inline === 'center' || inline === 'nearest') {
+    if (inline === 'center') {
       if (!targetInline) {
         targetInline = targetRect.left + targetRect.width / 2
       }
@@ -211,6 +386,31 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
 
         // Cache the offset so that parent frames can scroll this into view correctly
         targetInline += frame.scrollLeft - inlineScroll
+      }
+    }
+    // block: 'nearest' is complete
+    if (inline === 'nearest') {
+      if (!targetInline) {
+        targetInline = targetRect.left
+      }
+
+      if (document.documentElement === frame) {
+        // @TODO silently ignore for now
+        // blockScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
+      } else {
+        // prevent negative scrollTop values
+
+        const offset = alignNearestInline(
+          targetInline,
+          targetRect.width,
+          frame,
+          frameRect
+        )
+
+        blockScroll = frame.scrollLeft + offset
+
+        // Cache the offset so that parent frames can scroll this into view correctly
+        targetInline -= offset
       }
     }
 
