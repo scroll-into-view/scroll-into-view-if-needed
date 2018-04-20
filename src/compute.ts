@@ -244,7 +244,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     let inlineScroll
 
     // @TODO fix the if else pyramid nightmare
-    // block: 'start' is complete
+
     if (block === 'start') {
       if (!targetBlock) {
         targetBlock = targetRect.top
@@ -263,7 +263,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         console.log('targetBlock', targetBlock, 'scrollMode', scrollMode)
       }
     }
-    // block: 'center' is complete
+
     if (block === 'center') {
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
@@ -285,7 +285,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         targetBlock += frame.scrollTop - blockScroll
       }
     }
-    // block: 'end' is complete
+
     if (block === 'end') {
       if (!targetBlock) {
         targetBlock = targetRect.bottom
@@ -303,7 +303,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         targetBlock += frame.scrollTop - blockScroll
       }
     }
-    // block: 'nearest' is complete
+
     if (block === 'nearest') {
       if (!targetBlock) {
         targetBlock = targetRect.top
@@ -314,14 +314,14 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         // blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
-
+        console.group('alignNearestBlock')
         const offset = alignNearestBlock(
           targetBlock,
           targetRect.height,
           frame,
           frameRect
         )
-
+        console.groupEnd()
         blockScroll = frame.scrollTop + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
@@ -329,7 +329,6 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
       }
     }
 
-    // inline: 'start' is complete
     if (inline === 'start') {
       if (!targetInline) {
         targetInline = targetRect.left
@@ -345,10 +344,9 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         inlineScroll = frame.scrollLeft + offset
 
         targetInline -= inlineScroll - frame.scrollLeft
-        console.log('targetInline', targetInline)
       }
     }
-    // inline: 'center' is complete
+
     if (inline === 'center') {
       if (!targetInline) {
         targetInline = targetRect.left + targetRect.width / 2
@@ -370,7 +368,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         targetInline += frame.scrollLeft - inlineScroll
       }
     }
-    // inline: 'end' is complete
+
     if (inline === 'end') {
       if (!targetInline) {
         targetInline = targetRect.bottom
@@ -388,7 +386,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
         targetInline += frame.scrollLeft - inlineScroll
       }
     }
-    // block: 'nearest' is complete
+
     if (inline === 'nearest') {
       if (!targetInline) {
         targetInline = targetRect.left
@@ -396,10 +394,10 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
 
       if (document.documentElement === frame) {
         // @TODO silently ignore for now
-        // blockScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
+        // inlineScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
-
+        console.group('alignNearestInline')
         const offset = alignNearestInline(
           targetInline,
           targetRect.width,
@@ -407,7 +405,8 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
           frameRect
         )
 
-        blockScroll = frame.scrollLeft + offset
+        console.groupEnd()
+        inlineScroll = frame.scrollLeft + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
         targetInline -= offset
