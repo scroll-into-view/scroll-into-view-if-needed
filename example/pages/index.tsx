@@ -1,15 +1,15 @@
-import { Component } from 'react';
-import systemFontStack from 'system-font-stack';
-import styled, { injectGlobal } from 'styled-components';
-import Section from '../components/Section';
-import Footer from '../components/Footer';
-import { Text as TextIcon, Chrome } from '../components/Icons';
-import IfNeeded from '../components/Examples/IfNeeded';
-import Alignment from '../components/Examples/Alignment';
-import Boundary from '../components/Examples/Boundary';
-import OverrideBehavior from '../components/Examples/OverrideBehavior';
+import { Component } from 'react'
+import systemFontStack from 'system-font-stack'
+import styled, { injectGlobal } from 'styled-components'
+import Section from '../components/Section'
+import Footer from '../components/Footer'
+import { Text as TextIcon, Chrome } from '../components/Icons'
+import IfNeeded from '../components/Examples/IfNeeded'
+import Alignment from '../components/Examples/Alignment'
+import Boundary from '../components/Examples/Boundary'
+import OverrideBehavior from '../components/Examples/OverrideBehavior'
 
-import { scrollIntoView } from '../utils';
+import { scrollIntoView } from '../utils'
 
 // @TODO last demo should be a horizontal slider with overflow hidden, 3 links and use custom behavior to animate background color with the scrolling
 
@@ -22,10 +22,10 @@ injectGlobal`
   body {
     font-family: ${systemFontStack};
   }
-`;
+`
 
 export interface IndexPageProps {
-  items: number[];
+  items: number[]
 }
 
 const Hero = styled.header`
@@ -36,7 +36,7 @@ const Hero = styled.header`
   justify-content: center;
   background-image: linear-gradient(168deg, #b3fbf7 0%, #ff0561 100%);
   height: 100vh;
-`;
+`
 const Wrapper = styled.div`
   position: relative;
   max-height: 389px;
@@ -50,7 +50,7 @@ const Wrapper = styled.div`
     z-index: 1;
     position: relative;
   }
-`;
+`
 const ScrollWrapper = styled.div`
   position: absolute;
   overflow: scroll;
@@ -64,20 +64,20 @@ const ScrollWrapper = styled.div`
     opacity: 1;
     mix-blend-mode: overlay;
   }
-`;
+`
 
 const IntroductionSection = styled(Section)`
   margin-top: 10px;
-`;
+`
 
 export default class IndexPage extends Component<IndexPageProps> {
   static defaultProps = {
     items: Array.apply(null, { length: 100 }).map(Number.call, Number),
-  };
+  }
 
-  scrollToBoundary: HTMLElement;
-  scrollToRef: SVGElement;
-  timeout: any;
+  scrollToBoundary: HTMLElement
+  scrollToRef: SVGElement
+  timeout: any
 
   componentDidMount() {
     this.timeout = setTimeout(() => {
@@ -85,12 +85,12 @@ export default class IndexPage extends Component<IndexPageProps> {
         behavior: 'smooth',
         block: 'end',
         boundary: this.scrollToBoundary,
-      });
-    }, 3000);
+      })
+    }, 1500)
   }
 
   componentWIllUnmount() {
-    clearTimeout(this.timeout);
+    clearTimeout(this.timeout)
   }
 
   render() {
@@ -249,6 +249,6 @@ export default class IndexPage extends Component<IndexPageProps> {
         </Section>
         <Footer />
       </div>
-    );
+    )
   }
 }

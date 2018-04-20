@@ -240,8 +240,8 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
       frame.scrollTop + targetRect.top - frameRect.top
     );
     //*/
-    let blockScroll
-    let inlineScroll
+    let blockScroll = 0
+    let inlineScroll = 0
 
     // @TODO fix the if else pyramid nightmare
 
