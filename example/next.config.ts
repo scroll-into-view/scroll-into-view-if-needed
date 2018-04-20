@@ -3,7 +3,6 @@ module.exports = {
   exportPathMap() {
     return {
       '/': { page: '/' },
-      '/tests': { page: '/tests' },
     }
   },
   // because of prettier-browser we need an uglifyjs that supports es6 syntax
