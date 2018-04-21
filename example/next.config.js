@@ -1,4 +1,5 @@
-module.exports = {
+const withTypescript = require('@zeit/next-typescript')
+module.exports = withTypescript({
   assetPrefix: process.env.DOCS ? require('../package.json').homepage : '',
   exportPathMap() {
     return {
@@ -23,4 +24,7 @@ module.exports = {
 
     return config
   },
-}
+  typescriptLoaderOptions: {
+    transpileOnly: false,
+  },
+})
