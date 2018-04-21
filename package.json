@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "precommit": "lint-staged",
+    "predeploy:website": "cd packages/scroll-into-view-if-needed && yarn build",
     "deploy:website": "cd website && yarn deploy"
   },
   "devDependencies": {
