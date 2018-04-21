@@ -3,6 +3,13 @@
   "name": "scroll-into-view-if-needed-website",
   "description": "Deployed by Netlify",
   "version": "0.0.0-dev",
+  "scripts": {
+    "build": "next build",
+    "dev": "next",
+    "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
+    "start": "next start",
+    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
+  },
   "dependencies": {
     "@types/next": "2.4.9",
     "@types/prettier": "1.12.0",
