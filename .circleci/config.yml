@@ -31,7 +31,6 @@ jobs:
       - run: echo TODO
       - save-cache: *save-cache
 
-      - run: yarn semantic-release || true
   Semantic Release:
     docker:
       - image: circleci/node:8
@@ -48,4 +47,6 @@ workflows:
   Build and Deploy:
     jobs:
       - Website
-      - Semantic Release
+      - Semantic Release:
+          requires:
+            - Website
