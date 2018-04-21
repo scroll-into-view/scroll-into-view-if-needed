@@ -167,7 +167,7 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/node@*", "@types/node@9.6.6":
+"@types/node@*":
   version "9.6.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.6.tgz#439b91f9caf3983cad2eef1e11f6bedcbf9431d2"
 
@@ -182,15 +182,9 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react@*", "@types/react@16.3.11":
   version "16.3.12"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.12.tgz#68d9146f3e9797e38ffbf22f7ed1dde91a2cfd2e"
-  dependencies:
-    csstype "^2.2.0"
-
-"@types/react@16.3.11":
-  version "16.3.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.11.tgz#345a17f1c96420f10b9f0dc696c31091ff9d66ea"
   dependencies:
     csstype "^2.2.0"
 
@@ -6611,7 +6605,7 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-release-relief@^1.0.1:
+release-relief@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/release-relief/-/release-relief-1.0.1.tgz#7bdd16b2ddb16975823500e98f9266b727861019"
   dependencies:
