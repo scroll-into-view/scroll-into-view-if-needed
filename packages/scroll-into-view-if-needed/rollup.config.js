@@ -2,12 +2,20 @@ import commonjs from 'rollup-plugin-commonjs'
 import nodeResolve from 'rollup-plugin-node-resolve'
 const globals = {}
 
+const onwarn = message => {
+  const suppressed = ['UNRESOLVED_IMPORT', 'THIS_IS_UNDEFINED']
+
+  if (!suppressed.find(code => message.code === code)) {
+    return console.warn(message.message)
+  }
+}
+
 export default {
-  entry: 'dist/index.js',
+  entry: 'index.js',
   dest: 'dist/bundle.js',
   format: 'umd',
   moduleName: 'scrollIntoViewIfNeeded',
-  exports: 'named',
+  exports: 'default',
   globals,
   onwarn,
   plugins: [
@@ -25,12 +33,4 @@ export default {
       sourceMap: false, // Default: true
     }),
   ],
-}
-
-function onwarn(message) {
-  const suppressed = ['UNRESOLVED_IMPORT', 'THIS_IS_UNDEFINED']
-
-  if (!suppressed.find(code => message.code === code)) {
-    return console.warn(message.message)
-  }
 }

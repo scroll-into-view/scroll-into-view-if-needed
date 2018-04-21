@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "rootDir": "src",
+    "outDir": ".",
+    "declarationDir": "typings",
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "alwaysStrict": true,
+    "lib": ["es5", "es2015.promise", "dom"]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "example",
+    "**/*-test.ts",
+    "typings",
+    "cypress"
+  ]
+}

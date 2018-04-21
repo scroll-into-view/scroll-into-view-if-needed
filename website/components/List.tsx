@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import { format } from '../utils'
 import scrollIntoViewIfNeeded, { Options } from 'scroll-into-view-if-needed'
+import { scrollIntoView } from '../utils'
 
 export interface ListProps {
   items: number[]
@@ -22,7 +23,7 @@ declare var process: Process
 
 // enable devtools to play with the api
 if (process.browser) {
-  window.scrollIntoViewIfNeeded = scrollIntoViewIfNeeded
+  window.scrollIntoView = scrollIntoViewIfNeeded
 }
 
 export default class List extends Component<ListProps, ListState> {
@@ -42,7 +43,7 @@ export default class List extends Component<ListProps, ListState> {
       () => {
         const boundary = this.getBoundary()
         const options = this.props.options || {}
-        scrollIntoViewIfNeeded(this._node.children[this.state.selected], {
+        scrollIntoView(this._node.children[this.state.selected], {
           ...options,
           boundary: boundary ? document.getElementById(boundary) : undefined,
         })
