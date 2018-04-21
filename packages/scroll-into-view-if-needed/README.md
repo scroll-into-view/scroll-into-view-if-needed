@@ -28,15 +28,19 @@ const node = document.getElementById('hero')
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
 // same behavior as Element.scrollIntoViewIfNeeded()
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
-scrollIntoView(node, {scrollMode: 'if-needed', block: "nearest", inline: "nearest"})
+scrollIntoView(node, {
+  scrollMode: 'if-needed',
+  block: 'nearest',
+  inline: 'nearest',
+})
 
 // same behavior as Element.scrollIntoViewIfNeeded(true) without the "IfNeeded" behavior
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
-scrollIntoView(node, {block: "center", inline: "center"})
+scrollIntoView(node, { block: 'center', inline: 'center' })
 // scrollMode is "always" by default
 
 // smooth scroll if the browser supports it and if the element isn't visible
-scrollIntoView(node, {behavior: 'smooth', scrollMode: 'if-needed'})
+scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 ```
 
 ### Ponyfill smooth scrolling
@@ -48,44 +52,49 @@ import scrollIntoView from 'scroll-into-view-if-needed/ponyfill'
 const node = document.getElementById('hero')
 
 // If all you want is for all your users to have stuff smooth scroll into view
-scrollIntoView(node, {behavior: 'smooth'})
+scrollIntoView(node, { behavior: 'smooth' })
 
 // combine it with any of the other options
-scrollIntoView(node, {behavior: 'smooth', scrollMode: 'if-needed', block: 'nearest', inline: 'nearest'})
+scrollIntoView(node, {
+  behavior: 'smooth',
+  scrollMode: 'if-needed',
+  block: 'nearest',
+  inline: 'nearest',
+})
 
 // It returns a promise that is resolved when the animation is finished
 const sequence = async () => {
   const slide = document.getElementById('slide-3')
   // First smooth scroll to hero
-  await scrollIntoView(node, {behavior: 'smooth'})
+  await scrollIntoView(node, { behavior: 'smooth' })
   // Then we scroll to a slide in a slideshow
-  return scrollIntoView(slide, {behavior: 'smooth'})
+  return scrollIntoView(slide, { behavior: 'smooth' })
 }
 ```
 
 ### Custom scrolling transition
 
-If the default smooth scrolling ponyfill isn't the duration or easing you want,  you can provide your own scrolling logic by giving `behavior` a callback.
+If the default smooth scrolling ponyfill isn't the duration or easing you want, you can provide your own scrolling logic by giving `behavior` a callback.
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
 const node = document.getElementById('hero')
 
 scrollIntoView(node, {
-// Your scroll actions will always be an array, even if there is nothing to scroll
+  // Your scroll actions will always be an array, even if there is nothing to scroll
   behavior: scrollActions =>
     // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
     scrollActions.forEach(([el, scrollTop, scrollLeft]) => {
       // implement the scroll anyway you want
-      el.scrollTop = scrollTop;
-      el.scrollLeft = scrollLeft;
+      el.scrollTop = scrollTop
+      el.scrollLeft = scrollLeft
 
       // If you need the relative scroll coordinates, for things like window.scrollBy style logic, just do the math
       const offsetTop = el.scrollTop - scrollTop
-      const offsetLeft = el.scrollLeft - scrollLeft;
+      const offsetLeft = el.scrollLeft - scrollLeft
     }),
-    // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
-});
+  // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
+})
 ```
 
 ## More documentation will be added (hang in there)
