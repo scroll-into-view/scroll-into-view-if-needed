@@ -9,7 +9,14 @@
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
   "version": "2.0.0-dev",
-  "main": "dist/bundle.js",
+  "main": "index.js",
+  "files": [
+    "auto.js",
+    "compute.js",
+    "es",
+    "ponyfill.js",
+    "umd"
+  ],
   "scripts": {
     "prebuild": "yarn clean",
     "build": "yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
@@ -62,7 +69,12 @@
     "smoothscroll",
     "typescript"
   ],
-  "module": "index.js",
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
+  },
+  "module": "es/index.js",
   "release": {
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
     "verifyConditions": "condition-circle",
