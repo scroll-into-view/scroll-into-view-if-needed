@@ -1,8 +1,8 @@
 {
   "name": "scroll-into-view-if-needed",
   "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth amd block: center",
-  "author": "Stian Didriksen",
   "license": "MIT",
+  "author": "Stian Didriksen",
   "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
   "repository": {
     "type": "git",
@@ -59,9 +59,9 @@
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^2.0.0",
     "scroll-into-view-if-needed": "link:.",
-    "styled-components": "3.2.5",
-    "system-font-stack": "^1.0.4",
-    "typescript": "2.8.1",
+    "styled-components": "3.2.6",
+    "system-font-stack": "1.0.5",
+    "typescript": "2.8.3",
     "uglifyjs-webpack-plugin": "^1.0.1"
   },
   "keywords": [
