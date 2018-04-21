@@ -9,3 +9,4 @@ cypress/screenshots
 /typings/*.d.ts
 !rollup.config.js
 test/bundle.js
+junit/test-results.xml
