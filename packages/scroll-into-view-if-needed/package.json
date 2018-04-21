@@ -28,7 +28,7 @@
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "tsc"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "invariant": "2.2.4",

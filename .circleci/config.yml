@@ -6,6 +6,10 @@ aliases:
       # Fallback in case checksum fails
       - v3-dependencies-{{ .Branch }}-
 
+  - &install
+    # --frozen-lockfile ensures the build will fail if the lockfile needs to be updated
+    run: yarn --no-progress --frozen-lockfile
+
   - &save-cache
     paths:
       - node_modules
@@ -18,6 +22,30 @@ aliases:
 
 version: 2
 jobs:
+  Typecheck:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore-cache: *restore-cache
+      - *install
+      - run:
+          command: yarn typecheck
+          working_directory: packages/scroll-into-view-if-needed
+      - save-cache: *save-cache
+
+  Build:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore-cache: *restore-cache
+      - *install
+      - run:
+          command: yarn build
+          working_directory: packages/scroll-into-view-if-needed
+      - save-cache: *save-cache
+
   Website:
     docker:
       - image: circleci/node:carbon-browsers
@@ -28,6 +56,7 @@ jobs:
           command: node --version && npm --version && npx --version && yarn --version
       - *cypress-dependencies-install
       - restore-cache: *restore-cache
+      - *install
       - run: echo TODO
       - save-cache: *save-cache
 
@@ -37,6 +66,7 @@ jobs:
     steps:
       - checkout
       - restore-cache: *restore-cache
+      - *install
       - run: echo TODO build
       - save-cache: *save-cache
       - run: yarn semantic-release
@@ -46,6 +76,8 @@ workflows:
   version: 2
   Build and Deploy:
     jobs:
+      - Typecheck
+      - Build
       - Website
       - Semantic Release:
           requires:
