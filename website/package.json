@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "name": "scroll-into-view-if-needed-website",
+  "description": "Deployed by Netlify",
+  "version": "0.0.0-dev",
+  "scripts": {
+    "build": "next build",
+    "predeploy": "yarn build",
+    "deploy": "next export",
+    "dev": "next",
+    "start": "next start",
+    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
+  },
+  "dependencies": {
+    "@types/next": "2.4.9",
+    "@types/node": "9.6.6",
+    "@types/prettier": "1.12.0",
+    "@types/react": "16.3.12",
+    "@types/react-dom": "16.0.5",
+    "@zeit/next-typescript": "0.1.1",
+    "bulma": "0.7.0",
+    "codemirror": "5.36.0",
+    "fork-ts-checker-webpack-plugin": "0.4.1",
+    "next": "5.1.0",
+    "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
+    "react": "16.3.1",
+    "react-codemirror2": "4.2.1",
+    "react-dom": "16.3.1",
+    "react-syntax-highlighter": "7.0.2",
+    "scroll-into-view-if-needed": "2.0.0-dev",
+    "styled-components": "3.2.6",
+    "system-font-stack": "1.0.5",
+    "typescript": "2.8.3",
+    "uglifyjs-webpack-plugin": "^1.0.1"
+  },
+  "devDependencies": {
+    "@cypress/browserify-preprocessor": "1.0.2",
+    "browserify": "16.2.0",
+    "cypress": "2.1.0",
+    "tsify": "4.0.0"
+  }
+}

@@ -8,70 +8,56 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "0.0.0-dev",
-  "main": "dist/bundle.js",
+  "version": "2.0.0-dev",
+  "main": "index.js",
+  "files": [
+    "auto.js",
+    "compute.js",
+    "es",
+    "ponyfill.js",
+    "umd"
+  ],
   "scripts": {
     "prebuild": "yarn clean",
-    "build": "yarn build:tsc && yarn build:rollup",
-    "build:example": "next build example",
-    "build:rollup": "rollup -c",
-    "build:tsc": "yarn tsc:main",
-    "clean": "rimraf dist",
-    "precommit": "lint-staged",
-    "predev": "yarn build",
-    "dev": "concurrently \"yarn tsc:main --watch\" \"yarn build:rollup -w\" \"next dev example\"",
-    "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
+    "build": "yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
+    "build:cjs": "BABEL_ENV=cjs babel src -d . --extensions '.ts'",
+    "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
+    "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
+    "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
+    "clean": "rimraf 'umd' 'es'",
+    "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "prestart": "yarn build",
-    "start": "next start example",
-    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'",
-    "tsc:main": "tsc -p ."
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "invariant": "2.2.4",
+    "warning": "3.0.0"
   },
   "devDependencies": {
-    "@cypress/browserify-preprocessor": "1.0.2",
-    "@types/next": "2.4.9",
-    "@types/node": "9.6.6",
-    "@types/prettier": "1.12.0",
-    "@types/react": "16.3.11",
-    "@types/react-dom": "16.0.5",
-    "@zeit/next-typescript": "0.1.1",
-    "babel-cli": "^6.23.0",
+    "@babel/cli": "7.0.0-beta.44",
+    "@babel/core": "7.0.0-beta.44",
+    "@babel/plugin-external-helpers": "7.0.0-beta.44",
+    "@babel/preset-env": "7.0.0-beta.44",
+    "@babel/preset-typescript": "7.0.0-beta.44",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-styled-components": "1.5.1",
-    "babel-preset-env": "^1.2.1",
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "browserify": "16.2.0",
-    "bulma": "0.7.0",
-    "codemirror": "5.36.0",
     "concurrently": "^3.5.0",
-    "cypress": "2.1.0",
-    "husky": "^0.14.3",
-    "lint-staged": "^4.3.0",
-    "next": "5.1.0",
-    "prettier": "1.12.0",
-    "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
-    "prettier-package-json": "1.5.1",
-    "react": "16.3.1",
-    "react-codemirror2": "4.2.1",
-    "react-dom": "16.3.1",
-    "react-syntax-highlighter": "7.0.2",
-    "release-relief": "^1.0.1",
+    "release-relief": "1.0.1",
     "rimraf": "^2.6.1",
-    "rollup": "^0.50.0",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "scroll-into-view-if-needed": "link:.",
-    "styled-components": "3.2.6",
-    "system-font-stack": "1.0.5",
-    "tsify": "4.0.0",
-    "typescript": "2.8.3",
-    "uglifyjs-webpack-plugin": "^1.0.1"
+    "rollup": "0.58.1",
+    "rollup-plugin-babel": "4.0.0-beta.4",
+    "rollup-plugin-commonjs": "9.1.0",
+    "rollup-plugin-node-resolve": "3.3.0",
+    "rollup-plugin-replace": "2.0.0",
+    "rollup-plugin-uglify": "3.0.0",
+    "typescript": "2.8.3"
   },
   "keywords": [
     "behavior-smooth",
     "if-needed",
+    "polyfill",
     "ponyfill",
     "scroll",
     "scroll-into-view",
@@ -82,37 +68,17 @@
     "smoothscroll",
     "typescript"
   ],
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.md": [
-      "prettier --write",
-      "git add"
-    ],
-    "package.json": [
-      "prettier-package-json --write",
-      "git add"
+  "browserify": {
+    "transform": [
+      "loose-envify"
     ]
   },
-  "module": "index.js",
+  "module": "es/index.js",
   "release": {
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",
     "verifyConditions": "condition-circle",
     "generateNotes": "semantic-release-tamia/generateNotes",
     "verifyRelease": "semantic-release-tamia/verifyRelease"
-  },
-  "resolutions": {
-    "@types/react": "16.3.11"
   },
   "sideEffects": false,
   "typings": "typings/index.d.ts"

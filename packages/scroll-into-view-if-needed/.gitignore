@@ -1,0 +1,6 @@
+dist
+es
+typings
+umd
+/*.js
+!.babelrc.js
