@@ -20,27 +20,26 @@
   "scripts": {
     "prebuild": "yarn clean",
     "build": "yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
-    "build:cjs": "BABEL_ENV=cjs babel src -d .",
-    "build:es": "BABEL_ENV=es babel modules -d es",
-    "build:rollup": "rollup -c",
-    "build:tsc": "tsc -p .",
+    "build:cjs": "BABEL_ENV=cjs babel src -d . --extensions '.ts'",
+    "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
     "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
     "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
     "clean": "rimraf 'umd' 'es'",
-    "dev": "concurrently 'yarn tsc --watch' 'yarn build:cjs --watch'",
+    "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test": "tsc"
   },
   "dependencies": {
     "invariant": "2.2.4",
     "warning": "3.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "7.0.0-beta.44",
     "@babel/core": "7.0.0-beta.44",
     "@babel/plugin-external-helpers": "7.0.0-beta.44",
     "@babel/preset-env": "7.0.0-beta.44",
     "@babel/preset-typescript": "7.0.0-beta.44",
-    "babel-cli": "^6.23.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-styled-components": "1.5.1",

@@ -1,3 +1,5 @@
 dist
+es
 typings
+umd
 /*.js
