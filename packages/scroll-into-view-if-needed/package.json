@@ -17,7 +17,6 @@
     "build:rollup": "rollup -c",
     "build:tsc": "yarn tsc:main",
     "clean": "rimraf dist",
-    "precommit": "lint-staged",
     "predev": "yarn build",
     "dev": "concurrently \"yarn tsc:main --watch\" \"yarn build:rollup -w\" \"next dev example\"",
     "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
@@ -46,12 +45,8 @@
     "codemirror": "5.36.0",
     "concurrently": "^3.5.0",
     "cypress": "2.1.0",
-    "husky": "^0.14.3",
-    "lint-staged": "^4.3.0",
     "next": "5.1.0",
-    "prettier": "1.12.0",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
-    "prettier-package-json": "1.5.1",
     "react": "16.3.1",
     "react-codemirror2": "4.2.1",
     "react-dom": "16.3.1",
@@ -81,28 +76,6 @@
     "smoothscroll",
     "typescript"
   ],
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.md": [
-      "prettier --write",
-      "git add"
-    ],
-    "package.json": [
-      "prettier-package-json --write",
-      "git add"
-    ]
-  },
   "module": "index.js",
   "release": {
     "analyzeCommits": "semantic-release-tamia/analyzeCommits",

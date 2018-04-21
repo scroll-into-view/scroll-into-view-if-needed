@@ -1,12 +1,43 @@
 {
-"private": true,
-"workspaces": [
+  "private": true,
+  "workspaces": [
     "packages/*",
     "website"
-],
-"prettier": {
+  ],
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "husky": "0.14.3",
+    "lint-staged": "7.0.4",
+    "prettier": "1.12.1",
+    "prettier-package-json": "1.5.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.md": [
+      "prettier --write",
+      "git add"
+    ],
+    "package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ]
+  },
+  "prettier": {
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5"
-}
+  }
 }
