@@ -5,7 +5,8 @@
     "website"
   ],
   "scripts": {
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "deploy:website": "cd website && yarn deploy"
   },
   "devDependencies": {
     "husky": "0.14.3",
