@@ -1,13 +1,1 @@
-dist
-example/.next
-docs/**/*
-!docs/.nojekyll
 node_modules
-cypress/videos
-cypress/screenshots
-/*.js
-/src/*.js
-/typings/*.d.ts
-!rollup.config.js
-test/bundle.js
-junit/test-results.xml
