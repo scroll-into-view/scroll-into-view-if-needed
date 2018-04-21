@@ -26,8 +26,14 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css"
           />
-          <link rel="stylesheet" href={`//cdnjs.cloudflare.com/ajax/libs/codemirror/${version}/codemirror.min.css`} />
-          <link rel="stylesheet" href={`//cdnjs.cloudflare.com/ajax/libs/codemirror/${version}/theme/panda-syntax.min.css`} />
+          <link
+            rel="stylesheet"
+            href={`//cdnjs.cloudflare.com/ajax/libs/codemirror/${version}/codemirror.min.css`}
+          />
+          <link
+            rel="stylesheet"
+            href={`//cdnjs.cloudflare.com/ajax/libs/codemirror/${version}/theme/panda-syntax.min.css`}
+          />
           {this.props.styleTags}
         </Head>
         <body>

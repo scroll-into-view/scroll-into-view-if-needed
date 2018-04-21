@@ -15,7 +15,7 @@ const Wrapper = styled.section`
 
 const Section: React.StatelessComponent<SectionProps> = ({
   children,
-  ...props,
+  ...props
 }) => <Wrapper {...props}>{children}</Wrapper>
 
 export default Section
