@@ -1,17 +1,14 @@
 describe('Basic Functionality', function() {
-  const cacheKey = Symbol('visibility')
+  //const cacheKey = Symbol('visibility')
   beforeEach(function() {
     // Visiting our app before each test removes any state build up from
     // previous tests. Visiting acts as if we closed a tab and opened a fresh one
     cy.visit('/')
 
     // Setup observers and set dataset values for test convenience
-    cy.window().then(win => {
-      // @TODO do something
-    })
   })
   it('should scroll the list correctly', function() {
-    cy.get('#list1 button').each(function($el, index, $list) {
+    cy.get('#list1 button').each(function($el) {
       cy.wrap($el).click({ force: true })
       const key = $el.data('nth')
       cy.wait(300)
@@ -28,7 +25,7 @@ describe('Basic Functionality', function() {
     cy.get(`#list2 li:last`).should('have.data', 'visibility', 'visible')
   })
   it('should scroll the last list correctly', function() {
-    cy.get('#list3 button').each(function($el, index, $list) {
+    cy.get('#list3 button').each(function($el) {
       cy.wrap($el).click({ force: true })
       const key = $el.data('nth')
       cy

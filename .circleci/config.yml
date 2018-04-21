@@ -2,14 +2,23 @@
 aliases:
   - &restore-cache
     keys:
-      - v3-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - v4-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
       # Fallback in case checksum fails
-      - v3-dependencies-{{ .Branch }}-
+      - v4-dependencies-{{ .Branch }}-
+
+  - &install
+    # --frozen-lockfile ensures the build will fail if the lockfile needs to be updated
+    run: yarn --no-progress --frozen-lockfile
+
+  - &build
+    run:
+      command: yarn build
+      working_directory: packages/scroll-into-view-if-needed
 
   - &save-cache
     paths:
       - node_modules
-    key: v2-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    key: v4-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
   - &cypress-dependencies-install
     run:
@@ -18,6 +27,28 @@ aliases:
 
 version: 2
 jobs:
+  Typecheck:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore-cache: *restore-cache
+      - *install
+      - run:
+          command: yarn typecheck
+          working_directory: packages/scroll-into-view-if-needed
+      - save-cache: *save-cache
+
+  Build:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore-cache: *restore-cache
+      - *install
+      - *build
+      - save-cache: *save-cache
+
   Website:
     docker:
       - image: circleci/node:carbon-browsers
@@ -28,6 +59,8 @@ jobs:
           command: node --version && npm --version && npx --version && yarn --version
       - *cypress-dependencies-install
       - restore-cache: *restore-cache
+      - *install
+      - *build
       - run: echo TODO
       - save-cache: *save-cache
 
@@ -37,7 +70,8 @@ jobs:
     steps:
       - checkout
       - restore-cache: *restore-cache
-      - run: echo TODO build
+      - *install
+      - *build
       - save-cache: *save-cache
       - run: yarn semantic-release
 
@@ -46,9 +80,13 @@ workflows:
   version: 2
   Build and Deploy:
     jobs:
+      - Typecheck
+      - Build
       - Website
       - Semantic Release:
           requires:
+            - Typecheck
+            - Build
             - Website
           filters:
             branches:

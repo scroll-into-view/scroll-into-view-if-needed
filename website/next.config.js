@@ -1,4 +1,6 @@
 const withTypescript = require('@zeit/next-typescript')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+
 module.exports = withTypescript({
   assetPrefix: process.env.DOCS ? require('../package.json').homepage : '',
   exportPathMap() {
@@ -7,7 +9,7 @@ module.exports = withTypescript({
     }
   },
   // because of prettier-browser we need an uglifyjs that supports es6 syntax
-  webpack: function(config, { dev }) {
+  webpack: function(config, { dev, isServer }) {
     config.plugins = config.plugins.filter(
       p => p.constructor.name !== 'UglifyJsPlugin'
     )
@@ -22,9 +24,11 @@ module.exports = withTypescript({
       )
     }
 
+    // Do not run type checking twice:
+    if (isServer) {
+      config.plugins.push(new ForkTsCheckerWebpackPlugin())
+    }
+
     return config
-  },
-  typescriptLoaderOptions: {
-    transpileOnly: false,
   },
 })

@@ -1,0 +1,60 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "website"
+  ],
+  "scripts": {
+    "precommit": "lint-staged",
+    "predeploy:website": "cd packages/scroll-into-view-if-needed && yarn build",
+    "deploy:website": "cd website && yarn deploy"
+  },
+  "devDependencies": {
+    "husky": "0.14.3",
+    "lint-staged": "7.0.4",
+    "prettier": "1.12.1",
+    "prettier-package-json": "1.5.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.md": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ],
+    "**/.babelrc": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": ".babelrc",
+        "options": {
+          "parser": "json"
+        }
+      }
+    ]
+  },
+  "resolutions": {
+    "@types/react": "*"
+  }
+}
