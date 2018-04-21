@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "0.0.0-dev",
+  "version": "2.0.0",
   "main": "dist/bundle.js",
   "scripts": {
     "prebuild": "yarn clean",
@@ -62,7 +62,6 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "scroll-into-view-if-needed": "link:.",
     "styled-components": "3.2.6",
     "system-font-stack": "1.0.5",
     "tsify": "4.0.0",

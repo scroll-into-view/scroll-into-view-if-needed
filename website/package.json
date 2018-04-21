@@ -1,0 +1,9 @@
+
+{
+  "name": "scroll-into-view-if-needed-website",
+  "version": "0.0.0-dev",
+"private": true,
+"dependencies": {
+  "scroll-into-view-if-needed": "2.0.0"
+}
+}
