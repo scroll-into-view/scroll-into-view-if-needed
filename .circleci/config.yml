@@ -10,6 +10,11 @@ aliases:
     # --frozen-lockfile ensures the build will fail if the lockfile needs to be updated
     run: yarn --no-progress --frozen-lockfile
 
+  - &build
+    run:
+      command: yarn build
+      working_directory: packages/scroll-into-view-if-needed
+
   - &save-cache
     paths:
       - node_modules
@@ -41,9 +46,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - run:
-          command: yarn build
-          working_directory: packages/scroll-into-view-if-needed
+      - *build
       - save-cache: *save-cache
 
   Website:
@@ -57,6 +60,7 @@ jobs:
       - *cypress-dependencies-install
       - restore-cache: *restore-cache
       - *install
+      - *build
       - run: echo TODO
       - save-cache: *save-cache
 
@@ -67,7 +71,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - run: echo TODO build
+      - *build
       - save-cache: *save-cache
       - run: yarn semantic-release
 
