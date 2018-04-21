@@ -4,7 +4,7 @@ import { printDocToString } from 'prettier-browser/src/doc-printer'
 import scrollIntoViewIfNeeded, {
   ponyfill as smoothScrollIntoViewIfNeeded,
   Options,
-} from '../src'
+} from 'scroll-into-view-if-needed'
 
 export const dimensions = {
   maxWidth: 1220,
@@ -42,7 +42,7 @@ export function scrollIntoView(target, defaults: CustomOptions) {
   // if the browser implements Element.prototype.scroll there is a chance it supports native smooth scrolling
   const {
     nativeSmooth = 'scrollBehavior' in document.documentElement.style,
-    ...rest
+    ...rest,
   } = defaults
   console.log(
     nativeSmooth,

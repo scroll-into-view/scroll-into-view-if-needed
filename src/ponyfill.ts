@@ -51,11 +51,13 @@ function smoothScroll(el, x, y, cb) {
     startX = window.scrollX || window.pageXOffset
     startY = window.scrollY || window.pageYOffset
     method = window.scroll
+    console.error('damn')
   } else {
     scrollable = el
     startX = el.scrollLeft
     startY = el.scrollTop
     method = (x, y) => {
+      console.error('x', x, 'y', y)
       el.scrollLeft = x
       el.scrollTop = y
     }
@@ -77,7 +79,7 @@ function smoothScroll(el, x, y, cb) {
 export const ponyfill = (target, options) => {
   const { behavior = 'auto' } = options
   //return target.scrollIntoView(options)
-  console.log('behavior', behavior)
+  console.log('behavior', behavior, options)
   const instructions = compute(target, options)
 
   return Promise.all(

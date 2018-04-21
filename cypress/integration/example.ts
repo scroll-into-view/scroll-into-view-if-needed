@@ -1,4 +1,5 @@
 describe('Basic Functionality', function() {
+  const cacheKey = Symbol('visibility')
   beforeEach(function() {
     // Visiting our app before each test removes any state build up from
     // previous tests. Visiting acts as if we closed a tab and opened a fresh one
@@ -6,28 +7,7 @@ describe('Basic Functionality', function() {
 
     // Setup observers and set dataset values for test convenience
     cy.window().then(win => {
-      const { IntersectionObserver, document, scrollIntoViewIfNeeded } = win
-
-      var options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      }
-
-      var observer = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(entry => {
-          entry.target.dataset.visibility =
-            entry.intersectionRatio >= 1 ? 'visible' : 'hidden'
-        })
-      }, options)
-      observer.observe(document.querySelector('#instance1 > li:nth-child(21)'))
-      document.querySelectorAll('button').forEach(button => {
-        button.dataset.nth = parseInt(button.value, 10) + 1
-        const parent = button.closest('div')
-        const item = parent.querySelector(`li:nth-child(${button.dataset.nth})`)
-        item.dataset.visibility = 'hidden'
-        observer.observe(item)
-      })
+      // @TODO do something
     })
   })
   it('should scroll the list correctly', function() {

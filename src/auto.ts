@@ -13,8 +13,10 @@ export const auto = (target, options: ScrollIntoViewOptions = {}) => {
     instructions.forEach(([el, top, left]) => {
       // browser implements the new Element.prototype.scroll API that supports `behavior`
       if (el.scroll) {
+        console.log('hmmmmmmmmm')
         el.scroll({ top, left, behavior })
       } else {
+        console.log('oh oh oh')
         el.scrollTop = top
         el.scrollLeft = left
       }

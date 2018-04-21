@@ -209,7 +209,18 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
 
   let target = maybeElement
   let targetRect = target.getBoundingClientRect()
-
+  console.error(
+    'scrollMode',
+    scrollMode,
+    'block',
+    block,
+    'inline',
+    inline,
+    'boundary',
+    boundary,
+    'target',
+    target
+  )
   // Collect parents
   const frames: HTMLElement[] = []
   let parent

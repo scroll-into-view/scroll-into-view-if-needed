@@ -1,4 +1,5 @@
 dist
+example/.next
 docs/**/*
 !docs/.nojekyll
 node_modules
