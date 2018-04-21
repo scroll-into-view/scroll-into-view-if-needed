@@ -5,8 +5,9 @@
   "version": "0.0.0-dev",
   "scripts": {
     "build": "next build",
+    "predeploy": "yarn build",
+    "deploy": "next export",
     "dev": "next",
-    "docs": "next build && DOCS=true next export -o ./docs && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
     "start": "next start",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },

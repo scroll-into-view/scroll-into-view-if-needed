@@ -13,6 +13,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
+    "noEmit": true,
     "baseUrl": ".",
     "lib": ["dom", "es2015", "es2016"],
     "types": ["cypress", "node"]
