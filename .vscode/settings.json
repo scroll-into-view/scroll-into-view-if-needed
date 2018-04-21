@@ -1,5 +1,6 @@
 {
   "files.exclude": {
+    "cypress/**/*.js": true,
     "example/**/*.js": true,
     "src/**/*.js": true
   }

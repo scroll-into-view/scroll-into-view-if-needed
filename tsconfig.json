@@ -16,5 +16,12 @@
     "alwaysStrict": true,
     "lib": ["es5", "es2015.promise", "dom"]
   },
-  "exclude": ["node_modules", "dist", "example", "**/*-test.ts", "typings"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "example",
+    "**/*-test.ts",
+    "typings",
+    "cypress"
+  ]
 }
