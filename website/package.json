@@ -1,10 +1,9 @@
-
 {
+  "private": true,
   "name": "scroll-into-view-if-needed-website",
   "description": "Deployed by Netlify",
   "version": "0.0.0-dev",
-"private": true,
-"dependencies": {
-  "scroll-into-view-if-needed": "2.0.0"
-}
+  "dependencies": {
+    "scroll-into-view-if-needed": "2.0.0"
+  }
 }

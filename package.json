@@ -30,7 +30,7 @@
       "prettier --write",
       "git add"
     ],
-    "package.json": [
+    "**/package.json": [
       "prettier-package-json --write",
       "git add"
     ]
