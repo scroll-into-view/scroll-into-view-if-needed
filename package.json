@@ -33,12 +33,24 @@
     "**/package.json": [
       "prettier-package-json --write",
       "git add"
+    ],
+    "**/.babelrc": [
+      "prettier --write",
+      "git add"
     ]
   },
   "prettier": {
     "semi": false,
     "singleQuote": true,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": ".babelrc",
+        "options": {
+          "parser": "json"
+        }
+      }
+    ]
   },
   "resolutions": {
     "@types/react": "*"

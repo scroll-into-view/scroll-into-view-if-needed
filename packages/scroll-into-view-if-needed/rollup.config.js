@@ -1,36 +1,30 @@
+import babel from 'rollup-plugin-babel'
+import uglify from 'rollup-plugin-uglify'
+import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
-import nodeResolve from 'rollup-plugin-node-resolve'
-const globals = {}
+import resolve from 'rollup-plugin-node-resolve'
 
-const onwarn = message => {
-  const suppressed = ['UNRESOLVED_IMPORT', 'THIS_IS_UNDEFINED']
-
-  if (!suppressed.find(code => message.code === code)) {
-    return console.warn(message.message)
-  }
-}
-
-export default {
-  entry: 'index.js',
-  dest: 'dist/bundle.js',
-  format: 'umd',
-  moduleName: 'scrollIntoViewIfNeeded',
-  exports: 'default',
-  globals,
-  onwarn,
+const config = {
+  input: 'src/index.ts',
+  name: 'scrollIntoView',
   plugins: [
-    nodeResolve({
-      jsnext: true,
-      main: true,
+    babel({
+      exclude: 'node_modules/**',
     }),
-
+    resolve({
+      extensions: ['.ts', '.js', '.json'],
+    }),
     commonjs({
-      // non-CommonJS modules will be ignored, but you can also
-      // specifically include/exclude files
-      include: 'node_modules/**', // Default: undefined
-
-      // if false then skip sourceMap generation for CommonJS modules
-      sourceMap: false, // Default: true
+      include: /node_modules/,
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
 }
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(uglify())
+}
+
+export default config
