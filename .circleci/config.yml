@@ -50,3 +50,6 @@ workflows:
       - Semantic Release:
           requires:
             - Website
+          filters:
+            branches:
+              only: master
