@@ -7,8 +7,7 @@ aliases:
       - v4-dependencies-{{ .Branch }}-
 
   - &install
-    # --frozen-lockfile ensures the build will fail if the lockfile needs to be updated
-    run: yarn --no-progress --frozen-lockfile
+    run: yarn --no-progress
 
   - &build
     run:
