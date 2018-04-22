@@ -20,6 +20,9 @@
     "semantic-release": "15.1.7",
     "semantic-release-monorepo": "6.0.1"
   },
+  "publishConfig": {
+    "tag": "next"
+  },
   "lint-staged": {
     "*.js": [
       "prettier --write",
