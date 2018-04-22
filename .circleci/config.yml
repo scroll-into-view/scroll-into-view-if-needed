@@ -73,7 +73,7 @@ jobs:
       - *install
       - *build
       - save-cache: *save-cache
-      - run: yarn semantic-release
+      - run: yarn semantic-release || true
 
 # Workflows enables us to run multiple jobs in parallel
 workflows:
