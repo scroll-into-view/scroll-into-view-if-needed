@@ -1,9 +1,12 @@
 {
-  "extends": ["config:base",     ":automergeDigest",
+  "extends": [
+    "config:base",
+    ":automergeDigest",
     ":automergeMinor",
     ":prHourlyLimit4",
     ":semanticCommitScopeDisabled",
     ":semanticCommitTypeAll(Chore)",
     ":semanticCommits",
-    ":pinDigestsDisabled"]
+    ":pinDigestsDisabled"
+  ]
 }
