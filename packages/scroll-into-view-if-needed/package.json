@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "2.0.0-dev",
+  "version": "2.0.0-alpha.1",
   "main": "index.js",
   "files": [
     "auto.js",
@@ -68,6 +68,9 @@
     "smoothscroll",
     "typescript"
   ],
+  "publishConfig": {
+    "tag": "next"
+  },
   "browserify": {
     "transform": [
       "loose-envify"
