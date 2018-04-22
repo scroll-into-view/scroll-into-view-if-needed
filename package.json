@@ -9,7 +9,7 @@
     "predeploy:website": "cd packages/scroll-into-view-if-needed && yarn build",
     "deploy:website": "cd website && yarn deploy",
     "publish:canary": "lerna publish --npm-tag=next --canary",
-    "semantic-release": "true"
+    "semantic-release": "lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
   },
   "devDependencies": {
     "husky": "0.14.3",
@@ -57,6 +57,17 @@
           "parser": "json"
         }
       }
+    ]
+  },
+  "release": {
+    "prepare": [
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ],
+    "verifyConditions": [
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
     ]
   },
   "resolutions": {
