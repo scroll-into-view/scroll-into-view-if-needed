@@ -19,7 +19,7 @@
     "@types/react-dom": "16.0.5",
     "@zeit/next-typescript": "0.1.1",
     "bulma": "0.7.1",
-    "codemirror": "5.36.0",
+    "codemirror": "5.37.0",
     "fork-ts-checker-webpack-plugin": "0.4.1",
     "next": "5.1.0",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
