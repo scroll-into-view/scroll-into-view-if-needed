@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "main": "index.js",
   "files": [
     "auto.js",
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "invariant": "^2.2.4",
+    "scroll-into-view-if-needed": "^2.0.0",
     "warning": "^3.0.0"
   },
   "devDependencies": {
