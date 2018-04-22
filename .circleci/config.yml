@@ -66,11 +66,11 @@ jobs:
       - *install
       - run:
           name: scroll-into-view-if-needed
-          command: semantic-release -e semantic-release-monorep
+          command: npx --no-install semantic-release -e semantic-release-monorep
           working_directory: packages/scroll-into-view-if-needed
       - run:
           name: smooth-scroll-into-view-if-needed
-          command: semantic-release -e semantic-release-monorep
+          command: npx --no-install semantic-release -e semantic-release-monorep
           working_directory: packages/smooth-scroll-into-view-if-needed
 
 # Workflows enables us to run multiple jobs in parallel
