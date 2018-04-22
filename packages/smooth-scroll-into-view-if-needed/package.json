@@ -1,14 +1,14 @@
 {
-  "name": "scroll-into-view-if-needed",
-  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "name": "smooth-scroll-into-view-if-needed",
+  "description": "Ponyfill for smooth scrolling elements into view (if needed!)",
   "license": "MIT",
   "author": "Stian Didriksen",
-  "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
+  "homepage": "https://scroll-into-view-if-needed.netlify.com/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "2.0.0-alpha.3",
+  "version": "1.0.0-alpha.0",
   "main": "index.js",
   "files": [
     "auto.js",
@@ -22,8 +22,8 @@
     "build": "yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
     "build:cjs": "BABEL_ENV=cjs babel src -d . --extensions '.ts'",
     "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
-    "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
-    "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
+    "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/smooth-scroll-into-view-if-needed.js",
+    "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/smooth-scroll-into-view-if-needed.min.js",
     "clean": "rimraf 'umd' 'es'",
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",

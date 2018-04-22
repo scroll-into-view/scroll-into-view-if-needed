@@ -3,6 +3,7 @@ import { ServerStyleSheet } from 'styled-components'
 
 const { description } = require('scroll-into-view-if-needed/package.json')
 const { version } = require('codemirror/package.json')
+const { version: bulmaVersion } = require('bulma/package.json')
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -24,7 +25,8 @@ export default class MyDocument extends Document {
           <meta name="description" content={description} />
           <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css"
+            // @TODO setup proper css loading
+            href={`https://cdnjs.cloudflare.com/ajax/libs/bulma/${bulmaVersion}/css/bulma.min.css`}
           />
           <link
             rel="stylesheet"

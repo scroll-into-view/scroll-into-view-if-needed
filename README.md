@@ -6,4 +6,4 @@
 This used to be just a [ponyfill](https://ponyfill.com) for `Element.scrollIntoViewIfNeeded` but is currently being rewritten to cover `Element.scrollIntoView(ScrollIntoViewOptions)` including the new `scrollMode: "if-needed"` option.
 This readme will be updated when it's ready for stable release.
 
-## [Demo](https://scroll-into-view.netlify.com)
+## [Demo](https://scroll-into-view-if-needed.netlify.com)

@@ -7,8 +7,7 @@ aliases:
       - v4-dependencies-{{ .Branch }}-
 
   - &install
-    # --frozen-lockfile ensures the build will fail if the lockfile needs to be updated
-    run: yarn --no-progress --frozen-lockfile
+    run: yarn --no-progress
 
   - &build
     run:
@@ -74,9 +73,9 @@ jobs:
       - *build
       - save-cache: *save-cache
       - add-ssh-keys:
-        fingerprints:
-          - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
-      - run: yarn semantic-release || true
+          fingerprints:
+            - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
+      - run: yarn semantic-release
 
 # Workflows enables us to run multiple jobs in parallel
 workflows:
@@ -93,4 +92,6 @@ workflows:
             - Website
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - semantic-release

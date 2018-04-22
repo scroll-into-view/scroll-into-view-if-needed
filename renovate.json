@@ -3,9 +3,8 @@
     "config:base",
     ":automergeDigest",
     ":automergeMinor",
+    ":automergeRequireAllStatusChecks",
     ":prHourlyLimit4",
-    ":semanticCommitScopeDisabled",
-    ":semanticCommitTypeAll(Chore)",
     ":semanticCommits",
     ":pinDigestsDisabled"
   ],
@@ -13,13 +12,13 @@
     {
       "paths": ["packages/**"],
       "extends": ["config:js-lib"],
-      "dependencies": {
-        "extends": ":semanticCommitType(Fix)"
+      "devDependencies": {
+        "extends": ":automergeMajor"
       }
     },
     {
       "paths": ["website"],
-      "extends": ["config:js-app"]
+      "extends": ["config:js-app", ":automergeMajor"]
     }
   ]
 }

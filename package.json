@@ -7,13 +7,19 @@
   "scripts": {
     "precommit": "lint-staged",
     "predeploy:website": "cd packages/scroll-into-view-if-needed && yarn build",
-    "deploy:website": "cd website && yarn deploy"
+    "deploy:website": "cd website && yarn deploy",
+    "publish:canary": "lerna publish --npm-tag=next --canary",
+    "semantic-release": "lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
   },
   "devDependencies": {
+    "@semantic-release/git": "4.0.2",
     "husky": "0.14.3",
+    "lerna": "2.10.2",
     "lint-staged": "7.0.4",
     "prettier": "1.12.1",
-    "prettier-package-json": "1.5.1"
+    "prettier-package-json": "1.5.1",
+    "semantic-release": "15.1.7",
+    "semantic-release-monorepo": "6.0.1"
   },
   "lint-staged": {
     "*.js": [
@@ -52,6 +58,18 @@
           "parser": "json"
         }
       }
+    ]
+  },
+  "release": {
+    "branch": "semantic-release",
+    "prepare": [
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ],
+    "verifyConditions": [
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
     ]
   },
   "resolutions": {
