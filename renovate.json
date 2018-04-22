@@ -9,15 +9,17 @@
     ":semanticCommits",
     ":pinDigestsDisabled"
   ],
-    "pathRules": [
+  "pathRules": [
     {
       "paths": ["packages/**"],
       "extends": ["config:js-lib"],
       "dependencies": {
-    "extends": ":semanticCommitType(Fix)"
-  },
+        "extends": ":semanticCommitType(Fix)"
+      }
     },
-      {"paths":["website"], 
-       "extends":["config:js-app"]}
+    {
+      "paths": ["website"],
+      "extends": ["config:js-app"]
+    }
   ]
 }
