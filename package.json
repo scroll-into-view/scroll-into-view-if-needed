@@ -12,7 +12,6 @@
     "semantic-release": "lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
   },
   "devDependencies": {
-    "@semantic-release/git": "4.0.2",
     "husky": "0.14.3",
     "lerna": "2.10.2",
     "lint-staged": "7.0.4",
@@ -62,12 +61,10 @@
   },
   "release": {
     "prepare": [
-      "@semantic-release/npm",
-      "@semantic-release/git"
+      "@semantic-release/npm"
     ],
     "verifyConditions": [
       "@semantic-release/npm",
-      "@semantic-release/git",
       "@semantic-release/github"
     ]
   },
