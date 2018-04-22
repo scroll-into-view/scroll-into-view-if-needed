@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "config:base",
+    ":automergeDigest",
+    ":automergeMinor",
+    ":prHourlyLimit4",
+    ":semanticCommitScopeDisabled",
+    ":semanticCommitTypeAll(Chore)",
+    ":semanticCommits",
+    ":pinDigestsDisabled"
+  ],
+  "pathRules": [
+    {
+      "paths": ["packages/**"],
+      "extends": ["config:js-lib"],
+      "dependencies": {
+        "extends": ":semanticCommitType(Fix)"
+      }
+    },
+    {
+      "paths": ["website"],
+      "extends": ["config:js-app"]
+    }
+  ]
+}
