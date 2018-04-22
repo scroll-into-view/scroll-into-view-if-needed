@@ -27,12 +27,11 @@
     "clean": "rimraf 'umd' 'es'",
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "invariant": "2.2.4",
-    "warning": "3.0.0"
+    "invariant": "^2.2.4",
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.44",
@@ -44,7 +43,6 @@
     "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-styled-components": "1.5.1",
     "concurrently": "3.5.1",
-    "release-relief": "1.0.1",
     "rimraf": "2.6.2",
     "rollup": "0.58.1",
     "rollup-plugin-babel": "4.0.0-beta.4",
@@ -77,12 +75,6 @@
     ]
   },
   "module": "es/index.js",
-  "release": {
-    "analyzeCommits": "semantic-release-tamia/analyzeCommits",
-    "verifyConditions": "condition-circle",
-    "generateNotes": "semantic-release-tamia/generateNotes",
-    "verifyRelease": "semantic-release-tamia/verifyRelease"
-  },
   "sideEffects": false,
   "typings": "typings/index.d.ts"
 }
