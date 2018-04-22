@@ -9,11 +9,6 @@ aliases:
   - &install
     run: yarn --no-progress
 
-  - &build
-    run:
-      command: yarn build
-      working_directory: packages/scroll-into-view-if-needed
-
   - &save-cache
     paths:
       - node_modules
@@ -45,7 +40,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - *build
+      - run: yarn build
       - save-cache: *save-cache
 
   Website:
@@ -59,8 +54,7 @@ jobs:
       - *cypress-dependencies-install
       - restore-cache: *restore-cache
       - *install
-      - *build
-      - run: echo TODO
+      - run: yarn build
       - save-cache: *save-cache
 
   Semantic Release:
@@ -70,12 +64,14 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - *build
-      - save-cache: *save-cache
-      - add-ssh-keys:
-          fingerprints:
-            - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
-      - run: yarn semantic-release
+      - run:
+          name: scroll-into-view-if-needed
+          command: npx semantic-release -e semantic-release-monorep
+          working_directory: packages/scroll-into-view-if-needed
+      - run:
+          name: smooth-scroll-into-view-if-needed
+          command: npx semantic-release -e semantic-release-monorep
+          working_directory: packages/smooth-scroll-into-view-if-needed
 
 # Workflows enables us to run multiple jobs in parallel
 workflows:
@@ -94,4 +90,3 @@ workflows:
             branches:
               only:
                 - master
-                - semantic-release
