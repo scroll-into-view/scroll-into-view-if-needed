@@ -74,8 +74,8 @@ jobs:
       - *build
       - save-cache: *save-cache
       - add-ssh-keys:
-        fingerprints:
-          - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
+          fingerprints:
+            - "e1:ca:5d:f0:58:11:c7:ae:b7:ac:4a:1b:cc:3a:0d:4a"
       - run: yarn semantic-release
 
 # Workflows enables us to run multiple jobs in parallel
