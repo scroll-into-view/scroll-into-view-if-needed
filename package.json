@@ -61,6 +61,7 @@
     ]
   },
   "release": {
+    "branch": "semantic-release",
     "prepare": [
       "@semantic-release/npm",
       "@semantic-release/git"
