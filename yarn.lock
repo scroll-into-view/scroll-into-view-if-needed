@@ -599,23 +599,9 @@
     import-from "^2.1.0"
     lodash "^4.17.4"
 
-"@semantic-release/error@^2.1.0", "@semantic-release/error@^2.2.0":
+"@semantic-release/error@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-2.2.0.tgz#ee9d5a09c9969eade1ec864776aeda5c5cddbbf0"
-
-"@semantic-release/git@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-4.0.2.tgz#d1fdd45ba08ec53120c1ed2aa925b7ee762e6a26"
-  dependencies:
-    "@semantic-release/error" "^2.1.0"
-    aggregate-error "^1.0.0"
-    debug "^3.1.0"
-    dir-glob "^2.0.0"
-    execa "^0.10.0"
-    fs-extra "^5.0.0"
-    lodash "^4.17.4"
-    micromatch "^3.1.4"
-    p-reduce "^1.0.0"
 
 "@semantic-release/github@^4.1.0":
   version "4.2.11"
