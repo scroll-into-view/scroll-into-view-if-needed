@@ -5,11 +5,12 @@
     "website"
   ],
   "scripts": {
+    "build": "lerna exec --concurrency 1 -- yarn build",
     "precommit": "lint-staged",
-    "predeploy:website": "cd packages/scroll-into-view-if-needed && yarn build",
+    "predeploy:website": "yarn build",
     "deploy:website": "cd website && yarn deploy",
     "publish:canary": "lerna publish --npm-tag=next --canary",
-    "semantic-release": "lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
+    "tyecheck": "lerna exec --concurrency 1 -- yarn typecheck"
   },
   "devDependencies": {
     "husky": "0.14.3",
