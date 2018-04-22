@@ -17,9 +17,7 @@
     "lerna": "2.10.2",
     "lint-staged": "7.0.4",
     "prettier": "1.12.1",
-    "prettier-package-json": "1.5.1",
-    "semantic-release": "15.1.7",
-    "semantic-release-monorepo": "6.0.1"
+    "prettier-package-json": "1.5.1"
   },
   "publishConfig": {
     "tag": "next"
@@ -61,15 +59,6 @@
           "parser": "json"
         }
       }
-    ]
-  },
-  "release": {
-    "prepare": [
-      "@semantic-release/npm"
-    ],
-    "verifyConditions": [
-      "@semantic-release/npm",
-      "@semantic-release/github"
     ]
   },
   "resolutions": {
