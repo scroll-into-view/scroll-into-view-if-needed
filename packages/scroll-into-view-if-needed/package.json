@@ -23,7 +23,7 @@
     "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
     "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
     "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
-    "clean": "rimraf 'umd' 'es' 'typings",
+    "clean": "rimraf 'umd' 'es' 'typings'",
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "typecheck": "tsc"
