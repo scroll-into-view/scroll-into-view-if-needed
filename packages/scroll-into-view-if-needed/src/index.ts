@@ -14,7 +14,6 @@ export interface Options {
 export default (target: Element, options: Options = {}) => {
   const { behavior = 'auto', ...computeOptions } = options
   //return target.scrollIntoView(options)
-  console.log('computeOptions', computeOptions)
   const instructions = compute(target, computeOptions)
 
   if (typeof behavior == 'function') {
@@ -24,10 +23,8 @@ export default (target: Element, options: Options = {}) => {
   instructions.forEach(([el, top, left]) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     if (el.scroll) {
-      console.log('hmmmmmmmmm', behavior)
       el.scroll({ top, left, behavior })
     } else {
-      console.log('oh oh oh')
       el.scrollTop = top
       el.scrollLeft = left
     }

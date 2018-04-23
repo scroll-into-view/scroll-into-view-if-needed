@@ -14,10 +14,6 @@ export interface Options extends ScrollIntoViewOptions {
 }
 
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
-
-/**
- * indicates if an element has scrollable space in the provided axis
- */
 function hasScrollableSpace(el, axis: 'Y' | 'X') {
   if (axis === 'Y') {
     return el.clientHeight < el.scrollHeight
@@ -30,13 +26,6 @@ function hasScrollableSpace(el, axis: 'Y' | 'X') {
   return false
 }
 
-/**
- * indicates if an element can be scrolled in either axis
- * @method isScrollable
- * @param {Node} el
- * @param {String} axis
- * @returns {Boolean}
- */
 function isScrollable(el) {
   var isScrollableY = hasScrollableSpace(el, 'Y')
   var isScrollableX = hasScrollableSpace(el, 'X')
@@ -94,17 +83,6 @@ const alignNearestBlock = (
     console.log('align to end', targetStart, frameRect.top)
     return targetStart - frameRect.top
   }
-
-  console.log(
-    'alignToNearest',
-    'targetStart',
-    targetStart,
-    'should be 33 if clicking on 1',
-    Math.min(
-      targetStart,
-      Math.max(targetEnd - frame.clientHeight, frame.scrollTop)
-    )
-  )
 
   // start
   // Math.min(targetStart - frameRect.top, frame.scrollHeight - frame.clientHeight - frame.scrollTop)
@@ -169,17 +147,6 @@ const alignNearestInline = (
     console.log('align to end', targetStart, frameRect.left)
     return targetStart - frameRect.left
   }
-
-  console.log(
-    'alignToNearest',
-    'targetStart',
-    targetStart,
-    'should be 33 if clicking on 1',
-    Math.min(
-      targetStart,
-      Math.max(targetEnd - frame.clientWidth, frame.scrollTop)
-    )
-  )
 
   // start
   // Math.min(targetStart - frameRect.left, frame.scrollHeight - frame.clientWidth - frame.scrollTop)
