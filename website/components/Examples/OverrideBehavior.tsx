@@ -62,7 +62,7 @@ class Boundary extends PureComponent {
         physics({
           from: { left: frame.scrollLeft, color: fromColor },
           to: { left: left, color: toColor },
-          springStrength: 300,
+          springStrength: 600,
           friction: 1,
         }).start(({ left, color }) => {
           colorStyler.set('backgroundColor', color)
