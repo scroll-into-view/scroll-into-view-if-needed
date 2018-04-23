@@ -33,6 +33,10 @@ jobs:
           command: yarn build:d.ts
           working_directory: packages/scroll-into-view-if-needed
       - run:
+          name: scroll-into-view-if-needed
+          command: yarn build
+          working_directory: packages/scroll-into-view-if-needed
+      - run:
           name: smooth-scroll-into-view-if-needed
           command: yarn typecheck
           working_directory: packages/smooth-scroll-into-view-if-needed
