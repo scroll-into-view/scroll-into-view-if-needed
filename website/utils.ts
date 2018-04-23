@@ -36,7 +36,7 @@ export function scrollIntoView(target, defaults) {
   // if the browser implements Element.prototype.scroll there is a chance it supports native smooth scrolling
   const {
     nativeSmooth = 'scrollBehavior' in document.documentElement.style,
-    ...options,
+    ...options
   } = defaults
   console.log(
     nativeSmooth,
