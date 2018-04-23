@@ -1,12 +1,11 @@
 import { Fragment, PureComponent } from 'react'
 import styled from 'styled-components'
-
-import Code from '../Code'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import scroll from 'stylefire/scroll'
 import css from 'stylefire/css'
+import { physics } from 'popmotion'
 
-import { easing, keyframes, styler, physics } from 'popmotion'
+import Code from '../Code'
 
 const SIZE = 200
 
@@ -54,7 +53,7 @@ class Boundary extends PureComponent {
   doScroll = (target, snapshot) =>
     scrollIntoView(target, {
       behavior: instructions => {
-        const [frame, top, left] = instructions[0]
+        const [frame, , left] = instructions[0]
 
         const [fromColor, toColor] = snapshot
         const colorStyler = css(frame)
@@ -70,11 +69,11 @@ class Boundary extends PureComponent {
           elementScroll.set('left', left)
         })
       },
-      boundary: this.container.parentNode,
+      boundary: this.container.parentNode as Element,
       inline: 'center',
     })
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
+  getSnapshotBeforeUpdate(_prevProps, prevState) {
     // @TODO report the need to use `as never`
     return [
       getComputedStyle(this.buttons[prevState.selected])
