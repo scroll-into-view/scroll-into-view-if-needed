@@ -29,10 +29,13 @@ jobs:
       - restore-cache: *restore-cache
       - *install
       - run:
-          name: create *.d.ts files for scroll-into-view-if-needed
+          name: scroll-into-view-if-needed
           command: yarn build:d.ts
           working_directory: packages/scroll-into-view-if-needed
-      - run: yarn typecheck
+      - run:
+          name: smooth-scroll-into-view-if-needed
+          command: yarn typecheck
+          working_directory: packages/smooth-scroll-into-view-if-needed
       - save-cache: *save-cache
 
   Build:
