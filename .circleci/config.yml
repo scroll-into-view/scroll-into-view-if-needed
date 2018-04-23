@@ -28,9 +28,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - run:
-          command: yarn typecheck
-          working_directory: packages/scroll-into-view-if-needed
+      - run: yarn typecheck
       - save-cache: *save-cache
 
   Build:

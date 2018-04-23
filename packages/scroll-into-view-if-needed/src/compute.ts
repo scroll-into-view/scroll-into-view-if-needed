@@ -48,7 +48,7 @@ function isScrollable(el) {
 const alignNearestBlock = (
   targetStart: number,
   targetSize: number,
-  frame: HTMLElement,
+  frame: Element,
   frameRect: ClientRect | DOMRect
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
@@ -123,7 +123,7 @@ const alignNearestBlock = (
 const alignNearestInline = (
   targetStart: number,
   targetSize: number,
-  frame: HTMLElement,
+  frame: Element,
   frameRect: ClientRect | DOMRect
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
@@ -195,7 +195,10 @@ const alignNearestInline = (
   return 0
 }
 
-export const compute = (maybeElement: Element, options: Options = {}) => {
+export const compute = (
+  target: Element,
+  options: Options = {}
+): [Element, number, number][] => {
   const {
     scrollMode = 'always',
     block = 'center',
@@ -203,11 +206,10 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     boundary,
   } = options
 
-  if (!isElement(maybeElement)) {
+  if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
 
-  let target = maybeElement
   let targetRect = target.getBoundingClientRect()
   console.error(
     'scrollMode',
@@ -222,7 +224,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     target
   )
   // Collect parents
-  const frames: HTMLElement[] = []
+  const frames: Element[] = []
   let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
     if (isScrollable(parent)) {
@@ -238,7 +240,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
   let targetInline
 
   // Collect new scroll positions
-  const computations = frames.map(frame => {
+  const computations = frames.map((frame): [Element, number, number] => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
     /*
@@ -429,5 +431,5 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     return [frame, blockScroll, inlineScroll]
   })
 
-  return computations as [[Element, number, number]]
+  return computations
 }

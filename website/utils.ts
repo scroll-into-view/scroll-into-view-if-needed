@@ -1,9 +1,8 @@
 import parse from 'prettier-browser/src/parser-babylon'
 import { printAstToDoc } from 'prettier-browser/src/printer'
 import { printDocToString } from 'prettier-browser/src/doc-printer'
-import scrollIntoViewIfNeeded, {
-  ponyfill as smoothScrollIntoViewIfNeeded,
-} from 'scroll-into-view-if-needed'
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+import smoothScrollIntoViewIfNeeded from 'smooth-scroll-into-view-if-needed'
 
 export const dimensions = {
   maxWidth: 1220,
@@ -37,23 +36,15 @@ export function scrollIntoView(target, defaults) {
   // if the browser implements Element.prototype.scroll there is a chance it supports native smooth scrolling
   const {
     nativeSmooth = 'scrollBehavior' in document.documentElement.style,
-    ...rest
+    ...options,
   } = defaults
   console.log(
     nativeSmooth,
     'scrollBehavior' in document.documentElement.style,
     defaults
   )
-  const options = {
-    behavior: 'auto',
-    inline: 'nearest',
-    block: 'center',
-    ...rest,
-  }
 
   nativeSmooth
-    ? // this will use the default export
-      scrollIntoViewIfNeeded(target, options)
-    : // while this will use /ponyfill
-      smoothScrollIntoViewIfNeeded(target, options as any)
+    ? scrollIntoViewIfNeeded(target, options)
+    : smoothScrollIntoViewIfNeeded(target, options)
 }

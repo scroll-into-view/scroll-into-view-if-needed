@@ -1,8 +1,17 @@
 import scrollIntoView from 'scroll-into-view-if-needed'
+import { Options } from 'scroll-into-view-if-needed/compute'
 
-var now = 'performance' in global ? performance.now.bind(performance) : Date.now
+// Memoize so we're much more friendly to non-dom envs
+let memoizedNow
+var now = () => {
+  if (!memoizedNow) {
+    memoizedNow =
+      'performance' in window ? performance.now.bind(performance) : Date.now
+  }
+  return memoizedNow()
+}
 
-var SCROLL_TIME = 468
+const SCROLL_TIME = 300
 
 function ease(k) {
   return 0.5 * (1 - Math.cos(Math.PI * k))
@@ -40,18 +49,18 @@ function smoothScroll(el, x, y, cb) {
   var startTime = now()
 
   // define scroll context
-  if (el === document.body || el === document.documentElement) {
+  if (el === document.body || (el === document.documentElement && true)) {
     scrollable = window
     startX = window.scrollX || window.pageXOffset
     startY = window.scrollY || window.pageYOffset
     method = window.scroll
-    console.error('damn')
+    console.error('damn2', el, startX, startY)
   } else {
     scrollable = el
     startX = el.scrollLeft
     startY = el.scrollTop
     method = (x, y) => {
-      console.error('x', x, 'y', y)
+      console.error(el, 'x', x, 'y', y)
       el.scrollLeft = x
       el.scrollTop = y
     }
@@ -70,17 +79,25 @@ function smoothScroll(el, x, y, cb) {
   })
 }
 
-export const ponyfill = (target, options) => {
-  const { behavior = 'auto' } = options
+export default (target, options: Options = {}) => {
+  const { behavior = 'smooth' } = options
   //return target.scrollIntoView(options)
-  console.log('behavior', behavior, options)
-  const instructions = scrollIntoView(target, options)
 
-  return Promise.all(
-    instructions.map(([el, top, left]) => {
-      return new Promise(resolve => {
-        smoothScroll(el, left, top, () => resolve())
-      })
-    })
-  )
+  // @TODO detect if someone is using this library without smooth behavior and maybe warn
+  if (behavior !== 'smooth') {
+    return scrollIntoView(target, options)
+  }
+
+  return scrollIntoView(target, {
+    ...options,
+    behavior: instructions => {
+      return Promise.all(
+        instructions.map(([el, top, left]) => {
+          return new Promise(resolve => {
+            smoothScroll(el, left, top, () => resolve())
+          })
+        })
+      )
+    },
+  })
 }

@@ -2,13 +2,16 @@ import { Fragment, PureComponent } from 'react'
 import styled from 'styled-components'
 
 import Code from '../Code'
-import { scrollIntoView } from '../../utils'
+import scrollIntoView from 'scroll-into-view-if-needed'
+import scroll from 'stylefire/scroll'
+import css from 'stylefire/css'
+
+import { easing, keyframes, styler, physics } from 'popmotion'
 
 const SIZE = 200
 
 const ScrollContainer = styled.div`
   box-sizing: content-box;
-  transition: background-color 200ms;
   border: 1px solid hsla(0, 0%, 0%, 0.2);
   overflow: hidden;
   height: ${SIZE}px;
@@ -30,12 +33,6 @@ const Item = styled.div.attrs({
   width: ${SIZE}px;
   color: black;
   opacity: 0.6;
-
-  @supports (mix-blend-mode: multiply) {
-    color: hsla(0, 0%, 50%, 1);
-    opacity: 0.8;
-    mix-blend-mode: multiply;
-  }
 `
 
 const range = ['success', 'warning', 'danger']
@@ -54,25 +51,48 @@ class Boundary extends PureComponent {
   buttons: HTMLElement[] = []
   items: { [key: string]: HTMLElement } = {}
 
-  doScroll = target => scrollIntoView(target, { behavior: 'smooth' })
+  doScroll = (target, snapshot) =>
+    scrollIntoView(target, {
+      behavior: instructions => {
+        const [frame, top, left] = instructions[0]
 
-  getSnapshotBeforeUpdate() {
+        const [fromColor, toColor] = snapshot
+        const colorStyler = css(frame)
+        const elementScroll = scroll(frame)
+
+        physics({
+          from: { left: frame.scrollLeft, color: fromColor },
+          to: { left: left, color: toColor },
+          springStrength: 600,
+          friction: 1,
+        }).start(({ left, color }) => {
+          colorStyler.set('backgroundColor', color)
+          elementScroll.set('left', left)
+        })
+      },
+      boundary: this.container.parentNode,
+      inline: 'center',
+    })
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
     // @TODO report the need to use `as never`
-    return getComputedStyle(this.buttons[this.state.selected])
-      .backgroundColor as never
+    return [
+      getComputedStyle(this.buttons[prevState.selected])
+        .backgroundColor as never,
+      getComputedStyle(this.buttons[this.state.selected])
+        .backgroundColor as never,
+    ]
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { state, props } = this
-    console.log(
-      'update',
-      { props, state },
-      { props: prevProps, state: prevState },
-      snapshot
+  componentDidMount() {
+    this.container.style.setProperty(
+      'background-color',
+      getComputedStyle(this.buttons[this.state.selected]).backgroundColor
     )
-    this.doScroll(this.items[range[this.state.selected]])
-    console.log('container', this.container)
-    this.container.style.setProperty('background-color', snapshot, 'important')
+  }
+
+  componentDidUpdate(_prevProps, _prevState, snapshot) {
+    this.doScroll(this.items[range[this.state.selected]], snapshot)
   }
   component
   render() {
@@ -82,11 +102,22 @@ class Boundary extends PureComponent {
           <div className="column">
             <Code>{`
         import scrollIntoView from 'scroll-into-view-if-needed';
+        import scroll from 'stylefire/scroll';
+       import { physics } from 'popmotion';
 
-        scrollIntoView(node, {behavior: calculations => calculations.forEach(([el, scrollTop, scrollLeft]) => { 
-               el.scrollTop = scrollTop
-               el.scrollLeft = scrollLeft
-            })})
+        scrollIntoView(node, {behavior: instructions => {
+            const [frame, top, left] = instructions[0]
+            const elementScroll = scroll(frame)
+    
+            physics({
+              from: frame.scrollLeft,
+              to: left,
+              springStrength: 600,
+              friction: 1,
+            }).start((v) => elementScroll.set('left', v)
+            )
+          },
+        })
         `}</Code>
           </div>
           <div className="column is-narrow has-text-centered">
@@ -104,7 +135,6 @@ class Boundary extends PureComponent {
               ))}
             </div>
             <ScrollContainer
-              className={`has-background-${range[0]}`}
               innerRef={container => (this.container = container)}
             >
               <ScrollLayer id="example-override-behavior">

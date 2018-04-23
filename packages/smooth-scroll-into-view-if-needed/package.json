@@ -25,7 +25,7 @@
     "clean": "rimraf 'umd' 'es' 'typings'",
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
-    "typecheck": "tsc"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "invariant": "^2.2.4",

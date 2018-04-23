@@ -4,7 +4,6 @@
     "module": "es2015",
     "moduleResolution": "node",
     "declaration": true,
-    "emitDeclarationOnly": true,
     "rootDir": "src",
     "declarationDir": "typings",
     "noImplicitReturns": true,

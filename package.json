@@ -10,7 +10,7 @@
     "predeploy:website": "yarn build",
     "deploy:website": "cd website && yarn deploy",
     "publish:canary": "lerna publish --npm-tag=next --canary",
-    "tyecheck": "lerna exec --concurrency 1 -- yarn typecheck"
+    "typecheck": "lerna exec --concurrency 1 -- yarn typecheck"
   },
   "devDependencies": {
     "husky": "0.14.3",

@@ -4,11 +4,8 @@
   "description": "Deployed by Netlify",
   "version": "0.0.0-dev",
   "scripts": {
-    "build": "next build",
-    "predeploy": "yarn build",
-    "deploy": "next export",
+    "deploy": "next build && next export",
     "dev": "next",
-    "start": "next start",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
   "dependencies": {
@@ -22,6 +19,7 @@
     "codemirror": "5.37.0",
     "fork-ts-checker-webpack-plugin": "0.4.1",
     "next": "5.1.0",
+    "popmotion": "8.1.22",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
     "react": "16.3.2",
     "react-codemirror2": "5.0.0",

@@ -2,7 +2,8 @@ import { Fragment, PureComponent } from 'react'
 import styled from 'styled-components'
 
 import Code from '../Code'
-import { scrollIntoView } from '../../utils'
+import scrollIntoView from 'scroll-into-view-if-needed'
+import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
 
 const SIZE = 200
 
@@ -44,13 +45,14 @@ class IfNeeded extends PureComponent {
   items: { [key: string]: HTMLElement } = {}
 
   doScroll = target =>
-    scrollIntoView(target, {
+    (this.state.selectedBehavior === 'smooth'
+      ? scrollIntoView
+      : smoothScrollIntoView)(target, {
       behavior:
         (this.state.selectedBehavior as 'smooth-ponyfill') === 'smooth-ponyfill'
           ? ('smooth' as 'smooth')
           : this.state.selectedBehavior,
       scrollMode: this.state.scrollMode,
-      nativeSmooth: this.state.selectedBehavior === 'smooth',
     })
 
   render() {

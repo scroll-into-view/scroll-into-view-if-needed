@@ -4,7 +4,6 @@
     "module": "es2015",
     "moduleResolution": "node",
     "declaration": true,
-    "emitDeclarationOnly": true,
     "rootDir": "src",
     "declarationDir": "typings",
     "noImplicitReturns": true,
@@ -13,15 +12,9 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+
     "alwaysStrict": true,
     "lib": ["es5", "es2015.promise", "dom"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "example",
-    "**/*-test.ts",
-    "typings",
-    "cypress"
-  ]
+  "exclude": ["dist", "example", "**/*-test.ts", "cypress"]
 }
