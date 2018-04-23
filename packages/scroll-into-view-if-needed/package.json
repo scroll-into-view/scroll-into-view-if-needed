@@ -34,11 +34,11 @@
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.0.0-beta.45",
-    "@babel/core": "7.0.0-beta.45",
-    "@babel/plugin-external-helpers": "7.0.0-beta.45",
-    "@babel/preset-env": "7.0.0-beta.45",
-    "@babel/preset-typescript": "7.0.0-beta.45",
+    "@babel/cli": "7.0.0-beta.46",
+    "@babel/core": "7.0.0-beta.46",
+    "@babel/plugin-external-helpers": "7.0.0-beta.46",
+    "@babel/preset-env": "7.0.0-beta.46",
+    "@babel/preset-typescript": "7.0.0-beta.46",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-styled-components": "1.5.1",
