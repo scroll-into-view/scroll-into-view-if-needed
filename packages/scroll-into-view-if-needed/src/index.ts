@@ -1,15 +1,32 @@
-import { auto } from './auto'
+import { compute, Options as ComputeOptions } from './compute'
 
-// The "essentials-only" mode that is only as large as it needs to be, and supports native smooth scrolling which is potentially more performant
-export default auto
+export interface Options {
+  behavior?: 'auto' | 'smooth' | 'instant' | Function
+  scrollMode?: ComputeOptions['scrollMode']
+  boundary?: ComputeOptions['boundary']
+  block?: ComputeOptions['block']
+  inline?: ComputeOptions['inline']
+}
+
 // Some people might use both "auto" and "ponyfill" modes in the same file, so we also provide a named export so
 // that imports in userland code (like if they use native smooth scrolling on some browsers, and the ponyfill for everything else)
 // the named export allows this `import {auto as autoScrollIntoView, ponyfill as smoothScrollIntoView} from ...`
-export { auto }
+export default (target: Element, options: Options = {}) => {
+  const { behavior = 'auto', ...computeOptions } = options
+  //return target.scrollIntoView(options)
+  const instructions = compute(target, computeOptions)
 
-// The ponyfill variant that provide the same smooth scrolling experience for every browser
-export { ponyfill } from './ponyfill'
+  if (typeof behavior == 'function') {
+    return behavior(instructions)
+  }
 
-// This is for people who only need the code that computes scrolling instructions, but roll their own
-// code for doing the actual scrolling and want the smallest possible bundle size.
-export { compute } from './compute'
+  instructions.forEach(([el, top, left]) => {
+    // browser implements the new Element.prototype.scroll API that supports `behavior`
+    if (el.scroll) {
+      el.scroll({ top, left, behavior })
+    } else {
+      el.scrollTop = top
+      el.scrollLeft = left
+    }
+  })
+}

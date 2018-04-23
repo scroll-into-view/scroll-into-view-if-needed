@@ -14,10 +14,6 @@ export interface Options extends ScrollIntoViewOptions {
 }
 
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
-
-/**
- * indicates if an element has scrollable space in the provided axis
- */
 function hasScrollableSpace(el, axis: 'Y' | 'X') {
   if (axis === 'Y') {
     return el.clientHeight < el.scrollHeight
@@ -30,13 +26,6 @@ function hasScrollableSpace(el, axis: 'Y' | 'X') {
   return false
 }
 
-/**
- * indicates if an element can be scrolled in either axis
- * @method isScrollable
- * @param {Node} el
- * @param {String} axis
- * @returns {Boolean}
- */
 function isScrollable(el) {
   var isScrollableY = hasScrollableSpace(el, 'Y')
   var isScrollableX = hasScrollableSpace(el, 'X')
@@ -48,7 +37,7 @@ function isScrollable(el) {
 const alignNearestBlock = (
   targetStart: number,
   targetSize: number,
-  frame: HTMLElement,
+  frame: Element,
   frameRect: ClientRect | DOMRect
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
@@ -95,17 +84,6 @@ const alignNearestBlock = (
     return targetStart - frameRect.top
   }
 
-  console.log(
-    'alignToNearest',
-    'targetStart',
-    targetStart,
-    'should be 33 if clicking on 1',
-    Math.min(
-      targetStart,
-      Math.max(targetEnd - frame.clientHeight, frame.scrollTop)
-    )
-  )
-
   // start
   // Math.min(targetStart - frameRect.top, frame.scrollHeight - frame.clientHeight - frame.scrollTop)
 
@@ -123,7 +101,7 @@ const alignNearestBlock = (
 const alignNearestInline = (
   targetStart: number,
   targetSize: number,
-  frame: HTMLElement,
+  frame: Element,
   frameRect: ClientRect | DOMRect
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
@@ -170,17 +148,6 @@ const alignNearestInline = (
     return targetStart - frameRect.left
   }
 
-  console.log(
-    'alignToNearest',
-    'targetStart',
-    targetStart,
-    'should be 33 if clicking on 1',
-    Math.min(
-      targetStart,
-      Math.max(targetEnd - frame.clientWidth, frame.scrollTop)
-    )
-  )
-
   // start
   // Math.min(targetStart - frameRect.left, frame.scrollHeight - frame.clientWidth - frame.scrollTop)
 
@@ -195,7 +162,10 @@ const alignNearestInline = (
   return 0
 }
 
-export const compute = (maybeElement: Element, options: Options = {}) => {
+export const compute = (
+  target: Element,
+  options: Options = {}
+): [Element, number, number][] => {
   const {
     scrollMode = 'always',
     block = 'center',
@@ -203,11 +173,10 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     boundary,
   } = options
 
-  if (!isElement(maybeElement)) {
+  if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
 
-  let target = maybeElement
   let targetRect = target.getBoundingClientRect()
   console.error(
     'scrollMode',
@@ -222,7 +191,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     target
   )
   // Collect parents
-  const frames: HTMLElement[] = []
+  const frames: Element[] = []
   let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
     if (isScrollable(parent)) {
@@ -238,7 +207,7 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
   let targetInline
 
   // Collect new scroll positions
-  const computations = frames.map(frame => {
+  const computations = frames.map((frame): [Element, number, number] => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
     /*
@@ -429,5 +398,5 @@ export const compute = (maybeElement: Element, options: Options = {}) => {
     return [frame, blockScroll, inlineScroll]
   })
 
-  return computations as [[Element, number, number]]
+  return computations
 }

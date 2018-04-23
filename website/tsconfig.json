@@ -12,7 +12,7 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "noEmit": true,
     "baseUrl": ".",
     "lib": ["dom", "es2015", "es2016"]
