@@ -1,97 +1,69 @@
+import PropTypes from 'prop-types'
 import { Component, Fragment, createRef } from 'react'
-import scrollIntoView from 'scroll-into-view-if-needed'
+
+import Expect from '../components/Expect'
 
 import '../style.css'
 
-class Test extends Component {
-  target = createRef()
-
-  state = { test: undefined }
-
-  componentDidMount() {
-    const node = this.target.current
-    scrollIntoView(node)
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <div className="is-full-height align-center" />
-        <div className="is-full-height align-center">
-          <div
-            className="bulls-eye"
-            ref={this.target}
-            data-test={this.state.test}
-          />
-        </div>
-        <div className="is-full-height align-center" />
-      </Fragment>
-    )
-  }
-}
-
-class Start extends Component {
-  target = createRef()
-
-  state = { test: undefined }
-
-  componentDidMount() {
-    const node = this.target.current
-    scrollIntoView(node, { block: 'start' })
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <div className="is-full-height align-centers" />
-        <div className="is-full-height align-center">
-          <div
-            className="bulls-eye"
-            ref={this.target}
-            data-test={this.state.test}
-          />
-        </div>
-        <div className="is-full-height align-center" />
-      </Fragment>
-    )
-  }
-}
-
-class End extends Component {
-  target = createRef()
-
-  state = { test: undefined }
-
-  componentDidMount() {
-    const node = this.target.current
-    scrollIntoView(node, { block: 'end' })
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <div className="is-full-height align-centers" />
-        <div className="is-full-height align-center">
-          <div
-            className="bulls-eye"
-            ref={this.target}
-            data-test={this.state.test}
-          />
-        </div>
-        <div className="is-full-height align-center" />
-      </Fragment>
-    )
-  }
-}
+const SIZE = 100
 
 const tests = {
-  start: Start,
-  center: Test,
-  end: End,
+  start: () => (
+    <Expect
+      options={{ block: 'start' }}
+      toBe={node => {
+        const clientRect = node.getBoundingClientRect()
+        return clientRect.top === 0
+      }}
+    >
+      {({ target }) => (
+        <Fragment>
+          <div className="is-full-height align-center" />
+          <div className="is-full-height align-center">{target}</div>
+          <div className="is-full-height align-center" />
+        </Fragment>
+      )}
+    </Expect>
+  ),
+  center: () => (
+    <Expect
+      options={{ block: 'center' }}
+      toBe={node => {
+        const clientRect = node.getBoundingClientRect()
+        return clientRect.top === window.innerHeight / 2 - SIZE / 2
+      }}
+    >
+      {({ target }) => (
+        <Fragment>
+          <div className="is-full-height align-center" />
+          <div className="is-full-height align-center">{target}</div>
+          <div className="is-full-height align-center" />
+        </Fragment>
+      )}
+    </Expect>
+  ),
+  end: () => (
+    <Expect
+      options={{ block: 'end' }}
+      toBe={node => {
+        const clientRect = node.getBoundingClientRect()
+        return clientRect.bottom === window.innerHeight
+      }}
+    >
+      {({ target }) => (
+        <Fragment>
+          <div className="is-full-height align-center" />
+          <div className="is-full-height align-center">{target}</div>
+          <div className="is-full-height align-center" />
+        </Fragment>
+      )}
+    </Expect>
+  ),
 }
+const keys = Object.keys(tests).sort()
 
 export default class extends Component {
-  state = { test: Object.keys(tests)[0], mounted: false }
+  state = { test: keys[0], mounted: false }
 
   componentDidMount() {
     // @TODO Workaround annoying chrome behavior, implement event listeners like window.onload instead
@@ -99,7 +71,7 @@ export default class extends Component {
   }
 
   render() {
-    const buttons = Object.keys(tests)
+    const buttons = keys
     const ActiveTest = tests[this.state.test]
     return (
       <Fragment>
