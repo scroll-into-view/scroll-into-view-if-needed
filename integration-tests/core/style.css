@@ -1,6 +1,6 @@
 body {
   display: flex;
-  
+
 }
 
 .example {
@@ -8,8 +8,19 @@ body {
   color: papayawhip;
 }
 
+.is-full-height {
+  height: 100vh;
+}
+
 .bulls-eye {
   --size: 100px;
   height: var(--size);
   width: var(--size);
+}
+
+[data-test="pass"] {
+  background: green;
+}
+[data-test="fail"] {
+  background: red;
 }
