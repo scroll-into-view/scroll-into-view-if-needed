@@ -7,6 +7,10 @@ if (process.env.NODE_ENV === 'production') {
   plugins.push('dev-expression')
 }
 
+if (BABEL_ENV === 'cjs') {
+  plugins.push('babel-plugin-add-module-exports')
+}
+
 module.exports = {
   presets: [
     '@babel/preset-typescript',
