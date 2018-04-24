@@ -13,13 +13,14 @@ body {
 
 .bulls-eye {
   --size: 100px;
+  background: #ffeb3b;
   height: var(--size);
   width: var(--size);
 }
 
 [data-test='pass'] {
-  background: green;
+  background: #4caf50;
 }
 [data-test='fail'] {
-  background: red;
+  background: #f44336;
 }

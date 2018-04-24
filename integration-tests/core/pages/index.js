@@ -10,7 +10,9 @@ class Test extends Component {
 
   componentDidMount() {
     const node = this.target.current
-    scrollIntoView(node)
+    window.addEventListener('load', () => {
+      scrollIntoView(node)
+    })
   }
 
   render() {
@@ -26,6 +28,7 @@ class Test extends Component {
 
 export default () => (
   <Fragment>
+    <div className="is-full-height" />
     <div className="is-full-height" />
     <div className="is-full-height">
       <Test />

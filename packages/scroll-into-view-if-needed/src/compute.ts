@@ -27,6 +27,7 @@ function hasScrollableSpace(el, axis: 'Y' | 'X') {
 }
 
 function isScrollable(el) {
+  console.log('isScrollable', el)
   var isScrollableY = hasScrollableSpace(el, 'Y')
   var isScrollableX = hasScrollableSpace(el, 'X')
 
@@ -165,13 +166,13 @@ const alignNearestInline = (
 export const compute = (
   target: Element,
   options: Options = {}
-): [Element, number, number][] => {
-  const {
-    scrollMode = 'always',
-    block = 'center',
-    inline = 'nearest',
-    boundary,
-  } = options
+): { el: Element; top: number; left: number }[] => {
+  const { scrollMode, block, inline, boundary } = {
+    scrollMode: 'always',
+    block: 'center',
+    inline: 'nearest',
+    ...options,
+  }
 
   if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
@@ -179,7 +180,7 @@ export const compute = (
 
   let targetRect = target.getBoundingClientRect()
   console.error(
-    'scrollMode',
+    'scrollModes',
     scrollMode,
     'block',
     block,
@@ -207,7 +208,11 @@ export const compute = (
   let targetInline
 
   // Collect new scroll positions
-  const computations = frames.map((frame): [Element, number, number] => {
+  const computations = frames.map((frame): {
+    el: Element
+    top: number
+    left: number
+  } => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
     /*
@@ -243,12 +248,19 @@ export const compute = (
         console.log('targetBlock', targetBlock, 'scrollMode', scrollMode)
       }
     }
-
     if (block === 'center') {
+      console.log('test', targetRect)
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
       if (document.documentElement === frame) {
+        console.warn(
+          'SOMEBODY SOUND THE ALARM',
+          frame,
+          frame.clientHeight,
+          frame.scrollTop,
+          frameRect.top + frameRect.height / 2 - targetBlock
+        )
         blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
@@ -395,7 +407,7 @@ export const compute = (
 
     // @TODO fix hardcoding of inline => left/X
     //const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left
-    return [frame, blockScroll, inlineScroll]
+    return { el: frame, top: blockScroll, left: inlineScroll }
   })
 
   return computations
