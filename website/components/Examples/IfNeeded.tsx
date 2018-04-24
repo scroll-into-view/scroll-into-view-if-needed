@@ -16,8 +16,6 @@ const ScrollContainer = styled.div`
   width: ${SIZE}px;
 `
 
-const ScrollLayer = styled.div``
-
 const Item = styled.div.attrs({
   className: 'has-background-primary is-size-4',
 })`
@@ -104,13 +102,11 @@ class IfNeeded extends PureComponent {
               </a>
             </div>
             <ScrollContainer>
-              <ScrollLayer id="example-if-needed">
-                {range.map(name => (
-                  <Item key={name} innerRef={node => (this.items[name] = node)}>
-                    {name}
-                  </Item>
-                ))}
-              </ScrollLayer>
+              {range.map(name => (
+                <Item key={name} innerRef={node => (this.items[name] = node)}>
+                  {name}
+                </Item>
+              ))}
             </ScrollContainer>
           </div>
         </div>

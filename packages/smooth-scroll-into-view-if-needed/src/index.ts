@@ -92,7 +92,7 @@ export default (target, options: Options = {}) => {
     ...options,
     behavior: instructions => {
       return Promise.all(
-        instructions.map(([el, top, left]) => {
+        instructions.map(({ el, left, top }) => {
           return new Promise(resolve => {
             smoothScroll(el, left, top, () => resolve())
           })
