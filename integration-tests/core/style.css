@@ -1,0 +1,15 @@
+body {
+  display: flex;
+  
+}
+
+.example {
+  font-size: 50px;
+  color: papayawhip;
+}
+
+.bulls-eye {
+  --size: 100px;
+  height: var(--size);
+  width: var(--size);
+}

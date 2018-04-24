@@ -11,5 +11,8 @@
     "plugin:import/errors",
     "plugin:react/recommended"
   ],
-  "rules": {}
+  "rules": {
+    "react/react-jsx-in-scope": false,
+    "react/display-name": false
+  }
 }
