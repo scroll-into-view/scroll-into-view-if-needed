@@ -17,9 +17,9 @@ body {
   width: var(--size);
 }
 
-[data-test="pass"] {
+[data-test='pass'] {
   background: green;
 }
-[data-test="fail"] {
+[data-test='fail'] {
   background: red;
 }
