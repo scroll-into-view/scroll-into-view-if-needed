@@ -33,8 +33,7 @@
     "uglifyjs-webpack-plugin": "1.2.5"
   },
   "devDependencies": {
-    "@cypress/browserify-preprocessor": "1.0.2",
-    "browserify": "16.2.0",
+    "@cypress/webpack-preprocessor": "2.0.1",
     "cypress": "2.1.0",
     "tsify": "4.0.0"
   }

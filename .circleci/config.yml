@@ -28,6 +28,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
+      - run: yarn lint
       - run:
           name: scroll-into-view-if-needed
           command: yarn build:d.ts
