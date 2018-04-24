@@ -2,8 +2,7 @@ import { Fragment, PureComponent } from 'react'
 import styled from 'styled-components'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import scroll from 'stylefire/scroll'
-import css from 'stylefire/css'
-import { physics } from 'popmotion'
+import { spring } from 'popmotion'
 
 import Code from '../Code'
 
@@ -12,6 +11,7 @@ const SIZE = 200
 const ScrollContainer = styled.div`
   box-sizing: content-box;
   border: 1px solid hsla(0, 0%, 0%, 0.2);
+  background: hsla(0, 0%, 0%, 0.05);
   overflow: hidden;
   height: ${SIZE}px;
   width: ${SIZE}px;
@@ -19,6 +19,8 @@ const ScrollContainer = styled.div`
 
 const ScrollLayer = styled.div`
   display: flex;
+  padding-left: ${SIZE}px;
+  padding-right: ${SIZE}px;
   width: ${SIZE * 3}px;
 `
 
@@ -31,10 +33,9 @@ const Item = styled.div.attrs({
   height: ${SIZE}px;
   width: ${SIZE}px;
   color: black;
-  opacity: 0.6;
 `
 
-const range = ['success', 'warning', 'danger']
+const emojis = ['🌎', '🌍', '🌏']
 
 class Boundary extends PureComponent {
   state = {
@@ -48,50 +49,31 @@ class Boundary extends PureComponent {
 
   container: HTMLElement
   buttons: HTMLElement[] = []
-  items: { [key: string]: HTMLElement } = {}
+  items: HTMLElement[] = []
 
-  doScroll = (target, snapshot) =>
+  doScroll = target =>
     scrollIntoView(target, {
       behavior: instructions => {
-        const [frame, , left] = instructions[0]
-
-        const [fromColor, toColor] = snapshot
-        const colorStyler = css(frame)
+        const { el: frame, left } = instructions[0]
         const elementScroll = scroll(frame)
 
-        physics({
-          from: { left: frame.scrollLeft, color: fromColor },
-          to: { left: left, color: toColor },
-          springStrength: 600,
-          friction: 1,
-        }).start(({ left, color }) => {
-          colorStyler.set('backgroundColor', color)
-          elementScroll.set('left', left)
-        })
+        spring({
+          from: frame.scrollLeft,
+          to: left,
+          //stiffness: 200,
+          //damping: 10,
+        }).start(v => elementScroll.set('left', v))
       },
       boundary: this.container.parentNode as Element,
       inline: 'center',
     })
 
-  getSnapshotBeforeUpdate(_prevProps, prevState) {
-    // @TODO report the need to use `as never`
-    return [
-      getComputedStyle(this.buttons[prevState.selected])
-        .backgroundColor as never,
-      getComputedStyle(this.buttons[this.state.selected])
-        .backgroundColor as never,
-    ]
-  }
-
   componentDidMount() {
-    this.container.style.setProperty(
-      'background-color',
-      getComputedStyle(this.buttons[this.state.selected]).backgroundColor
-    )
+    this.container.scrollLeft = SIZE
   }
 
-  componentDidUpdate(_prevProps, _prevState, snapshot) {
-    this.doScroll(this.items[range[this.state.selected]], snapshot)
+  componentDidUpdate() {
+    this.doScroll(this.items[this.state.selected])
   }
   component
   render() {
@@ -101,35 +83,30 @@ class Boundary extends PureComponent {
           <div className="column">
             <Code>{`
         import scrollIntoView from 'scroll-into-view-if-needed';
-        import scroll from 'stylefire/scroll';
-       import { physics } from 'popmotion';
+        import scroll from 'stylefire/scroll'
+        import { spring } from 'popmotion'
 
         scrollIntoView(node, {behavior: instructions => {
             const [frame, top, left] = instructions[0]
             const elementScroll = scroll(frame)
     
-            physics({
-              from: frame.scrollLeft,
-              to: left,
-              springStrength: 600,
-              friction: 1,
-            }).start((v) => elementScroll.set('left', v)
-            )
-          },
-        })
+            spring({from: scrollLeft,to: left})
+            .start((left) => elementScroll.set('left', left))
+            
+          },inline: 'center'})
         `}</Code>
           </div>
           <div className="column is-narrow has-text-centered">
             <div className="buttons is-centered">
               <span className="label">Scroll to:&nbsp;</span>
-              {range.map((item, key) => (
+              {emojis.map((emoji, key) => (
                 <a
-                  key={item}
+                  key={emoji}
                   ref={button => (this.buttons[key] = button)}
-                  className={`button is-small is-${item}`}
+                  className="button is-small"
                   onClick={() => this.setState({ selected: key })}
                 >
-                  {key + 1}
+                  {emoji}
                 </a>
               ))}
             </div>
@@ -137,9 +114,9 @@ class Boundary extends PureComponent {
               innerRef={container => (this.container = container)}
             >
               <ScrollLayer id="example-override-behavior">
-                {range.map((name, i) => (
-                  <Item key={name} innerRef={node => (this.items[name] = node)}>
-                    {i + 1}
+                {emojis.map((emoji, key) => (
+                  <Item key={emoji} innerRef={node => (this.items[key] = node)}>
+                    {emoji}
                   </Item>
                 ))}
               </ScrollLayer>

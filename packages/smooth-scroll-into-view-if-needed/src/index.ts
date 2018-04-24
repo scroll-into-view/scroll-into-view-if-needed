@@ -54,13 +54,11 @@ function smoothScroll(el, x, y, cb) {
     startX = window.scrollX || window.pageXOffset
     startY = window.scrollY || window.pageYOffset
     method = window.scroll
-    console.error('damn2', el, startX, startY)
   } else {
     scrollable = el
     startX = el.scrollLeft
     startY = el.scrollTop
     method = (x, y) => {
-      console.error(el, 'x', x, 'y', y)
       el.scrollLeft = x
       el.scrollTop = y
     }
@@ -92,7 +90,7 @@ export default (target, options: Options = {}) => {
     ...options,
     behavior: instructions => {
       return Promise.all(
-        instructions.map(([el, top, left]) => {
+        instructions.map(({ el, left, top }) => {
           return new Promise(resolve => {
             smoothScroll(el, left, top, () => resolve())
           })

@@ -45,34 +45,13 @@ const alignNearestBlock = (
 
   // Is not hidden by the starting edge (if block then this is typically frameRect.top)
   if (targetStart >= frameRect.top && targetEnd <= frameRect.bottom) {
-    console.warn('bail', targetStart, frameRect.top)
     return 0
   }
-
-  console.warn(
-    'top',
-    'target',
-    targetStart,
-    'frame',
-    frameRect.top,
-    frameRect.width,
-    frame.clientWidth,
-    targetStart < frameRect.top
-  )
-  console.warn(
-    'bottom',
-    'target',
-    targetEnd,
-    'frame',
-    frameRect.bottom,
-    targetEnd > frameRect.bottom
-  )
 
   if (
     (targetStart < frameRect.top && targetSize < frame.clientHeight) ||
     (targetEnd > frameRect.bottom && targetSize > frame.clientHeight)
   ) {
-    console.log('align to start', targetStart, frameRect.top)
     return targetStart - frameRect.top
   }
 
@@ -80,7 +59,6 @@ const alignNearestBlock = (
     (targetEnd > frameRect.bottom && targetSize < frame.clientHeight) ||
     (targetStart < frameRect.top && targetSize > frame.clientHeight)
   ) {
-    console.log('align to end', targetStart, frameRect.top)
     return targetStart - frameRect.top
   }
 
@@ -92,8 +70,6 @@ const alignNearestBlock = (
 
   // end
   // Math.min(frameRect.bottom - targetEnd, frame.scrollTop)
-
-  console.error('failure?', targetStart, frame)
 
   return 0
 }
@@ -109,34 +85,13 @@ const alignNearestInline = (
 
   // Is not hidden by the starting edge (if block then this is typically frameRect.top)
   if (targetStart >= frameRect.left && targetEnd <= frameRect.right) {
-    console.warn('bail', targetStart, frameRect.left)
     return 0
   }
-
-  console.warn(
-    'left',
-    'target',
-    targetStart,
-    'frame',
-    frameRect.left,
-    frameRect.width,
-    frame.clientWidth,
-    targetStart < frameRect.left
-  )
-  console.warn(
-    'right',
-    'target',
-    targetEnd,
-    'frame',
-    frameRect.right,
-    targetEnd > frameRect.right
-  )
 
   if (
     (targetStart < frameRect.left && targetSize < frame.clientWidth) ||
     (targetEnd > frameRect.right && targetSize > frame.clientWidth)
   ) {
-    console.log('align to start', targetStart, frameRect.left)
     return targetStart - frameRect.left
   }
 
@@ -144,7 +99,6 @@ const alignNearestInline = (
     (targetEnd > frameRect.right && targetSize < frame.clientWidth) ||
     (targetStart < frameRect.left && targetSize > frame.clientWidth)
   ) {
-    console.log('align to end', targetStart, frameRect.left)
     return targetStart - frameRect.left
   }
 
@@ -157,39 +111,26 @@ const alignNearestInline = (
   // end
   // Math.min(frameRect.right - targetEnd, frame.scrollTop)
 
-  console.error('failure?', targetStart, frame)
-
   return 0
 }
 
 export const compute = (
   target: Element,
   options: Options = {}
-): [Element, number, number][] => {
-  const {
-    scrollMode = 'always',
-    block = 'center',
-    inline = 'nearest',
-    boundary,
-  } = options
+): { el: Element; top: number; left: number }[] => {
+  const { /*scrollMode,*/ block, inline, boundary } = {
+    //scrollMode: 'always',
+    block: 'center',
+    inline: 'nearest',
+    ...options,
+  }
 
   if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoViewIfNeeded')
   }
 
   let targetRect = target.getBoundingClientRect()
-  console.error(
-    'scrollMode',
-    scrollMode,
-    'block',
-    block,
-    'inline',
-    inline,
-    'boundary',
-    boundary,
-    'target',
-    target
-  )
+
   // Collect parents
   const frames: Element[] = []
   let parent
@@ -207,19 +148,14 @@ export const compute = (
   let targetInline
 
   // Collect new scroll positions
-  const computations = frames.map((frame): [Element, number, number] => {
+  const computations = frames.map((frame): {
+    el: Element
+    top: number
+    left: number
+  } => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
-    /*
-    console.warn(
-      'test',
-      frame,
-      frame.scrollTop,
-      targetRect.top,
-      frameRect.top,
-      frame.scrollTop + targetRect.top - frameRect.top
-    );
-    //*/
+
     let blockScroll = 0
     let inlineScroll = 0
 
@@ -240,10 +176,8 @@ export const compute = (
         blockScroll = frame.scrollTop + offset
 
         targetBlock -= blockScroll - frame.scrollTop
-        console.log('targetBlock', targetBlock, 'scrollMode', scrollMode)
       }
     }
-
     if (block === 'center') {
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
@@ -294,14 +228,12 @@ export const compute = (
         // blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
-        console.group('alignNearestBlock')
         const offset = alignNearestBlock(
           targetBlock,
           targetRect.height,
           frame,
           frameRect
         )
-        console.groupEnd()
         blockScroll = frame.scrollTop + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
@@ -377,7 +309,6 @@ export const compute = (
         // inlineScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
-        console.group('alignNearestInline')
         const offset = alignNearestInline(
           targetInline,
           targetRect.width,
@@ -385,7 +316,6 @@ export const compute = (
           frameRect
         )
 
-        console.groupEnd()
         inlineScroll = frame.scrollLeft + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
@@ -395,7 +325,7 @@ export const compute = (
 
     // @TODO fix hardcoding of inline => left/X
     //const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left
-    return [frame, blockScroll, inlineScroll]
+    return { el: frame, top: blockScroll, left: inlineScroll }
   })
 
   return computations

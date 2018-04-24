@@ -2,6 +2,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
+    "integration-tests/*",
     "website"
   ],
   "scripts": {
@@ -9,10 +10,16 @@
     "precommit": "lint-staged",
     "predeploy:website": "yarn build",
     "deploy:website": "cd website && yarn deploy",
+    "lint": "eslint ./integration-examples",
     "publish:canary": "lerna publish --npm-tag=next --canary",
     "typecheck": "lerna exec --concurrency 1 -- yarn typecheck"
   },
   "devDependencies": {
+    "babel-eslint": "8.2.3",
+    "eslint": "4.19.1",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-import": "2.11.0",
+    "eslint-plugin-react": "7.7.0",
     "husky": "0.14.3",
     "lerna": "2.11.0",
     "lint-staged": "7.0.4",
@@ -32,6 +39,10 @@
       "git add"
     ],
     "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.css": [
       "prettier --write",
       "git add"
     ],

@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": ["import", "react"],
+  "extends": [
+    "eslint:recommended",
+    "prettier",
+    "plugin:import/errors",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "react/react-jsx-in-scope": false,
+    "react/display-name": false
+  }
+}

@@ -28,6 +28,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
+      - run: yarn lint
       - run:
           name: scroll-into-view-if-needed
           command: yarn build:d.ts
@@ -73,14 +74,14 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - run:
-          name: scroll-into-view-if-needed
-          command: npx --no-install semantic-release -e semantic-release-monorepo
-          working_directory: packages/scroll-into-view-if-needed
-      - run:
-          name: smooth-scroll-into-view-if-needed
-          command: npx --no-install semantic-release -e semantic-release-monorepo
-          working_directory: packages/smooth-scroll-into-view-if-needed
+      #- run:
+      #    name: scroll-into-view-if-needed
+      #    command: npx --no-install semantic-release -e semantic-release-monorepo
+      #    working_directory: packages/scroll-into-view-if-needed
+      #- run:
+      #    name: smooth-scroll-into-view-if-needed
+      #    command: npx --no-install semantic-release -e semantic-release-monorepo
+      #    working_directory: packages/smooth-scroll-into-view-if-needed
 
 # Workflows enables us to run multiple jobs in parallel
 workflows:

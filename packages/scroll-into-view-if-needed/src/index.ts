@@ -20,7 +20,7 @@ export default (target: Element, options: Options = {}) => {
     return behavior(instructions)
   }
 
-  instructions.forEach(([el, top, left]) => {
+  instructions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     if (el.scroll) {
       el.scroll({ top, left, behavior })
