@@ -2,9 +2,23 @@ body {
   display: flex;
 }
 
+.test-switcher {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
 .example {
   font-size: 50px;
   color: papayawhip;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .is-full-height {

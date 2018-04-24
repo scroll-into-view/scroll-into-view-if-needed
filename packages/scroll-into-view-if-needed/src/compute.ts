@@ -249,7 +249,7 @@ export const compute = (
       }
     }
     if (block === 'center') {
-      console.log('test', targetRect)
+      console.log('test', targetRect, targetRect.top + targetRect.height / 2)
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
