@@ -27,7 +27,6 @@ function hasScrollableSpace(el, axis: 'Y' | 'X') {
 }
 
 function isScrollable(el) {
-  console.log('isScrollable', el)
   var isScrollableY = hasScrollableSpace(el, 'Y')
   var isScrollableX = hasScrollableSpace(el, 'X')
 
@@ -46,34 +45,13 @@ const alignNearestBlock = (
 
   // Is not hidden by the starting edge (if block then this is typically frameRect.top)
   if (targetStart >= frameRect.top && targetEnd <= frameRect.bottom) {
-    console.warn('bail', targetStart, frameRect.top)
     return 0
   }
-
-  console.warn(
-    'top',
-    'target',
-    targetStart,
-    'frame',
-    frameRect.top,
-    frameRect.width,
-    frame.clientWidth,
-    targetStart < frameRect.top
-  )
-  console.warn(
-    'bottom',
-    'target',
-    targetEnd,
-    'frame',
-    frameRect.bottom,
-    targetEnd > frameRect.bottom
-  )
 
   if (
     (targetStart < frameRect.top && targetSize < frame.clientHeight) ||
     (targetEnd > frameRect.bottom && targetSize > frame.clientHeight)
   ) {
-    console.log('align to start', targetStart, frameRect.top)
     return targetStart - frameRect.top
   }
 
@@ -81,7 +59,6 @@ const alignNearestBlock = (
     (targetEnd > frameRect.bottom && targetSize < frame.clientHeight) ||
     (targetStart < frameRect.top && targetSize > frame.clientHeight)
   ) {
-    console.log('align to end', targetStart, frameRect.top)
     return targetStart - frameRect.top
   }
 
@@ -93,8 +70,6 @@ const alignNearestBlock = (
 
   // end
   // Math.min(frameRect.bottom - targetEnd, frame.scrollTop)
-
-  console.error('failure?', targetStart, frame)
 
   return 0
 }
@@ -110,34 +85,13 @@ const alignNearestInline = (
 
   // Is not hidden by the starting edge (if block then this is typically frameRect.top)
   if (targetStart >= frameRect.left && targetEnd <= frameRect.right) {
-    console.warn('bail', targetStart, frameRect.left)
     return 0
   }
-
-  console.warn(
-    'left',
-    'target',
-    targetStart,
-    'frame',
-    frameRect.left,
-    frameRect.width,
-    frame.clientWidth,
-    targetStart < frameRect.left
-  )
-  console.warn(
-    'right',
-    'target',
-    targetEnd,
-    'frame',
-    frameRect.right,
-    targetEnd > frameRect.right
-  )
 
   if (
     (targetStart < frameRect.left && targetSize < frame.clientWidth) ||
     (targetEnd > frameRect.right && targetSize > frame.clientWidth)
   ) {
-    console.log('align to start', targetStart, frameRect.left)
     return targetStart - frameRect.left
   }
 
@@ -145,7 +99,6 @@ const alignNearestInline = (
     (targetEnd > frameRect.right && targetSize < frame.clientWidth) ||
     (targetStart < frameRect.left && targetSize > frame.clientWidth)
   ) {
-    console.log('align to end', targetStart, frameRect.left)
     return targetStart - frameRect.left
   }
 
@@ -157,8 +110,6 @@ const alignNearestInline = (
 
   // end
   // Math.min(frameRect.right - targetEnd, frame.scrollTop)
-
-  console.error('failure?', targetStart, frame)
 
   return 0
 }
@@ -179,18 +130,7 @@ export const compute = (
   }
 
   let targetRect = target.getBoundingClientRect()
-  console.error(
-    'scrollModes',
-    scrollMode,
-    'block',
-    block,
-    'inline',
-    inline,
-    'boundary',
-    boundary,
-    'target',
-    target
-  )
+
   // Collect parents
   const frames: Element[] = []
   let parent
@@ -215,16 +155,7 @@ export const compute = (
   } => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
-    /*
-    console.warn(
-      'test',
-      frame,
-      frame.scrollTop,
-      targetRect.top,
-      frameRect.top,
-      frame.scrollTop + targetRect.top - frameRect.top
-    );
-    //*/
+
     let blockScroll = 0
     let inlineScroll = 0
 
@@ -245,22 +176,13 @@ export const compute = (
         blockScroll = frame.scrollTop + offset
 
         targetBlock -= blockScroll - frame.scrollTop
-        console.log('targetBlock', targetBlock, 'scrollMode', scrollMode)
       }
     }
     if (block === 'center') {
-      console.log('test', targetRect, targetRect.top + targetRect.height / 2)
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
       if (document.documentElement === frame) {
-        console.warn(
-          'SOMEBODY SOUND THE ALARM',
-          frame,
-          frame.clientHeight,
-          frame.scrollTop,
-          frameRect.top + frameRect.height / 2 - targetBlock
-        )
         blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values

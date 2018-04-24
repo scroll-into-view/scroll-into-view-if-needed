@@ -38,13 +38,8 @@ export function scrollIntoView(target, defaults) {
     nativeSmooth = 'scrollBehavior' in document.documentElement.style,
     ...options
   } = defaults
-  console.log(
-    nativeSmooth,
-    'scrollBehavior' in document.documentElement.style,
-    defaults
-  )
 
-  nativeSmooth
+  return nativeSmooth
     ? scrollIntoViewIfNeeded(target, options)
     : smoothScrollIntoViewIfNeeded(target, options)
 }

@@ -19,11 +19,9 @@ export default (target: Element, options: Options = {}) => {
   if (typeof behavior == 'function') {
     return behavior(instructions)
   }
-  console.log(instructions)
 
   instructions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
-    //console.log()
     if (el.scroll) {
       el.scroll({ top, left, behavior })
     } else {
