@@ -22,7 +22,7 @@
     "popmotion": "8.1.22",
     "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
     "react": "16.3.2",
-    "react-codemirror2": "5.0.0",
+    "react-codemirror2": "5.0.1",
     "react-dom": "16.3.2",
     "react-syntax-highlighter": "7.0.2",
     "scroll-into-view-if-needed": "2.0.0",
