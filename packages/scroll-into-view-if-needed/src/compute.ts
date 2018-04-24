@@ -228,14 +228,12 @@ export const compute = (
         // blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
-        console.group('alignNearestBlock')
         const offset = alignNearestBlock(
           targetBlock,
           targetRect.height,
           frame,
           frameRect
         )
-        console.groupEnd()
         blockScroll = frame.scrollTop + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
@@ -311,7 +309,6 @@ export const compute = (
         // inlineScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
-        console.group('alignNearestInline')
         const offset = alignNearestInline(
           targetInline,
           targetRect.width,
@@ -319,7 +316,6 @@ export const compute = (
           frameRect
         )
 
-        console.groupEnd()
         inlineScroll = frame.scrollLeft + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
