@@ -118,8 +118,8 @@ export const compute = (
   target: Element,
   options: Options = {}
 ): { el: Element; top: number; left: number }[] => {
-  const { scrollMode, block, inline, boundary } = {
-    scrollMode: 'always',
+  const { /*scrollMode,*/ block, inline, boundary } = {
+    //scrollMode: 'always',
     block: 'center',
     inline: 'nearest',
     ...options,
