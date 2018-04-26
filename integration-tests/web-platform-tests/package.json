@@ -4,6 +4,7 @@
   "version": "0.0.0-dev",
   "main": "index.js",
   "scripts": {
+    "build": "true",
     "start": "micro"
   },
   "dependencies": {
