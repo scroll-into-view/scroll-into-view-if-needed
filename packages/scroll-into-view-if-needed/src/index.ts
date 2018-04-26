@@ -16,16 +16,20 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
   let options: Options = {}
 
   // Handle alignToTop for legacy reasons
-  if (maybeOptions === true) {
+  if (maybeOptions === true || maybeOptions === null) {
     options = { block: 'start', inline: 'nearest' }
   } else if (maybeOptions === false) {
     options = { block: 'end', inline: 'nearest' }
   } else if (maybeOptions === Object(maybeOptions)) {
-    options = { block: 'center', inline: 'nearest', ...maybeOptions }
+    // @TODO check if passing an empty object is handled like defined by the spec (for now it makes the web platform tests pass)
+    options =
+      Object.keys(maybeOptions).length === 0
+        ? { block: 'start', inline: 'nearest' }
+        : { block: 'center', inline: 'nearest', ...maybeOptions }
   }
 
   counter++
-  ;[1].includes(counter)
+  ;[40, 39, 38, 37, 36, 35, 34, 32].includes(counter)
     ? console.group(options)
     : console.groupCollapsed(options)
 
