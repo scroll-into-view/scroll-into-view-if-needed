@@ -49,7 +49,13 @@ const alignNearestBlock = (
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
-
+  console.warn(
+    'hi there',
+    `${frameRect.bottom} >= 0 &&
+${targetEnd} < ${frameRect.bottom} &&
+${targetSize} < ${frame.clientHeight}`,
+    frameRect
+  )
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
    *
@@ -89,6 +95,7 @@ const alignNearestBlock = (
     targetEnd > frameRect.top &&
     targetSize < frame.clientHeight
   ) {
+    console.warn('this here')
     return targetStart
   }
 
@@ -113,24 +120,13 @@ const alignNearestBlock = (
    *        ┗━│━━│━┛         ┗━└━━┘━┛
    *          └──┘
    */
-
-  // Is not hidden by the starting edge (if block then this is typically frameRect.top)
-  if (targetStart >= frameRect.top && targetEnd <= frameRect.bottom) {
-    return 0
-  }
-
   if (
-    (targetStart < frameRect.top && targetSize < frame.clientHeight) ||
-    (targetEnd > frameRect.bottom && targetSize > frame.clientHeight)
+    frameRect.bottom >= 0 &&
+    targetEnd < frameRect.bottom &&
+    targetSize < frame.clientHeight
   ) {
-    return targetStart - frameRect.top
-  }
-
-  if (
-    (targetEnd > frameRect.bottom && targetSize < frame.clientHeight) ||
-    (targetStart < frameRect.top && targetSize > frame.clientHeight)
-  ) {
-    return targetStart - frameRect.top
+    console.error('aha')
+    return targetEnd - frameRect.top - frame.clientHeight
   }
 
   return 0
@@ -208,21 +204,6 @@ const alignNearestInline = (
     targetSize < frame.clientWidth
   ) {
     return targetEnd - frameRect.left - frame.clientWidth
-  }
-
-  // overflow on
-  if (
-    (targetStart < frameRect.left && targetSize < frame.clientWidth) ||
-    (targetEnd > frameRect.right && targetSize > frame.clientWidth)
-  ) {
-    return targetStart - frameRect.left
-  }
-
-  if (
-    (targetEnd > frameRect.right && targetSize < frame.clientWidth) ||
-    (targetStart < frameRect.left && targetSize > frame.clientWidth)
-  ) {
-    return targetStart - frameRect.left
   }
 
   return 0
@@ -337,6 +318,7 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
+      console.warn('targetRect', targetRect)
       const offset = alignNearestBlock(
         targetBlock,
         targetRect.height,
