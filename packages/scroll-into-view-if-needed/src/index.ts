@@ -8,7 +8,6 @@ export interface Options {
   inline?: ComputeOptions['inline']
 }
 
-let counter = 0
 // Some people might use both "auto" and "ponyfill" modes in the same file, so we also provide a named export so
 // that imports in userland code (like if they use native smooth scrolling on some browsers, and the ponyfill for everything else)
 // the named export allows this `import {auto as autoScrollIntoView, ponyfill as smoothScrollIntoView} from ...`
@@ -28,8 +27,7 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
         : { block: 'center', inline: 'nearest', ...maybeOptions }
   }
 
-  counter++
-  ;[40, 39, 38, 37, 36, 35, 34, 32].includes(counter)
+  options.block === 'center'
     ? console.group(options)
     : console.groupCollapsed(options)
 

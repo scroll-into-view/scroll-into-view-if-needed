@@ -301,7 +301,7 @@ export const compute = (
         targetInline = targetRect.left + targetRect.width / 2
       }
       if (document.documentElement === frame) {
-        inlineScroll = frame.scrollLeft + targetInline - frame.clientLeft / 2
+        inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth / 2
       } else {
         // prevent negative scrollLeft values
         const offset =
@@ -320,14 +320,14 @@ export const compute = (
 
     if (inline === 'end') {
       if (!targetInline) {
-        targetInline = targetRect.bottom
+        targetInline = targetRect.right
       }
       if (document.documentElement === frame) {
-        inlineScroll = frame.scrollLeft + targetInline - frame.clientLeft
+        inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth
       } else {
         // prevent negative scrollLeft values
         const offset =
-          0 - Math.min(frameRect.bottom - targetInline, frame.scrollLeft)
+          0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
         inlineScroll = frame.scrollLeft + offset
 
