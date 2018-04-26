@@ -27,10 +27,6 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
         : { block: 'center', inline: 'nearest', ...maybeOptions }
   }
 
-  options.block === 'center'
-    ? console.group(options)
-    : console.groupCollapsed(options)
-
   const { behavior = 'auto', ...computeOptions } = options
   //return target.scrollIntoView(options)
   const instructions = compute(target, computeOptions)
@@ -48,5 +44,4 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
       el.scrollLeft = left
     }
   })
-  console.groupEnd()
 }
