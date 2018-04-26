@@ -223,8 +223,8 @@ export const compute = (
   target: Element,
   options: Options = {}
 ): { el: Element; top: number; left: number }[] => {
-  const { /*scrollMode,*/ block, inline, boundary } = {
-    //scrollMode: 'always',
+  const { scrollMode, block, inline, boundary } = {
+    scrollMode: 'always',
     block: 'center',
     inline: 'nearest',
     ...options,
@@ -235,6 +235,15 @@ export const compute = (
   }
 
   let targetRect = target.getBoundingClientRect()
+
+  // If the element is already visible we can end it here
+  if (
+    scrollMode === 'if-needed' &&
+    targetRect.top >= 0 &&
+    targetRect.bottom <= window.innerHeight
+  ) {
+    return []
+  }
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
