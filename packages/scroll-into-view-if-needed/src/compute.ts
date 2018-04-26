@@ -45,8 +45,7 @@ function isScrollable(el) {
 const alignNearestBlock = (
   targetStart: number,
   targetSize: number,
-  frame: Element,
-  frameRect: ClientRect | DOMRect
+  frame: Element
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
