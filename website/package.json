@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@types/next": "2.4.9",
-    "@types/node": "9.6.6",
+    "@types/node": "9.6.7",
     "@types/prettier": "1.12.0",
     "@types/react": "16.3.12",
     "@types/react-dom": "16.0.5",
