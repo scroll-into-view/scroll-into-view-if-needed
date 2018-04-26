@@ -83,11 +83,48 @@ const alignNearestInline = (
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
 
-  // Is not hidden by the starting edge (if block then this is typically frameRect.top)
-  if (targetStart >= frameRect.left && targetEnd <= frameRect.right) {
-    return 0
+  console.log(
+    'align!',
+    frame.scrollLeft,
+    frameRect.left,
+    targetStart,
+    targetEnd
+  )
+
+  // If element edge D is outside scrolling box edge D and element width is less than scrolling box width
+  /*
+   *       from         to
+   *   ┏━━━━━━━━┓   ┏━━━━━━━━┓
+   *   ┃      █████ ┃   █████┃
+   *   ┗━━━━━━━━┛   ┗━━━━━━━━┛
+   */
+  if (
+    frameRect.right > 0 &&
+    targetEnd > frameRect.right &&
+    targetSize < frame.clientWidth
+  ) {
+    console.log('targetStart', targetEnd, frameRect.right, frame.clientWidth)
+    return targetEnd - frameRect.left - frame.clientWidth
   }
 
+  // If element edge C is outside scrolling box edge C and element width is less than scrolling box width
+  /*
+   *       from         to
+   *    ┏━━━━━━━━┓   ┏━━━━━━━━┓
+   *  █████      ┃   ┃█████   ┃
+   *    ┗━━━━━━━━┛   ┗━━━━━━━━┛
+  */
+  console.warn('test', { targetEnd }, frameRect.left, frame, frameRect.right)
+  if (
+    frameRect.left < 0 &&
+    targetEnd > frameRect.left &&
+    targetSize < frame.clientWidth
+  ) {
+    console.warn('test', targetStart, frameRect.left)
+    return targetStart
+  }
+
+  // overflow on
   if (
     (targetStart < frameRect.left && targetSize < frame.clientWidth) ||
     (targetEnd > frameRect.right && targetSize > frame.clientWidth)
@@ -300,13 +337,29 @@ export const compute = (
     }
 
     if (inline === 'nearest') {
+      console.log('targetInline', targetInline, targetRect.left)
       if (!targetInline) {
         targetInline = targetRect.left
       }
 
       if (document.documentElement === frame) {
         // @TODO silently ignore for now
-        // inlineScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
+        const offset = alignNearestInline(
+          targetInline,
+          targetRect.width,
+          frame,
+          frameRect
+        )
+        console.log(
+          'offset',
+          offset,
+          frame.scrollLeft + offset,
+          frame.clientLeft,
+          frame.scrollLeft,
+          frame.clientWidth
+        )
+        inlineScroll = frame.scrollLeft + offset
+        console.log('alignNearestInline', inlineScroll)
       } else {
         // prevent negative scrollTop values
         const offset = alignNearestInline(
@@ -314,6 +367,13 @@ export const compute = (
           targetRect.width,
           frame,
           frameRect
+        )
+        console.log(
+          'alignNearestInline',
+          targetRect.width,
+          frame,
+          frameRect,
+          frame.scrollLeft
         )
 
         inlineScroll = frame.scrollLeft + offset
