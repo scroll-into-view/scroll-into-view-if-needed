@@ -43,6 +43,63 @@ const alignNearestBlock = (
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
 
+  /**
+   * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
+   *
+   *          ┌──┐
+   *        ┏━│━━│━┓
+   *          │  │
+   *        ┃ │  │ ┃        do nothing
+   *          │  │
+   *        ┗━│━━│━┛
+   *          └──┘
+   */
+
+  /**
+   * If element edge A is outside scrolling box edge A and element height is less than scrolling box height
+   *
+   *          ┌──┐               
+   *        ┏━│━━│━┓         ┏━┌━━┐━┓
+   *          └──┘             │  │  
+   *  from  ┃      ┃     to  ┃ └──┘ ┃
+   *                             
+   *        ┗━ ━━ ━┛         ┗━ ━━ ━┛
+   *
+   * If element edge B is outside scrolling box edge B and element height is greater than scrolling box height
+   *
+   *        ┏━ ━━ ━┓         ┏━┌━━┐━┓
+   *                           │  │  
+   *  from  ┃ ┌──┐ ┃     to  ┃ │  │ ┃
+   *          │  │             │  │  
+   *        ┗━│━━│━┛         ┗━│━━│━┛
+   *          │  │             └──┘  
+   *          │  │               
+   *          └──┘               
+   * /
+
+
+   /**
+   * If element edge A is outside scrolling box edge A and element height is greater than scrolling box height
+   * 
+   *          ┌──┐               
+   *          │  │               
+   *          │  │             ┌──┐  
+   *        ┏━│━━│━┓         ┏━│━━│━┓
+   *          │  │             │  │  
+   *  from  ┃ └──┘ ┃     to  ┃ │  │ ┃
+   *                           │  │  
+   *        ┗━ ━━ ━┛         ┗━└━━┘━┛
+   * 
+   * If element edge B is outside scrolling box edge B and element height is less than scrolling box height
+   * 
+   *        ┏━ ━━ ━┓         ┏━ ━━ ━┓
+   *                             
+   *  from  ┃      ┃     to  ┃ ┌──┐ ┃
+   *          ┌──┐             │  │  
+   *        ┗━│━━│━┛         ┗━└━━┘━┛
+   *          └──┘               
+   */
+
   // Is not hidden by the starting edge (if block then this is typically frameRect.top)
   if (targetStart >= frameRect.top && targetEnd <= frameRect.bottom) {
     return 0
