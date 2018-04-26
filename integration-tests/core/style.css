@@ -33,16 +33,16 @@ body {
   height: 100vh;
 }
 
-.bulls-eye {
+.test-assertion {
   --size: 100px;
   background: #ffeb3b;
   height: var(--size);
   width: var(--size);
 }
 
-[data-test='pass'] {
+.test-pass {
   background: #4caf50;
 }
-[data-test='fail'] {
+.test-fail {
   background: #f44336;
 }

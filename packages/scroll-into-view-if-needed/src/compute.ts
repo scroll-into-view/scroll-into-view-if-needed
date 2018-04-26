@@ -131,7 +131,7 @@ export const compute = (
 
   let targetRect = target.getBoundingClientRect()
 
-  // Collect parents
+  // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
