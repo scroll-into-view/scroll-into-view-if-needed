@@ -336,12 +336,7 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
-      const offset = alignNearestBlock(
-        targetBlock,
-        targetRect.height,
-        frame,
-        frameRect
-      )
+      const offset = alignNearestBlock(targetBlock, targetRect.height, frame)
       blockScroll = frame.scrollTop + offset
 
       if (document.documentElement !== frame) {
