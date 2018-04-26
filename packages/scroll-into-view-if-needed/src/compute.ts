@@ -35,6 +35,7 @@ function isScrollable(el) {
 
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
+ * Interesting fact: "nearest" works similarily to "if-needed", if the element is fully visible it will not scroll it
  *
  * Legends:
  * ┌────────┐ ┏ ━ ━ ━ ┓
@@ -49,13 +50,14 @@ const alignNearestBlock = (
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
-  console.warn(
-    'hi there',
-    `${frameRect.bottom} >= 0 &&
-${targetEnd} < ${frameRect.bottom} &&
-${targetSize} < ${frame.clientHeight}`,
-    frameRect
-  )
+
+  const elementEdgeA = frame.scrollTop + targetStart
+  const elementEdgeB = frame.scrollTop + targetEnd
+  const scrollingEdgeA = frame.scrollTop
+  const scrollingEdgeB = frame.scrollTop + frame.clientHeight
+
+  //console.log('new coordinates', {elementEdgeA, elementEdgeB, scrollingEdgeA, scrollingEdgeB, targetStart, targetSize, 'frame.scrollTop': frame.scrollTop, 'frame.clientHeight': frame.clientHeight, 'frameRect.top': frameRect.top})
+
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
    *
@@ -67,7 +69,12 @@ ${targetSize} < ${frame.clientHeight}`,
    *        ┗━│━━│━┛
    *          └──┘
    */
-  // @TODO
+  if (
+    (elementEdgeA < scrollingEdgeA && elementEdgeB > scrollingEdgeB) ||
+    (elementEdgeA > scrollingEdgeA && elementEdgeB < scrollingEdgeB)
+  ) {
+    return 0
+  }
 
   /**
    * If element edge A is outside scrolling box edge A and element height is less than scrolling box height
@@ -79,6 +86,12 @@ ${targetSize} < ${frame.clientHeight}`,
    *
    *        ┗━ ━━ ━┛         ┗━ ━━ ━┛
    *
+   */
+  if (elementEdgeA < scrollingEdgeA && targetSize < frame.clientHeight) {
+    return targetStart
+  }
+
+  /**
    * If element edge B is outside scrolling box edge B and element height is greater than scrolling box height
    *
    *        ┏━ ━━ ━┓         ┏━┌━━┐━┓
@@ -90,14 +103,25 @@ ${targetSize} < ${frame.clientHeight}`,
    *          │  │
    *          └──┘
    */
-  if (
-    frameRect.top < 0 &&
-    targetEnd > frameRect.top &&
-    targetSize < frame.clientHeight
-  ) {
-    console.warn('this here')
+  if (elementEdgeB > scrollingEdgeB && targetSize > frame.clientHeight) {
     return targetStart
   }
+
+  /**
+   * If element edge B is outside scrolling box edge B and element height is less than scrolling box height
+   *
+   *        ┏━ ━━ ━┓         ┏━ ━━ ━┓
+   *
+   *  from  ┃      ┃     to  ┃ ┌──┐ ┃
+   *          ┌──┐             │  │
+   *        ┗━│━━│━┛         ┗━└━━┘━┛
+   *          └──┘
+   */
+  ///*
+  if (elementEdgeB > scrollingEdgeB && targetSize < frame.clientHeight) {
+    return elementEdgeB - scrollingEdgeB
+  }
+  //*/
 
   /**
    * If element edge A is outside scrolling box edge A and element height is greater than scrolling box height
@@ -110,23 +134,9 @@ ${targetSize} < ${frame.clientHeight}`,
    *  from  ┃ └──┘ ┃     to  ┃ │  │ ┃
    *                           │  │
    *        ┗━ ━━ ━┛         ┗━└━━┘━┛
-   *
-   * If element edge B is outside scrolling box edge B and element height is less than scrolling box height
-   *
-   *        ┏━ ━━ ━┓         ┏━ ━━ ━┓
-   *
-   *  from  ┃      ┃     to  ┃ ┌──┐ ┃
-   *          ┌──┐             │  │
-   *        ┗━│━━│━┛         ┗━└━━┘━┛
-   *          └──┘
    */
-  if (
-    frameRect.bottom >= 0 &&
-    targetEnd < frameRect.bottom &&
-    targetSize < frame.clientHeight
-  ) {
-    console.error('aha')
-    return targetEnd - frameRect.top - frame.clientHeight
+  if (elementEdgeA < scrollingEdgeA && targetSize > frame.clientHeight) {
+    return elementEdgeB - scrollingEdgeB
   }
 
   return 0
@@ -318,7 +328,6 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
-      console.warn('targetRect', targetRect)
       const offset = alignNearestBlock(
         targetBlock,
         targetRect.height,
