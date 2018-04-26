@@ -62,15 +62,6 @@ const alignNearestBlock = (
     return targetStart - frameRect.top
   }
 
-  // start
-  // Math.min(targetStart - frameRect.top, frame.scrollHeight - frame.clientHeight - frame.scrollTop)
-
-  // center
-  // Math.min(frameRect.top + frameRect.height / 2 - targetEnd / 2, frame.scrollTop)
-
-  // end
-  // Math.min(frameRect.bottom - targetEnd, frame.scrollTop)
-
   return 0
 }
 // Find out the
@@ -83,12 +74,61 @@ const alignNearestInline = (
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
 
-  // If element edge D is outside scrolling box edge D and element width is less than scrolling box width
-  /*
-   *       from         to
-   *   ┏━━━━━━━━┓   ┏━━━━━━━━┓
-   *   ┃      █████ ┃   █████┃
-   *   ┗━━━━━━━━┛   ┗━━━━━━━━┛
+  /**
+   *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
+   *
+   *    ┏ ━ ━ ━ ━ ┓
+   *   ┌───────────┐
+   *   │┃         ┃│        Do nothing
+   *   └───────────┘
+   *    ┗ ━ ━ ━ ━ ┛
+   */
+
+  /**
+   * If element edge C is outside scrolling box edge C and element width is less than scrolling box width
+   *
+   *       from                 to
+   *    ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *  ┌───┐                 ┌───┐
+   *  │ ┃ │       ┃         ┃   │     ┃
+   *  └───┘                 └───┘
+   *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   *
+   * If element edge D is outside scrolling box edge D and element width is greater than scrolling box width
+   *
+   *       from                 to
+   *    ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *        ┌───────────┐   ┌───────────┐
+   *    ┃   │     ┃     │   ┃         ┃ │
+   *        └───────────┘   └───────────┘
+   *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   */
+  if (
+    frameRect.left < 0 &&
+    targetEnd > frameRect.left &&
+    targetSize < frame.clientWidth
+  ) {
+    return targetStart
+  }
+
+  /**
+   * If element edge C is outside scrolling box edge C and element width is greater than scrolling box width
+   *
+   *           from                 to
+   *        ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *  ┌───────────┐           ┌───────────┐
+   *  │     ┃     │   ┃       │ ┃         ┃
+   *  └───────────┘           └───────────┘
+   *        ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   *
+   * If element edge D is outside scrolling box edge D and element width is less than scrolling box width
+   *
+   *           from                 to
+   *        ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *                ┌───┐             ┌───┐
+   *        ┃       │ ┃ │       ┃     │   ┃
+   *                └───┘             └───┘
+   *        ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
    */
   if (
     frameRect.right > 0 &&
@@ -96,21 +136,6 @@ const alignNearestInline = (
     targetSize < frame.clientWidth
   ) {
     return targetEnd - frameRect.left - frame.clientWidth
-  }
-
-  // If element edge C is outside scrolling box edge C and element width is less than scrolling box width
-  /*
-   *       from         to
-   *    ┏━━━━━━━━┓   ┏━━━━━━━━┓
-   *  █████      ┃   ┃█████   ┃
-   *    ┗━━━━━━━━┛   ┗━━━━━━━━┛
-  */
-  if (
-    frameRect.left < 0 &&
-    targetEnd > frameRect.left &&
-    targetSize < frame.clientWidth
-  ) {
-    return targetStart
   }
 
   // overflow on
