@@ -1,7 +1,11 @@
-[![CircleCI Status](https://img.shields.io/circleci/project/github/stipsan/scroll-into-view-if-needed.svg?style=flat-square)](https://circleci.com/gh/stipsan/scroll-into-view-if-needed) [![npm stat](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg?style=flat-square)](https://npm-stat.com/charts.html?package=scroll-into-view-if-needed) [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
-![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39098948-61a1e60a-4672-11e8-80a3-16f0e57e4b9d.png)
+[![CircleCI Status](https://img.shields.io/circleci/project/github/stipsan/scroll-into-view-if-needed.svg?style=flat-square)](https://circleci.com/gh/stipsan/scroll-into-view-if-needed)
+[![npm stat](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg?style=flat-square)](https://npm-stat.com/charts.html?package=scroll-into-view-if-needed)
+[![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39338604-0bff23f2-49c4-11e8-9929-2f2b74a67b3c.png)
 
-This is a [ponyfill](https://ponyfill.com) for smooth scrolling `scroll-into-view-if-needed`.
+This is a [ponyfill](https://ponyfill.com) for smooth scrolling
+`scroll-into-view-if-needed`.
 
 ## [Demo](https://scroll-into-view-if-needed.netlify.com/)
 
@@ -40,7 +44,8 @@ const sequence = async () => {
 
 ### Custom scrolling transition
 
-If the default smooth scrolling ponyfill isn't the duration or easing you want, you can provide your own scrolling logic by giving `behavior` a callback.
+If the default smooth scrolling ponyfill isn't the duration or easing you want,
+you can provide your own scrolling logic by giving `behavior` a callback.
 
 ```js
 import scrollIntoView from 'smooth-scroll-into-view-if-needed'

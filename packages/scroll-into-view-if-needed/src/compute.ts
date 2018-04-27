@@ -45,7 +45,8 @@ function isScrollable(el) {
 const alignNearestBlock = (
   targetStart: number,
   targetSize: number,
-  frame: Element
+  frame: Element,
+  frameRect: ClientRect | DOMRect
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
@@ -53,7 +54,11 @@ const alignNearestBlock = (
   const elementEdgeA = frame.scrollTop + targetStart
   const elementEdgeB = frame.scrollTop + targetEnd
   const scrollingEdgeA = frame.scrollTop
-  const scrollingEdgeB = frame.scrollTop + frame.clientHeight
+  const height =
+    frame === document.documentElement ? frame.clientHeight : frameRect.bottom
+  const scrollingEdgeB = document.documentElement
+    ? frame.scrollTop + height
+    : frameRect.bottom
 
   //console.log('new coordinates', {elementEdgeA, elementEdgeB, scrollingEdgeA, scrollingEdgeB, targetStart, targetSize, 'frame.scrollTop': frame.scrollTop, 'frame.clientHeight': frame.clientHeight, 'frameRect.top': frameRect.top})
 
@@ -86,7 +91,7 @@ const alignNearestBlock = (
    *        ┗━ ━━ ━┛         ┗━ ━━ ━┛
    *
    */
-  if (elementEdgeA < scrollingEdgeA && targetSize < frame.clientHeight) {
+  if (elementEdgeA < scrollingEdgeA && targetSize < height) {
     return targetStart
   }
 
@@ -102,7 +107,7 @@ const alignNearestBlock = (
    *          │  │
    *          └──┘
    */
-  if (elementEdgeB > scrollingEdgeB && targetSize > frame.clientHeight) {
+  if (elementEdgeB > scrollingEdgeB && targetSize > height) {
     return targetStart
   }
 
@@ -117,7 +122,7 @@ const alignNearestBlock = (
    *          └──┘
    */
   ///*
-  if (elementEdgeB > scrollingEdgeB && targetSize < frame.clientHeight) {
+  if (elementEdgeB > scrollingEdgeB && targetSize < height) {
     return elementEdgeB - scrollingEdgeB
   }
   //*/
@@ -134,7 +139,7 @@ const alignNearestBlock = (
    *                           │  │
    *        ┗━ ━━ ━┛         ┗━└━━┘━┛
    */
-  if (elementEdgeA < scrollingEdgeA && targetSize > frame.clientHeight) {
+  if (elementEdgeA < scrollingEdgeA && targetSize > height) {
     return elementEdgeB - scrollingEdgeB
   }
 
@@ -149,6 +154,12 @@ const alignNearestInline = (
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
+
+  const elementEdgeC = frame.scrollLeft + targetStart
+  const elementEdgeD = frame.scrollLeft + targetEnd
+  const scrollingEdgeC = frame.scrollLeft
+  const scrollingEdgeD = frame.scrollLeft + frame.clientWidth
+  console.log('test')
 
   /**
    *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
@@ -181,9 +192,10 @@ const alignNearestInline = (
    *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
    */
   if (
-    frameRect.left < 0 &&
-    targetEnd > frameRect.left &&
-    targetSize < frame.clientWidth
+    (elementEdgeC < scrollingEdgeC && targetSize < frame.clientWidth) ||
+    (frameRect.left < 0 &&
+      targetEnd > frameRect.left &&
+      targetSize < frame.clientWidth)
   ) {
     return targetStart
   }
@@ -208,9 +220,10 @@ const alignNearestInline = (
    *        ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
    */
   if (
-    frameRect.right > 0 &&
-    targetEnd > frameRect.right &&
-    targetSize < frame.clientWidth
+    (elementEdgeD < scrollingEdgeD && targetSize < frame.clientWidth) ||
+    (frameRect.right > 0 &&
+      targetEnd > frameRect.right &&
+      targetSize < frame.clientWidth)
   ) {
     return targetEnd - frameRect.left - frame.clientWidth
   }
@@ -235,15 +248,6 @@ export const compute = (
 
   let targetRect = target.getBoundingClientRect()
 
-  // If the element is already visible we can end it here
-  if (
-    scrollMode === 'if-needed' &&
-    targetRect.top >= 0 &&
-    targetRect.bottom <= window.innerHeight
-  ) {
-    return []
-  }
-
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
@@ -254,6 +258,32 @@ export const compute = (
 
     // next tick
     target = parent
+  }
+
+  // If the element is already visible we can end it here
+  if (scrollMode === 'if-needed') {
+    // @TODO optimize, as getBoundingClientRect is also called from computations loop
+    const isVisible = frames.every(frame => {
+      const frameRect = frame.getBoundingClientRect()
+
+      if (targetRect.top < frameRect.top) {
+        return false
+      }
+      if (targetRect.bottom > frameRect.bottom) {
+        return false
+      }
+
+      if (
+        frame === document.documentElement &&
+        targetRect.bottom > frame.clientHeight
+      ) {
+        return false
+      }
+      return true
+    })
+    if (isVisible) {
+      return []
+    }
   }
 
   // These values mutate as we loop through and generate scroll coordinates
@@ -336,7 +366,12 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
-      const offset = alignNearestBlock(targetBlock, targetRect.height, frame)
+      const offset = alignNearestBlock(
+        targetBlock,
+        targetRect.height,
+        frame,
+        frameRect
+      )
       blockScroll = frame.scrollTop + offset
 
       if (document.documentElement !== frame) {
