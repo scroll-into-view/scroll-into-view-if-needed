@@ -30,7 +30,7 @@ const tests = {
       options={{ block: 'center' }}
       toBe={node => {
         const clientRect = node.getBoundingClientRect()
-        return clientRect.top === window.innerHeight / 2 - SIZE / 2
+        return clientRect.top === Math.round(window.innerHeight / 2 - SIZE / 2)
       }}
     >
       {({ target }) => (
@@ -63,31 +63,26 @@ const tests = {
 const keys = Object.keys(tests).sort()
 
 export default class extends Component {
-  state = { test: keys[0], mounted: false }
-
-  componentDidMount() {
-    // @TODO Workaround annoying chrome behavior, implement event listeners like window.onload instead
-    setTimeout(() => this.setState({ mounted: true }), 100)
-  }
+  state = { test: false }
 
   render() {
     const buttons = keys
-    const ActiveTest = tests[this.state.test]
+    const ActiveTest = this.state.test ? tests[this.state.test] : false
     return (
       <Fragment>
         <navbar className="test-switcher">
           {buttons.map(name => (
-            <button key={name} onClick={() => this.setState({ test: name })}>
+            <button
+              key={name}
+              onClick={() => this.setState({ test: name })}
+              id={name}
+            >
               {name}
             </button>
           ))}
         </navbar>
 
-        {this.state.mounted ? (
-          <ActiveTest key={this.state.test} />
-        ) : (
-          'mounting…'
-        )}
+        {(ActiveTest && <ActiveTest key={this.state.test} />) || 'Ready!'}
       </Fragment>
     )
   }

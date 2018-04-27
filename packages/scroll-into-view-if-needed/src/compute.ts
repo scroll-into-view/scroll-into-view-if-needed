@@ -33,43 +33,110 @@ function isScrollable(el) {
   return isScrollableY || isScrollableX
 }
 
-// Find out which edge to align against when logical scroll position is "nearest"
+/**
+ * Find out which edge to align against when logical scroll position is "nearest"
+ * Interesting fact: "nearest" works similarily to "if-needed", if the element is fully visible it will not scroll it
+ *
+ * Legends:
+ * ┌────────┐ ┏ ━ ━ ━ ┓
+ * │ target │   frame
+ * └────────┘ ┗ ━ ━ ━ ┛
+ */
 const alignNearestBlock = (
   targetStart: number,
   targetSize: number,
-  frame: Element,
-  frameRect: ClientRect | DOMRect
+  frame: Element
 ) => {
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
 
-  // Is not hidden by the starting edge (if block then this is typically frameRect.top)
-  if (targetStart >= frameRect.top && targetEnd <= frameRect.bottom) {
+  const elementEdgeA = frame.scrollTop + targetStart
+  const elementEdgeB = frame.scrollTop + targetEnd
+  const scrollingEdgeA = frame.scrollTop
+  const scrollingEdgeB = frame.scrollTop + frame.clientHeight
+
+  //console.log('new coordinates', {elementEdgeA, elementEdgeB, scrollingEdgeA, scrollingEdgeB, targetStart, targetSize, 'frame.scrollTop': frame.scrollTop, 'frame.clientHeight': frame.clientHeight, 'frameRect.top': frameRect.top})
+
+  /**
+   * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
+   *
+   *          ┌──┐
+   *        ┏━│━━│━┓
+   *          │  │
+   *        ┃ │  │ ┃        do nothing
+   *          │  │
+   *        ┗━│━━│━┛
+   *          └──┘
+   */
+  if (
+    (elementEdgeA < scrollingEdgeA && elementEdgeB > scrollingEdgeB) ||
+    (elementEdgeA > scrollingEdgeA && elementEdgeB < scrollingEdgeB)
+  ) {
     return 0
   }
 
-  if (
-    (targetStart < frameRect.top && targetSize < frame.clientHeight) ||
-    (targetEnd > frameRect.bottom && targetSize > frame.clientHeight)
-  ) {
-    return targetStart - frameRect.top
+  /**
+   * If element edge A is outside scrolling box edge A and element height is less than scrolling box height
+   *
+   *          ┌──┐
+   *        ┏━│━━│━┓         ┏━┌━━┐━┓
+   *          └──┘             │  │
+   *  from  ┃      ┃     to  ┃ └──┘ ┃
+   *
+   *        ┗━ ━━ ━┛         ┗━ ━━ ━┛
+   *
+   */
+  if (elementEdgeA < scrollingEdgeA && targetSize < frame.clientHeight) {
+    return targetStart
   }
 
-  if (
-    (targetEnd > frameRect.bottom && targetSize < frame.clientHeight) ||
-    (targetStart < frameRect.top && targetSize > frame.clientHeight)
-  ) {
-    return targetStart - frameRect.top
+  /**
+   * If element edge B is outside scrolling box edge B and element height is greater than scrolling box height
+   *
+   *        ┏━ ━━ ━┓         ┏━┌━━┐━┓
+   *                           │  │
+   *  from  ┃ ┌──┐ ┃     to  ┃ │  │ ┃
+   *          │  │             │  │
+   *        ┗━│━━│━┛         ┗━│━━│━┛
+   *          │  │             └──┘
+   *          │  │
+   *          └──┘
+   */
+  if (elementEdgeB > scrollingEdgeB && targetSize > frame.clientHeight) {
+    return targetStart
   }
 
-  // start
-  // Math.min(targetStart - frameRect.top, frame.scrollHeight - frame.clientHeight - frame.scrollTop)
+  /**
+   * If element edge B is outside scrolling box edge B and element height is less than scrolling box height
+   *
+   *        ┏━ ━━ ━┓         ┏━ ━━ ━┓
+   *
+   *  from  ┃      ┃     to  ┃ ┌──┐ ┃
+   *          ┌──┐             │  │
+   *        ┗━│━━│━┛         ┗━└━━┘━┛
+   *          └──┘
+   */
+  ///*
+  if (elementEdgeB > scrollingEdgeB && targetSize < frame.clientHeight) {
+    return elementEdgeB - scrollingEdgeB
+  }
+  //*/
 
-  // center
-  // Math.min(frameRect.top + frameRect.height / 2 - targetEnd / 2, frame.scrollTop)
-
-  // end
-  // Math.min(frameRect.bottom - targetEnd, frame.scrollTop)
+  /**
+   * If element edge A is outside scrolling box edge A and element height is greater than scrolling box height
+   *
+   *          ┌──┐
+   *          │  │
+   *          │  │             ┌──┐
+   *        ┏━│━━│━┓         ┏━│━━│━┓
+   *          │  │             │  │
+   *  from  ┃ └──┘ ┃     to  ┃ │  │ ┃
+   *                           │  │
+   *        ┗━ ━━ ━┛         ┗━└━━┘━┛
+   */
+  if (elementEdgeA < scrollingEdgeA && targetSize > frame.clientHeight) {
+    return elementEdgeB - scrollingEdgeB
+  }
 
   return 0
 }
@@ -83,33 +150,70 @@ const alignNearestInline = (
   // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
   const targetEnd = targetStart + targetSize
 
-  // Is not hidden by the starting edge (if block then this is typically frameRect.top)
-  if (targetStart >= frameRect.left && targetEnd <= frameRect.right) {
-    return 0
-  }
+  /**
+   *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
+   *
+   *    ┏ ━ ━ ━ ━ ┓
+   *   ┌───────────┐
+   *   │┃         ┃│        Do nothing
+   *   └───────────┘
+   *    ┗ ━ ━ ━ ━ ┛
+   */
+  // @TODO
 
+  /**
+   * If element edge C is outside scrolling box edge C and element width is less than scrolling box width
+   *
+   *       from                 to
+   *    ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *  ┌───┐                 ┌───┐
+   *  │ ┃ │       ┃         ┃   │     ┃
+   *  └───┘                 └───┘
+   *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   *
+   * If element edge D is outside scrolling box edge D and element width is greater than scrolling box width
+   *
+   *       from                 to
+   *    ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *        ┌───────────┐   ┌───────────┐
+   *    ┃   │     ┃     │   ┃         ┃ │
+   *        └───────────┘   └───────────┘
+   *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   */
   if (
-    (targetStart < frameRect.left && targetSize < frame.clientWidth) ||
-    (targetEnd > frameRect.right && targetSize > frame.clientWidth)
+    frameRect.left < 0 &&
+    targetEnd > frameRect.left &&
+    targetSize < frame.clientWidth
   ) {
-    return targetStart - frameRect.left
+    return targetStart
   }
 
+  /**
+   * If element edge C is outside scrolling box edge C and element width is greater than scrolling box width
+   *
+   *           from                 to
+   *        ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *  ┌───────────┐           ┌───────────┐
+   *  │     ┃     │   ┃       │ ┃         ┃
+   *  └───────────┘           └───────────┘
+   *        ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   *
+   * If element edge D is outside scrolling box edge D and element width is less than scrolling box width
+   *
+   *           from                 to
+   *        ┏ ━ ━ ━ ━ ┓         ┏ ━ ━ ━ ━ ┓
+   *                ┌───┐             ┌───┐
+   *        ┃       │ ┃ │       ┃     │   ┃
+   *                └───┘             └───┘
+   *        ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   */
   if (
-    (targetEnd > frameRect.right && targetSize < frame.clientWidth) ||
-    (targetStart < frameRect.left && targetSize > frame.clientWidth)
+    frameRect.right > 0 &&
+    targetEnd > frameRect.right &&
+    targetSize < frame.clientWidth
   ) {
-    return targetStart - frameRect.left
+    return targetEnd - frameRect.left - frame.clientWidth
   }
-
-  // start
-  // Math.min(targetStart - frameRect.left, frame.scrollHeight - frame.clientWidth - frame.scrollTop)
-
-  // center
-  // Math.min(frameRect.left + frameRect.height / 2 - targetEnd / 2, frame.scrollTop)
-
-  // end
-  // Math.min(frameRect.right - targetEnd, frame.scrollTop)
 
   return 0
 }
@@ -118,8 +222,8 @@ export const compute = (
   target: Element,
   options: Options = {}
 ): { el: Element; top: number; left: number }[] => {
-  const { /*scrollMode,*/ block, inline, boundary } = {
-    //scrollMode: 'always',
+  const { scrollMode, block, inline, boundary } = {
+    scrollMode: 'always',
     block: 'center',
     inline: 'nearest',
     ...options,
@@ -131,7 +235,16 @@ export const compute = (
 
   let targetRect = target.getBoundingClientRect()
 
-  // Collect parents
+  // If the element is already visible we can end it here
+  if (
+    scrollMode === 'if-needed' &&
+    targetRect.top >= 0 &&
+    targetRect.bottom <= window.innerHeight
+  ) {
+    return []
+  }
+
+  // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
@@ -223,19 +336,10 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
-      if (document.documentElement === frame) {
-        // @TODO silently ignore for now
-        // blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
-      } else {
-        // prevent negative scrollTop values
-        const offset = alignNearestBlock(
-          targetBlock,
-          targetRect.height,
-          frame,
-          frameRect
-        )
-        blockScroll = frame.scrollTop + offset
+      const offset = alignNearestBlock(targetBlock, targetRect.height, frame)
+      blockScroll = frame.scrollTop + offset
 
+      if (document.documentElement !== frame) {
         // Cache the offset so that parent frames can scroll this into view correctly
         targetBlock -= offset
       }
@@ -264,7 +368,7 @@ export const compute = (
         targetInline = targetRect.left + targetRect.width / 2
       }
       if (document.documentElement === frame) {
-        inlineScroll = frame.scrollLeft + targetInline - frame.clientLeft / 2
+        inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth / 2
       } else {
         // prevent negative scrollLeft values
         const offset =
@@ -283,14 +387,14 @@ export const compute = (
 
     if (inline === 'end') {
       if (!targetInline) {
-        targetInline = targetRect.bottom
+        targetInline = targetRect.right
       }
       if (document.documentElement === frame) {
-        inlineScroll = frame.scrollLeft + targetInline - frame.clientLeft
+        inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth
       } else {
         // prevent negative scrollLeft values
         const offset =
-          0 - Math.min(frameRect.bottom - targetInline, frame.scrollLeft)
+          0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
         inlineScroll = frame.scrollLeft + offset
 
@@ -303,28 +407,21 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.left
       }
+      const offset = alignNearestInline(
+        targetInline,
+        targetRect.width,
+        frame,
+        frameRect
+      )
 
-      if (document.documentElement === frame) {
-        // @TODO silently ignore for now
-        // inlineScroll = frame.scrollTop + targetInline - frame.clientHeight / 2
-      } else {
-        // prevent negative scrollTop values
-        const offset = alignNearestInline(
-          targetInline,
-          targetRect.width,
-          frame,
-          frameRect
-        )
+      inlineScroll = frame.scrollLeft + offset
 
-        inlineScroll = frame.scrollLeft + offset
-
+      if (document.documentElement !== frame) {
         // Cache the offset so that parent frames can scroll this into view correctly
         targetInline -= offset
       }
     }
 
-    // @TODO fix hardcoding of inline => left/X
-    //const inlineScroll = frame.scrollLeft + targetRect.left - frameRect.left
     return { el: frame, top: blockScroll, left: inlineScroll }
   })
 

@@ -17,6 +17,7 @@ export default class Expect extends Component {
   state = { test: undefined }
 
   componentDidMount() {
+    console.log('interesting')
     const node = this.target.current
     const { setup, options, toBe } = this.props
 
@@ -29,9 +30,8 @@ export default class Expect extends Component {
     return this.props.children({
       target: (
         <div
-          className="bulls-eye"
+          className={`test-assertion test-${this.state.test}`}
           ref={this.target}
-          data-test={this.state.test}
         />
       ),
     })
