@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "2.0.0",
+  "version": "2.0.1-alpha.0",
   "main": "index.js",
   "files": [
     "compute.js",
@@ -40,7 +40,6 @@
     "@babel/preset-typescript": "7.0.0-beta.46",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-dev-expression": "0.2.1",
-    "babel-plugin-styled-components": "1.5.1",
     "concurrently": "3.5.1",
     "rimraf": "2.6.2",
     "rollup": "0.58.2",
