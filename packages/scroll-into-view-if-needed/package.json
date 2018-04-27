@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "2.0.0",
+  "version": "2.0.1-alpha.0",
   "main": "index.js",
   "files": [
     "compute.js",
