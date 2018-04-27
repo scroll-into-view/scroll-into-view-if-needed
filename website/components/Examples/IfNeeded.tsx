@@ -80,11 +80,11 @@ class IfNeeded extends PureComponent {
             <div className="buttons is-centered">
               <span className="label">Scroll to:&nbsp;</span>
               <a
-                key="B"
+                key="C"
                 className="button is-small"
-                onClick={() => this.doScroll(this.items.B)}
+                onClick={() => this.doScroll(this.items.C)}
               >
-                B
+                C
               </a>
               <a
                 key="D"
