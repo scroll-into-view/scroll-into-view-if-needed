@@ -1,33 +1,85 @@
 {
-  "private": true,
-  "workspaces": [
-    "packages/*",
-    "integration-tests/*",
-    "website"
+  "name": "scroll-into-view-if-needed",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "license": "MIT",
+  "author": "Stian Didriksen",
+  "homepage": "https://scroll-into-view-if-needed.netlify.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
+  },
+  "version": "2.0.0-dev",
+  "main": "index.js",
+  "files": [
+    "compute.js",
+    "es",
+    "typings",
+    "umd"
   ],
   "scripts": {
-    "build": "lerna exec --concurrency 1 -- yarn build",
+    "prebuild": "yarn clean",
+    "build": "yarn build:d.ts && yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
+    "build:cjs": "BABEL_ENV=cjs babel src -d . --extensions '.ts'",
+    "build:d.ts": "tsc --emitDeclarationOnly",
+    "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
+    "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
+    "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
+    "clean": "rimraf 'umd' 'es' 'typings'",
     "precommit": "lint-staged",
-    "predeploy:website": "yarn build",
-    "deploy:website": "cd website && yarn deploy",
+    "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "lint": "eslint ./integration-examples",
-    "publish:canary": "lerna publish --npm-tag=next --canary",
-    "typecheck": "lerna exec --concurrency 1 -- yarn typecheck"
+    "prepublishOnly": "unset npm_config_cafile && yarn build",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@babel/cli": "7.0.0-beta.46",
+    "@babel/core": "7.0.0-beta.46",
+    "@babel/plugin-external-helpers": "7.0.0-beta.46",
+    "@babel/preset-env": "7.0.0-beta.46",
+    "@babel/preset-typescript": "7.0.0-beta.46",
     "babel-eslint": "8.2.3",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-plugin-dev-expression": "0.2.1",
+    "concurrently": "3.5.1",
     "eslint": "4.19.1",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-import": "2.11.0",
     "eslint-plugin-react": "7.7.0",
     "husky": "0.14.3",
-    "lerna": "2.11.0",
     "lint-staged": "7.0.5",
     "prettier": "1.12.1",
-    "prettier-package-json": "1.5.1"
+    "prettier-package-json": "1.5.1",
+    "rimraf": "2.6.2",
+    "rollup": "0.58.2",
+    "rollup-plugin-babel": "4.0.0-beta.4",
+    "rollup-plugin-commonjs": "9.1.0",
+    "rollup-plugin-node-resolve": "3.3.0",
+    "rollup-plugin-replace": "2.0.0",
+    "rollup-plugin-uglify": "3.0.0",
+    "semantic-release": "15.1.7",
+    "typescript": "2.8.3"
   },
+  "keywords": [
+    "behavior-smooth",
+    "if-needed",
+    "polyfill",
+    "ponyfill",
+    "scroll",
+    "scroll-into-view",
+    "scrollIntoView",
+    "scrollIntoViewIfNeeded",
+    "scrollMode",
+    "smooth",
+    "smoothscroll",
+    "typescript"
+  ],
   "publishConfig": {
     "tag": "next"
+  },
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
   },
   "lint-staged": {
     "*.js": [
@@ -59,6 +111,7 @@
       "git add"
     ]
   },
+  "module": "es/index.js",
   "prettier": {
     "semi": false,
     "singleQuote": true,
@@ -72,7 +125,11 @@
       }
     ]
   },
-  "resolutions": {
-    "@types/react": "*"
-  }
+  "release": {
+    "prepare": [
+      "@semantic-release/npm"
+    ]
+  },
+  "sideEffects": false,
+  "typings": "typings/index.d.ts"
 }

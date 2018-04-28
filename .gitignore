@@ -1,3 +1,9 @@
 node_modules
 lerna-debug.log
 .next
+dist
+es
+typings
+umd
+/compute.js
+/index.js

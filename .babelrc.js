@@ -12,6 +12,7 @@ if (BABEL_ENV === 'cjs') {
 }
 
 module.exports = {
+  comments: false,
   presets: [
     '@babel/preset-typescript',
     [
