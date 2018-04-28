@@ -3,12 +3,12 @@
   "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
   "license": "MIT",
   "author": "Stian Didriksen",
-  "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
+  "homepage": "https://scroll-into-view-if-needed.netlify.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "2.0.1-alpha.1",
+  "version": "2.0.0-dev",
   "main": "index.js",
   "files": [
     "compute.js",
