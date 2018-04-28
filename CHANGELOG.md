@@ -13,6 +13,12 @@ and this project adheres to
 * Support for `behavior`, `block` and `inline` options, from [the spec](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView).
 * `scrollMode: "if-needed" | "always"` to control the `if-needed` behavior, based on [the csswg proposal to the spec](https://github.com/w3c/csswg-drafts/pull/1805).
 
+### Removed
+
+* `centerIfNeeded`, use `scrollMode: "if-needed", block: "center"` instead.
+* `duration` to trigger animation, use [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) instead.
+* `handleScroll(parent, {scrollLeft, scrollTop}, options)`, use `behavior: function(actions)` instead, where `actions` is an array of `{el, top, left}` allowing you to scroll everything in parallel or in a sequence, it's up to you.
+
 ## [1.5.0] - 2018-02-25
 
 ### Added
