@@ -12,3 +12,67 @@ This used to be just a [ponyfill](https://ponyfill.com) for
 release.
 
 ## [Demo](https://scroll-into-view-if-needed.netlify.com)
+
+## Install
+
+```bash
+yarn add scroll-into-view-if-needed
+```
+
+## Usage
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+const node = document.getElementById('hero')
+
+// similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})
+// only that it is a no-op if `node` is already visible
+// see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+// same behavior as Element.scrollIntoViewIfNeeded()
+// see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+scrollIntoView(node, {
+  scrollMode: 'if-needed',
+  block: 'nearest',
+  inline: 'nearest',
+})
+
+// same behavior as Element.scrollIntoViewIfNeeded(true) without the "IfNeeded" behavior
+// see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
+scrollIntoView(node, { block: 'center', inline: 'center' })
+// scrollMode is "always" by default
+
+// smooth scroll if the browser supports it and if the element isn't visible
+scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+```
+
+### Ponyfill smooth scrolling
+
+If you're ok with a larger bundlesize and want the smooth scrolling behavior to be ponyfilled you can use the [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) addon.
+
+### Custom scrolling transition
+
+If the default smooth scrolling ponyfill isn't the duration or easing you want,
+you can provide your own scrolling logic by giving `behavior` a callback.
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+const node = document.getElementById('hero')
+
+scrollIntoView(node, {
+  // Your scroll actions will always be an array, even if there is nothing to scroll
+  behavior: scrollActions =>
+    // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
+    scrollActions.forEach(([el, scrollTop, scrollLeft]) => {
+      // implement the scroll anyway you want
+      el.scrollTop = scrollTop
+      el.scrollLeft = scrollLeft
+
+      // If you need the relative scroll coordinates, for things like window.scrollBy style logic, just do the math
+      const offsetTop = el.scrollTop - scrollTop
+      const offsetLeft = el.scrollLeft - scrollLeft
+    }),
+  // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
+})
+```
+
+## More documentation will be added (hang in there)

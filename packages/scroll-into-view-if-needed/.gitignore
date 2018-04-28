@@ -1,7 +1,0 @@
-dist
-es
-typings
-umd
-/*.js
-!.babelrc.js
-!rollup.config.js
