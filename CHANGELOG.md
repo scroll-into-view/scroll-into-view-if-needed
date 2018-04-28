@@ -18,6 +18,7 @@ and this project adheres to
 * `centerIfNeeded`, use `scrollMode: "if-needed", block: "center"` instead.
 * `duration` to trigger animation, use [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) instead.
 * `handleScroll(parent, {scrollLeft, scrollTop}, options)`, use `behavior: function(actions)` instead, where `actions` is an array of `{el, top, left}` allowing you to scroll everything in parallel or in a sequence, it's up to you.
+* `offset`, use wrapper elements and CSS like padding or margins instead.
 
 ## [1.5.0] - 2018-02-25
 
