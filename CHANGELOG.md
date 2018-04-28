@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+* Support for `behavior`, `block` and `inline` options, from [the spec](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView).
+* `scrollMode: "if-needed" | "always"` to control the `if-needed` behavior, based on [the csswg proposal to the spec](https://github.com/w3c/csswg-drafts/pull/1805).
+
 ## [1.5.0] - 2018-02-25
 
 ### Added
