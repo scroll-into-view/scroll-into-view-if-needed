@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:base",
+    "config:js-lib",
     ":automergeDigest",
     ":automergeMinor",
     ":automergeRequireAllStatusChecks",
@@ -8,17 +8,7 @@
     ":semanticCommits",
     ":pinDigestsDisabled"
   ],
-  "pathRules": [
-    {
-      "paths": ["packages/**"],
-      "extends": ["config:js-lib"],
-      "devDependencies": {
-        "extends": ":automergeMajor"
-      }
-    },
-    {
-      "paths": ["website"],
-      "extends": ["config:js-app", ":automergeMajor"]
-    }
-  ]
+  "devDependencies": {
+    "extends": ":automergeMajor"
+  }
 }
