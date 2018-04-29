@@ -16,11 +16,14 @@ declare global {
   }
 }
 
+export interface checkBoundary {
+  (parent: Element): boolean
+}
 export interface Options extends ScrollIntoViewOptions {
   // This new option is tracked in this PR, which is the most likely candidate at the time: https://github.com/w3c/csswg-drafts/pull/1805
   scrollMode?: 'always' | 'if-needed'
   // This option is not in any spec and specific to this library
-  boundary?: Element
+  boundary?: Element | checkBoundary
 }
 
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
@@ -197,6 +200,11 @@ export const compute = (
     inline: 'nearest',
     ...options,
   }
+  // Allow using a callback to check the boundary
+  // The default behavior is to check if the current target matches the boundary element or not
+  // If undefined it'll check that target is never undefined (can happen as we recurse up the tree)
+  const checkBoundary =
+    typeof boundary == 'function' ? boundary : parent => parent !== boundary
 
   if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoView')
@@ -208,7 +216,7 @@ export const compute = (
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
-  while (isElement((parent = target.parentNode)) && target !== boundary) {
+  while (isElement((parent = target.parentNode)) && checkBoundary(target)) {
     if (isScrollable(parent) || parent === viewport) {
       frames.push(parent)
     }
