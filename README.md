@@ -16,7 +16,7 @@ release.
 ## Install
 
 ```bash
-yarn add scroll-into-view-if-needed
+yarn add scroll-into-view-if-needed@next
 ```
 
 ## Usage

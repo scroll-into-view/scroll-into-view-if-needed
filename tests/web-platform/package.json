@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "scroll-into-view-if-needed-web-platform-tests",
+  "version": "0.0.0-dev",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro",
+    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
+  },
+  "dependencies": {
+    "micro": "9.3.0",
+    "node-fetch": "2.1.2",
+    "replacestream": "4.0.3",
+    "scroll-into-view-if-needed": "link:../.."
+  },
+  "devDependencies": {
+    "cypress": "2.1.0"
+  }
+}

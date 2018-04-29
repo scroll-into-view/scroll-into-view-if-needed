@@ -1,4 +1,9 @@
 node_modules
+
+# Cypress stuff
+**/cypress/screenshots
+**/cypress/videos
+
 lerna-debug.log
 .next
 dist
