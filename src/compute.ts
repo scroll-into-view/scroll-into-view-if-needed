@@ -324,6 +324,7 @@ export const compute = (
 
     let blockScroll = 0
     let inlineScroll = 0
+    console.log(frame.scrollTop, frame.scrollLeft)
 
     // @TODO fix the if else pyramid nightmare
 
@@ -349,7 +350,16 @@ export const compute = (
         targetBlock = targetRect.top + targetRect.height / 2
       }
       if (document.documentElement === frame) {
-        blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
+        blockScroll =
+          (window.scrollY || window.pageYOffset) +
+          targetBlock -
+          frame.clientHeight / 2
+        console.log(
+          'blockScroll top',
+          window.scrollY,
+          frame.scrollTop,
+          targetBlock
+        )
       } else {
         // prevent negative scrollTop values
         const offset =
@@ -397,13 +407,16 @@ export const compute = (
           frameRect,
           {
             scrollingEdgeA: frame.scrollTop,
-            scrollingEdgeB: frame.scrollTop + frame.clientHeight,
+            scrollingEdgeB:
+              frame.scrollTop +
+              ((window.visualViewport && window.visualViewport.height) ||
+                frame.clientHeight),
             elementEdgeA: frame.scrollTop + targetBlock,
             elementEdgeB: frame.scrollTop + targetBlock + targetRect.height,
           }
         )
 
-        blockScroll = frame.scrollTop + offset
+        blockScroll = (window.scrollY || window.pageYOffset) + offset
       } else {
         const offset = alignNearestBlock(
           targetBlock,

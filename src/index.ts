@@ -30,6 +30,12 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
   const { behavior = 'auto', ...computeOptions } = options
   //return target.scrollIntoView(options)
   const instructions = compute(target, computeOptions)
+  console.log(
+    'instructions',
+    ...instructions,
+    document.documentElement.scrollTop,
+    document.documentElement.scrollLeft
+  )
 
   if (typeof behavior == 'function') {
     return behavior(instructions)
@@ -37,6 +43,7 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
 
   instructions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
+    console.log(el, el.scroll, top, left)
     if (el.scroll) {
       el.scroll({ top, left, behavior })
     } else {
