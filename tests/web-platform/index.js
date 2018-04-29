@@ -11,6 +11,10 @@ const map = {
     dest: `${base}/css/cssom-view/scrollintoview.html`,
     type: 'text/html',
   },
+  '/smooth': {
+    dest: `${base}/css/cssom-view/scrollIntoView-smooth.html`,
+    type: 'text/html',
+  },
   '/resources/testharness.js': {
     dest: `${base}/resources/testharness.js`,
     type: 'text/javascript',
@@ -57,6 +61,21 @@ async function proxyRequest(req, res, dest, type) {
       )
       .pipe(
         replaceStream('testDiv.scrollIntoView(', 'scrollIntoView(testDiv, ')
+      )
+      .pipe(res)
+  } else if (req.url === '/smooth') {
+    const hook = '<!DOCTYPE HTML>'
+    //const script = 'https://unpkg.com/scroll-into-view-if-needed@2.0.0/umd/scroll-into-view-if-needed.min.js'
+    const script = '/umd.js'
+
+    proxyRes.body
+      .pipe(
+        replaceStream(hook, hook + '\n<script src=' + script + '></script>', {
+          limit: 1,
+        })
+      )
+      .pipe(
+        replaceStream('content.scrollIntoView(', 'scrollIntoView(content, ')
       )
       .pipe(res)
   } else {
