@@ -57,26 +57,20 @@ const isScrollable = el =>
 interface alignBlockOptions {
   scrollingEdgeA: number
   scrollingEdgeB: number
+  scrollingSize: number
   elementEdgeA: number
   elementEdgeB: number
+  elementSize: number
 }
-const alignNearestBlock = (
-  targetStart: number,
-  targetSize: number,
-  frame: Element,
-  frameRect: ClientRect | DOMRect,
-  alignOptions: alignBlockOptions
-) => {
+const alignNearestBlock = (frame: Element, alignOptions: alignBlockOptions) => {
   const {
     scrollingEdgeA,
     scrollingEdgeB,
+    scrollingSize,
     elementEdgeA,
     elementEdgeB,
+    elementSize,
   } = alignOptions
-
-  const targetEnd = targetStart + targetSize
-
-  //console.log('new coordinates', {elementEdgeA, elementEdgeB, scrollingEdgeA, scrollingEdgeB, targetStart, targetSize, 'frame.scrollTop': frame.scrollTop, 'frame.clientHeight': frame.clientHeight, 'frameRect.top': frameRect.top})
 
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
@@ -109,7 +103,7 @@ const alignNearestBlock = (
    *        ┗━ ━━ ━┛         ┗━ ━━ ━┛
    *
    */
-  if (elementEdgeA < scrollingEdgeA && targetSize < frame.clientHeight) {
+  if (elementEdgeA < scrollingEdgeA && elementSize < scrollingSize) {
     return elementEdgeA - scrollingEdgeA
   }
 
@@ -125,8 +119,8 @@ const alignNearestBlock = (
    *          │  │
    *          └──┘
    */
-  if (elementEdgeB > scrollingEdgeB && targetSize > frame.clientHeight) {
-    return targetStart
+  if (elementEdgeB > scrollingEdgeB && elementSize > scrollingSize) {
+    return elementEdgeA - scrollingEdgeA
   }
 
   /**
@@ -140,7 +134,7 @@ const alignNearestBlock = (
    *          └──┘
    */
   ///*
-  if (elementEdgeB > scrollingEdgeB && targetSize < frame.clientHeight) {
+  if (elementEdgeB > scrollingEdgeB && elementSize < scrollingSize) {
     return elementEdgeB - scrollingEdgeB
   }
   //*/
@@ -157,11 +151,7 @@ const alignNearestBlock = (
    *                           │  │
    *        ┗━ ━━ ━┛         ┗━└━━┘━┛
    */
-  if (
-    frameRect.top > 0 &&
-    targetEnd > frameRect.bottom &&
-    targetSize < frame.clientHeight
-  ) {
+  if (elementEdgeA < scrollingEdgeA && elementSize > scrollingSize) {
     return elementEdgeB - scrollingEdgeB
   }
 
@@ -226,7 +216,7 @@ const alignNearestInline = (
       targetEnd > frameRect.left &&
       targetSize < frame.clientWidth)
   ) {
-    return targetStart
+    return elementEdgeC - scrollingEdgeC
   }
 
   /**
@@ -400,33 +390,25 @@ export const compute = (
       }
 
       if (document.documentElement === frame) {
-        const offset = alignNearestBlock(
-          targetBlock,
-          targetRect.height,
-          frame,
-          frameRect,
-          {
-            scrollingEdgeA: frame.scrollTop,
-            scrollingEdgeB: frame.scrollTop + viewportHeight,
-            elementEdgeA: frame.scrollTop + targetBlock,
-            elementEdgeB: frame.scrollTop + targetBlock + targetRect.height,
-          }
-        )
+        const offset = alignNearestBlock(frame, {
+          scrollingEdgeA: frame.scrollTop,
+          scrollingEdgeB: frame.scrollTop + viewportHeight,
+          scrollingSize: viewportHeight,
+          elementEdgeA: frame.scrollTop + targetBlock,
+          elementEdgeB: frame.scrollTop + targetBlock + targetRect.height,
+          elementSize: targetRect.height,
+        })
 
         blockScroll = frame.scrollTop + offset
       } else {
-        const offset = alignNearestBlock(
-          targetBlock,
-          targetRect.height,
-          frame,
-          frameRect,
-          {
-            scrollingEdgeA: frameRect.top,
-            scrollingEdgeB: frameRect.bottom,
-            elementEdgeA: targetBlock,
-            elementEdgeB: targetBlock + targetRect.height,
-          }
-        )
+        const offset = alignNearestBlock(frame, {
+          scrollingEdgeA: frameRect.top,
+          scrollingEdgeB: frameRect.bottom,
+          scrollingSize: frameRect.height,
+          elementEdgeA: targetBlock,
+          elementEdgeB: targetBlock + targetRect.height,
+          elementSize: targetRect.height,
+        })
         console.log('offset', offset, {
           scrollingEdgeA: frameRect.top,
           scrollingEdgeB: frameRect.bottom,

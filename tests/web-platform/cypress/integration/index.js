@@ -7,7 +7,7 @@ describe('web-platform-tests by w3c', function() {
 
   it('scrollIntoView-smooth.html', () => {
     cy.visit('/smooth')
-    cy.wait(500)
+
     cy.get('#summary .pass').should('contain', '4 Pass')
   })
 })
