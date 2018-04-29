@@ -62,7 +62,7 @@ interface alignBlockOptions {
   elementEdgeB: number
   elementSize: number
 }
-const alignNearestBlock = (frame: Element, alignOptions: alignBlockOptions) => {
+const alignNearestBlock = (alignOptions: alignBlockOptions) => {
   const {
     scrollingEdgeA,
     scrollingEdgeB,
@@ -291,11 +291,13 @@ export const compute = (
         return false
       }
 
-      if (
-        frame === document.documentElement &&
-        targetRect.bottom > frame.clientHeight
-      ) {
-        return false
+      if (frame === document.documentElement) {
+        if (targetRect.bottom > viewportHeight) {
+          return false
+        }
+        if (targetRect.left > viewportWidth) {
+          return false
+        }
       }
       return true
     })
@@ -319,7 +321,6 @@ export const compute = (
 
     let blockScroll = 0
     let inlineScroll = 0
-    console.log(frame.scrollTop, frame.scrollLeft)
 
     // @TODO fix the if else pyramid nightmare
 
@@ -386,7 +387,7 @@ export const compute = (
       }
 
       if (document.documentElement === frame) {
-        const offset = alignNearestBlock(frame, {
+        const offset = alignNearestBlock({
           scrollingEdgeA: frame.scrollTop,
           scrollingEdgeB: frame.scrollTop + viewportHeight,
           scrollingSize: viewportHeight,
@@ -397,7 +398,7 @@ export const compute = (
 
         blockScroll = frame.scrollTop + offset
       } else {
-        const offset = alignNearestBlock(frame, {
+        const offset = alignNearestBlock({
           scrollingEdgeA: frameRect.top,
           scrollingEdgeB: frameRect.bottom,
           scrollingSize: frameRect.height,
@@ -490,7 +491,7 @@ export const compute = (
           }
         )
         // */
-        const offset = alignNearestBlock(frame, {
+        const offset = alignNearestBlock({
           scrollingEdgeA: frame.scrollLeft,
           scrollingEdgeB: frame.scrollLeft + viewportWidth,
           scrollingSize: viewportWidth,
@@ -501,6 +502,7 @@ export const compute = (
 
         inlineScroll = frame.scrollLeft + offset
       } else {
+        /*
         const offset = alignNearestInline(
           targetInline,
           targetRect.width,
@@ -513,6 +515,15 @@ export const compute = (
             elementEdgeD: targetInline + targetRect.width,
           }
         )
+        //*/
+        const offset = alignNearestBlock({
+          scrollingEdgeA: frameRect.left,
+          scrollingEdgeB: frameRect.width,
+          scrollingSize: viewportHeight,
+          elementEdgeA: targetInline,
+          elementEdgeB: targetInline + targetRect.width,
+          elementSize: targetRect.height,
+        })
 
         inlineScroll = frame.scrollLeft + offset
 
