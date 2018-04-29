@@ -88,7 +88,7 @@
     },
     {
       "path": "./umd/scroll-into-view-if-needed.js",
-      "maxSize": "2.3 kB"
+      "maxSize": "2.4 kB"
     }
   ],
   "lint-staged": {
