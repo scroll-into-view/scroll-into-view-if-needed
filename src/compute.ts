@@ -226,6 +226,7 @@ export const compute = (
   }
 
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
+  // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
   const viewportWidth = window.visualViewport
     ? window.visualViewport.width
     : viewport.clientWidth
