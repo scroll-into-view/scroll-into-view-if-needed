@@ -4303,9 +4303,9 @@ rollup-plugin-babel@4.0.0-beta.4:
     "@babel/helper-module-imports" "7.0.0-beta.44"
     rollup-pluginutils "^2.0.1"
 
-rollup-plugin-commonjs@9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-commonjs/-/rollup-plugin-commonjs-9.1.0.tgz#468341aab32499123ee9a04b22f51d9bf26fdd94"
+rollup-plugin-commonjs@9.1.1:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-commonjs/-/rollup-plugin-commonjs-9.1.1.tgz#ed1731101f525ca9ff3d7980abf2fe862376d6ee"
   dependencies:
     estree-walker "^0.5.1"
     magic-string "^0.22.4"
