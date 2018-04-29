@@ -140,8 +140,7 @@ const alignNearestBlock = (frame: Element, alignOptions: alignBlockOptions) => {
    *        ┗━ ━━ ━┛         ┗━└━━┘━┛
    */
   if (
-    elementEdgeB > scrollingEdgeB &&
-    elementSize < scrollingSize &&
+    (elementEdgeB > scrollingEdgeB && elementSize < scrollingSize) ||
     (elementEdgeA < scrollingEdgeA && elementSize > scrollingSize)
   ) {
     return elementEdgeB - scrollingEdgeB
