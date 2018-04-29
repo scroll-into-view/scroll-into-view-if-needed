@@ -110,7 +110,7 @@ const alignNearestBlock = (
    *
    */
   if (elementEdgeA < scrollingEdgeA && targetSize < frame.clientHeight) {
-    return targetStart
+    return elementEdgeA - scrollingEdgeA
   }
 
   /**
@@ -181,12 +181,14 @@ const alignNearestInline = (
   frameRect: ClientRect | DOMRect,
   alignOptions: alignInlineOptions
 ) => {
-  const { scrollingEdgeC, scrollingEdgeD } = alignOptions
+  const {
+    scrollingEdgeC,
+    scrollingEdgeD,
+    elementEdgeC,
+    elementEdgeD,
+  } = alignOptions
 
   const targetEnd = targetStart + targetSize
-
-  const elementEdgeC = frame.scrollLeft + targetStart
-  const elementEdgeD = frame.scrollLeft + targetEnd
 
   /**
    *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
@@ -357,16 +359,7 @@ export const compute = (
         targetBlock = targetRect.top + targetRect.height / 2
       }
       if (document.documentElement === frame) {
-        blockScroll =
-          (window.scrollY || window.pageYOffset) +
-          targetBlock -
-          frame.clientHeight / 2
-        console.log(
-          'blockScroll top',
-          window.scrollY,
-          frame.scrollTop,
-          targetBlock
-        )
+        blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
         const offset =
@@ -420,7 +413,7 @@ export const compute = (
           }
         )
 
-        blockScroll = (window.scrollY || window.pageYOffset) + offset
+        blockScroll = frame.scrollTop + offset
       } else {
         const offset = alignNearestBlock(
           targetBlock,
@@ -429,12 +422,19 @@ export const compute = (
           frameRect,
           {
             scrollingEdgeA: frameRect.top,
-            scrollingEdgeB: frameRect.height,
+            scrollingEdgeB: frameRect.bottom,
             elementEdgeA: targetBlock,
             elementEdgeB: targetBlock + targetRect.height,
           }
         )
-
+        console.log('offset', offset, {
+          scrollingEdgeA: frameRect.top,
+          scrollingEdgeB: frameRect.bottom,
+          elementEdgeA: targetBlock,
+          elementEdgeB: targetBlock + targetRect.height,
+          height: targetRect.height,
+          targetSize: targetRect.height,
+        })
         blockScroll = frame.scrollTop + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
