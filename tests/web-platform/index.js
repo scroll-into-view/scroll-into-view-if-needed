@@ -28,7 +28,6 @@ const map = {
 const umdFile = require.resolve(
   'scroll-into-view-if-needed/umd/scroll-into-view-if-needed.js'
 )
-console.log(umdFile)
 
 async function proxyRequest(req, res, dest, type) {
   const url = new URL(dest)
@@ -37,7 +36,6 @@ async function proxyRequest(req, res, dest, type) {
     headers: Object.assign({}, req.headers, { host: url.host }),
     compress: true,
   })
-  console.log('proxyres', req.url)
 
   // Forward status code
   res.statusCode = proxyRes.status
