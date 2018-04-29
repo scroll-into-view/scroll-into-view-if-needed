@@ -81,7 +81,7 @@ async function proxyRequest(req, res, dest, type) {
           }
         )
       )
-      .pipe(replaceStream('"smooth"', '"instant"'))
+      //.pipe(replaceStream('"smooth"', '"instant"'))
       .pipe(
         replaceStream(
           'document.documentElement.clientWidth',
@@ -108,7 +108,7 @@ async function proxyRequest(req, res, dest, type) {
         )
       )
       //.pipe(replaceStream('last_changed_frame > 20', 'last_changed_frame > 520'))
-      .pipe(replaceStream('frames >= 500', 'frames >= 5000'))
+      //.pipe(replaceStream('frames >= 500', 'frames >= 5000'))
       /*
       .pipe(
         replaceStream('content.scrollIntoView(', 'scrollIntoView(content, ')

@@ -6,6 +6,16 @@
 
 // For a definition on what is "block flow direction" exactly, check this: https://drafts.csswg.org/css-writing-modes-4/#block-flow-direction
 
+// add support for visualViewport object currently implemented in chrome
+declare global {
+  interface Window {
+    visualViewport: {
+      height: number
+      width: number
+    }
+  }
+}
+
 export interface Options extends ScrollIntoViewOptions {
   // This new option is tracked in this PR, which is the most likely candidate at the time: https://github.com/w3c/csswg-drafts/pull/1805
   scrollMode?: 'always' | 'if-needed'
@@ -28,11 +38,7 @@ const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
 const canOverflow = (el, axis: 'Y' | 'X') => {
   const overflowValue = window.getComputedStyle(el, null)['overflow' + axis]
 
-  return (
-    overflowValue === 'auto' ||
-    overflowValue === 'scroll' ||
-    overflowValue === 'hidden'
-  )
+  return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
 
 const isScrollable = el =>
@@ -61,12 +67,14 @@ const alignNearestBlock = (
   frameRect: ClientRect | DOMRect,
   alignOptions: alignBlockOptions
 ) => {
-  const { scrollingEdgeA, scrollingEdgeB } = alignOptions
+  const {
+    scrollingEdgeA,
+    scrollingEdgeB,
+    elementEdgeA,
+    elementEdgeB,
+  } = alignOptions
 
   const targetEnd = targetStart + targetSize
-
-  const elementEdgeA = frame.scrollTop + targetStart
-  const elementEdgeB = frame.scrollTop + targetEnd
 
   //console.log('new coordinates', {elementEdgeA, elementEdgeB, scrollingEdgeA, scrollingEdgeB, targetStart, targetSize, 'frame.scrollTop': frame.scrollTop, 'frame.clientHeight': frame.clientHeight, 'frameRect.top': frameRect.top})
 
@@ -117,11 +125,7 @@ const alignNearestBlock = (
    *          │  │
    *          └──┘
    */
-  if (
-    frameRect.top < 0 &&
-    targetEnd > frameRect.top &&
-    targetSize < frame.clientHeight
-  ) {
+  if (elementEdgeB > scrollingEdgeB && targetSize > frame.clientHeight) {
     return targetStart
   }
 
@@ -136,8 +140,8 @@ const alignNearestBlock = (
    *          └──┘
    */
   ///*
-  if (elementEdgeB < scrollingEdgeB && targetSize < frame.clientHeight) {
-    return targetEnd - frameRect.top - frame.clientHeight
+  if (elementEdgeB > scrollingEdgeB && targetSize < frame.clientHeight) {
+    return elementEdgeB - scrollingEdgeB
   }
   //*/
 
@@ -158,7 +162,7 @@ const alignNearestBlock = (
     targetEnd > frameRect.bottom &&
     targetSize < frame.clientHeight
   ) {
-    return targetEnd - frameRect.top - frame.clientHeight
+    return elementEdgeB - scrollingEdgeB
   }
 
   return 0
@@ -312,6 +316,9 @@ export const compute = (
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock
   let targetInline
+  let viewportHeight = window.visualViewport
+    ? window.visualViewport.height
+    : document.documentElement.clientHeight
 
   // Collect new scroll positions
   const computations = frames.map((frame): {
@@ -407,10 +414,7 @@ export const compute = (
           frameRect,
           {
             scrollingEdgeA: frame.scrollTop,
-            scrollingEdgeB:
-              frame.scrollTop +
-              ((window.visualViewport && window.visualViewport.height) ||
-                frame.clientHeight),
+            scrollingEdgeB: frame.scrollTop + viewportHeight,
             elementEdgeA: frame.scrollTop + targetBlock,
             elementEdgeB: frame.scrollTop + targetBlock + targetRect.height,
           }
@@ -424,10 +428,10 @@ export const compute = (
           frame,
           frameRect,
           {
-            scrollingEdgeA: frameRect.left,
-            scrollingEdgeB: frameRect.width,
+            scrollingEdgeA: frameRect.top,
+            scrollingEdgeB: frameRect.height,
             elementEdgeA: targetBlock,
-            elementEdgeB: targetBlock + targetRect.width,
+            elementEdgeB: targetBlock + targetRect.height,
           }
         )
 
