@@ -62,14 +62,14 @@ scrollIntoView(node, {
   // Your scroll actions will always be an array, even if there is nothing to scroll
   behavior: scrollActions =>
     // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
-    scrollActions.forEach(([el, scrollTop, scrollLeft]) => {
+    scrollActions.forEach(({ el, top, left }) => {
       // implement the scroll anyway you want
-      el.scrollTop = scrollTop
-      el.scrollLeft = scrollLeft
+      el.scrollTop = top
+      el.scrollLeft = left
 
-      // If you need the relative scroll coordinates, for things like window.scrollBy style logic, just do the math
-      const offsetTop = el.scrollTop - scrollTop
-      const offsetLeft = el.scrollLeft - scrollLeft
+      // If you need the relative scroll coordinates, for things like window.scrollBy style logic or whatever, just do the math
+      const offsetTop = el.scrollTop - top
+      const offsetLeft = el.scrollLeft - left
     }),
   // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
 })
