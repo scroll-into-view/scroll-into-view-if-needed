@@ -81,6 +81,16 @@
       "loose-envify"
     ]
   },
+  "bundlesize": [
+    {
+      "path": "./umd/scroll-into-view-if-needed.min.js",
+      "maxSize": "1.5 kB"
+    },
+    {
+      "path": "./umd/scroll-into-view-if-needed.js",
+      "maxSize": "2.3 kB"
+    }
+  ],
   "lint-staged": {
     "*.js": [
       "prettier --write",

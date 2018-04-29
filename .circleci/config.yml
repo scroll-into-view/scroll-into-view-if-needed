@@ -39,6 +39,7 @@ jobs:
       - restore-cache: *restore-cache
       - *install
       - run: yarn build
+      - run: npx bundlesize
       - save-cache: *save-cache
 
   Web Platform Tests:

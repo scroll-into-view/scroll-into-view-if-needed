@@ -4,11 +4,14 @@ node_modules
 **/cypress/screenshots
 **/cypress/videos
 
+# Typescript stuff
+typings
+src/*.js
+
 lerna-debug.log
 .next
 dist
 es
-typings
 umd
 /compute.js
 /index.js

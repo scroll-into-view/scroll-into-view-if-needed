@@ -28,7 +28,6 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
   }
 
   const { behavior = 'auto', ...computeOptions } = options
-  //return target.scrollIntoView(options)
   const instructions = compute(target, computeOptions)
 
   if (typeof behavior == 'function') {

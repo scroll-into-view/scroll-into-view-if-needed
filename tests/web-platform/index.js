@@ -11,6 +11,10 @@ const map = {
     dest: `${base}/css/cssom-view/scrollintoview.html`,
     type: 'text/html',
   },
+  '/smooth': {
+    dest: `${base}/css/cssom-view/scrollIntoView-smooth.html`,
+    type: 'text/html',
+  },
   '/resources/testharness.js': {
     dest: `${base}/resources/testharness.js`,
     type: 'text/javascript',
@@ -58,6 +62,58 @@ async function proxyRequest(req, res, dest, type) {
       .pipe(
         replaceStream('testDiv.scrollIntoView(', 'scrollIntoView(testDiv, ')
       )
+      .pipe(res)
+  } else if (req.url === '/smooth') {
+    const hook = '<!DOCTYPE HTML>'
+    //const script = 'https://unpkg.com/scroll-into-view-if-needed@2.0.0/umd/scroll-into-view-if-needed.min.js'
+    const script = '/umd.js'
+
+    proxyRes.body
+      .pipe(
+        replaceStream(
+          hook,
+          hook +
+            '\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<script src=' +
+            script +
+            '></script>',
+          {
+            limit: 1,
+          }
+        )
+      )
+      //.pipe(replaceStream('"smooth"', '"instant"'))
+      .pipe(
+        replaceStream(
+          'document.documentElement.clientWidth',
+          'window.visualViewport && window.visualViewport.width || document.documentElement.clientWidth'
+        )
+      )
+      .pipe(
+        replaceStream(
+          'document.documentElement.clientHeight',
+          'window.visualViewport && window.visualViewport.height || document.documentElement.clientHeight'
+        )
+      )
+      //.pipe(replaceStream('.remove()', ''))
+      .pipe(
+        replaceStream(
+          'window.scrollX, expected_x, 1',
+          'window.scrollX, expected_x, 1, "scrollX"'
+        )
+      )
+      .pipe(
+        replaceStream(
+          'window.scrollY, expected_y, 1',
+          'window.scrollY, expected_y, 1, "scrollY"'
+        )
+      )
+      //.pipe(replaceStream('last_changed_frame > 20', 'last_changed_frame > 520'))
+      //.pipe(replaceStream('frames >= 500', 'frames >= 5000'))
+      /*
+      .pipe(
+        replaceStream('content.scrollIntoView(', 'scrollIntoView(content, ')
+      )
+      //*/
       .pipe(res)
   } else {
     proxyRes.body.pipe(res)

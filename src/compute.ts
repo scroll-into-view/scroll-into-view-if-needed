@@ -6,15 +6,28 @@
 
 // For a definition on what is "block flow direction" exactly, check this: https://drafts.csswg.org/css-writing-modes-4/#block-flow-direction
 
+// add support for visualViewport object currently implemented in chrome
+declare global {
+  interface Window {
+    visualViewport: {
+      height: number
+      width: number
+    }
+  }
+}
+
+export interface checkBoundary {
+  (parent: Element): boolean
+}
 export interface Options extends ScrollIntoViewOptions {
   // This new option is tracked in this PR, which is the most likely candidate at the time: https://github.com/w3c/csswg-drafts/pull/1805
   scrollMode?: 'always' | 'if-needed'
   // This option is not in any spec and specific to this library
-  boundary?: Element
+  boundary?: Element | checkBoundary
 }
 
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
-function hasScrollableSpace(el, axis: 'Y' | 'X') {
+const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
   if (axis === 'Y') {
     return el.clientHeight < el.scrollHeight
   }
@@ -25,13 +38,15 @@ function hasScrollableSpace(el, axis: 'Y' | 'X') {
 
   return false
 }
+const canOverflow = (el, axis: 'Y' | 'X') => {
+  const overflowValue = window.getComputedStyle(el, null)['overflow' + axis]
 
-function isScrollable(el) {
-  var isScrollableY = hasScrollableSpace(el, 'Y')
-  var isScrollableX = hasScrollableSpace(el, 'X')
-
-  return isScrollableY || isScrollableX
+  return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
+
+const isScrollable = el =>
+  (hasScrollableSpace(el, 'Y') && canOverflow(el, 'Y')) ||
+  (hasScrollableSpace(el, 'X') && canOverflow(el, 'X'))
 
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
@@ -42,26 +57,14 @@ function isScrollable(el) {
  * │ target │   frame
  * └────────┘ ┗ ━ ━ ━ ┛
  */
-const alignNearestBlock = (
-  targetStart: number,
-  targetSize: number,
-  frame: Element,
-  frameRect: ClientRect | DOMRect
+const alignNearest = (
+  scrollingEdgeStart: number,
+  scrollingEdgeEnd: number,
+  scrollingSize: number,
+  elementEdgeStart: number,
+  elementEdgeEnd: number,
+  elementSize: number
 ) => {
-  // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
-  const targetEnd = targetStart + targetSize
-
-  const elementEdgeA = frame.scrollTop + targetStart
-  const elementEdgeB = frame.scrollTop + targetEnd
-  const scrollingEdgeA = frame.scrollTop
-  const height =
-    frame === document.documentElement ? frame.clientHeight : frameRect.bottom
-  const scrollingEdgeB = document.documentElement
-    ? frame.scrollTop + height
-    : frameRect.bottom
-
-  //console.log('new coordinates', {elementEdgeA, elementEdgeB, scrollingEdgeA, scrollingEdgeB, targetStart, targetSize, 'frame.scrollTop': frame.scrollTop, 'frame.clientHeight': frame.clientHeight, 'frameRect.top': frameRect.top})
-
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
    *
@@ -72,10 +75,20 @@ const alignNearestBlock = (
    *          │  │
    *        ┗━│━━│━┛
    *          └──┘
+   * 
+   *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
+   *
+   *    ┏ ━ ━ ━ ━ ┓
+   *   ┌───────────┐
+   *   │┃         ┃│        do nothing
+   *   └───────────┘
+   *    ┗ ━ ━ ━ ━ ┛
+
    */
   if (
-    (elementEdgeA < scrollingEdgeA && elementEdgeB > scrollingEdgeB) ||
-    (elementEdgeA > scrollingEdgeA && elementEdgeB < scrollingEdgeB)
+    (elementEdgeStart < scrollingEdgeStart &&
+      elementEdgeEnd > scrollingEdgeEnd) ||
+    (elementEdgeStart > scrollingEdgeStart && elementEdgeEnd < scrollingEdgeEnd)
   ) {
     return 0
   }
@@ -90,12 +103,6 @@ const alignNearestBlock = (
    *
    *        ┗━ ━━ ━┛         ┗━ ━━ ━┛
    *
-   */
-  if (elementEdgeA < scrollingEdgeA && targetSize < height) {
-    return targetStart
-  }
-
-  /**
    * If element edge B is outside scrolling box edge B and element height is greater than scrolling box height
    *
    *        ┏━ ━━ ━┓         ┏━┌━━┐━┓
@@ -106,73 +113,7 @@ const alignNearestBlock = (
    *          │  │             └──┘
    *          │  │
    *          └──┘
-   */
-  if (elementEdgeB > scrollingEdgeB && targetSize > height) {
-    return targetStart
-  }
-
-  /**
-   * If element edge B is outside scrolling box edge B and element height is less than scrolling box height
-   *
-   *        ┏━ ━━ ━┓         ┏━ ━━ ━┓
-   *
-   *  from  ┃      ┃     to  ┃ ┌──┐ ┃
-   *          ┌──┐             │  │
-   *        ┗━│━━│━┛         ┗━└━━┘━┛
-   *          └──┘
-   */
-  ///*
-  if (elementEdgeB > scrollingEdgeB && targetSize < height) {
-    return elementEdgeB - scrollingEdgeB
-  }
-  //*/
-
-  /**
-   * If element edge A is outside scrolling box edge A and element height is greater than scrolling box height
-   *
-   *          ┌──┐
-   *          │  │
-   *          │  │             ┌──┐
-   *        ┏━│━━│━┓         ┏━│━━│━┓
-   *          │  │             │  │
-   *  from  ┃ └──┘ ┃     to  ┃ │  │ ┃
-   *                           │  │
-   *        ┗━ ━━ ━┛         ┗━└━━┘━┛
-   */
-  if (elementEdgeA < scrollingEdgeA && targetSize > height) {
-    return elementEdgeB - scrollingEdgeB
-  }
-
-  return 0
-}
-// Find out the
-const alignNearestInline = (
-  targetStart: number,
-  targetSize: number,
-  frame: Element,
-  frameRect: ClientRect | DOMRect
-) => {
-  // targetSize is either targetRect.height or targetRect.width depending on if it's `block` or `inline`
-  const targetEnd = targetStart + targetSize
-
-  const elementEdgeC = frame.scrollLeft + targetStart
-  const elementEdgeD = frame.scrollLeft + targetEnd
-  const scrollingEdgeC = frame.scrollLeft
-  const scrollingEdgeD = frame.scrollLeft + frame.clientWidth
-  console.log('test')
-
-  /**
-   *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
-   *
-   *    ┏ ━ ━ ━ ━ ┓
-   *   ┌───────────┐
-   *   │┃         ┃│        Do nothing
-   *   └───────────┘
-   *    ┗ ━ ━ ━ ━ ┛
-   */
-  // @TODO
-
-  /**
+   * 
    * If element edge C is outside scrolling box edge C and element width is less than scrolling box width
    *
    *       from                 to
@@ -190,17 +131,36 @@ const alignNearestInline = (
    *    ┃   │     ┃     │   ┃         ┃ │
    *        └───────────┘   └───────────┘
    *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+
    */
   if (
-    (elementEdgeC < scrollingEdgeC && targetSize < frame.clientWidth) ||
-    (frameRect.left < 0 &&
-      targetEnd > frameRect.left &&
-      targetSize < frame.clientWidth)
+    (elementEdgeStart < scrollingEdgeStart && elementSize < scrollingSize) ||
+    (elementEdgeEnd > scrollingEdgeEnd && elementSize > scrollingSize)
   ) {
-    return targetStart
+    return elementEdgeStart - scrollingEdgeStart
   }
 
   /**
+   * If element edge B is outside scrolling box edge B and element height is less than scrolling box height
+   *
+   *        ┏━ ━━ ━┓         ┏━ ━━ ━┓
+   *
+   *  from  ┃      ┃     to  ┃ ┌──┐ ┃
+   *          ┌──┐             │  │
+   *        ┗━│━━│━┛         ┗━└━━┘━┛
+   *          └──┘
+   *
+   * If element edge A is outside scrolling box edge A and element height is greater than scrolling box height
+   *
+   *          ┌──┐
+   *          │  │
+   *          │  │             ┌──┐
+   *        ┏━│━━│━┓         ┏━│━━│━┓
+   *          │  │             │  │
+   *  from  ┃ └──┘ ┃     to  ┃ │  │ ┃
+   *                           │  │
+   *        ┗━ ━━ ━┛         ┗━└━━┘━┛
+   *
    * If element edge C is outside scrolling box edge C and element width is greater than scrolling box width
    *
    *           from                 to
@@ -218,14 +178,13 @@ const alignNearestInline = (
    *        ┃       │ ┃ │       ┃     │   ┃
    *                └───┘             └───┘
    *        ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
+   *
    */
   if (
-    (elementEdgeD < scrollingEdgeD && targetSize < frame.clientWidth) ||
-    (frameRect.right > 0 &&
-      targetEnd > frameRect.right &&
-      targetSize < frame.clientWidth)
+    (elementEdgeEnd > scrollingEdgeEnd && elementSize < scrollingSize) ||
+    (elementEdgeStart < scrollingEdgeStart && elementSize > scrollingSize)
   ) {
-    return targetEnd - frameRect.left - frame.clientWidth
+    return elementEdgeEnd - scrollingEdgeEnd
   }
 
   return 0
@@ -241,24 +200,38 @@ export const compute = (
     inline: 'nearest',
     ...options,
   }
+  // Allow using a callback to check the boundary
+  // The default behavior is to check if the current target matches the boundary element or not
+  // If undefined it'll check that target is never undefined (can happen as we recurse up the tree)
+  const checkBoundary =
+    typeof boundary == 'function' ? boundary : parent => parent !== boundary
 
   if (!isElement(target)) {
-    throw new Error('Element is required in scrollIntoViewIfNeeded')
+    throw new Error('Element is required in scrollIntoView')
   }
 
   let targetRect = target.getBoundingClientRect()
+  const viewport = document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
-  while (isElement((parent = target.parentNode)) && target !== boundary) {
-    if (isScrollable(parent)) {
+  while (isElement((parent = target.parentNode)) && checkBoundary(target)) {
+    if (isScrollable(parent) || parent === viewport) {
       frames.push(parent)
     }
 
     // next tick
     target = parent
   }
+
+  // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
+  const viewportWidth = window.visualViewport
+    ? window.visualViewport.width
+    : viewport.clientWidth
+  const viewportHeight = window.visualViewport
+    ? window.visualViewport.height
+    : viewport.clientHeight
 
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
@@ -273,11 +246,13 @@ export const compute = (
         return false
       }
 
-      if (
-        frame === document.documentElement &&
-        targetRect.bottom > frame.clientHeight
-      ) {
-        return false
+      if (frame === viewport) {
+        if (targetRect.bottom > viewportHeight) {
+          return false
+        }
+        if (targetRect.left > viewportWidth) {
+          return false
+        }
       }
       return true
     })
@@ -308,7 +283,7 @@ export const compute = (
       if (!targetBlock) {
         targetBlock = targetRect.top
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         blockScroll = frame.scrollTop + targetBlock
       } else {
         // prevent scrollTop values that overflow the scrollHeight
@@ -325,7 +300,7 @@ export const compute = (
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
@@ -347,7 +322,7 @@ export const compute = (
       if (!targetBlock) {
         targetBlock = targetRect.bottom
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         blockScroll = frame.scrollTop + targetBlock - frame.clientHeight
       } else {
         // prevent negative scrollTop values
@@ -366,15 +341,28 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
-      const offset = alignNearestBlock(
-        targetBlock,
-        targetRect.height,
-        frame,
-        frameRect
-      )
-      blockScroll = frame.scrollTop + offset
+      if (viewport === frame) {
+        const offset = alignNearest(
+          frame.scrollTop,
+          frame.scrollTop + viewportHeight,
+          viewportHeight,
+          frame.scrollTop + targetBlock,
+          frame.scrollTop + targetBlock + targetRect.height,
+          targetRect.height
+        )
 
-      if (document.documentElement !== frame) {
+        blockScroll = frame.scrollTop + offset
+      } else {
+        const offset = alignNearest(
+          frameRect.top,
+          frameRect.bottom,
+          frameRect.height,
+          targetBlock,
+          targetBlock + targetRect.height,
+          targetRect.height
+        )
+        blockScroll = frame.scrollTop + offset
+
         // Cache the offset so that parent frames can scroll this into view correctly
         targetBlock -= offset
       }
@@ -384,13 +372,13 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.left
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         inlineScroll = frame.scrollLeft + targetInline
       } else {
         // prevent scrollLeft values that overflow the scrollLeft
         const offset = Math.min(
           targetInline - frameRect.left,
-          frame.scrollLeft - frame.clientLeft - frame.scrollLeft
+          frame.scrollHeight - frame.clientLeft - frame.scrollLeft
         )
         inlineScroll = frame.scrollLeft + offset
 
@@ -402,7 +390,7 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.left + targetRect.width / 2
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth / 2
       } else {
         // prevent negative scrollLeft values
@@ -424,7 +412,7 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.right
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth
       } else {
         // prevent negative scrollLeft values
@@ -442,16 +430,30 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.left
       }
-      const offset = alignNearestInline(
-        targetInline,
-        targetRect.width,
-        frame,
-        frameRect
-      )
 
-      inlineScroll = frame.scrollLeft + offset
+      if (viewport === frame) {
+        const offset = alignNearest(
+          frame.scrollLeft,
+          frame.scrollLeft + viewportWidth,
+          viewportWidth,
+          frame.scrollLeft + targetInline,
+          frame.scrollLeft + targetInline + targetRect.width,
+          targetRect.width
+        )
 
-      if (document.documentElement !== frame) {
+        inlineScroll = frame.scrollLeft + offset
+      } else {
+        const offset = alignNearest(
+          frameRect.left,
+          frameRect.right,
+          frameRect.width,
+          targetInline,
+          targetInline + targetRect.width,
+          targetRect.width
+        )
+
+        inlineScroll = frame.scrollLeft + offset
+
         // Cache the offset so that parent frames can scroll this into view correctly
         targetInline -= offset
       }
