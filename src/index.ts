@@ -8,11 +8,19 @@ export interface Options {
   inline?: ComputeOptions['inline']
 }
 
+// Wait with checking if native smooth-scrolling exists until scrolling is invoked
+// This is much more friendly to server side rendering envs, and testing envs like jest
+let supportsScrollBehavior
+
 // Some people might use both "auto" and "ponyfill" modes in the same file, so we also provide a named export so
 // that imports in userland code (like if they use native smooth scrolling on some browsers, and the ponyfill for everything else)
 // the named export allows this `import {auto as autoScrollIntoView, ponyfill as smoothScrollIntoView} from ...`
 export default (target: Element, maybeOptions: Options | boolean = true) => {
   let options: Options = {}
+
+  if (supportsScrollBehavior === undefined) {
+    supportsScrollBehavior = 'scrollBehavior' in document.documentElement.style
+  }
 
   // Handle alignToTop for legacy reasons
   if (maybeOptions === true || maybeOptions === null) {
@@ -36,11 +44,16 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
 
   instructions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
-    if (el.scroll) {
+    // and guard window.scroll with supportsScrollBehavior
+    if (el.scroll && supportsScrollBehavior) {
       el.scroll({ top, left, behavior })
     } else {
-      el.scrollTop = top
-      el.scrollLeft = left
+      if (el === document.documentElement) {
+        window.scrollTo(left, top)
+      } else {
+        el.scrollTop = top
+        el.scrollLeft = left
+      }
     }
   })
 }

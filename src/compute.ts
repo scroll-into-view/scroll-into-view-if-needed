@@ -233,6 +233,8 @@ export const compute = (
   const viewportHeight = window.visualViewport
     ? window.visualViewport.height
     : viewport.clientHeight
+  const viewportX = window.scrollX || window.pageXOffset
+  const viewportY = window.scrollY || window.pageYOffset
 
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
@@ -285,7 +287,7 @@ export const compute = (
         targetBlock = targetRect.top
       }
       if (viewport === frame) {
-        blockScroll = frame.scrollTop + targetBlock
+        blockScroll = viewportY + targetBlock
       } else {
         // prevent scrollTop values that overflow the scrollHeight
         const offset = Math.min(
@@ -302,7 +304,7 @@ export const compute = (
         targetBlock = targetRect.top + targetRect.height / 2
       }
       if (viewport === frame) {
-        blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
+        blockScroll = viewportY + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
         const offset =
@@ -324,7 +326,7 @@ export const compute = (
         targetBlock = targetRect.bottom
       }
       if (viewport === frame) {
-        blockScroll = frame.scrollTop + targetBlock - frame.clientHeight
+        blockScroll = viewportY + targetBlock - frame.clientHeight
       } else {
         // prevent negative scrollTop values
         const offset =
@@ -344,15 +346,15 @@ export const compute = (
 
       if (viewport === frame) {
         const offset = alignNearest(
-          frame.scrollTop,
-          frame.scrollTop + viewportHeight,
+          viewportY,
+          viewportY + viewportHeight,
           viewportHeight,
-          frame.scrollTop + targetBlock,
-          frame.scrollTop + targetBlock + targetRect.height,
+          viewportY + targetBlock,
+          viewportY + targetBlock + targetRect.height,
           targetRect.height
         )
 
-        blockScroll = frame.scrollTop + offset
+        blockScroll = viewportY + offset
       } else {
         const offset = alignNearest(
           frameRect.top,
@@ -374,7 +376,7 @@ export const compute = (
         targetInline = targetRect.left
       }
       if (viewport === frame) {
-        inlineScroll = frame.scrollLeft + targetInline
+        inlineScroll = viewportX + targetInline
       } else {
         // prevent scrollLeft values that overflow the scrollLeft
         const offset = Math.min(
@@ -392,7 +394,7 @@ export const compute = (
         targetInline = targetRect.left + targetRect.width / 2
       }
       if (viewport === frame) {
-        inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth / 2
+        inlineScroll = viewportX + targetInline - frame.clientWidth / 2
       } else {
         // prevent negative scrollLeft values
         const offset =
@@ -414,7 +416,7 @@ export const compute = (
         targetInline = targetRect.right
       }
       if (viewport === frame) {
-        inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth
+        inlineScroll = viewportX + targetInline - frame.clientWidth
       } else {
         // prevent negative scrollLeft values
         const offset =
@@ -434,15 +436,15 @@ export const compute = (
 
       if (viewport === frame) {
         const offset = alignNearest(
-          frame.scrollLeft,
-          frame.scrollLeft + viewportWidth,
+          viewportX,
+          viewportX + viewportWidth,
           viewportWidth,
-          frame.scrollLeft + targetInline,
-          frame.scrollLeft + targetInline + targetRect.width,
+          viewportX + targetInline,
+          viewportX + targetInline + targetRect.width,
           targetRect.width
         )
 
-        inlineScroll = frame.scrollLeft + offset
+        inlineScroll = viewportX + offset
       } else {
         const offset = alignNearest(
           frameRect.left,
