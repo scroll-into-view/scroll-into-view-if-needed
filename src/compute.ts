@@ -54,24 +54,14 @@ const isScrollable = el =>
  * │ target │   frame
  * └────────┘ ┗ ━ ━ ━ ┛
  */
-interface alignOptions {
-  scrollingEdgeStart: number
-  scrollingEdgeEnd: number
-  scrollingSize: number
-  elementEdgeStart: number
-  elementEdgeEnd: number
+const alignNearest = (
+  scrollingEdgeStart: number,
+  scrollingEdgeEnd: number,
+  scrollingSize: number,
+  elementEdgeStart: number,
+  elementEdgeEnd: number,
   elementSize: number
-}
-const alignNearest = (alignOptions: alignOptions) => {
-  const {
-    scrollingEdgeStart,
-    scrollingEdgeEnd,
-    scrollingSize,
-    elementEdgeStart,
-    elementEdgeEnd,
-    elementSize,
-  } = alignOptions
-
+) => {
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
    *
@@ -213,12 +203,13 @@ export const compute = (
   }
 
   let targetRect = target.getBoundingClientRect()
+  const viewport = document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
   while (isElement((parent = target.parentNode)) && target !== boundary) {
-    if (isScrollable(parent) || parent === document.documentElement) {
+    if (isScrollable(parent) || parent === viewport) {
       frames.push(parent)
     }
 
@@ -229,10 +220,10 @@ export const compute = (
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
   const viewportWidth = window.visualViewport
     ? window.visualViewport.width
-    : document.documentElement.clientWidth
+    : viewport.clientWidth
   const viewportHeight = window.visualViewport
     ? window.visualViewport.height
-    : document.documentElement.clientHeight
+    : viewport.clientHeight
 
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
@@ -247,7 +238,7 @@ export const compute = (
         return false
       }
 
-      if (frame === document.documentElement) {
+      if (frame === viewport) {
         if (targetRect.bottom > viewportHeight) {
           return false
         }
@@ -284,7 +275,7 @@ export const compute = (
       if (!targetBlock) {
         targetBlock = targetRect.top
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         blockScroll = frame.scrollTop + targetBlock
       } else {
         // prevent scrollTop values that overflow the scrollHeight
@@ -301,7 +292,7 @@ export const compute = (
       if (!targetBlock) {
         targetBlock = targetRect.top + targetRect.height / 2
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         blockScroll = frame.scrollTop + targetBlock - frame.clientHeight / 2
       } else {
         // prevent negative scrollTop values
@@ -323,7 +314,7 @@ export const compute = (
       if (!targetBlock) {
         targetBlock = targetRect.bottom
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         blockScroll = frame.scrollTop + targetBlock - frame.clientHeight
       } else {
         // prevent negative scrollTop values
@@ -342,26 +333,26 @@ export const compute = (
         targetBlock = targetRect.top
       }
 
-      if (document.documentElement === frame) {
-        const offset = alignNearest({
-          scrollingEdgeStart: frame.scrollTop,
-          scrollingEdgeEnd: frame.scrollTop + viewportHeight,
-          scrollingSize: viewportHeight,
-          elementEdgeStart: frame.scrollTop + targetBlock,
-          elementEdgeEnd: frame.scrollTop + targetBlock + targetRect.height,
-          elementSize: targetRect.height,
-        })
+      if (viewport === frame) {
+        const offset = alignNearest(
+          frame.scrollTop,
+          frame.scrollTop + viewportHeight,
+          viewportHeight,
+          frame.scrollTop + targetBlock,
+          frame.scrollTop + targetBlock + targetRect.height,
+          targetRect.height
+        )
 
         blockScroll = frame.scrollTop + offset
       } else {
-        const offset = alignNearest({
-          scrollingEdgeStart: frameRect.top,
-          scrollingEdgeEnd: frameRect.bottom,
-          scrollingSize: frameRect.height,
-          elementEdgeStart: targetBlock,
-          elementEdgeEnd: targetBlock + targetRect.height,
-          elementSize: targetRect.height,
-        })
+        const offset = alignNearest(
+          frameRect.top,
+          frameRect.bottom,
+          frameRect.height,
+          targetBlock,
+          targetBlock + targetRect.height,
+          targetRect.height
+        )
         blockScroll = frame.scrollTop + offset
 
         // Cache the offset so that parent frames can scroll this into view correctly
@@ -373,7 +364,7 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.left
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         inlineScroll = frame.scrollLeft + targetInline
       } else {
         // prevent scrollLeft values that overflow the scrollLeft
@@ -391,7 +382,7 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.left + targetRect.width / 2
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth / 2
       } else {
         // prevent negative scrollLeft values
@@ -413,7 +404,7 @@ export const compute = (
       if (!targetInline) {
         targetInline = targetRect.right
       }
-      if (document.documentElement === frame) {
+      if (viewport === frame) {
         inlineScroll = frame.scrollLeft + targetInline - frame.clientWidth
       } else {
         // prevent negative scrollLeft values
@@ -432,26 +423,26 @@ export const compute = (
         targetInline = targetRect.left
       }
 
-      if (document.documentElement === frame) {
-        const offset = alignNearest({
-          scrollingEdgeStart: frame.scrollLeft,
-          scrollingEdgeEnd: frame.scrollLeft + viewportWidth,
-          scrollingSize: viewportWidth,
-          elementEdgeStart: frame.scrollLeft + targetInline,
-          elementEdgeEnd: frame.scrollLeft + targetInline + targetRect.width,
-          elementSize: targetRect.width,
-        })
+      if (viewport === frame) {
+        const offset = alignNearest(
+          frame.scrollLeft,
+          frame.scrollLeft + viewportWidth,
+          viewportWidth,
+          frame.scrollLeft + targetInline,
+          frame.scrollLeft + targetInline + targetRect.width,
+          targetRect.width
+        )
 
         inlineScroll = frame.scrollLeft + offset
       } else {
-        const offset = alignNearest({
-          scrollingEdgeStart: frameRect.left,
-          scrollingEdgeEnd: frameRect.right,
-          scrollingSize: frameRect.width,
-          elementEdgeStart: targetInline,
-          elementEdgeEnd: targetInline + targetRect.width,
-          elementSize: targetRect.width,
-        })
+        const offset = alignNearest(
+          frameRect.left,
+          frameRect.right,
+          frameRect.width,
+          targetInline,
+          targetInline + targetRect.width,
+          targetRect.width
+        )
 
         inlineScroll = frame.scrollLeft + offset
 

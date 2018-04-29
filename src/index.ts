@@ -36,7 +36,7 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
 
   instructions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
-    if (el.scroll && false) {
+    if (el.scroll) {
       el.scroll({ top, left, behavior })
     } else {
       el.scrollTop = top
