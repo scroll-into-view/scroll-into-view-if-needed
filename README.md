@@ -4,7 +4,7 @@
 [![npm stat](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg?style=flat-square)](https://npm-stat.com/charts.html?package=scroll-into-view-if-needed)
 [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
-![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39475991-b32f2d2c-4d5a-11e8-98b4-3954486a42ce.png)
+![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476363-f92e3ce0-4d5b-11e8-895b-40c0f5370021.png)
 
 This used to be just a [ponyfill](https://ponyfill.com) for
 `Element.scrollIntoViewIfNeeded` but is currently being rewritten to cover
