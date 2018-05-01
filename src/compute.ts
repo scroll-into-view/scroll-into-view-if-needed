@@ -190,7 +190,7 @@ const alignNearest = (
   return 0
 }
 
-export const compute = (
+export default (
   target: Element,
   options: Options = {}
 ): { el: Element; top: number; left: number }[] => {

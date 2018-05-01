@@ -1,4 +1,4 @@
-import { compute, Options as ComputeOptions } from './compute'
+import compute, { Options as ComputeOptions } from './compute'
 
 export interface Options {
   behavior?: 'auto' | 'smooth' | 'instant' | Function

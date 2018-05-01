@@ -16,13 +16,17 @@ release.
 ## Install
 
 ```bash
-yarn add scroll-into-view-if-needed@next
+yarn add scroll-into-view-if-needed
 ```
 
 ## Usage
 
 ```js
+// es6 import
 import scrollIntoView from 'scroll-into-view-if-needed'
+// or es5
+const scrollIntoView = require('scroll-into-view-if-needed')
+
 const node = document.getElementById('hero')
 
 // similar behavior as Element.scrollIntoView({block: "nearest", inline: "nearest"})
