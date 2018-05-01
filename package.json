@@ -73,9 +73,6 @@
     "smoothscroll",
     "typescript"
   ],
-  "publishConfig": {
-    "tag": "next"
-  },
   "browserify": {
     "transform": [
       "loose-envify"
