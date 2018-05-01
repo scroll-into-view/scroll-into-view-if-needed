@@ -7,10 +7,8 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
-This used to be just a [ponyfill](https://ponyfill.com) for
-`Element.scrollIntoViewIfNeeded` but is currently being rewritten to cover
-`Element.scrollIntoView(ScrollIntoViewOptions)` including the new `scrollMode: "if-needed"` option. This readme will be updated when it's ready for stable
-release.
+This used to be a [ponyfill](https://ponyfill.com) for
+`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one.
 
 ## [Demo](https://scroll-into-view-if-needed.netlify.com)
 
@@ -120,7 +118,7 @@ Type: `'auto' | 'smooth' | 'instant' | Function`<br> Default: `'auto'`
 
 > Introduced in `v2.1.0`
 
-##### auto
+##### `'auto'`
 
 The auto option unlocks a few interesting opportunities.
 The browser will decide based on user preferences wether it should smooth scroll or not.
