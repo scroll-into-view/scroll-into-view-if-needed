@@ -48,7 +48,7 @@
     "husky": "0.14.3",
     "lint-staged": "7.0.5",
     "prettier": "1.12.1",
-    "prettier-package-json": "1.5.1",
+    "prettier-package-json": "1.6.0",
     "rimraf": "2.6.2",
     "rollup": "0.58.2",
     "rollup-plugin-babel": "4.0.0-beta.4",
