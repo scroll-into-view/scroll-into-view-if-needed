@@ -84,7 +84,13 @@ scrollIntoView(node, {
 
 # Related packages
 
+* [`smooth-scroll-into-view-if-needed`](http://npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
+* [react-scroll-into-view-if-needed](https://www.npmjs.com/package/react-scroll-into-view-if-needed) – A thin wrapper to scroll your component into view.
+* [Don't be shy, add yours!](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
+
 # Who's using this
+
+* [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
 [gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd-scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
 [size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd-scroll-into-view-if-needed.min.js?label=size&style=flat-square
