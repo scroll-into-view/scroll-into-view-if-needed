@@ -1,5 +1,3 @@
-# You're looking at v2, [v1 is here](https://github.com/stipsan/scroll-into-view-if-needed/tree/v1)
-
 [![CircleCI Status](https://img.shields.io/circleci/project/github/stipsan/scroll-into-view-if-needed.svg?style=flat-square)](https://circleci.com/gh/stipsan/scroll-into-view-if-needed)
 [![npm stat](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg?style=flat-square)](https://npm-stat.com/charts.html?package=scroll-into-view-if-needed)
 [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
@@ -54,7 +52,57 @@ scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 
 ### Ponyfill smooth scrolling
 
-If you're ok with a larger bundlesize and want the smooth scrolling behavior to be ponyfilled you can use the [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) addon.
+What does ponyfilling smooth scrolling mean, and why is it implemented in [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) instead?
+The answer is bundlesize. If this package adds smooth scrolling to browsers that's missing it then the overall bundlesize increases regardless of wether you use this feature or not.
+
+In plain english:
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+// Even if all you do is this
+scrollIntoIntoView(node, { scrollMode: 'if-needed' })
+// You end up with the same bundlesize as people who need
+// smooth scrolling to work in browsers that don't support it natively
+scrollIntoIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+```
+
+Because of this you need to choose a strategy that matches your priorities: load time, consistency or quality.
+
+##### Load time
+
+In many scenarios smooth scrolling can be used as a progressive enhancement. If the user is on a browser that don't implement smooth scrolling it'll simply scroll instantly and your bundlesize is only as large as it has to be.
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+
+scrollIntoView(node, { behavior: 'smooth' })
+```
+
+##### Consistency
+
+If a consistent smooth scrolling experience is a priority and you really don't want any surprises between different browsers and enviroments. In other words don't want to be affected by how a vendor might implement native smooth scrolling, then [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) is your best option. It ensures the same smooth scrolling experience for every browser.
+
+```js
+import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
+
+smoothScrollIntoView(node, { behavior: 'smooth' })
+```
+
+##### Quality
+
+If you want to use native smooth scrolling when it's available, and fallback to the smooth scrolling ponyfill:
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
+
+const scrollIntoViewSmoothly =
+  'scrollBehavior' in document.documentElement.style
+    ? scrollIntoView
+    : smoothScrollIntoView
+
+scrollIntoViewSmoothly(node, { behavior: 'smooth' })
+```
 
 ### Custom scrolling transition
 
@@ -67,9 +115,9 @@ const node = document.getElementById('hero')
 
 scrollIntoView(node, {
   // Your scroll actions will always be an array, even if there is nothing to scroll
-  behavior: scrollActions =>
+  behavior: actions =>
     // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
-    scrollActions.forEach(({ el, top, left }) => {
+    actions.forEach(({ el, top, left }) => {
       // implement the scroll anyway you want
       el.scrollTop = top
       el.scrollLeft = left
@@ -81,6 +129,10 @@ scrollIntoView(node, {
   // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
 })
 ```
+
+# Migrating from v1
+
+Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
 
 # Related packages
 
@@ -97,7 +149,7 @@ scrollIntoView(node, {
 * [Mineral UI](https://github.com/mineral-ui/mineral-ui) –
   A design system and React component library for the web that lets you quickly build high-quality, accessible apps.
 * [Covalent](https://github.com/Teradata/covalent) – Teradata UI Platform built on Angular Material.
-* [docs.expo.io.](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
+* [docs.expo.io](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
 * [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
 [gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd-scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
