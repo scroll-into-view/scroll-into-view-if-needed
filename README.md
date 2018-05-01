@@ -18,6 +18,14 @@ This used to be a [ponyfill](https://ponyfill.com) for
 yarn add scroll-into-view-if-needed
 ```
 
+The UMD build is also available on [unpkg](https://unpkg.com/scroll-into-view-if-needed/umd/):
+
+```html
+<script src="https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js"></script>
+```
+
+You can find the library on `window.scrollIntoView`.
+
 ## Usage
 
 ```js
