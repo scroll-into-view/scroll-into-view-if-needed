@@ -190,7 +190,7 @@ const alignNearest = (
   return 0
 }
 
-export const compute = (
+export default (
   target: Element,
   options: Options = {}
 ): { el: Element; top: number; left: number }[] => {
@@ -280,6 +280,7 @@ export const compute = (
     let blockScroll = 0
     let inlineScroll = 0
 
+    // @TODO handle borders
     // @TODO fix the if else pyramid nightmare
 
     if (block === 'start') {

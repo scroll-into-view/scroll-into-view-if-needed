@@ -1,4 +1,4 @@
-import { compute, Options as ComputeOptions } from './compute'
+import compute, { Options as ComputeOptions } from './compute'
 
 export interface Options {
   behavior?: 'auto' | 'smooth' | 'instant' | Function
@@ -22,7 +22,7 @@ export default (target: Element, maybeOptions: Options | boolean = true) => {
     supportsScrollBehavior = 'scrollBehavior' in document.documentElement.style
   }
 
-  // Handle alignToTop for legacy reasons
+  // Handle alignToTop for legacy reasons, to be compatible with the spec
   if (maybeOptions === true || maybeOptions === null) {
     options = { block: 'start', inline: 'nearest' }
   } else if (maybeOptions === false) {
