@@ -53,7 +53,7 @@ scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 What does ponyfilling smooth scrolling mean, and why is it implemented in [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) instead?
 The answer is bundlesize. If this package adds smooth scrolling to browsers that's missing it then the overall bundlesize increases regardless of wether you use this feature or not.
 
-In plain english:
+Put it this way:
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -146,21 +146,69 @@ html,
 
 Quick note, in the CSS property the `auto` keyword equals `behavior: 'instant'`, not `behavior: 'auto'` on `scrollIntoView`. **Yes**, this is confusing.
 
-Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it. (Check this for information on what to do about browsers that don't.)[#ponyfill-smooth-scrolling]
+##### `'smooth'`
+
+Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it. [More information.](#ponyfill-smooth-scrolling)
+
+##### `'instant'`
+
+This is useful for scenarios where it's certain that smooth scrolling would make an interaction feel sluggish. Like keyboard navigation and other user experiences where the end user expect things to move _instantly_.
+
+##### `Function`
+
+When given a function then this library will only calculate what should be scrolled and leave it up to you to perform the actual scrolling.
+
+The callback is given an array over actions. Each action contain a reference to an element that should be scrolled, with its top and left scrolling coordinates.
+What you return is passed through, allowing you to implement a Promise interface if you want to (check [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) to see an example of that).
 
 ```js
-scrollIntoView(target, {
-  boundary: parent => {
-    // By default `overflow: hidden` elements are allowed, only `overflow: visible | clip` is skipped as
-    // this is required by the CSSOM spec
-    if (getComputedStyle(parent)['overflow'] === 'hidden') {
-      return false
-    }
+import scrollIntoView from 'scroll-into-view-if-needed'
+const node = document.getElementById('hero')
 
-    return true
-  },
+scrollIntoView(node, {
+  // Your scroll actions will always be an array, even if there is nothing to scroll
+  behavior: actions =>
+    // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
+    actions.forEach(({ el, top, left }) => {
+      // implement the scroll anyway you want
+      el.scrollTop = top
+      el.scrollLeft = left
+
+      // If you need the relative scroll coordinates, for things like window.scrollBy style logic or whatever, just do the math
+      const offsetTop = el.scrollTop - top
+      const offsetLeft = el.scrollLeft - left
+    }),
+  // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
 })
 ```
+
+Check the demo to see an [example with popmotion and a spring transition](https://scroll-into-view-if-needed.netlify.com/#override-behavior).
+
+#### block
+
+Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
+
+> Introduced in `v2.1.0`
+
+Control the logical scroll position on the y-axis. The spec states that the `block` direction is related to the [writing-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode), but this is not implemented yet in this library.
+This means that `block: 'start'` aligns to the top edge and `block: 'end'` to the bottom.
+
+#### inline
+
+Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
+
+> Introduced in `v2.1.0`
+
+Like `block` this is affected by the [writing-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode). In left-to-right pages `inline: 'start'` will align to the left edge. In right-to-left it should be flipped. This will be supported in a future release.
+
+#### scrollMode
+
+Type: `'always' | 'if-needed'`<br> Default: `'always'`
+
+This is a proposed addition to the spec that you can track here: https://github.com/w3c/csswg-drafts/pull/1805
+
+This library will be updated to reflect any changes to the spec and will provide a migration path.
+To be backwards compatible with `Element.scrollIntoViewIfNeeded` if something is not 100% visible it will count as "needs scrolling". If you need a different visibility ratio your best option would be to implement an [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 
 #### boundary
 
@@ -192,28 +240,63 @@ scrollIntoView(target, {
 })
 ```
 
+# Breaking API changes from v1
+
+Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
+
 #### centerIfNeeded
 
-Type: `boolean`<br> Default: `false`
+The old `Element.scrollIntoView` api only had two settings, align to top or bottom. [`Element.scrollIntoViewIfNeeded`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) had two more, align to the center or nearest edge.
+The `Element.scrollIntoView` spec now supports these two modes as `block: 'center'` and `block: 'nearest'`.
+Breaking changes sucks, but on the plus side your code is now more portable and will make this library easier to delete from your codebase on the glorious day browser support is good enough.
 
-Center the `target` if possible, and if it's not already visible. If it's not
-centered but still visible it will _not_ scroll.
+##### v1
+
+```js
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+
+// v1.3.x and later
+scrollIntoViewIfNeeded(target, { centerIfNeeded: true })
+scrollIntoViewIfNeeded(target, { centerIfNeeded: false })
+// v1.2.x and earlier
+scrollIntoViewIfNeeded(target, true)
+scrollIntoViewIfNeeded(target, false)
+```
+
+##### v2
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+
+scrollIntoView(target, { block: 'center' })
+scrollIntoView(target, { block: 'nearest' })
+```
 
 #### duration
 
-Type: `number`
+[More information.](#ponyfill-smooth-scrolling)
 
-Set a duration in milliseconds to animate the transition between scroll
-positions on the x and/or y axis.
+##### v1
+
+```js
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
+
+scrollIntoViewIfNeeded(target, { duration: 300 })
+```
+
+##### v2
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+// or
+import scrollIntoView from 'smooth-scroll-into-view-if-needed'
+
+scrollIntoView(target, { behavior: 'smooth' })
+```
 
 #### easing
 
-Type: `'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear'`
-
-Change the easing mechanism. This option takes effect when `duration` is set. In
-`v2.0.0` it'll be possible to set your own
-[bezier easing](https://www.npmjs.com/package/bezier-easing) similar to CSS
-[`cubic-bezier()`](<https://developer.mozilla.org/en-US/docs/Web/CSS/single-transition-timing-function#cubic-bezier()>).
+This feature is removed.
 
 #### handleScroll(parent, {scrollLeft, scrollTop}, options)
 
@@ -334,39 +417,9 @@ Type: `number`
 
 Legacy alias for [`options.offset.left`](#left)
 
-### Custom scrolling transition
-
-If the default smooth scrolling ponyfill isn't the duration or easing you want,
-you can provide your own scrolling logic by giving `behavior` a callback.
-
-```js
-import scrollIntoView from 'scroll-into-view-if-needed'
-const node = document.getElementById('hero')
-
-scrollIntoView(node, {
-  // Your scroll actions will always be an array, even if there is nothing to scroll
-  behavior: actions =>
-    // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
-    actions.forEach(({ el, top, left }) => {
-      // implement the scroll anyway you want
-      el.scrollTop = top
-      el.scrollLeft = left
-
-      // If you need the relative scroll coordinates, for things like window.scrollBy style logic or whatever, just do the math
-      const offsetTop = el.scrollTop - top
-      const offsetLeft = el.scrollLeft - left
-    }),
-  // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
-})
-```
-
-# Breaking API changes from v1
-
-Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
-
 # Related packages
 
-* [`smooth-scroll-into-view-if-needed`](http://npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
+* [smooth-scroll-into-view-if-needed](http://npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
 * [react-scroll-into-view-if-needed](https://www.npmjs.com/package/react-scroll-into-view-if-needed) – A thin wrapper to scroll your component into view.
 * [Don't be shy, add yours!](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
