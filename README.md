@@ -373,7 +373,7 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 * [docs.expo.io](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
 * [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
-[gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd-scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
-[size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd-scroll-into-view-if-needed.min.js?label=size&style=flat-square
+[gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
+[size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?label=size&style=flat-square
 [unpkg-dist]: https://unpkg.com/scroll-into-view-if-needed/umd/
 [module-formats-badge]: https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20es-green.svg?style=flat-square
