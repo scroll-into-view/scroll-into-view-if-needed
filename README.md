@@ -104,6 +104,238 @@ const scrollIntoViewSmoothly =
 scrollIntoViewSmoothly(node, { behavior: 'smooth' })
 ```
 
+## API
+
+### scrollIntoView(target, [options])
+
+> New API introduced in `v1.3.0`
+
+### options
+
+Type: `Object`
+
+#### behavior
+
+Type: `'auto' | 'smooth' | 'instant' | Function`<br> Default: `'auto'`
+
+> Introduced in `v2.1.0`
+
+##### auto
+
+The auto option unlocks a few interesting opportunities.
+The browser will decide based on user preferences wether it should smooth scroll or not.
+On top of that you can control/override scrolling behavior through the [`scroll-behavior`](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior) CSS property.
+
+Some people get [motion sick from animations](https://css-tricks.com/smooth-scrolling-accessibility/#article-header-id-5). You can use CSS to turn off smooth scrolling in those cases to avoid making them dizzy:
+
+```css
+html,
+.scroll-container {
+  overflow: scroll;
+}
+
+html,
+.scroll-container {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion) {
+  html,
+  .scroll-container {
+    scroll-behavior: auto;
+  }
+}
+```
+
+Quick note, in the CSS property the `auto` keyword equals `behavior: 'instant'`, not `behavior: 'auto'` on `scrollIntoView`. **Yes**, this is confusing.
+
+Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it.
+
+```js
+scrollIntoView(target, {
+  boundary: parent => {
+    // By default `overflow: hidden` elements are allowed, only `overflow: visible | clip` is skipped as
+    // this is required by the CSSOM spec
+    if (getComputedStyle(parent)['overflow'] === 'hidden') {
+      return false
+    }
+
+    return true
+  },
+})
+```
+
+#### boundary
+
+Type: `Element | Function`
+
+> `Function` introduced in `v2.1.0`
+
+By default there is no boundary. All the parent elements of your target is checked until it reaches the viewport (`document.documentElement`) when calculating layout and what to scroll.
+You can use this option to do things like:
+
+* Prevent the browser window from scrolling.
+* Scroll things into view below the fold without scrolling to it.
+* Scroll elements into view in a list, without scrolling container elements.
+* Prematurely optimizing performance instead of code-splitting your app.
+
+You can also pass a function to do more dynamic checks to override the scroll scoping:
+
+```js
+scrollIntoView(target, {
+  boundary: parent => {
+    // By default `overflow: hidden` elements are allowed, only `overflow: visible | clip` is skipped as
+    // this is required by the CSSOM spec
+    if (getComputedStyle(parent)['overflow'] === 'hidden') {
+      return false
+    }
+
+    return true
+  },
+})
+```
+
+#### centerIfNeeded
+
+Type: `boolean`<br> Default: `false`
+
+Center the `target` if possible, and if it's not already visible. If it's not
+centered but still visible it will _not_ scroll.
+
+#### duration
+
+Type: `number`
+
+Set a duration in milliseconds to animate the transition between scroll
+positions on the x and/or y axis.
+
+#### easing
+
+Type: `'ease' | 'easeIn' | 'easeOut' | 'easeInOut' | 'linear'`
+
+Change the easing mechanism. This option takes effect when `duration` is set. In
+`v2.0.0` it'll be possible to set your own
+[bezier easing](https://www.npmjs.com/package/bezier-easing) similar to CSS
+[`cubic-bezier()`](<https://developer.mozilla.org/en-US/docs/Web/CSS/single-transition-timing-function#cubic-bezier()>).
+
+#### handleScroll(parent, {scrollLeft, scrollTop}, options)
+
+> Introduced in `v1.4.0`
+
+Type: `Function`
+
+Take control over how the target is scrolled into view. This function is called
+for each parent node that need scrolling. `scrollLeft` and `scrollTop` are
+destination coordinates. The from coordinates you'll have to get yourself if you
+want to animate the transition using a different library.
+
+When using this option you likely don't need the built in animation feature. To
+cut down on filesize you can do the following adjustment if you are using a
+recent version of webpack or rollbar (and use ES6 imports):
+
+```diff
+-import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
++import maybeScrollIntoView from 'scroll-into-view-if-needed/dist/calculate'
+
+-scrollIntoViewIfNeeded(node)
++maybeScrollIntoView(node, {handleScroll: (parent, {scrollLeft, scrollTop}, config) => {
++  // The following is actually the default implementation
++  // if this is all you need you can skip passing this option
++  parent.scrollLeft = scrollLeft
++  parent.scrollTop = scrollTop
++}})
+```
+
+#### offset
+
+Type: `Object`
+
+Used for creating whitespace between the `target` and the scroll container.
+Useful in scenarios where a `position: fixed` element might overlay the scroll
+container to "offset" the `target`.
+
+However this option has known bugs and may be dropped or replaced in `v2.0.0`.
+If possible wrap your `target` in an element and create spacing using `CSS padding` or similar. This way you won't be affected by breaking changes here or
+the current bugs.
+
+##### top
+
+Type: `number`<br> Default: `0`
+
+Behaves similarily to `margin-top`. A negative value will "pull" the target
+upward, while a positive value will "push" it downwards.
+
+##### right
+
+Type: `number`<br> Default: `0`
+
+##### bottom
+
+Type: `number`<br> Default: `0`
+
+##### left
+
+Type: `number`<br> Default: `0`
+
+### scrollIntoViewIfNeeded(target, [centerIfNeeded], [animateOptions], [finalElement], [offsetOptions])
+
+> Legacy API, will be deprecated in `v2.0.0`
+
+#### centerIfNeeded
+
+Type: `boolean`<br> Default: `false`
+
+Legacy alias for [`options.centerIfNeeded`](#centerifneeded)
+
+#### animateOptions
+
+Type: `Object`
+
+##### duration
+
+Type: `number`
+
+Legacy alias for [`options.duration`](#duration)
+
+##### easing
+
+Type: `string`
+
+Legacy alias for [`options.easing`](#easing)
+
+#### finalElement
+
+Type: `string`
+
+Legacy alias for [`options.boundary`](#boundary)
+
+#### offsetOptions
+
+Type: `Object`
+
+##### offsetTop
+
+Type: `number`
+
+Legacy alias for [`options.offset.top`](#top)
+
+##### offsetRight
+
+Type: `number`
+
+Legacy alias for [`options.offset.right`](#right)
+
+##### offsetBottom
+
+Type: `number`
+
+Legacy alias for [`options.offset.bottom`](#bottom)
+
+##### offsetLeft
+
+Type: `number`
+
+Legacy alias for [`options.offset.left`](#left)
+
 ### Custom scrolling transition
 
 If the default smooth scrolling ponyfill isn't the duration or easing you want,
@@ -130,7 +362,7 @@ scrollIntoView(node, {
 })
 ```
 
-# Migrating from v1
+# Breaking API changes from v1
 
 Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
 
