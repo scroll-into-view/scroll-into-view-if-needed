@@ -280,6 +280,7 @@ export const compute = (
     let blockScroll = 0
     let inlineScroll = 0
 
+    // @TODO handle borders
     // @TODO fix the if else pyramid nightmare
 
     if (block === 'start') {
