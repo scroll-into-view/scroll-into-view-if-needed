@@ -90,6 +90,14 @@ scrollIntoView(node, {
 
 # Who's using this
 
+* [zeit.co/docs](https://github.com/zeit/docs) – Documentation of ZEIT Now and other services.
+* [Selenium IDE](https://github.com/SeleniumHQ/selenium-ide) – An integrated development environment for Selenium scripts.
+* [Box UI Elements](https://github.com/box/box-ui-elements) – Box UI Elements are pre-built UI components that allow developers to add elements of the main Box web application into their own applications.
+* [react-responsive-ui](https://github.com/catamphetamine/react-responsive-ui) – Responsive React UI components.
+* [Mineral UI](https://github.com/mineral-ui/mineral-ui) –
+  A design system and React component library for the web that lets you quickly build high-quality, accessible apps.
+* [Covalent](https://github.com/Teradata/covalent) – Teradata UI Platform built on Angular Material.
+* [docs.expo.io.](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
 * [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
 [gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd-scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
