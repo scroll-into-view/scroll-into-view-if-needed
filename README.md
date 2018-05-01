@@ -148,7 +148,7 @@ html,
 
 Quick note, in the CSS property the `auto` keyword equals `behavior: 'instant'`, not `behavior: 'auto'` on `scrollIntoView`. **Yes**, this is confusing.
 
-Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it.
+Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it. (Check this for information on what to do about browsers that don't.)[#ponyfill-smooth-scrolling]
 
 ```js
 scrollIntoView(target, {
