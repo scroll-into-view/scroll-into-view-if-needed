@@ -10,7 +10,7 @@ export interface StandardBehaviorOptions extends BaseOptions {
   behavior?: ScrollBehavior
 }
 export interface CustomBehaviorOptions<T> extends BaseOptions {
-  behavior?: CustomScrollBehaviorCallback<T>
+  behavior: CustomScrollBehaviorCallback<T>
 }
 
 export interface Options<T = any> {
@@ -73,13 +73,8 @@ function scrollIntoView<T>(
   target: Element,
   options: CustomBehaviorOptions<T>
 ): T
-function scrollIntoView(
-  target: Element,
-  options: CustomBehaviorOptions<any>
-): any
-function scrollIntoView(target: Element, options: StandardBehaviorOptions): void
-function scrollIntoView(target: Element, options: boolean): void
-function scrollIntoView<T>(target, options: any = true) {
+function scrollIntoView(target: Element, options?: Options | boolean): void
+function scrollIntoView<T>(target, options: Options<T> | boolean = true) {
   if (
     isOptionsObject<CustomBehaviorOptions<T>>(options) &&
     isFunction(options.behavior)
