@@ -16,14 +16,19 @@ declare global {
   }
 }
 
-export interface checkBoundary {
-  (parent: Element): boolean
-}
-export interface Options extends ScrollIntoViewOptions {
-  // This new option is tracked in this PR, which is the most likely candidate at the time: https://github.com/w3c/csswg-drafts/pull/1805
-  scrollMode?: 'always' | 'if-needed'
-  // This option is not in any spec and specific to this library
-  boundary?: Element | checkBoundary
+import {
+  CustomBoundary,
+  ScrollBehavior,
+  ScrollLogicalPosition,
+  ScrollMode,
+} from './types'
+
+export interface Options {
+  behavior?: ScrollBehavior
+  block?: ScrollLogicalPosition
+  inline?: ScrollLogicalPosition
+  scrollMode?: ScrollMode
+  boundary?: CustomBoundary
 }
 
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
