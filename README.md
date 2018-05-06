@@ -250,6 +250,55 @@ scrollIntoView(target, {
 })
 ```
 
+# TypeScript support
+
+When the library itself is built on TypeScript there's no excuse for not publishing great library definitions!
+
+This goes beyond just checking if you misspelled `behavior: 'smoooth'` to the return type of a custom behavior:
+
+```typescript
+const scrolling = scrollIntoView(document.body, {
+  behavior: actions => {
+    return new Promise(
+      ...
+    )
+  },
+})
+// jest understands that scrolling is a Promise, you can safely await on it
+scrolling.then(() => console.log('done scrolling'))
+```
+
+You can optionally use a generic to ensure that `options.behavior` is the expected type.
+It can be useful if the custom behavior is implemented in another module:
+
+```typescript
+const customBehavior = actions => {
+    return new Promise(
+      ...
+    )
+  }
+
+const scrolling = scrollIntoView<Promise<any>>(document.body, {
+  behavior: customBehavior
+})
+// throws if customBehavior does not return a promise
+```
+
+The options are available for you if you are wrapping this libary in another abstraction (like a React component):
+
+```typescript
+import scrollIntoView, { Options } from 'scroll-into-view-if-needed'
+
+interface CustomOptions extends Options {
+  useBoundary?: boolean
+}
+
+function scrollToTarget(selector, options: Options = {}) {
+  const { useBoundary = false, ...scrollOptions } = options
+  return scrollIntoView(document.querySelector(selector), scrollOptions)
+}
+```
+
 # Breaking API changes from v1
 
 Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
