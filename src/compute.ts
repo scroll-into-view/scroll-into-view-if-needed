@@ -9,27 +9,14 @@
 // add support for visualViewport object currently implemented in chrome
 declare global {
   interface Window {
-    visualViewport: {
+    visualViewport?: {
       height: number
       width: number
     }
   }
 }
 
-import {
-  CustomBoundary,
-  ScrollBehavior,
-  ScrollLogicalPosition,
-  ScrollMode,
-} from './types'
-
-export interface Options {
-  behavior?: ScrollBehavior
-  block?: ScrollLogicalPosition
-  inline?: ScrollLogicalPosition
-  scrollMode?: ScrollMode
-  boundary?: CustomBoundary
-}
+import { CustomScrollAction, Options } from './types'
 
 const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
 const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
@@ -44,7 +31,7 @@ const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
   return false
 }
 const canOverflow = (el, axis: 'Y' | 'X') => {
-  const overflowValue = window.getComputedStyle(el, null)['overflow' + axis]
+  const overflowValue = getComputedStyle(el, null)['overflow' + axis]
 
   return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
@@ -198,7 +185,7 @@ const alignNearest = (
 export default (
   target: Element,
   options: Options = {}
-): { el: Element; top: number; left: number }[] => {
+): CustomScrollAction[] => {
   const { scrollMode, block, inline, boundary } = {
     scrollMode: 'always',
     block: 'center',
@@ -274,11 +261,7 @@ export default (
   let targetInline
 
   // Collect new scroll positions
-  const computations = frames.map((frame): {
-    el: Element
-    top: number
-    left: number
-  } => {
+  const computations = frames.map((frame): CustomScrollAction => {
     const frameRect = frame.getBoundingClientRect()
     // @TODO fix hardcoding of block => top/Y
 
