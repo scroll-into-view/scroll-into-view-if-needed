@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "dependencies": {
+    "scroll-into-view-if-needed": "link:../.."
+  },
+  "devDependencies": {
+    "flow-bin": "0.71.0"
+  }
+}
