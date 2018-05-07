@@ -30,15 +30,25 @@ const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
 
   return false
 }
-const canOverflow = (el, axis: 'Y' | 'X') => {
+const canOverflow = (
+  el,
+  axis: 'Y' | 'X',
+  skipOverflowHiddenElements: boolean
+) => {
   const overflowValue = getComputedStyle(el, null)['overflow' + axis]
+
+  if (skipOverflowHiddenElements && overflowValue === 'hidden') {
+    return false
+  }
 
   return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
 
-const isScrollable = el =>
-  (hasScrollableSpace(el, 'Y') && canOverflow(el, 'Y')) ||
-  (hasScrollableSpace(el, 'X') && canOverflow(el, 'X'))
+const isScrollable = (el, skipOverflowHiddenElements: boolean) =>
+  (hasScrollableSpace(el, 'Y') &&
+    canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
+  (hasScrollableSpace(el, 'X') &&
+    canOverflow(el, 'X', skipOverflowHiddenElements))
 
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
@@ -67,7 +77,7 @@ const alignNearest = (
    *          │  │
    *        ┗━│━━│━┛
    *          └──┘
-   * 
+   *
    *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
    *
    *    ┏ ━ ━ ━ ━ ┓
@@ -105,7 +115,7 @@ const alignNearest = (
    *          │  │             └──┘
    *          │  │
    *          └──┘
-   * 
+   *
    * If element edge C is outside scrolling box edge C and element width is less than scrolling box width
    *
    *       from                 to
@@ -191,6 +201,7 @@ export default (
     block = 'center',
     inline = 'nearest',
     boundary,
+    skipOverflowHiddenElements = false,
   } = options
   // Allow using a callback to check the boundary
   // The default behavior is to check if the current target matches the boundary element or not
@@ -209,7 +220,10 @@ export default (
   const frames: Element[] = []
   let parent
   while (isElement((parent = target.parentNode)) && checkBoundary(target)) {
-    if (isScrollable(parent) || parent === viewport) {
+    if (
+      isScrollable(parent, skipOverflowHiddenElements) ||
+      parent === viewport
+    ) {
       frames.push(parent)
     }
 
