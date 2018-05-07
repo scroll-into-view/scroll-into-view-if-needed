@@ -2137,9 +2137,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flowgen@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.2.1.tgz#81cce75e4ff49befc0e5565bbf10541abb34650d"
+flowgen@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.2.2.tgz#3db933b3149eb2569adc5df5d45b5c9c90c8b41c"
   dependencies:
     commander "^2.11.0"
     js-beautify "^1.6.7"
