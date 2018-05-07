@@ -13,7 +13,7 @@ export interface CustomBehaviorOptions<T> extends BaseOptions {
   behavior: CustomScrollBehaviorCallback<T>
 }
 
-export interface Options<T = any> {
+export interface Options<T = any> extends BaseOptions {
   behavior?: ScrollBehavior | CustomScrollBehaviorCallback<T>
 }
 
