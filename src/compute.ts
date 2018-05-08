@@ -186,7 +186,12 @@ export default (
   target: Element,
   options: Options = {}
 ): CustomScrollAction[] => {
-  const { scrollMode = 'always', block = 'center', inline = 'nearest', boundary } = options
+  const {
+    scrollMode = 'always',
+    block = 'center',
+    inline = 'nearest',
+    boundary,
+  } = options
   // Allow using a callback to check the boundary
   // The default behavior is to check if the current target matches the boundary element or not
   // If undefined it'll check that target is never undefined (can happen as we recurse up the tree)
