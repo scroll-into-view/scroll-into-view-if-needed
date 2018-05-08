@@ -59,7 +59,8 @@ const getOptions = (options: any = true): StandardBehaviorOptions => {
   } else if (options === false) {
     return { block: 'end', inline: 'nearest' }
   } else if (isOptionsObject<StandardBehaviorOptions>(options)) {
-    return { block: 'center', inline: 'nearest', ...options }
+    // compute.ts ensures the defaults are block: 'center' and inline: 'nearest', to conform to the spec
+    return options
   }
 
   // if options = {}, based on w3c web platform test
