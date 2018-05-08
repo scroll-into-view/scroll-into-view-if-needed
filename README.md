@@ -264,7 +264,7 @@ const scrolling = scrollIntoView(document.body, {
     )
   },
 })
-// jest understands that scrolling is a Promise, you can safely await on it
+// TypeScript understands that scrolling is a Promise, you can safely await on it
 scrolling.then(() => console.log('done scrolling'))
 ```
 
