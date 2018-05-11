@@ -250,6 +250,16 @@ scrollIntoView(target, {
 })
 ```
 
+#### skipOverflowHiddenElements
+
+Type: `Boolean`<br> Default: `false`
+
+> Introduced in `v2.2.0`
+
+By default the [spec](https://drafts.csswg.org/cssom-view/#scrolling-box) states that `overflow: hidden` elements should be scrollable because it has [been used to allow programatic scrolling](https://drafts.csswg.org/css-overflow-3/#valdef-overflow-hidden). This behavior can sometimes lead to [scrolling issues](https://github.com/stipsan/scroll-into-view-if-needed/pull/225#issue-186419520) when you have a node that is a child of an `overflow: hidden` node.
+
+This package follows the convention [adopted by Firefox](https://hg.mozilla.org/integration/fx-team/rev/c48c3ec05012#l7.18) of setting a boolean option to _not_ scroll all nodes with `overflow: hidden` set.
+
 # TypeScript support
 
 When the library itself is built on TypeScript there's no excuse for not publishing great library definitions!
