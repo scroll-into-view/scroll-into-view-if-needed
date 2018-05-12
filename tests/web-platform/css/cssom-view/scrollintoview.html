@@ -6,6 +6,7 @@
 <link rel="help" href="https://heycam.github.io/webidl/#es-operations">
 <link rel="help" href="https://heycam.github.io/webidl/#es-overloads">
 <meta name="flags" content="dom">
+<script src="/node_modules/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.js"></script>
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
 <style>
@@ -81,9 +82,9 @@ var expectedYCenter = 4000 - (window.innerHeight / 2) + (testDiv.clientHeight / 
 
 function testScrollIntoView(input) {
   if (input === "omitted argument") {
-    testDiv.scrollIntoView();
+    scrollIntoView(testDiv);
   } else {
-    testDiv.scrollIntoView(input);
+    scrollIntoView(testDiv, input);
   }
 }
 
