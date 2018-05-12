@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "serve -i node_modules/,cypress/",
+    "start": "serve -i node_modules/,cypress/ -p 3000",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
   "dependencies": {

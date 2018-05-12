@@ -3,6 +3,7 @@ node_modules
 # Cypress stuff
 **/cypress/screenshots
 **/cypress/videos
+**/junit
 
 # Typescript stuff
 typings
