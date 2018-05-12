@@ -1,13 +1,13 @@
-describe('web-platform-tests by w3c', function() {
-  it('css/cssom-view/scrollintoview.html', () => {
-    cy.visit('/')
+describe('css/cssom-view', () => {
+  // @TODO maybe there is a dynamic way to generate a list over tests
 
-    cy.get('#summary .pass').should('contain', '40 Pass')
-  })
+  const tests = ['scrollintoview.html', 'scrollIntoView-smooth.html']
+  tests.forEach(test => {
+    it(`implements ${test} correctly`, () => {
+      cy.visit(`/css/cssom-view/${test}`)
 
-  it('scrollIntoView-smooth.html', () => {
-    cy.visit('/smooth')
-
-    cy.get('#summary .pass').should('contain', '4 Pass')
+      cy.get('#summary .pass').should('exist')
+      cy.get('#summary .fail').should('not.exist')
+    })
   })
 })
