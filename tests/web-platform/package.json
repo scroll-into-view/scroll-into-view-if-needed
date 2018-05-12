@@ -1,14 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "start": "micro",
+    "start": "serve -i node_modules/,cypress/",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
   "dependencies": {
-    "micro": "9.3.0",
-    "node-fetch": "2.1.2",
-    "replacestream": "4.0.3",
-    "scroll-into-view-if-needed": "link:../.."
+    "scroll-into-view-if-needed": "link:../..",
+    "serve": "6.5.6"
   },
   "devDependencies": {
     "cypress": "2.1.0"
