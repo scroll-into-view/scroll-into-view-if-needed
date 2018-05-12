@@ -1,8 +1,5 @@
 {
   "private": true,
-  "name": "scroll-into-view-if-needed-web-platform-tests",
-  "version": "0.0.0-dev",
-  "main": "index.js",
   "scripts": {
     "start": "micro",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
