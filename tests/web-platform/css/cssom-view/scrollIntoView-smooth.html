@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<script src="/node_modules/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.js"></script>
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
 <title>Check End Position of smooth scrollIntoView</title>
@@ -45,13 +46,13 @@ promise_test(t => {
   window.scrollTo(0, 0);
   var expected_x = content.offsetLeft + content_width - window_width;
   var expected_y = content.offsetTop + content_height - window_height;
-  assert_not_equals(window.scrollX, expected_x);
-  assert_not_equals(window.scrollY, expected_y);
-  content.scrollIntoView({behavior: "smooth", block: "nearest", inline:
+  assert_not_equals(window.scrollX, expected_x, "scrollX");
+  assert_not_equals(window.scrollY, expected_y, "scrollY");
+  scrollIntoView(content, {behavior: "smooth", block: "nearest", inline:
 "nearest"});
   return waitForScrollEnd().then(() => {
-    assert_approx_equals(window.scrollX, expected_x, 1);
-    assert_approx_equals(window.scrollY, expected_y, 1);
+    assert_approx_equals(window.scrollX, expected_x, 1, "scrollX");
+    assert_approx_equals(window.scrollY, expected_y, 1, "scrollY");
   });
 }, "Smooth scrollIntoView should scroll the element to the 'nearest' position");
 
@@ -59,13 +60,13 @@ promise_test(t => {
   window.scrollTo(0, 0);
   var expected_x = content.offsetLeft;
   var expected_y = content.offsetTop;
-  assert_not_equals(window.scrollX, expected_x);
-  assert_not_equals(window.scrollY, expected_y);
-  content.scrollIntoView({behavior: "smooth", block: "start", inline:
+  assert_not_equals(window.scrollX, expected_x, "scrollX");
+  assert_not_equals(window.scrollY, expected_y, "scrollY");
+  scrollIntoView(content, {behavior: "smooth", block: "start", inline:
 "start"});
   return waitForScrollEnd().then(() => {
-    assert_approx_equals(window.scrollX, expected_x, 1);
-    assert_approx_equals(window.scrollY, expected_y, 1);
+    assert_approx_equals(window.scrollX, expected_x, 1, "scrollX");
+    assert_approx_equals(window.scrollY, expected_y, 1, "scrollY");
   });
 }, "Smooth scrollIntoView should scroll the element to the 'start' position");
 
@@ -73,13 +74,13 @@ promise_test(t => {
   window.scrollTo(0, 0);
   var expected_x = content.offsetLeft + (content_width - window_width) / 2;
   var expected_y = content.offsetTop + (content_height - window_height) / 2;
-  assert_not_equals(window.scrollX, expected_x);
-  assert_not_equals(window.scrollY, expected_y);
-  content.scrollIntoView({behavior: "smooth", block: "center", inline:
+  assert_not_equals(window.scrollX, expected_x, "scrollX");
+  assert_not_equals(window.scrollY, expected_y, "scrollY");
+  scrollIntoView(content, {behavior: "smooth", block: "center", inline:
 "center"});
   return waitForScrollEnd().then(() => {
-    assert_approx_equals(window.scrollX, expected_x, 1);
-    assert_approx_equals(window.scrollY, expected_y, 1);
+    assert_approx_equals(window.scrollX, expected_x, 1, "scrollX");
+    assert_approx_equals(window.scrollY, expected_y, 1, "scrollY");
   });
 }, "Smooth scrollIntoView should scroll the element to the 'center' position");
 
@@ -87,13 +88,13 @@ promise_test(t => {
   window.scrollTo(0, 0);
   var expected_x = content.offsetLeft + content_width - window_width;
   var expected_y = content.offsetTop + content_height - window_height;
-  assert_not_equals(window.scrollX, expected_x);
-  assert_not_equals(window.scrollY, expected_y);
-  content.scrollIntoView({behavior: "smooth", block: "end", inline:
+  assert_not_equals(window.scrollX, expected_x, "scrollX");
+  assert_not_equals(window.scrollY, expected_y, "scrollY");
+  scrollIntoView(content, {behavior: "smooth", block: "end", inline:
 "end"});
   return waitForScrollEnd().then(() => {
-    assert_approx_equals(window.scrollX, expected_x, 1);
-    assert_approx_equals(window.scrollY, expected_y, 1);
+    assert_approx_equals(window.scrollX, expected_x, 1, "scrollX");
+    assert_approx_equals(window.scrollY, expected_y, 1, "scrollY");
   });
 }, "Smooth scrollIntoView should scroll the element to the 'end' position");
 
