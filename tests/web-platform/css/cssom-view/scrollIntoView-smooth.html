@@ -11,8 +11,8 @@
 <script>
 var content_height = 500;
 var content_width = 500;
-var window_height = document.documentElement.clientHeight;
-var window_width = document.documentElement.clientWidth;
+var window_height = document.scrollingElement.clientHeight;
+var window_width = document.scrollingElement.clientWidth;
 var content = document.getElementById("content");
 add_completion_callback(() => document.getElementById("container").remove());
 
@@ -35,8 +35,7 @@ function waitForScrollEnd() {
         requestAnimationFrame(tick.bind(null, frames + 1));
       }
     }
-    // @FIXME workaround Chrome problem by wrapping in setTimeout, problem is gone in Chrome 68
-    setTimeout(() => tick(0), 100);
+    tick(0);
   });
 }
 
