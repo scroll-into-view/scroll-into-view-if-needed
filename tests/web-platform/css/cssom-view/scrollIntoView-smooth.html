@@ -35,7 +35,8 @@ function waitForScrollEnd() {
         requestAnimationFrame(tick.bind(null, frames + 1));
       }
     }
-    tick(0);
+    // @FIXME workaround Chrome problem by wrapping in setTimeout, problem is gone in Chrome 68
+    setTimeout(() => tick(0), 100);
   });
 }
 
