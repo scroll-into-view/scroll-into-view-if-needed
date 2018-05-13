@@ -15,3 +15,15 @@ describe('css/cssom-view', () => {
     })
   })
 })
+
+describe('custom', () => {
+  const tests = ['nested.html']
+  tests.forEach(test => {
+    it(`implements ${test} correctly`, () => {
+      cy.visit(`/custom/${test}`)
+
+      cy.get('#summary .pass').should('exist')
+      cy.get('#summary .fail').should('not.exist')
+    })
+  })
+})

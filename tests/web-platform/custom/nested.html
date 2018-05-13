@@ -166,19 +166,19 @@ var expectedYCenter = 4000 - (window.innerHeight / 2) + (outerContainer.clientHe
 
 [
   [0, "start", "start", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
-  [1, "start", "center", [{x: expectedXCenter + 3, y: baseY}, {x: 200, y: 300}, {x: 100, y:55}]],
+  [1, "start", "center", [{x: expectedXCenter, y: baseY}, {x: 200, y: 300}, {x: 100, y:55}]],
   [2, "start", "end", [{x: baseX, y: baseY}, {x: 100, y: 300}, {x: 145, y:55}]],
-  [3, "center", "start", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
-  [4, "center", "center", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
-  [5, "center", "end", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
-  [6, "end", "start", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
-  [7, "end", "center", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
-  [8, "end", "end", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]]
+  [3, "center", "start", [{x: baseX, y: baseY}, {x: 300, y: 200}, {x: 55, y:100}]],
+  [4, "center", "center", [{x: baseX, y: baseY}, {x: 200, y: 200}, {x:  100, y:100}]],
+  [5, "center", "end", [{x: baseX, y: baseY}, {x: 100, y: 200}, {x:  145, y:100}]],
+  [6, "end", "start", [{x: baseX, y: baseY}, {x: 300, y: 100}, {x:  55, y:145}]],
+  [7, "end", "center", [{x: baseX, y: baseY}, {x: 200, y: 100}, {x:  100, y:145}]],
+  [8, "end", "end", [{x: baseX, y: baseY}, {x: 100, y: 100}, {x:  145, y:145}]]
 ].forEach(([target, block, inline, [viewport, outer, inner]]) => {
   test(() => {
     window.scrollTo(0, 0);
-    //scrollIntoView(tiles[target], {block, inline});
-    tiles[target].scrollIntoView({block, inline});
+    scrollIntoView(tiles[target], {block, inline});
+    //tiles[target].scrollIntoView({block, inline});
 
     console.log(
       "window",
