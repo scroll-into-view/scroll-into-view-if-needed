@@ -14,11 +14,20 @@ declare global {
       width: number
     }
   }
+
+  // @TODO better declaration of possible shadowdom hosts
+  interface Element {
+    host: any
+  }
 }
 
 import { CustomScrollAction, Options } from './types'
 
-const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
+// @TODO better shadowdom test, 11 = document fragment
+const isElement = el =>
+  el != null &&
+  typeof el == 'object' &&
+  (el.nodeType === 1 || el.nodeType === 11)
 const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
   if (axis === 'Y') {
     return el.clientHeight < el.scrollHeight
@@ -219,7 +228,11 @@ export default (
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
-  while (isElement((parent = target.parentNode)) && checkBoundary(target)) {
+  // @TODO have a better shadowdom test here
+  while (
+    isElement((parent = target.parentNode || target.host)) &&
+    checkBoundary(target)
+  ) {
     if (
       isScrollable(parent, skipOverflowHiddenElements) ||
       parent === viewport

@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<script src="/node_modules/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.js"></script>
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
 <title>Check End Position of scrollIntoView of shadow elements</title>
@@ -26,7 +27,7 @@ test(t => {
   var expected_y = shadowDiv.offsetTop;
   assert_not_equals(window.scrollX, expected_x);
   assert_not_equals(window.scrollY, expected_y);
-  shadowDiv.scrollIntoView({block: "start", inline: "start"});
+  scrollIntoView(shadowDiv, {block: "start", inline: "start"});
   assert_approx_equals(window.scrollX, expected_x, 1);
   assert_approx_equals(window.scrollY, expected_y, 1);
 }, "scrollIntoView should behave correctly if applies to shadow dom elements");
