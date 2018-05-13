@@ -28,17 +28,12 @@ const isElement = el =>
   el != null &&
   typeof el == 'object' &&
   (el.nodeType === 1 || el.nodeType === 11)
-const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
-  if (axis === 'Y') {
-    return el.clientHeight < el.scrollHeight
-  }
 
-  if (axis === 'X') {
-    return el.clientWidth < el.scrollWidth
-  }
+const hasScrollableSpace = (el, axis: 'X' | 'Y') =>
+  axis === 'X'
+    ? el.clientWidth < el.scrollWidth
+    : el.clientHeight < el.scrollHeight
 
-  return false
-}
 const canOverflow = (
   el,
   axis: 'Y' | 'X',
