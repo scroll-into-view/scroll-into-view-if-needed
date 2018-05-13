@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<title>CSSOM View - scrollIntoView - nested scrolling boxes</title>
+<meta charset="utf-8">
+<link rel="help" href="https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview">
+<link rel="help" href="https://heycam.github.io/webidl/#es-operations">
+<link rel="help" href="https://heycam.github.io/webidl/#es-overloads">
+<meta name="flags" content="dom">
+<script src="/node_modules/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.js"></script>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<style>
+body.running { margin: 0; padding: 4000px; overflow: auto }
+body.running #testWrapper {
+  width: 400px;
+  height: 400px;
+  background-color: whitesmoke;
+  overflow: auto;
+}
+body.running #testDiv {
+  width: 200px;
+  height: 200px;
+  background-color: lightgreen;
+  margin: 400px;
+}
+
+.outer-scroll-container,
+.inner-scroll-container {
+  overflow: scroll;
+  border: 3px solid hsla(0, 0%, 0%, .1);
+}
+.outer-scroll-container {
+  background: #f5f5fb;
+}
+.outer-scroll-container,
+.inner-scroll-element {
+  height: 400px;
+  width: 400px;
+}
+.inner-scroll-container {
+  height: 200px;
+  width: 200px;
+}
+
+.outer-scroll-element,
+.inner-scroll-element {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.outer-scroll-element {
+  height: 800px;
+  width: 800px;
+}
+
+.inner-scroll-element {
+  background: hsla(0, 0%, 0%, .05);
+}
+
+.scroll-padding {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 16.666666666666668px;
+  height: 333.3333333333333px;
+  width: 333.3333333333333px;
+}
+
+.layer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 33.333333333333336%;
+  -webkit-box-flex: 0;
+      -ms-flex: none;
+          flex: none;
+  width: 33.3333%;
+}
+.scroll-tile {
+  font-size: 48px !important;
+  font-size: 3rem !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 4px;
+  height: 66.66666666666667px;
+  color: hsla(0, 0%, 0%, .3);
+  background-color: #00d1b2;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 66.66666666666667px;
+}
+
+</style>
+<body class=running>
+  <div class="outer-scroll-container">
+    <div class="outer-scroll-element">
+      <div class="inner-scroll-container">
+        <div class="inner-scroll-element">
+          <div class="scroll-padding">
+            <div class="layer">
+              <div class="scroll-tile">1</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">2</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">3</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">4</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">5</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">6</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">7</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">8</div>
+            </div>
+            <div class="layer">
+              <div class="scroll-tile">9</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div id="log"></div>
+<script>
+var tiles = document.querySelectorAll(".scroll-tile");
+var outerContainer = document.querySelector(".outer-scroll-container")
+var innerContainer = document.querySelector(".inner-scroll-container")
+var baseX = 4003;
+var baseY = 4003;
+
+var expectedXLeft = 4000;
+var expectedXRight = 4000 - window.innerWidth + outerContainer.clientWidth;
+var expectedXCenter = 4000 - (window.innerWidth / 2) + (outerContainer.clientWidth / 2);
+
+var expectedYTop = 4000;
+var expectedYBottom = 4000 - window.innerHeight + outerContainer.clientHeight;
+var expectedYCenter = 4000 - (window.innerHeight / 2) + (outerContainer.clientHeight / 2);
+
+[
+  [0, "start", "start", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
+  [1, "start", "center", [{x: expectedXCenter + 3, y: baseY}, {x: 200, y: 300}, {x: 100, y:55}]],
+  [2, "start", "end", [{x: baseX, y: baseY}, {x: 100, y: 300}, {x: 145, y:55}]],
+  [3, "center", "start", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
+  [4, "center", "center", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
+  [5, "center", "end", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
+  [6, "end", "start", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
+  [7, "end", "center", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]],
+  [8, "end", "end", [{x: baseX, y: baseY}, {x: 300, y: 300}, {x:  55, y:55}]]
+].forEach(([target, block, inline, [viewport, outer, inner]]) => {
+  test(() => {
+    window.scrollTo(0, 0);
+    //scrollIntoView(tiles[target], {block, inline});
+    tiles[target].scrollIntoView({block, inline});
+
+    console.log(
+      "window",
+      window.scrollX,
+      window.scrollY,
+      "outerContainer",
+      outerContainer.scrollLeft,
+      outerContainer.scrollTop,
+      "innerContainer",
+      innerContainer.scrollLeft,
+      innerContainer.scrollTop
+    );
+
+
+    //assert_approx_equals(window.scrollX, viewport.x, 0.5, 'window.scrollX');
+    //assert_approx_equals(window.scrollY, viewport.y, 0.5, 'window.scrollY');
+    assert_approx_equals(outerContainer.scrollLeft, outer.x, 0.5, 'outerContainer.scrollLeft');
+    assert_approx_equals(outerContainer.scrollTop, outer.y, 0.5, 'outerContainer.scrollTop');
+    assert_approx_equals(innerContainer.scrollLeft, inner.x, 0.5, 'innerContainer.scrollLeft');
+    assert_approx_equals(innerContainer.scrollTop, inner.y, 0.5, 'innerContainer.scrollTop');
+  }, `scrollIntoView(${JSON.stringify({block, inline})})`);
+});
+
+document.body.classList.remove('running');
+window.scrollTo(0, 0);
+</script>
