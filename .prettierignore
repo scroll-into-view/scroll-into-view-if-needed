@@ -1,2 +1,3 @@
 node_modules
+tests/web-platform/resources
 package.json

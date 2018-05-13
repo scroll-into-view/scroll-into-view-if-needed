@@ -1,9 +1,9 @@
 import compute from './compute'
 import {
-  ScrollBehavior,
-  CustomScrollBehaviorCallback,
   CustomScrollAction,
+  CustomScrollBehaviorCallback,
   Options as BaseOptions,
+  ScrollBehavior,
 } from './types'
 
 export interface StandardBehaviorOptions extends BaseOptions {
@@ -20,6 +20,7 @@ export interface Options<T = any> extends BaseOptions {
 // Wait with checking if native smooth-scrolling exists until scrolling is invoked
 // This is much more friendly to server side rendering envs, and testing envs like jest
 let supportsScrollBehavior
+let scrollingElement
 
 const isFunction = (arg: any): arg is Function => {
   return typeof arg == 'function'
@@ -32,8 +33,12 @@ const defaultBehavior = (
   actions: CustomScrollAction[],
   behavior: ScrollBehavior = 'auto'
 ) => {
+  // Because of quirksmode
+  if (!scrollingElement) {
+    scrollingElement = document.scrollingElement || document.documentElement
+  }
   if (supportsScrollBehavior === undefined) {
-    supportsScrollBehavior = 'scrollBehavior' in document.documentElement.style
+    supportsScrollBehavior = 'scrollBehavior' in scrollingElement.style
   }
 
   actions.forEach(({ el, top, left }) => {
@@ -42,7 +47,7 @@ const defaultBehavior = (
     if (el.scroll && supportsScrollBehavior) {
       el.scroll({ top, left, behavior })
     } else {
-      if (el === document.documentElement) {
+      if (el === scrollingElement) {
         window.scrollTo(left, top)
       } else {
         el.scrollTop = top

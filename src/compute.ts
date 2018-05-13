@@ -214,7 +214,7 @@ export default (
   }
 
   let targetRect = target.getBoundingClientRect()
-  const viewport = document.documentElement
+  const viewport = document.scrollingElement || document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []

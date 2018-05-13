@@ -3,6 +3,7 @@ node_modules
 # Cypress stuff
 **/cypress/screenshots
 **/cypress/videos
+**/junit
 
 # Typescript stuff
 typings
@@ -15,3 +16,4 @@ es
 umd
 /compute.js
 /index.js
+/types.js
