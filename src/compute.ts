@@ -316,8 +316,6 @@ export default (
           frame.scrollHeight - frame.clientHeight - frame.scrollTop
         )
         blockScroll = frame.scrollTop + offset - borderTop
-
-        targetBlock -= blockScroll - frame.scrollTop
       }
     }
     if (block === 'center') {
@@ -336,9 +334,6 @@ export default (
           )
 
         blockScroll = frame.scrollTop + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock += frame.scrollTop - blockScroll
       }
     }
 
@@ -354,9 +349,6 @@ export default (
           0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
 
         blockScroll = frame.scrollTop + offset + borderBottom
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock += frame.scrollTop - blockScroll
       }
     }
 
@@ -390,9 +382,6 @@ export default (
           targetRect.height
         )
         blockScroll = frame.scrollTop + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock -= offset
       }
     }
 
@@ -409,8 +398,6 @@ export default (
           frame.scrollHeight - frame.clientLeft - frame.scrollLeft
         )
         inlineScroll = frame.scrollLeft + offset - borderLeft
-
-        targetInline -= inlineScroll - frame.scrollLeft
       }
     }
 
@@ -430,9 +417,6 @@ export default (
           )
 
         inlineScroll = frame.scrollLeft + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetInline += frame.scrollLeft - inlineScroll
       }
     }
 
@@ -448,9 +432,6 @@ export default (
           0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
         inlineScroll = frame.scrollLeft + offset + borderRight
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetInline += frame.scrollLeft - inlineScroll
       }
     }
 
@@ -485,13 +466,13 @@ export default (
         )
 
         inlineScroll = frame.scrollLeft + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetInline -= offset
       }
     }
 
-    console.log('borderLeft', inlineScroll, borderLeft)
+    // Cache the offset so that parent frames can scroll this into view correctly
+    targetBlock += frame.scrollTop - blockScroll
+    targetInline += frame.scrollLeft - inlineScroll
+
     return { el: frame, top: blockScroll, left: inlineScroll }
   })
 
