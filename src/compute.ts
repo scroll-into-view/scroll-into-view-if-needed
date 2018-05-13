@@ -14,22 +14,26 @@ declare global {
       width: number
     }
   }
+
+  // @TODO better declaration of possible shadowdom hosts
+  interface Element {
+    host: any
+  }
 }
 
 import { CustomScrollAction, Options } from './types'
 
-const isElement = el => el != null && typeof el == 'object' && el.nodeType === 1
-const hasScrollableSpace = (el, axis: 'Y' | 'X') => {
-  if (axis === 'Y') {
-    return el.clientHeight < el.scrollHeight
-  }
+// @TODO better shadowdom test, 11 = document fragment
+const isElement = el =>
+  el != null &&
+  typeof el == 'object' &&
+  (el.nodeType === 1 || el.nodeType === 11)
 
-  if (axis === 'X') {
-    return el.clientWidth < el.scrollWidth
-  }
+const hasScrollableSpace = (el, axis: 'X' | 'Y') =>
+  axis === 'X'
+    ? el.clientWidth < el.scrollWidth
+    : el.clientHeight < el.scrollHeight
 
-  return false
-}
 const canOverflow = (
   el,
   axis: 'Y' | 'X',
@@ -63,6 +67,8 @@ const alignNearest = (
   scrollingEdgeStart: number,
   scrollingEdgeEnd: number,
   scrollingSize: number,
+  scrollingBorderStart: number,
+  scrollingBorderEnd: number,
   elementEdgeStart: number,
   elementEdgeEnd: number,
   elementSize: number
@@ -139,7 +145,7 @@ const alignNearest = (
     (elementEdgeStart < scrollingEdgeStart && elementSize < scrollingSize) ||
     (elementEdgeEnd > scrollingEdgeEnd && elementSize > scrollingSize)
   ) {
-    return elementEdgeStart - scrollingEdgeStart
+    return elementEdgeStart - scrollingEdgeStart - scrollingBorderStart
   }
 
   /**
@@ -186,7 +192,7 @@ const alignNearest = (
     (elementEdgeEnd > scrollingEdgeEnd && elementSize < scrollingSize) ||
     (elementEdgeStart < scrollingEdgeStart && elementSize > scrollingSize)
   ) {
-    return elementEdgeEnd - scrollingEdgeEnd
+    return elementEdgeEnd - scrollingEdgeEnd + scrollingBorderEnd
   }
 
   return 0
@@ -219,7 +225,11 @@ export default (
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
   let parent
-  while (isElement((parent = target.parentNode)) && checkBoundary(target)) {
+  // @TODO have a better shadowdom test here
+  while (
+    isElement((parent = target.parentNode || target.host)) &&
+    checkBoundary(target)
+  ) {
     if (
       isScrollable(parent, skipOverflowHiddenElements) ||
       parent === viewport
@@ -277,12 +287,15 @@ export default (
   // Collect new scroll positions
   const computations = frames.map((frame): CustomScrollAction => {
     const frameRect = frame.getBoundingClientRect()
-    // @TODO fix hardcoding of block => top/Y
+    const frameStyle = getComputedStyle(frame)
+    const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
+    const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
+    const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
+    const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
 
     let blockScroll = 0
     let inlineScroll = 0
 
-    // @TODO handle borders
     // @TODO fix the if else pyramid nightmare
 
     if (block === 'start') {
@@ -297,9 +310,7 @@ export default (
           targetBlock - frameRect.top,
           frame.scrollHeight - frame.clientHeight - frame.scrollTop
         )
-        blockScroll = frame.scrollTop + offset
-
-        targetBlock -= blockScroll - frame.scrollTop
+        blockScroll = frame.scrollTop + offset - borderTop
       }
     }
     if (block === 'center') {
@@ -318,9 +329,6 @@ export default (
           )
 
         blockScroll = frame.scrollTop + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock += frame.scrollTop - blockScroll
       }
     }
 
@@ -335,10 +343,7 @@ export default (
         const offset =
           0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
 
-        blockScroll = frame.scrollTop + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock += frame.scrollTop - blockScroll
+        blockScroll = frame.scrollTop + offset + borderBottom
       }
     }
 
@@ -352,6 +357,8 @@ export default (
           viewportY,
           viewportY + viewportHeight,
           viewportHeight,
+          borderTop,
+          borderBottom,
           viewportY + targetBlock,
           viewportY + targetBlock + targetRect.height,
           targetRect.height
@@ -363,14 +370,13 @@ export default (
           frameRect.top,
           frameRect.bottom,
           frameRect.height,
+          borderTop,
+          borderBottom,
           targetBlock,
           targetBlock + targetRect.height,
           targetRect.height
         )
         blockScroll = frame.scrollTop + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock -= offset
       }
     }
 
@@ -386,9 +392,7 @@ export default (
           targetInline - frameRect.left,
           frame.scrollHeight - frame.clientLeft - frame.scrollLeft
         )
-        inlineScroll = frame.scrollLeft + offset
-
-        targetInline -= inlineScroll - frame.scrollLeft
+        inlineScroll = frame.scrollLeft + offset - borderLeft
       }
     }
 
@@ -408,9 +412,6 @@ export default (
           )
 
         inlineScroll = frame.scrollLeft + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetInline += frame.scrollLeft - inlineScroll
       }
     }
 
@@ -425,10 +426,7 @@ export default (
         const offset =
           0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
-        inlineScroll = frame.scrollLeft + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetInline += frame.scrollLeft - inlineScroll
+        inlineScroll = frame.scrollLeft + offset + borderRight
       }
     }
 
@@ -442,6 +440,8 @@ export default (
           viewportX,
           viewportX + viewportWidth,
           viewportWidth,
+          borderLeft,
+          borderRight,
           viewportX + targetInline,
           viewportX + targetInline + targetRect.width,
           targetRect.width
@@ -453,17 +453,20 @@ export default (
           frameRect.left,
           frameRect.right,
           frameRect.width,
+          borderLeft,
+          borderRight,
           targetInline,
           targetInline + targetRect.width,
           targetRect.width
         )
 
         inlineScroll = frame.scrollLeft + offset
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetInline -= offset
       }
     }
+
+    // Cache the offset so that parent frames can scroll this into view correctly
+    targetBlock += frame.scrollTop - blockScroll
+    targetInline += frame.scrollLeft - inlineScroll
 
     return { el: frame, top: blockScroll, left: inlineScroll }
   })
