@@ -72,6 +72,8 @@ const alignNearest = (
   scrollingEdgeStart: number,
   scrollingEdgeEnd: number,
   scrollingSize: number,
+  scrollingBorderStart: number,
+  scrollingBorderEnd: number,
   elementEdgeStart: number,
   elementEdgeEnd: number,
   elementSize: number
@@ -148,7 +150,7 @@ const alignNearest = (
     (elementEdgeStart < scrollingEdgeStart && elementSize < scrollingSize) ||
     (elementEdgeEnd > scrollingEdgeEnd && elementSize > scrollingSize)
   ) {
-    return elementEdgeStart - scrollingEdgeStart
+    return elementEdgeStart - scrollingEdgeStart - scrollingBorderStart
   }
 
   /**
@@ -195,7 +197,7 @@ const alignNearest = (
     (elementEdgeEnd > scrollingEdgeEnd && elementSize < scrollingSize) ||
     (elementEdgeStart < scrollingEdgeStart && elementSize > scrollingSize)
   ) {
-    return elementEdgeEnd - scrollingEdgeEnd
+    return elementEdgeEnd - scrollingEdgeEnd + scrollingBorderEnd
   }
 
   return 0
@@ -290,12 +292,15 @@ export default (
   // Collect new scroll positions
   const computations = frames.map((frame): CustomScrollAction => {
     const frameRect = frame.getBoundingClientRect()
-    // @TODO fix hardcoding of block => top/Y
+    const frameStyle = getComputedStyle(frame)
+    const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
+    const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
+    const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
+    const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
 
     let blockScroll = 0
     let inlineScroll = 0
 
-    // @TODO handle borders
     // @TODO fix the if else pyramid nightmare
 
     if (block === 'start') {
@@ -310,7 +315,7 @@ export default (
           targetBlock - frameRect.top,
           frame.scrollHeight - frame.clientHeight - frame.scrollTop
         )
-        blockScroll = frame.scrollTop + offset
+        blockScroll = frame.scrollTop + offset - borderTop
 
         targetBlock -= blockScroll - frame.scrollTop
       }
@@ -348,7 +353,7 @@ export default (
         const offset =
           0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
 
-        blockScroll = frame.scrollTop + offset
+        blockScroll = frame.scrollTop + offset + borderBottom
 
         // Cache the offset so that parent frames can scroll this into view correctly
         targetBlock += frame.scrollTop - blockScroll
@@ -365,6 +370,8 @@ export default (
           viewportY,
           viewportY + viewportHeight,
           viewportHeight,
+          borderTop,
+          borderBottom,
           viewportY + targetBlock,
           viewportY + targetBlock + targetRect.height,
           targetRect.height
@@ -376,6 +383,8 @@ export default (
           frameRect.top,
           frameRect.bottom,
           frameRect.height,
+          borderTop,
+          borderBottom,
           targetBlock,
           targetBlock + targetRect.height,
           targetRect.height
@@ -399,7 +408,7 @@ export default (
           targetInline - frameRect.left,
           frame.scrollHeight - frame.clientLeft - frame.scrollLeft
         )
-        inlineScroll = frame.scrollLeft + offset
+        inlineScroll = frame.scrollLeft + offset - borderLeft
 
         targetInline -= inlineScroll - frame.scrollLeft
       }
@@ -438,7 +447,7 @@ export default (
         const offset =
           0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
-        inlineScroll = frame.scrollLeft + offset
+        inlineScroll = frame.scrollLeft + offset + borderRight
 
         // Cache the offset so that parent frames can scroll this into view correctly
         targetInline += frame.scrollLeft - inlineScroll
@@ -455,6 +464,8 @@ export default (
           viewportX,
           viewportX + viewportWidth,
           viewportWidth,
+          borderLeft,
+          borderRight,
           viewportX + targetInline,
           viewportX + targetInline + targetRect.width,
           targetRect.width
@@ -466,6 +477,8 @@ export default (
           frameRect.left,
           frameRect.right,
           frameRect.width,
+          borderLeft,
+          borderRight,
           targetInline,
           targetInline + targetRect.width,
           targetRect.width
@@ -478,6 +491,7 @@ export default (
       }
     }
 
+    console.log('borderLeft', inlineScroll, borderLeft)
     return { el: frame, top: blockScroll, left: inlineScroll }
   })
 
