@@ -1,3 +1,15 @@
 language: node_js
 node_js:
-  - "node"
+- lts/*
+cache: yarn
+install:
+- cd tests/web-platform && yarn
+before_script:
+- cd tests/web-platform && yarn start &
+script:
+- cd tests/web-platform && npx nightwatch
+addons:
+  browserstack:
+    username: stiandidriksen2
+    access_key:
+      secure: OENHe75LTfaa8Gu4gna+z17oF66DbJxyI7rFqp3KGX8TQ896p5XgIa9IeBmUQuq29G02I8BxecW+Mrj6JW47qa4YKJ0T13Ffmk+EicKxuRfdUb36tsd1nz7etWyJlIWzD4q1Wmdzub0aiJiEDV/rzA+sGr1SojdUBbs5grn3oDb34R+GIRrhkA4Qb6jVz6INZy/r8PY+7yNFLSJ0gJY3HrnhQenY3Ta1CMDFDrcc6Ih6nvUzJJ0h8OqDkZZTG82w1q90V1sO8b41+GGYhIUQ1Q2YWtA/X/jNhS3CMfUzSPOHabFyZSXWPodhtiMOehRpXl3TigUUXVNBumjKIBFV4s1blamr2HFB51l6bEMTMyOwizVNEfcTgh6xxi0jK82H7CnjAS4UotOm723ectgIpnjT1YQkOlseE89FPfcyjlNvaumRy+J2r9iK5oXy1Y5CpgtInLipcO3guzmQ47UiH5MU2y8PDpcgJ0pjpUwjx1WebxMasBApSA4Bxnf/wPpo1mA6eDGbFa8zrnePwb99WtyrqIzwUAv6PJhPcGI01XD/ru8SxIi/ZLQ4e8LuijT3q7/gng4Rlt9TlQIomyISQjDSFzCUcwC+N2RfgYIBc7SYvgN+iDjefe7afAf2Jrzqk/MCCYUFVzRW+UwAC7oyaLE1ZVpsm9U7zn3hPtY6L0w=
