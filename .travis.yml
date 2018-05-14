@@ -7,7 +7,7 @@ install:
 before_script:
 - cd tests/web-platform && yarn start &
 script:
-- cd tests/web-platform && npx nightwatch
+- npx nightwatch
 addons:
   browserstack:
     username: stiandidriksen2
