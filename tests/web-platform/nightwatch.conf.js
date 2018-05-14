@@ -1,3 +1,5 @@
+var browserstack = require('browserstack-local')
+
 const config = {
   src_folders: ['tests'],
   selenium: {
@@ -9,11 +11,10 @@ const config = {
     default: {
       desiredCapabilities: {
         build: 'nightwatch-browserstack',
-        'browserstack.user':
-          process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
-        'browserstack.key':
-          process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
+        'browserstack.user': process.env.BROWSERSTACK_USERNAME,
+        'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
         'browserstack.debug': true,
+        'browserstack.local': true,
         browser: 'chrome',
       },
     },
