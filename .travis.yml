@@ -8,8 +8,3 @@ before_script:
 - cd tests/web-platform && yarn start &
 script:
 - ./node_modules/.bin/nightwatch
-addons:
-  browserstack:
-    username: stiandidriksen2
-    access_key:
-      secure: "hqxycWTbIHLZuSkpFXO5L+AeJ6UBBHNLu0fDDydfQW+ca7Uc5b8+UueGI3ewqn5HE3dEcd4DqRbZzzCcdZgcJQGRtDUwgqpsw1VZdWZBO1ICxBf+gmE+6veeIyNG/VxY99qHtiZ+qzi8t8dEVGqGV6lDPXwjL+S/OsjYXHQaw6YkItnEn6lnqO8TMyn4MRok1ORLd2iHeQVLOTkYJrB5Db5LLHU3ncfJid4dPgEGGMBGYYKWrEdAvml3+FLSC3AuvDw5dyhbmhPkJNLnGPyXonNJRrRfqgh3+JJg5VcUMwjY6rpbOtifXnRCjvjosRf6jZBwDYoshEOAsNlD/SORc/qJZ4G+FyZLLZpgg1xqKoTBSgKme2p0kXnrsiAJBUH68MdQplLZHh3dFSkAYHNr7ZKf6s8HMWUTaByPxFiX/gup6TPYNvw89qEy0XonHDHwBhhgfU5aQ2eQaUbMW8E5ugqAzYGOsAYHvD9waJzVpbV3PcXIVqjaryhSfEjC5uvvtpW+a016QbprR1rkoug/cyzqj7uyHvCiiZw7zwfvAu9sernlNSEP13y+HeALiWr8d/podehZUokonSJWM2V6oOTOOSY6gw8CZOseLaruyUEcTF1RkzdrX9fEgD+pRTQDzkZc2unoI0Wq1f5eNR0V01TGmbCV0yevj3cc1FBHJSQ="
