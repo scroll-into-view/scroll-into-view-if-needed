@@ -1,23 +1,29 @@
-module.exports = {
+const config = {
   src_folders: ['tests'],
   selenium: {
-    start_process: true,
-    server_path: './bin/selenium.jar',
-    log_path: '',
-    port: 4444,
-    cli_args: {
-      'webdriver.chrome.driver': './bin/chromedriver',
-    },
+    start_process: false,
+    host: 'hub-cloud.browserstack.com',
+    port: 80,
   },
   test_settings: {
     default: {
-      launch_url: 'http://localhost:3000',
-      selenium_port: 4444,
-      selenium_host: 'localhost',
       desiredCapabilities: {
-        browserName: 'chrome',
-        acceptSslCerts: true,
+        build: 'nightwatch-browserstack',
+        'browserstack.user':
+          process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
+        'browserstack.key':
+          process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
+        'browserstack.debug': true,
+        browser: 'chrome',
       },
     },
   },
 }
+
+// Code to copy seleniumhost/port into test settings
+for (let i in config.test_settings) {
+  config.test_settings[i].selenium_host = config.selenium.host
+  config.test_settings[i].selenium_port = config.selenium.port
+}
+
+module.exports = config
