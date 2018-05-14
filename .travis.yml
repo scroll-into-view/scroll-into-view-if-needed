@@ -7,4 +7,4 @@ install:
 before_script:
 - cd tests/web-platform && yarn start &
 script:
-- ./node_modules/.bin/nightwatch
+- yarn nightwatch
