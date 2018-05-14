@@ -1,6 +1,8 @@
 {
   "private": true,
   "scripts": {
+    "prenightwatch": "node install.js",
+    "nightwatch": "nightwatch",
     "start": "serve -i cypress/ -p 3000",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
@@ -9,6 +11,8 @@
     "serve": "6.5.6"
   },
   "devDependencies": {
-    "cypress": "2.1.0"
+    "cypress": "2.1.0",
+    "nightwatch": "0.9.21",
+    "selenium-download": "2.0.12"
   }
 }
