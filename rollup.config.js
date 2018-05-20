@@ -26,7 +26,11 @@ const config = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  config.plugins.push(terser())
+  config.plugins.push(
+    terser({
+      module: true,
+    })
+  )
 }
 
 export default config
