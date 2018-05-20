@@ -26,14 +26,7 @@ const config = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  config.plugins.push(
-    terser({
-      module: true,
-      compress: {
-        keep_fargs: false,
-      },
-    })
-  )
+  config.plugins.push(terser())
 }
 
 export default config
