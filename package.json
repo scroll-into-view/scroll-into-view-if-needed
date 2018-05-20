@@ -58,7 +58,7 @@
     "rollup-plugin-node-resolve": "3.3.0",
     "rollup-plugin-replace": "2.0.0",
     "rollup-plugin-terser": "1.0.1",
-    "semantic-release": "15.4.1",
+    "semantic-release": "15.4.2",
     "typescript": "2.8.3"
   },
   "keywords": [
