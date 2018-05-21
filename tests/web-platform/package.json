@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "nightwatch": "node ./local.runner.js",
+    "browserstack": "wdio ./browserstack.conf.js",
     "start": "serve -i cypress/ -p 3000",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
