@@ -1,4 +1,5 @@
 var assert = require('assert')
+const tryer = require('tryer')
 
 const tests = [
   'scrollintoview.html',
@@ -12,29 +13,30 @@ describe('cssom-view', function() {
 
       browser.waitForVisible('#results', 10000)
       browser.waitForText('#__testharness__results__', 10000)
-      browser.waitUntil(
-        () => {
+
+      let testResults
+
+      tryer({
+        action: () => {
+          testResults.tests.forEach(testResult => {
+            it(testResult.name, () => assert.equal(testResult.message, null))
+          })
+        },
+        when: () => {
           try {
-            return (
-              JSON.parse(browser.getHTML('#__testharness__results__', false))
-                .state !== 'pending'
+            testResults = JSON.parse(
+              browser.getHTML('#__testharness__results__', false)
             )
+            return true
           } catch (err) {
             return false
           }
         },
-        5000,
-        'expected test harness report after 5s'
-      )
-
-      const testResultsText = browser.getHTML(
-        '#__testharness__results__',
-        false
-      )
-      assert.ok(testResultsText)
-      const testResults = JSON.parse(testResultsText)
-      testResults.tests.forEach(testResult => {
-        it(testResult.name, () => assert.equal(testResult.message, null))
+        interval: 1000,
+        limit: 10,
+        fail() {
+          throw new Error('failed to run tests')
+        },
       })
     })
   })

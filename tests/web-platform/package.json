@@ -15,6 +15,7 @@
     "nightwatch": "0.9.21",
     "selenium-download": "2.0.12",
     "selenium-webdriver": "4.0.0-alpha.1",
+    "tryer": "1.0.0",
     "wdio-junit-reporter": "0.4.3",
     "wdio-mocha-framework": "0.5.13",
     "webdriverio": "4.12.0"
