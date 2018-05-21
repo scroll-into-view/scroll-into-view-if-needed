@@ -1,16 +1,22 @@
 var assert = require('assert')
 
+const tests = [
+  'scrollIntoView-shadow.html',
+  'scrollIntoView-smooth.html',
+  'scrollintoview.html',
+]
 describe('cssom-view', function() {
-  it('scrollIntoView-shadow.html', function() {
-    browser
-      .url('http://localhost:3000/css/cssom-view/scrollIntoView-shadow.html')
-      .waitForExist('#summary', 1000)
+  tests.forEach(testName => {
+    it(testName, function() {
+      browser
+        .url(`http://localhost:3000/css/cssom-view/${testName}`)
+        .waitForExist('#summary', 1000)
 
-    assert.equal(browser.isExisting('#summary .pass'), true)
-    assert.equal(browser.isExisting('#summary .fail'), false)
+      assert.equal(browser.isExisting('#summary .pass'), true)
+      assert.equal(browser.isExisting('#summary .fail'), false)
+    })
   })
 })
-
 /*
 module.exports = {
   'scrollIntoView-shadow.html': function(browser) {
