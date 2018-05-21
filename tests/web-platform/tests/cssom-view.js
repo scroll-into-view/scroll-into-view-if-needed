@@ -13,6 +13,11 @@ describe('cssom-view', function() {
 
       let testResults
 
+      it('should generate a report', () => {
+        browser.waitForVisible('#results', 10000)
+        browser.waitForText('#__testharness__results__', 10000)
+      })
+
       tryer({
         action: () => {
           testResults.tests.forEach(testResult => {
@@ -21,8 +26,6 @@ describe('cssom-view', function() {
         },
         when: () => {
           try {
-            browser.waitForVisible('#results', 10000)
-            browser.waitForText('#__testharness__results__', 10000)
             testResults = JSON.parse(
               browser.getHTML('#__testharness__results__', false)
             )
