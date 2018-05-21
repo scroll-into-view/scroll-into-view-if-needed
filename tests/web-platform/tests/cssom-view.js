@@ -8,25 +8,16 @@ const tests = [
 describe('cssom-view', function() {
   tests.forEach(testName => {
     describe(testName, function() {
-      browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
+      browser
+        .url(`http://localhost:3000/css/cssom-view/${testName}`)
+        .waitForExists('#results', 10000)
 
-      browser.waitUntil(
-        () => {
-          try {
-            const testResults = JSON.parse(
-              browser.getHTML('#__testharness__results__', false)
-            )
-            testResults.tests.forEach(testResult => {
-              it(testResult.name, () => assert.equal(testResult.message, null))
-            })
-            return true
-          } catch (err) {
-            return false
-          }
-        },
-        10000,
-        'expected test harness report after 10s'
+      const testResults = JSON.parse(
+        browser.getHTML('#__testharness__results__', false)
       )
+      testResults.tests.forEach(testResult => {
+        it(testResult.name, () => assert.equal(testResult.message, null))
+      })
     })
   })
 })
