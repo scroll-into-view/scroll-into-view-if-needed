@@ -24,6 +24,9 @@ exports.config = {
       browser: 'internet explorer',
     },
     {
+      browser: 'edge',
+    },
+    {
       browser: 'safari',
     },
   ],
