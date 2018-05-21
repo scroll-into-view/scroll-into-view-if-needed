@@ -13,24 +13,20 @@ describe('cssom-view', function() {
       browser.waitUntil(
         () => {
           try {
-            return (
-              JSON.parse(browser.getHTML('#__testharness__results__', false))
-                .tests.length > 0
+            const testResults = JSON.parse(
+              browser.getHTML('#__testharness__results__', false)
             )
+            testResults.tests.forEach(testResult => {
+              it(testResult.name, () => assert.equal(testResult.message, null))
+            })
+            return true
           } catch (err) {
             return false
           }
         },
-        5000,
-        'expected test harness report after 5s'
+        10000,
+        'expected test harness report after 10s'
       )
-
-      const testResults = JSON.parse(
-        browser.getHTML('#__testharness__results__', false)
-      )
-      testResults.tests.forEach(testResult => {
-        it(testResult.name, () => assert.equal(testResult.message, null))
-      })
     })
   })
 })
