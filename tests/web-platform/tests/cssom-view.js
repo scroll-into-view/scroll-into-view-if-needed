@@ -20,7 +20,9 @@ describe('cssom-view', function() {
           it(testResult.name, () => assert.equal(testResult.message, null))
         })
       } catch (err) {
-        assert.ok(testResultHtml)
+        it('should not fail', () => {
+          assert.equal(testResultHtml, Symbol.for('the sake of it'))
+        })
       }
     })
   })
