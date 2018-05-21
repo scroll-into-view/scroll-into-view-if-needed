@@ -10,20 +10,27 @@ describe('cssom-view', function() {
     describe(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
 
-      browser.waitForExist('#summary', 1000)
+      browser.waitUntil(
+        () => {
+          try {
+            return (
+              JSON.parse(browser.getHTML('#__testharness__results__', false))
+                .state !== 'pending'
+            )
+          } catch (err) {
+            return false
+          }
+        },
+        5000,
+        'expected test harness report after 5s'
+      )
 
-      const testResultHtml = browser.getHTML('#__testharness__results__', false)
-
-      try {
-        const testResults = JSON.parse(testResultHtml)
-        testResults.tests.forEach(testResult => {
-          it(testResult.name, () => assert.equal(testResult.message, null))
-        })
-      } catch (err) {
-        it('should not fail', () => {
-          assert.equal(testResultHtml, Symbol.for('the sake of it'))
-        })
-      }
+      const testResults = JSON.parse(
+        browser.getHTML('#__testharness__results__', false)
+      )
+      testResults.tests.forEach(testResult => {
+        it(testResult.name, () => assert.equal(testResult.message, null))
+      })
     })
   })
 })
