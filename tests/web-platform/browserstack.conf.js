@@ -11,6 +11,7 @@ exports.config = {
     name: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
     build: process.env.CIRCLE_BRANCH,
     'browserstack.local': true,
+    project: 'scroll-into-view-if-needed',
   },
 
   capabilities: [
