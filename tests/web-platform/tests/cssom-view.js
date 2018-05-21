@@ -11,9 +11,6 @@ describe('cssom-view', function() {
     describe(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
 
-      browser.waitForVisible('#results', 10000)
-      browser.waitForText('#__testharness__results__', 10000)
-
       let testResults
 
       tryer({
@@ -24,6 +21,8 @@ describe('cssom-view', function() {
         },
         when: () => {
           try {
+            browser.waitForVisible('#results', 10000)
+            browser.waitForText('#__testharness__results__', 10000)
             testResults = JSON.parse(
               browser.getHTML('#__testharness__results__', false)
             )

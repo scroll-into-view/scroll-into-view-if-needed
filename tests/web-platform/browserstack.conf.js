@@ -11,7 +11,6 @@ exports.config = {
     name: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
     build: process.env.CIRCLE_BRANCH,
     'browserstack.local': true,
-    'browserstack.debug': true,
   },
 
   capabilities: [
@@ -64,9 +63,6 @@ exports.config = {
     },
   },
   framework: 'mocha',
-  mochaOpts: {
-    ui: 'bdd',
-  },
 
   // Code to start browserstack local before start of test
   onPrepare: function(config, capabilities) {
