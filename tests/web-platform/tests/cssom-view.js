@@ -1,9 +1,9 @@
 var assert = require('assert')
 
 const tests = [
-  'scrollIntoView-shadow.html',
-  'scrollIntoView-smooth.html',
   'scrollintoview.html',
+  'scrollIntoView-smooth.html',
+  'scrollIntoView-shadow.html',
 ]
 describe('cssom-view', function() {
   tests.forEach(testName => {
@@ -12,8 +12,12 @@ describe('cssom-view', function() {
       browser.waitForExist('.fail', 1000, true)
       browser.waitForExist('#summary .pass', 1000)
 
-      assert.equal(browser.isExisting('#summary .pass'), true)
-      assert.equal(browser.isExisting('.fail'), false)
+      const testResults = JSON.parse(
+        browser.getHTML('#__testharness__results__', false)
+      )
+      testResults.tests.forEach(testResult => {
+        assert.equal(testResult.message, null)
+      })
     })
   })
 })
