@@ -16,18 +16,18 @@ exports.config = {
 
   capabilities: [
     {
-      browser: 'firefox',
+      browser: 'Safari',
     },
     /*
+    {
+      browser: 'firefox',
+    },
     {
       browser: 'IE',
       browser_version: '11.0',
     },
     {
       browser: 'Edge',
-    },
-    {
-      browser: 'Safari',
     },
     {
       os_version: '11.0',
@@ -44,7 +44,7 @@ exports.config = {
       device: 'Samsung Galaxy S8',
       real_mobile: 'true',
     },
-    */
+    //*/
   ],
 
   logLevel: 'verbose',
