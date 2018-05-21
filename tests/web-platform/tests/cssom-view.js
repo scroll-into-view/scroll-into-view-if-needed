@@ -7,15 +7,16 @@ const tests = [
 ]
 describe('cssom-view', function() {
   tests.forEach(testName => {
-    it(testName, function() {
+    describe(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
+
       browser.waitForExist('#summary', 1000)
 
       const testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)
       )
       testResults.tests.forEach(testResult => {
-        assert.equal(testResult.message, null)
+        it(testResult.name, () => assert.equal(testResult.message, null))
       })
     })
   })
