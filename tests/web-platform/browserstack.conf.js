@@ -17,6 +17,7 @@ exports.config = {
   capabilities: [
     {
       browser: 'Safari',
+      browser_version: '11.1',
     },
     /*
     {
