@@ -25,9 +25,15 @@ describe('cssom-view', function() {
         'expected test harness report after 5s'
       )
 
-      const testResults = JSON.parse(
+      let testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)
       )
+      // wrap in it() block to ensure test is marked as failed if something goes wrong
+      it('should find the test harness report', () => {
+        testResults = JSON.parse(
+          browser.getHTML('#__testharness__results__', false)
+        )
+      })
       testResults.tests.forEach(testResult => {
         it(testResult.name, () => assert.equal(testResult.message, null))
       })
