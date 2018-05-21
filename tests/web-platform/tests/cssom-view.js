@@ -10,11 +10,11 @@ describe('cssom-view', function() {
     describe(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
 
-      browser.waitForExist('#summary', 1000)
+      browser.waitForExist('#__testharness__results__', 1000)
 
-      const testResults = JSON.parse(
-        browser.getHTML('#__testharness__results__', false)
-      )
+      const testResultHtml = browser.getHTML('#__testharness__results__', false)
+      console.log(testResultHtml)
+      const testResults = JSON.parse(testResultHtml)
       testResults.tests.forEach(testResult => {
         it(testResult.name, () => assert.equal(testResult.message, null))
       })

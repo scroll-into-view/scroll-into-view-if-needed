@@ -61,10 +61,6 @@ exports.config = {
   reporterOptions: {
     junit: {
       outputDir: './tests_output',
-      outputFileFormat: function(opts) {
-        // optional
-        return `results-${opts.cid}.${opts.capabilities}.xml`
-      },
     },
   },
   framework: 'mocha',
