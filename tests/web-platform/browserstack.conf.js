@@ -18,10 +18,9 @@ exports.config = {
       browser: 'Safari',
       browser_version: '11.1',
     },
+    { browser: 'firefox' },
     /*
-    {
-      browser: 'firefox',
-    },
+    
     {
       browser: 'IE',
       browser_version: '11.0',
