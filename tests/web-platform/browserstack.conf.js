@@ -44,7 +44,7 @@ exports.config = {
   reporters: ['dot', 'junit'],
   reporterOptions: {
     junit: {
-      outputDir: './',
+      outputDir: './tests_output',
       outputFileFormat: function(opts) {
         // optional
         return `results-${opts.cid}.${opts.capabilities}.xml`

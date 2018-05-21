@@ -103,6 +103,8 @@ jobs:
            working_directory: tests/web-platform
       - store_test_results:
           path: tests/web-platform/tests_output
+      - store_artifacts:
+          path: tests/web-platform/errorShots
       - save-cache:
           paths:
             - tests/web-platform/node_modules

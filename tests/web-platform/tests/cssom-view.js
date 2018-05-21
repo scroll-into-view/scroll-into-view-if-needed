@@ -10,7 +10,8 @@ describe('cssom-view', function() {
     it(testName, function() {
       browser
         .url(`http://localhost:3000/css/cssom-view/${testName}`)
-        .waitForExist('#summary', 1000)
+        .waitForExist('#summary .pass', 1000)
+        .waitForExist('#summary .fail', 1000, true)
 
       assert.equal(browser.isExisting('#summary .pass'), true)
       assert.equal(browser.isExisting('#summary .fail'), false)
