@@ -78,13 +78,12 @@ jobs:
 
   Browserstack:
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:8
     steps:
       - checkout
       - restore-cache: *restore-cache
       - *install
       - run: yarn build:umd
-      - *cypress-dependencies-install
       - restore-cache:
           keys:
             - v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
