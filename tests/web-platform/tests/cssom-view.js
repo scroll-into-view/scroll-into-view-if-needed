@@ -8,9 +8,9 @@ const tests = [
 describe('cssom-view', function() {
   tests.forEach(testName => {
     describe(testName, function() {
-      browser
-        .url(`http://localhost:3000/css/cssom-view/${testName}`)
-        .waitForExists('#results', 10000)
+      browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
+
+      browser.waitForExists('#results', 10000)
 
       const testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)
