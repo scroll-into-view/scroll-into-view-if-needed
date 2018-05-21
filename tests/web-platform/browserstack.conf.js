@@ -6,12 +6,24 @@ exports.config = {
 
   specs: ['./tests/**'],
 
+  maxInstances: 10,
+  commonCapabilities: {
+    name: 'parallel_test',
+    build: 'webdriver-browserstack',
+  },
+
   capabilities: [
     {
       browser: 'chrome',
-      name: 'local_test',
-      build: 'webdriver-browserstack',
-      'browserstack.local': true,
+    },
+    {
+      browser: 'firefox',
+    },
+    {
+      browser: 'internet explorer',
+    },
+    {
+      browser: 'safari',
     },
   ],
 
