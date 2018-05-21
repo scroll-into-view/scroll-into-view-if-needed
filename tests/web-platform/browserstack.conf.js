@@ -10,6 +10,7 @@ exports.config = {
   commonCapabilities: {
     name: 'parallel_test',
     build: 'webdriver-browserstack',
+    'browserstack.local': true,
   },
 
   capabilities: [
