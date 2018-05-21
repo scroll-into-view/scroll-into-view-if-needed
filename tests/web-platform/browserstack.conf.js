@@ -18,6 +18,7 @@ exports.config = {
     {
       browser: 'firefox',
     },
+    /*
     {
       browser: 'IE',
       browser_version: '11.0',
@@ -43,6 +44,7 @@ exports.config = {
       device: 'Samsung Galaxy S8',
       real_mobile: 'true',
     },
+    */
   ],
 
   logLevel: 'verbose',
