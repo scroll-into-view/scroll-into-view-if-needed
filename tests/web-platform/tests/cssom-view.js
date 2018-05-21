@@ -6,7 +6,9 @@ const tests = [
   //'scrollIntoView-smooth.html',
   //'scrollIntoView-shadow.html',
 ]
-describe('cssom-view', function() {
+const { browserName } = browser.desiredCapabilities
+console.log(browser.desiredCapabilities)
+describe(`${browserName}`, function() {
   tests.forEach(testName => {
     it(testName, () => {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
