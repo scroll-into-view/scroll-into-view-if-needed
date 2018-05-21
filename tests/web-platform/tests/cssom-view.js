@@ -1,3 +1,17 @@
+var assert = require('assert')
+
+describe('cssom-view', function() {
+  it('scrollIntoView-shadow.html', function() {
+    browser
+      .url('http://localhost:3000/css/cssom-view/scrollIntoView-shadow.html')
+      .waitForExist('#summary', 1000)
+
+    assert.equal(browser.isExisting('#summary .pass'), true)
+    assert.equal(browser.isExisting('#summary .fail'), false)
+  })
+})
+
+/*
 module.exports = {
   'scrollIntoView-shadow.html': function(browser) {
     browser
@@ -24,3 +38,5 @@ module.exports = {
       .end()
   },
 }
+
+//*/

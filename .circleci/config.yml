@@ -99,7 +99,7 @@ jobs:
            working_directory: tests/web-platform
       - run: npx wait-on http://localhost:3000
       - run:
-           command: yarn nightwatch
+           command: yarn browserstack
            working_directory: tests/web-platform
       - store_test_results:
           path: tests/web-platform/tests_output

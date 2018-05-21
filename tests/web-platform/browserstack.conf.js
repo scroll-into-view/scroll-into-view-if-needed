@@ -4,12 +4,40 @@ exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
 
+  specs: ['./tests/**'],
+
   capabilities: [
     {
       browser: 'chrome',
+      name: 'local_test',
+      build: 'webdriver-browserstack',
       'browserstack.local': true,
     },
   ],
+
+  logLevel: 'verbose',
+  coloredLogs: true,
+  screenshotPath: './errorShots/',
+  baseUrl: '',
+  waitforTimeout: 10000,
+  connectionRetryTimeout: 90000,
+  connectionRetryCount: 3,
+  host: 'hub.browserstack.com',
+
+  reporters: ['dot', 'junit'],
+  reporterOptions: {
+    junit: {
+      outputDir: './',
+      outputFileFormat: function(opts) {
+        // optional
+        return `results-${opts.cid}.${opts.capabilities}.xml`
+      },
+    },
+  },
+  framework: 'mocha',
+  mochaOpts: {
+    ui: 'bdd',
+  },
 
   // Code to start browserstack local before start of test
   onPrepare: function(config, capabilities) {
