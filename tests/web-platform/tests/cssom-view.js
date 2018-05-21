@@ -10,7 +10,7 @@ describe('cssom-view', function() {
     describe(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
 
-      browser.waitForExists('#results', 10000)
+      browser.waitForExist('#results', 10000)
 
       const testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)
