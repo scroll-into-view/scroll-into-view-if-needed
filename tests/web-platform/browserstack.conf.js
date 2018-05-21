@@ -74,3 +74,10 @@ exports.config = {
     exports.bs_local.stop(function() {})
   },
 }
+
+// Code to support common capabilities
+// @TODO cleanup this messy snippet with an array.map
+exports.config.capabilities.forEach(function(caps) {
+  for (var i in exports.config.commonCapabilities)
+    caps[i] = caps[i] || exports.config.commonCapabilities[i]
+})
