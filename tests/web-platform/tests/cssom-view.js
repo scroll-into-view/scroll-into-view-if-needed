@@ -10,7 +10,7 @@ describe('cssom-view', function() {
     describe(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
 
-      browser.waitForExist('#__testharness__results__', 1000)
+      browser.waitForExist('#summary', 1000)
 
       const testResultHtml = browser.getHTML('#__testharness__results__', false)
 
