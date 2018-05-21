@@ -1,3 +1,5 @@
+const assert = require('assert')
+
 const tests = [
   'scrollintoview.html',
   'scrollIntoView-smooth.html',
