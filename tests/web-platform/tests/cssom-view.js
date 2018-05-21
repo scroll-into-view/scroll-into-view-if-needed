@@ -9,11 +9,11 @@ describe('cssom-view', function() {
   tests.forEach(testName => {
     it(testName, function() {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
-      browser.waitForExist('#summary .fail', 1000, true)
+      browser.waitForExist('.fail', 1000, true)
       browser.waitForExist('#summary .pass', 1000)
 
       assert.equal(browser.isExisting('#summary .pass'), true)
-      assert.equal(browser.isExisting('#summary .fail'), false)
+      assert.equal(browser.isExisting('.fail'), false)
     })
   })
 })

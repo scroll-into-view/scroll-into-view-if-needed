@@ -8,27 +8,40 @@ exports.config = {
 
   maxInstances: 10,
   commonCapabilities: {
-    name: 'parallel_test',
-    build: 'webdriver-browserstack',
+    name: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
+    build: process.env.CIRCLE_BRANCH,
     'browserstack.local': true,
     'browserstack.debug': true,
   },
 
   capabilities: [
     {
-      browser: 'chrome',
-    },
-    {
       browser: 'firefox',
     },
     {
-      browser: 'internet explorer',
+      browser: 'IE',
+      browser_version: '11.0',
     },
     {
-      browser: 'edge',
+      browser: 'Edge',
     },
     {
-      browser: 'safari',
+      browser: 'Safari',
+    },
+    {
+      os_version: '11.0',
+      device: 'iPhone X',
+      real_mobile: 'true',
+    },
+    {
+      os_version: '8.0',
+      device: 'Google Pixel',
+      real_mobile: 'true',
+    },
+    {
+      os_version: '7.0',
+      device: 'Samsung Galaxy S8',
+      real_mobile: 'true',
     },
   ],
 
