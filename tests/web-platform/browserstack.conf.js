@@ -11,6 +11,7 @@ exports.config = {
     name: 'parallel_test',
     build: 'webdriver-browserstack',
     'browserstack.local': true,
+    'browserstack.debug': true,
   },
 
   capabilities: [
