@@ -1,6 +1,3 @@
-var assert = require('assert')
-const tryer = require('tryer')
-
 const tests = [
   'scrollintoview.html',
   'scrollIntoView-smooth.html',
@@ -13,32 +10,15 @@ describe('cssom-view', function() {
 
       let testResults
 
-      it('should generate a report', () => {
+      it(testName, () => {
         browser.waitForVisible('#results', 10000)
         browser.waitForText('#__testharness__results__', 10000)
-      })
-
-      tryer({
-        action: () => {
-          testResults.tests.forEach(testResult => {
-            it(testResult.name, () => assert.equal(testResult.message, null))
-          })
-        },
-        when: () => {
-          try {
-            testResults = JSON.parse(
-              browser.getHTML('#__testharness__results__', false)
-            )
-            return true
-          } catch (err) {
-            return false
-          }
-        },
-        interval: 1000,
-        limit: 10,
-        fail() {
-          throw new Error('failed to run tests')
-        },
+        const testResults = JSON.parse(
+          browser.getHTML('#__testharness__results__', false)
+        )
+        testResults.tests.forEach(testResult => {
+          assert.equal(testResult.message, null)
+        })
       })
     })
   })
