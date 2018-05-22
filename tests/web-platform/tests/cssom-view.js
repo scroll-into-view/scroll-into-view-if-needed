@@ -1,5 +1,3 @@
-const assert = require('assert')
-
 const tests = [
   'css/cssom-view/scrollintoview.html',
   // ignore tests that require newer browser functionality
