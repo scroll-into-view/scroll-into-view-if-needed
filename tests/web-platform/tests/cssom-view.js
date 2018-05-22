@@ -1,10 +1,11 @@
 const assert = require('assert')
 
 const tests = [
-  'scrollintoview.html',
+  'css/cssom-view/scrollintoview.html',
   // ignore tests that require newer browser functionality
-  //'scrollIntoView-smooth.html',
-  //'scrollIntoView-shadow.html',
+  //'css/cssom-view/scrollIntoView-smooth.html',
+  //'css/cssom-view/scrollIntoView-shadow.html',
+  'custom/borders.html',
 ]
 const {
   device,
@@ -16,7 +17,7 @@ const {
 describe(`${browserName}: ${browser_version}`, function() {
   tests.forEach(testName => {
     it(testName, () => {
-      browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
+      browser.url(`http://localhost:3000/${testName}`)
       browser.waitForVisible('#results', 30000)
       const testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)
