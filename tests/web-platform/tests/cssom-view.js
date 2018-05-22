@@ -23,7 +23,9 @@ describe(`${browserName}: ${browser_version}`, function() {
         browser.getHTML('#__testharness__results__', false)
       )
       testResults.tests.forEach(testResult => {
-        assert.equal(testResult.message, null)
+        if (testResult.message) {
+          throw new Error(testResult.message)
+        }
       })
     })
   })
