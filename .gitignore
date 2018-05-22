@@ -5,6 +5,10 @@ node_modules
 **/cypress/videos
 **/junit
 
+# Browserstack stuff
+**/tests_output
+selenium-debug.log
+
 # Typescript stuff
 typings
 src/*.js

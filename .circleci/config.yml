@@ -76,6 +76,40 @@ jobs:
             - tests/web-platform/node_modules
           key: v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
 
+  Browserstack:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore-cache: *restore-cache
+      - *install
+      - run: yarn build:umd
+      - restore-cache:
+          keys:
+            - v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
+            # Fallback in case checksum fails
+            - v5-tests-web-platform-dependencies-{{ .Branch }}-
+      - run:
+           command: yarn install --no-progress
+           working_directory: tests/web-platform
+      - run:
+           command: yarn start
+           background: true
+           working_directory: tests/web-platform
+      - run: npx wait-on http://localhost:3000
+      - run:
+           command: yarn browserstack
+           working_directory: tests/web-platform
+      - store_test_results:
+          path: tests/web-platform/tests_output
+      - store_artifacts:
+          path: tests/web-platform/errorShots
+      - save-cache:
+          paths:
+            - tests/web-platform/node_modules
+          key: v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
+
+
   Semantic Release:
     docker:
       - image: circleci/node:8
@@ -93,11 +127,13 @@ workflows:
       - Typecheck
       - Build
       - Web Platform Tests
+      - Browserstack
       - Semantic Release:
           requires:
             - Typecheck
             - Build
             - Web Platform Tests
+            - Browserstack
           filters:
             branches:
               only:

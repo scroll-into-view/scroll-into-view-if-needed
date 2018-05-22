@@ -5,6 +5,8 @@
 [![size][size-badge]][unpkg-dist]
 [![module formats: umd, cjs, and es][module-formats-badge]][unpkg-dist]
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?style=flat-square&badge_key=ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)](https://www.browserstack.com/automate/public-build/ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)
+
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
 This used to be a [ponyfill](https://ponyfill.com) for
