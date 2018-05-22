@@ -6,10 +6,12 @@ const tests = [
   //'scrollIntoView-smooth.html',
   //'scrollIntoView-shadow.html',
 ]
-const { browserName } = browser.desiredCapabilities
-console.log(browser.desiredCapabilities)
+const {
+  browser: browserName,
+  browser_version = 'latest',
+} = browser.desiredCapabilities
 
-describe(`${browserName}`, function() {
+describe(`${browserName}: ${browser_version}`, function() {
   describe('cssom-view', () => {
     tests.forEach(testName => {
       it(testName, () => {
