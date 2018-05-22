@@ -7,8 +7,10 @@ const tests = [
   //'scrollIntoView-shadow.html',
 ]
 const {
-  browser: browserName,
-  browser_version = 'latest',
+  device,
+  os_version = 'latest',
+  browser: browserName = device,
+  browser_version = os_version,
 } = browser.desiredCapabilities
 
 describe(`${browserName}: ${browser_version}`, function() {
@@ -16,7 +18,6 @@ describe(`${browserName}: ${browser_version}`, function() {
     it(testName, () => {
       browser.url(`http://localhost:3000/css/cssom-view/${testName}`)
       browser.waitForVisible('#results', 10000)
-      browser.waitForText('#__testharness__results__', 10000)
       const testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)
       )
