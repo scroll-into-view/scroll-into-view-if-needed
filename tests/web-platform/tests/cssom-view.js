@@ -17,7 +17,7 @@ const {
 describe(`${browserName}: ${browser_version}`, function() {
   tests.forEach(testName => {
     it(testName, () => {
-      browser.url(`http://localhost:3000/${testName}`)
+      browser.url(`/${testName}`)
       browser.waitForVisible('#results', 30000)
       const testResults = JSON.parse(
         browser.getHTML('#__testharness__results__', false)

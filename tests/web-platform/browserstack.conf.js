@@ -15,40 +15,18 @@ exports.config = {
   },
 
   capabilities: [
-    {
-      browser: 'Safari',
-      browser_version: '11.1',
-    },
+    { browser: 'Safari', browser_version: '11.1' },
     { browser: 'firefox' },
-
-    {
-      browser: 'IE',
-      browser_version: '11.0',
-    },
-    {
-      browser: 'Edge',
-    },
-    {
-      os_version: '11.0',
-      device: 'iPhone X',
-      real_mobile: 'true',
-    },
-    {
-      os_version: '8.0',
-      device: 'Google Pixel',
-      real_mobile: 'true',
-    },
-    {
-      os_version: '7.0',
-      device: 'Samsung Galaxy S8',
-      real_mobile: 'true',
-    },
+    { browser: 'IE', browser_version: '11.0' },
+    { browser: 'Edge' },
+    { os_version: '11.0', device: 'iPhone X', real_mobile: 'true' },
+    { os_version: '8.0', device: 'Google Pixel', real_mobile: 'true' },
+    { os_version: '7.0', device: 'Samsung Galaxy S8', real_mobile: 'true' },
   ],
 
-  logLevel: 'verbose',
   coloredLogs: true,
   screenshotPath: './errorShots/',
-  baseUrl: '',
+  baseUrl: 'http://localhost:3000',
   waitforTimeout: 10000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
