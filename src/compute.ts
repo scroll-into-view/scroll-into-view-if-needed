@@ -26,7 +26,7 @@ import { CustomScrollAction, Options } from './types'
 // @TODO better shadowdom test, 11 = document fragment
 const isElement = el =>
   el != null &&
-  typeof el == 'object' &&
+  typeof el === 'object' &&
   (el.nodeType === 1 || el.nodeType === 11)
 
 const hasScrollableSpace = (el, axis: 'X' | 'Y') =>
@@ -91,7 +91,6 @@ const alignNearest = (
    *   │┃         ┃│        do nothing
    *   └───────────┘
    *    ┗ ━ ━ ━ ━ ┛
-
    */
   if (
     (elementEdgeStart < scrollingEdgeStart &&
@@ -139,7 +138,6 @@ const alignNearest = (
    *    ┃   │     ┃     │   ┃         ┃ │
    *        └───────────┘   └───────────┘
    *    ┗ ━ ━ ━ ━ ┛         ┗ ━ ━ ━ ━ ┛
-
    */
   if (
     (elementEdgeStart < scrollingEdgeStart && elementSize < scrollingSize) ||
@@ -213,13 +211,13 @@ export default (
   // The default behavior is to check if the current target matches the boundary element or not
   // If undefined it'll check that target is never undefined (can happen as we recurse up the tree)
   const checkBoundary =
-    typeof boundary == 'function' ? boundary : parent => parent !== boundary
+    typeof boundary === 'function' ? boundary : node => node !== boundary
 
   if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoView')
   }
 
-  let targetRect = target.getBoundingClientRect()
+  const targetRect = target.getBoundingClientRect()
   const viewport = document.scrollingElement || document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box

@@ -22,8 +22,9 @@ export interface Options<T = any> extends BaseOptions {
 let supportsScrollBehavior
 let scrollingElement
 
+// tslint:disable-next-line: ban-types
 const isFunction = (arg: any): arg is Function => {
-  return typeof arg == 'function'
+  return typeof arg === 'function'
 }
 const isOptionsObject = <T>(options: any): options is T => {
   return options === Object(options) && Object.keys(options).length !== 0
