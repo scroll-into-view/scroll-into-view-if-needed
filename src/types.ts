@@ -16,11 +16,13 @@ export interface Options {
 }
 
 // Custom behavior, not in any spec
-export interface CustomScrollBoundaryCallback {
-  (parent: Element): boolean
-}
+export type CustomScrollBoundaryCallback = (parent: Element) => boolean
 export type CustomScrollBoundary = Element | CustomScrollBoundaryCallback
-export type CustomScrollAction = { el: Element; top: number; left: number }
-export interface CustomScrollBehaviorCallback<T> {
-  (actions: CustomScrollAction[]): T
+export interface CustomScrollAction {
+  el: Element
+  top: number
+  left: number
 }
+export type CustomScrollBehaviorCallback<T> = (
+  actions: CustomScrollAction[]
+) => T
