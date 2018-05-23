@@ -438,3 +438,9 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 [size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?label=size&style=flat-square
 [unpkg-dist]: https://unpkg.com/scroll-into-view-if-needed/umd/
 [module-formats-badge]: https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20es-green.svg?style=flat-square
+
+## Sponsors
+
+Thanks to [BrowserStack](https://www.browserstack.com) for sponsoring cross browser and device testing 😄
+
+<a href="https://www.browserstack.com" target="_blank"><img src="https://www.browserstack.com/images/layout/logo.svg"></a>
