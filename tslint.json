@@ -3,7 +3,8 @@
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "jsRules": {},
   "rules": {
-    "interface-name": [true, "never-prefix"]
+    "interface-name": [true, "never-prefix"],
+    "no-console": [true]
   },
   "rulesDirectory": []
 }
