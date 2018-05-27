@@ -15,7 +15,8 @@
     "compute.js",
     "es",
     "typings",
-    "umd"
+    "umd",
+    "viewport.js"
   ],
   "scripts": {
     "prebuild": "yarn clean",
