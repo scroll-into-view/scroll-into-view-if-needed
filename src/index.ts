@@ -5,6 +5,7 @@ import {
   Options as BaseOptions,
   ScrollBehavior,
 } from './types'
+import getViewport from './viewport'
 
 export interface StandardBehaviorOptions extends BaseOptions {
   behavior?: ScrollBehavior
@@ -19,8 +20,6 @@ export interface Options<T = any> extends BaseOptions {
 
 // Wait with checking if native smooth-scrolling exists until scrolling is invoked
 // This is much more friendly to server side rendering envs, and testing envs like jest
-let supportsScrollBehavior
-let scrollingElement
 
 // tslint:disable-next-line: ban-types
 const isFunction = (arg: any): arg is Function => {
@@ -34,21 +33,15 @@ const defaultBehavior = (
   actions: CustomScrollAction[],
   behavior: ScrollBehavior = 'auto'
 ) => {
-  // Because of quirksmode
-  if (!scrollingElement) {
-    scrollingElement = document.scrollingElement || document.documentElement
-  }
-  if (supportsScrollBehavior === undefined) {
-    supportsScrollBehavior = 'scrollBehavior' in scrollingElement.style
-  }
-
+  const viewport = getViewport()
+  const supportsScrollBehavior = 'scrollBehavior' in viewport.style
   actions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     // and guard window.scroll with supportsScrollBehavior
     if (el.scroll && supportsScrollBehavior) {
       el.scroll({ top, left, behavior })
     } else {
-      if (el === scrollingElement) {
+      if (el === viewport) {
         window.scrollTo(left, top)
       } else {
         el.scrollTop = top
