@@ -53,8 +53,8 @@ var expectedYCenter = 4000 - window.innerHeight / 2 + testDiv.clientHeight / 2;
     testScrollIntoView(input);
     var x = expectedX === "nearest" ? expectedXRight : expectedX;
     var y = expectedY === "nearest" ? expectedYBottom : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
-    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+    assert_approx_equals(window.scrollX || window.pageXOffset, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY || window.pageYOffset, y, 0.5, "scrollY");
   }, "scrollIntoView(" + format_input(input) + ") starting at left,top");
 
   test(function() {
@@ -62,8 +62,8 @@ var expectedYCenter = 4000 - window.innerHeight / 2 + testDiv.clientHeight / 2;
     testScrollIntoView(input);
     var x = expectedX === "nearest" ? expectedXRight : expectedX;
     var y = expectedY === "nearest" ? expectedYTop : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
-    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+    assert_approx_equals(window.scrollX || window.pageXOffset, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY || window.pageYOffset, y, 0.5, "scrollY");
   }, "scrollIntoView(" + format_input(input) + ") starting at left,bottom");
 
   test(function() {
@@ -71,8 +71,8 @@ var expectedYCenter = 4000 - window.innerHeight / 2 + testDiv.clientHeight / 2;
     testScrollIntoView(input);
     var x = expectedX === "nearest" ? expectedXLeft : expectedX;
     var y = expectedY === "nearest" ? expectedYBottom : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
-    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+    assert_approx_equals(window.scrollX || window.pageXOffset, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY || window.pageYOffset, y, 0.5, "scrollY");
   }, "scrollIntoView(" + format_input(input) + ") starting at right,top");
 
   test(function() {
@@ -80,8 +80,8 @@ var expectedYCenter = 4000 - window.innerHeight / 2 + testDiv.clientHeight / 2;
     testScrollIntoView(input);
     var x = expectedX === "nearest" ? expectedXLeft : expectedX;
     var y = expectedY === "nearest" ? expectedYTop : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
-    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+    assert_approx_equals(window.scrollX || window.pageXOffset, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY || window.pageYOffset, y, 0.5, "scrollY");
   }, "scrollIntoView(" + format_input(input) + ") starting at right,bottom");
 });
 
