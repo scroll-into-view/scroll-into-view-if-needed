@@ -21,7 +21,8 @@ declare global {
   }
 }
 
-import { CustomScrollAction, Options, viewport } from './types'
+import { CustomScrollAction, Options } from './types'
+import getViewport from './viewport'
 
 // @TODO better shadowdom test, 11 = document fragment
 const isElement = el =>
@@ -49,6 +50,7 @@ const canOverflow = (
 }
 
 const isScrollable = (el, skipOverflowHiddenElements: boolean) =>
+  el === getViewport() ||
   (hasScrollableSpace(el, 'Y') &&
     canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
   (hasScrollableSpace(el, 'X') &&
@@ -237,6 +239,7 @@ export default (
 
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
   // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
+  const viewport = getViewport()
   const viewportWidth = window.visualViewport
     ? window.visualViewport.width
     : Math.min(viewport.clientWidth, window.innerWidth)
