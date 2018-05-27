@@ -19,7 +19,8 @@ exports.config = {
     { browser: 'firefox' },
     { browser: 'IE', browser_version: '11.0' },
     { browser: 'Edge' },
-    { os_version: '11.0', device: 'iPhone X', real_mobile: 'true' },
+    // @TODO investigate how to make iPhone X able to run the tests
+    //{ os_version: '11.0', device: 'iPhone X', real_mobile: 'true' },
     { os_version: '8.0', device: 'Google Pixel', real_mobile: 'true' },
     { os_version: '7.0', device: 'Samsung Galaxy S8', real_mobile: 'true' },
   ],
