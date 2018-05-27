@@ -243,10 +243,10 @@ export default (
   // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
   const viewportWidth = window.visualViewport
     ? window.visualViewport.width
-    : viewport.clientWidth
+    : Math.min(viewport.clientWidth, window.innerWidth)
   const viewportHeight = window.visualViewport
     ? window.visualViewport.height
-    : viewport.clientHeight
+    : Math.min(viewport.clientHeight, window.innerHeight)
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 
