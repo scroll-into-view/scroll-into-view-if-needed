@@ -316,7 +316,7 @@ export default (
         targetBlock = targetRect.top + targetRect.height / 2
       }
       if (viewport === frame) {
-        blockScroll = viewportY + targetBlock - frame.clientHeight / 2
+        blockScroll = viewportY + targetBlock - viewportHeight / 2
       } else {
         // prevent negative scrollTop values
         const offset =
@@ -335,7 +335,7 @@ export default (
         targetBlock = targetRect.bottom
       }
       if (viewport === frame) {
-        blockScroll = viewportY + targetBlock - frame.clientHeight
+        blockScroll = viewportY + targetBlock - viewportHeight
       } else {
         // prevent negative scrollTop values
         const offset =
@@ -399,7 +399,7 @@ export default (
         targetInline = targetRect.left + targetRect.width / 2
       }
       if (viewport === frame) {
-        inlineScroll = viewportX + targetInline - frame.clientWidth / 2
+        inlineScroll = viewportX + targetInline - viewportWidth / 2
       } else {
         // prevent negative scrollLeft values
         const offset =
@@ -418,7 +418,7 @@ export default (
         targetInline = targetRect.right
       }
       if (viewport === frame) {
-        inlineScroll = viewportX + targetInline - frame.clientWidth
+        inlineScroll = viewportX + targetInline - viewportWidth
       } else {
         // prevent negative scrollLeft values
         const offset =
