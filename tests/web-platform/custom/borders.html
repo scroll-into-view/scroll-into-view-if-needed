@@ -167,19 +167,26 @@ var innerContainer = document.querySelector(".inner-scroll-container");
   [8, "end", "end", [{ x: 100, y: 100 }, { x: 145, y: 145 }]],
   [0, "nearest", "nearest", [{ x: 23, y: 23 }, { x: 0, y: 0 }]],
   [8, "nearest", undefined, [{ x: 100, y: 100 }, { x: 145, y: 145 }]]
-].forEach(([target, block, inline, [outer, inner]]) => {
-  test(() => {
+].forEach(function(suite) {
+  var target = suite[0];
+  var block = suite[1];
+  var inline = suite[2];
+  var outer = suite[3][0];
+  var inner = suite[3][1];
+  test(function() {
     window.scrollTo(0, 0);
-    outerContainer.scrollTo(0, 0);
-    innerContainer.scrollTo(0, 0);
-    scrollIntoView(tiles[target], {block, inline});
+    outerContainer.scrollTop = 0
+    outerContainer.scrollLeft = 0
+    innerContainer.scrollTop = 0
+    innerContainer.scrollLeft = 0
+    scrollIntoView(tiles[target], {block: block, inline: inline});
     //tiles[target].scrollIntoView({block, inline});
 
     assert_approx_equals(outerContainer.scrollLeft, outer.x, 1, 'outerContainer.scrollLeft');
     assert_approx_equals(outerContainer.scrollTop, outer.y, 1, 'outerContainer.scrollTop');
     assert_approx_equals(innerContainer.scrollLeft, inner.x, 1, 'innerContainer.scrollLeft');
     assert_approx_equals(innerContainer.scrollTop, inner.y, 1, 'innerContainer.scrollTop');
-  }, `scrollIntoView(${JSON.stringify({block, inline})})`);
+  }, 'scrollIntoView('+JSON.stringify({block: block, inline: inline})+')');
 });
 
 document.body.classList.remove('running');
