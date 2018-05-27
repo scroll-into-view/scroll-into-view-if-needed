@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-import { CustomScrollAction, Options } from './types'
+import { CustomScrollAction, Options, viewport } from './types'
 
 // @TODO better shadowdom test, 11 = document fragment
 const isElement = el =>
@@ -218,7 +218,6 @@ export default (
   }
 
   const targetRect = target.getBoundingClientRect()
-  const viewport = document.scrollingElement || document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
@@ -228,10 +227,7 @@ export default (
     isElement((parent = target.parentNode || target.host)) &&
     checkBoundary(target)
   ) {
-    if (
-      isScrollable(parent, skipOverflowHiddenElements) ||
-      parent === viewport
-    ) {
+    if (isScrollable(parent, skipOverflowHiddenElements)) {
       frames.push(parent)
     }
 

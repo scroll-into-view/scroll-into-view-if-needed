@@ -26,3 +26,8 @@ export interface CustomScrollAction {
 export type CustomScrollBehaviorCallback<T> = (
   actions: CustomScrollAction[]
 ) => T
+
+// Share the reference to the current viewport
+export const viewport = (document.compatMode === 'CSS1Compat'
+  ? document.documentElement
+  : document.scrollingElement || document.body) as HTMLElement
