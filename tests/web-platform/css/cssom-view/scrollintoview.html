@@ -22,15 +22,15 @@ body.running #testDiv {
 <div id=testDiv></div>
 <div id="log"></div>
 <script>
-var testDiv = document.getElementById('testDiv');
+var testDiv = document.getElementById("testDiv");
 
 var expectedXLeft = 4000;
 var expectedXRight = 4000 - window.innerWidth + testDiv.clientWidth;
-var expectedXCenter = 4000 - (window.innerWidth / 2) + (testDiv.clientWidth / 2);
+var expectedXCenter = 4000 - window.innerWidth / 2 + testDiv.clientWidth / 2;
 
 var expectedYTop = 4000;
 var expectedYBottom = 4000 - window.innerHeight + testDiv.clientHeight;
-var expectedYCenter = 4000 - (window.innerHeight / 2) + (testDiv.clientHeight / 2);
+var expectedYCenter = 4000 - window.innerHeight / 2 + testDiv.clientHeight / 2;
 
 [
   ["omitted argument", "nearest", expectedYTop],
@@ -39,46 +39,50 @@ var expectedYCenter = 4000 - (window.innerHeight / 2) + (testDiv.clientHeight / 
   [undefined, "nearest", expectedYTop],
   [null, "nearest", expectedYTop],
   [{}, "nearest", expectedYTop],
-  [{block: "center", inline: "center"}, expectedXCenter, expectedYCenter],
-  [{block: "start", inline: "start"}, expectedXLeft, expectedYTop],
-  [{block: "end", inline: "end"}, expectedXRight, expectedYBottom],
-  [{block: "nearest", inline: "nearest"}, "nearest", "nearest"],
-].forEach(([input, expectedX, expectedY]) => {
-  test(() => {
+  [{ block: "center", inline: "center" }, expectedXCenter, expectedYCenter],
+  [{ block: "start", inline: "start" }, expectedXLeft, expectedYTop],
+  [{ block: "end", inline: "end" }, expectedXRight, expectedYBottom],
+  [{ block: "nearest", inline: "nearest" }, "nearest", "nearest"]
+].forEach(function(_ref) {
+  var input = _ref[0],
+    expectedX = _ref[1],
+    expectedY = _ref[2];
+
+  test(function() {
     window.scrollTo(0, 0);
     testScrollIntoView(input);
-    var x = (expectedX === "nearest") ? expectedXRight : expectedX;
-    var y = (expectedY === "nearest") ? expectedYBottom : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, 'scrollX');
-    assert_approx_equals(window.scrollY, y, 0.5, 'scrollY');
-  }, `scrollIntoView(${format_input(input)}) starting at left,top`);
+    var x = expectedX === "nearest" ? expectedXRight : expectedX;
+    var y = expectedY === "nearest" ? expectedYBottom : expectedY;
+    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+  }, "scrollIntoView(" + format_input(input) + ") starting at left,top");
 
-  test(() => {
+  test(function() {
     window.scrollTo(0, 12000);
     testScrollIntoView(input);
-    var x = (expectedX === "nearest") ? expectedXRight : expectedX;
-    var y = (expectedY === "nearest") ? expectedYTop : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, 'scrollX');
-    assert_approx_equals(window.scrollY, y, 0.5, 'scrollY');
-  }, `scrollIntoView(${format_input(input)}) starting at left,bottom`);
+    var x = expectedX === "nearest" ? expectedXRight : expectedX;
+    var y = expectedY === "nearest" ? expectedYTop : expectedY;
+    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+  }, "scrollIntoView(" + format_input(input) + ") starting at left,bottom");
 
-  test(() => {
+  test(function() {
     window.scrollTo(12000, 0);
     testScrollIntoView(input);
-    var x = (expectedX === "nearest") ? expectedXLeft : expectedX;
-    var y = (expectedY === "nearest") ? expectedYBottom : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, 'scrollX');
-    assert_approx_equals(window.scrollY, y, 0.5, 'scrollY');
-  }, `scrollIntoView(${format_input(input)}) starting at right,top`);
+    var x = expectedX === "nearest" ? expectedXLeft : expectedX;
+    var y = expectedY === "nearest" ? expectedYBottom : expectedY;
+    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+  }, "scrollIntoView(" + format_input(input) + ") starting at right,top");
 
-  test(() => {
+  test(function() {
     window.scrollTo(12000, 12000);
     testScrollIntoView(input);
-    var x = (expectedX === "nearest") ? expectedXLeft : expectedX;
-    var y = (expectedY === "nearest") ? expectedYTop : expectedY;
-    assert_approx_equals(window.scrollX, x, 0.5, 'scrollX');
-    assert_approx_equals(window.scrollY, y, 0.5, 'scrollY');
-  }, `scrollIntoView(${format_input(input)}) starting at right,bottom`);
+    var x = expectedX === "nearest" ? expectedXLeft : expectedX;
+    var y = expectedY === "nearest" ? expectedYTop : expectedY;
+    assert_approx_equals(window.scrollX, x, 0.5, "scrollX");
+    assert_approx_equals(window.scrollY, y, 0.5, "scrollY");
+  }, "scrollIntoView(" + format_input(input) + ") starting at right,bottom");
 });
 
 function testScrollIntoView(input) {
@@ -93,11 +97,11 @@ function testScrollIntoView(input) {
 // format_value() is provided by testharness.js,
 // which also preserves sign for -0.
 function format_dict(dict) {
-  const props = [];
-  for (let prop in dict) {
-    props.push(`${prop}: ${format_value(dict[prop])}`);
+  var props = [];
+  for (var prop in dict) {
+    props.push(prop + ": " + format_value(dict[prop]));
   }
-  return `{${props.join(', ')}}`;
+  return "{" + props.join(", ") + "}";
 }
 
 function format_input(input) {
@@ -109,6 +113,6 @@ function format_input(input) {
   return format_dict(input);
 }
 
-document.body.classList.remove('running');
+document.body.classList.remove("running");
 window.scrollTo(0, 0);
 </script>
