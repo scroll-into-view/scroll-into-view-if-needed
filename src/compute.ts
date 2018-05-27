@@ -22,6 +22,7 @@ declare global {
 }
 
 import { CustomScrollAction, Options } from './types'
+import getViewport from './viewport'
 
 // @TODO better shadowdom test, 11 = document fragment
 const isElement = el =>
@@ -49,6 +50,7 @@ const canOverflow = (
 }
 
 const isScrollable = (el, skipOverflowHiddenElements: boolean) =>
+  el === getViewport() ||
   (hasScrollableSpace(el, 'Y') &&
     canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
   (hasScrollableSpace(el, 'X') &&
@@ -218,7 +220,6 @@ export default (
   }
 
   const targetRect = target.getBoundingClientRect()
-  const viewport = document.scrollingElement || document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
@@ -228,10 +229,7 @@ export default (
     isElement((parent = target.parentNode || target.host)) &&
     checkBoundary(target)
   ) {
-    if (
-      isScrollable(parent, skipOverflowHiddenElements) ||
-      parent === viewport
-    ) {
+    if (isScrollable(parent, skipOverflowHiddenElements)) {
       frames.push(parent)
     }
 
@@ -241,6 +239,7 @@ export default (
 
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
   // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
+  const viewport = getViewport()
   const viewportWidth = window.visualViewport
     ? window.visualViewport.width
     : Math.min(viewport.clientWidth, window.innerWidth)
