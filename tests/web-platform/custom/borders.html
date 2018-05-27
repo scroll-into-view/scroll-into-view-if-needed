@@ -167,7 +167,12 @@ var innerContainer = document.querySelector(".inner-scroll-container");
   [8, "end", "end", [{ x: 100, y: 100 }, { x: 145, y: 145 }]],
   [0, "nearest", "nearest", [{ x: 23, y: 23 }, { x: 0, y: 0 }]],
   [8, "nearest", undefined, [{ x: 100, y: 100 }, { x: 145, y: 145 }]]
-].forEach(function([target, block, inline, [outer, inner]]) {
+].forEach(function(test) {
+  var target = test[0]
+  var block = test[1]
+  var inline = test[2]
+  var outer = test[3][0]
+  var inner = test[3][1]
   test(function() {
     window.scrollTo(0, 0);
     outerContainer.scrollTop = 0
