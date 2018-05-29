@@ -50,7 +50,7 @@
     "flowgen": "1.2.2",
     "husky": "0.14.3",
     "lint-staged": "7.1.2",
-    "prettier": "1.13.0",
+    "prettier": "1.13.2",
     "prettier-package-json": "1.6.0",
     "rimraf": "2.6.2",
     "rollup": "0.59.4",
