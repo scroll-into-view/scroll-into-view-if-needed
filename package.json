@@ -62,7 +62,7 @@
     "semantic-release": "15.5.0",
     "tslint": "5.10.0",
     "tslint-config-prettier": "1.13.0",
-    "typescript": "2.8.3"
+    "typescript": "2.8.4"
   },
   "keywords": [
     "behavior-smooth",
