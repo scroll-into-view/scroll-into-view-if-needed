@@ -3603,9 +3603,9 @@ prettier-package-json@1.6.0:
     sort-object-keys "^1.1.2"
     sort-order "^1.0.1"
 
-prettier@1.13.3:
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.3.tgz#e74c09a7df6519d472ca6febaa37cf7addb48a20"
+prettier@1.13.4:
+  version "1.13.4"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.4.tgz#31bbae6990f13b1093187c731766a14036fa72e6"
 
 pretty-format@^23.0.1:
   version "23.0.1"
