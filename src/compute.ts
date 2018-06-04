@@ -282,191 +282,193 @@ export default (
   let targetInline
 
   // Collect new scroll positions
-  const computations = frames.map((frame): CustomScrollAction => {
-    const frameRect = frame.getBoundingClientRect()
-    const frameStyle = getComputedStyle(frame)
-    const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
-    const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
-    const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
-    const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
+  const computations = frames.map(
+    (frame): CustomScrollAction => {
+      const frameRect = frame.getBoundingClientRect()
+      const frameStyle = getComputedStyle(frame)
+      const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
+      const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
+      const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
+      const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
 
-    let blockScroll = 0
-    let inlineScroll = 0
+      let blockScroll = 0
+      let inlineScroll = 0
 
-    // @TODO fix the if else pyramid nightmare
+      // @TODO fix the if else pyramid nightmare
 
-    if (block === 'start') {
-      if (!targetBlock) {
-        targetBlock = targetRect.top
+      if (block === 'start') {
+        if (!targetBlock) {
+          targetBlock = targetRect.top
+        }
+        if (viewport === frame) {
+          blockScroll = viewportY + targetBlock
+        } else {
+          // prevent scrollTop values that overflow the scrollHeight
+          const offset = Math.min(
+            targetBlock - frameRect.top,
+            frame.scrollHeight - frame.clientHeight - frame.scrollTop
+          )
+          blockScroll = frame.scrollTop + offset - borderTop
+        }
       }
-      if (viewport === frame) {
-        blockScroll = viewportY + targetBlock
-      } else {
-        // prevent scrollTop values that overflow the scrollHeight
-        const offset = Math.min(
-          targetBlock - frameRect.top,
-          frame.scrollHeight - frame.clientHeight - frame.scrollTop
-        )
-        blockScroll = frame.scrollTop + offset - borderTop
+      if (block === 'center') {
+        if (!targetBlock) {
+          targetBlock = targetRect.top + targetRect.height / 2
+        }
+        if (viewport === frame) {
+          blockScroll = viewportY + targetBlock - viewportHeight / 2
+        } else {
+          // prevent negative scrollTop values
+          const offset =
+            0 -
+            Math.min(
+              frameRect.top + frameRect.height / 2 - targetBlock,
+              frame.scrollTop
+            )
+
+          blockScroll = frame.scrollTop + offset
+        }
       }
-    }
-    if (block === 'center') {
-      if (!targetBlock) {
-        targetBlock = targetRect.top + targetRect.height / 2
+
+      if (block === 'end') {
+        if (!targetBlock) {
+          targetBlock = targetRect.bottom
+        }
+        if (viewport === frame) {
+          blockScroll = viewportY + targetBlock - viewportHeight
+        } else {
+          // prevent negative scrollTop values
+          const offset =
+            0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
+
+          blockScroll = frame.scrollTop + offset + borderBottom
+        }
       }
-      if (viewport === frame) {
-        blockScroll = viewportY + targetBlock - viewportHeight / 2
-      } else {
-        // prevent negative scrollTop values
-        const offset =
-          0 -
-          Math.min(
-            frameRect.top + frameRect.height / 2 - targetBlock,
-            frame.scrollTop
+
+      if (block === 'nearest') {
+        if (!targetBlock) {
+          targetBlock = targetRect.top
+        }
+
+        if (viewport === frame) {
+          const offset = alignNearest(
+            viewportY,
+            viewportY + viewportHeight,
+            viewportHeight,
+            borderTop,
+            borderBottom,
+            viewportY + targetBlock,
+            viewportY + targetBlock + targetRect.height,
+            targetRect.height
           )
 
-        blockScroll = frame.scrollTop + offset
-      }
-    }
-
-    if (block === 'end') {
-      if (!targetBlock) {
-        targetBlock = targetRect.bottom
-      }
-      if (viewport === frame) {
-        blockScroll = viewportY + targetBlock - viewportHeight
-      } else {
-        // prevent negative scrollTop values
-        const offset =
-          0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
-
-        blockScroll = frame.scrollTop + offset + borderBottom
-      }
-    }
-
-    if (block === 'nearest') {
-      if (!targetBlock) {
-        targetBlock = targetRect.top
+          blockScroll = viewportY + offset
+        } else {
+          const offset = alignNearest(
+            frameRect.top,
+            frameRect.bottom,
+            frameRect.height,
+            borderTop,
+            borderBottom,
+            targetBlock,
+            targetBlock + targetRect.height,
+            targetRect.height
+          )
+          blockScroll = frame.scrollTop + offset
+        }
       }
 
-      if (viewport === frame) {
-        const offset = alignNearest(
-          viewportY,
-          viewportY + viewportHeight,
-          viewportHeight,
-          borderTop,
-          borderBottom,
-          viewportY + targetBlock,
-          viewportY + targetBlock + targetRect.height,
-          targetRect.height
-        )
+      if (inline === 'start') {
+        if (!targetInline) {
+          targetInline = targetRect.left
+        }
+        if (viewport === frame) {
+          inlineScroll = viewportX + targetInline
+        } else {
+          // prevent scrollLeft values that overflow the scrollLeft
+          const offset = Math.min(
+            targetInline - frameRect.left,
+            frame.scrollHeight - frame.clientLeft - frame.scrollLeft
+          )
+          inlineScroll = frame.scrollLeft + offset - borderLeft
+        }
+      }
 
-        blockScroll = viewportY + offset
-      } else {
-        const offset = alignNearest(
-          frameRect.top,
-          frameRect.bottom,
-          frameRect.height,
-          borderTop,
-          borderBottom,
-          targetBlock,
-          targetBlock + targetRect.height,
-          targetRect.height
-        )
-        blockScroll = frame.scrollTop + offset
-      }
-    }
+      if (inline === 'center') {
+        if (!targetInline) {
+          targetInline = targetRect.left + targetRect.width / 2
+        }
+        if (viewport === frame) {
+          inlineScroll = viewportX + targetInline - viewportWidth / 2
+        } else {
+          // prevent negative scrollLeft values
+          const offset =
+            0 -
+            Math.min(
+              frameRect.left + frameRect.width / 2 - targetInline,
+              frame.scrollLeft
+            )
 
-    if (inline === 'start') {
-      if (!targetInline) {
-        targetInline = targetRect.left
+          inlineScroll = frame.scrollLeft + offset
+        }
       }
-      if (viewport === frame) {
-        inlineScroll = viewportX + targetInline
-      } else {
-        // prevent scrollLeft values that overflow the scrollLeft
-        const offset = Math.min(
-          targetInline - frameRect.left,
-          frame.scrollHeight - frame.clientLeft - frame.scrollLeft
-        )
-        inlineScroll = frame.scrollLeft + offset - borderLeft
-      }
-    }
 
-    if (inline === 'center') {
-      if (!targetInline) {
-        targetInline = targetRect.left + targetRect.width / 2
+      if (inline === 'end') {
+        if (!targetInline) {
+          targetInline = targetRect.right
+        }
+        if (viewport === frame) {
+          inlineScroll = viewportX + targetInline - viewportWidth
+        } else {
+          // prevent negative scrollLeft values
+          const offset =
+            0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
+
+          inlineScroll = frame.scrollLeft + offset + borderRight
+        }
       }
-      if (viewport === frame) {
-        inlineScroll = viewportX + targetInline - viewportWidth / 2
-      } else {
-        // prevent negative scrollLeft values
-        const offset =
-          0 -
-          Math.min(
-            frameRect.left + frameRect.width / 2 - targetInline,
-            frame.scrollLeft
+
+      if (inline === 'nearest') {
+        if (!targetInline) {
+          targetInline = targetRect.left
+        }
+
+        if (viewport === frame) {
+          const offset = alignNearest(
+            viewportX,
+            viewportX + viewportWidth,
+            viewportWidth,
+            borderLeft,
+            borderRight,
+            viewportX + targetInline,
+            viewportX + targetInline + targetRect.width,
+            targetRect.width
           )
 
-        inlineScroll = frame.scrollLeft + offset
+          inlineScroll = viewportX + offset
+        } else {
+          const offset = alignNearest(
+            frameRect.left,
+            frameRect.right,
+            frameRect.width,
+            borderLeft,
+            borderRight,
+            targetInline,
+            targetInline + targetRect.width,
+            targetRect.width
+          )
+
+          inlineScroll = frame.scrollLeft + offset
+        }
       }
+
+      // Cache the offset so that parent frames can scroll this into view correctly
+      targetBlock += frame.scrollTop - blockScroll
+      targetInline += frame.scrollLeft - inlineScroll
+
+      return { el: frame, top: blockScroll, left: inlineScroll }
     }
-
-    if (inline === 'end') {
-      if (!targetInline) {
-        targetInline = targetRect.right
-      }
-      if (viewport === frame) {
-        inlineScroll = viewportX + targetInline - viewportWidth
-      } else {
-        // prevent negative scrollLeft values
-        const offset =
-          0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
-
-        inlineScroll = frame.scrollLeft + offset + borderRight
-      }
-    }
-
-    if (inline === 'nearest') {
-      if (!targetInline) {
-        targetInline = targetRect.left
-      }
-
-      if (viewport === frame) {
-        const offset = alignNearest(
-          viewportX,
-          viewportX + viewportWidth,
-          viewportWidth,
-          borderLeft,
-          borderRight,
-          viewportX + targetInline,
-          viewportX + targetInline + targetRect.width,
-          targetRect.width
-        )
-
-        inlineScroll = viewportX + offset
-      } else {
-        const offset = alignNearest(
-          frameRect.left,
-          frameRect.right,
-          frameRect.width,
-          borderLeft,
-          borderRight,
-          targetInline,
-          targetInline + targetRect.width,
-          targetRect.width
-        )
-
-        inlineScroll = frame.scrollLeft + offset
-      }
-    }
-
-    // Cache the offset so that parent frames can scroll this into view correctly
-    targetBlock += frame.scrollTop - blockScroll
-    targetInline += frame.scrollLeft - inlineScroll
-
-    return { el: frame, top: blockScroll, left: inlineScroll }
-  })
+  )
 
   return computations
 }
