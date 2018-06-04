@@ -231,10 +231,10 @@ Type: `Element | Function`
 By default there is no boundary. All the parent elements of your target is checked until it reaches the viewport (`document.documentElement`) when calculating layout and what to scroll.
 You can use this option to do things like:
 
-* Prevent the browser window from scrolling.
-* Scroll things into view below the fold without scrolling to it.
-* Scroll elements into view in a list, without scrolling container elements.
-* Prematurely optimizing performance instead of code-splitting your app.
+- Prevent the browser window from scrolling.
+- Scroll things into view below the fold without scrolling to it.
+- Scroll elements into view in a list, without scrolling container elements.
+- Prematurely optimizing performance instead of code-splitting your app.
 
 You can also pass a function to do more dynamic checks to override the scroll scoping:
 
@@ -418,21 +418,21 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 
 # Related packages
 
-* [smooth-scroll-into-view-if-needed](http://npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
-* [react-scroll-into-view-if-needed](https://www.npmjs.com/package/react-scroll-into-view-if-needed) – A thin wrapper to scroll your component into view.
-* [Don't be shy, add yours!](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
+- [smooth-scroll-into-view-if-needed](http://npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
+- [react-scroll-into-view-if-needed](https://www.npmjs.com/package/react-scroll-into-view-if-needed) – A thin wrapper to scroll your component into view.
+- [Don't be shy, add yours!](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
 # Who's using this
 
-* [zeit.co/docs](https://github.com/zeit/docs) – Documentation of ZEIT Now and other services.
-* [Selenium IDE](https://github.com/SeleniumHQ/selenium-ide) – An integrated development environment for Selenium scripts.
-* [Box UI Elements](https://github.com/box/box-ui-elements) – Box UI Elements are pre-built UI components that allow developers to add elements of the main Box web application into their own applications.
-* [react-responsive-ui](https://github.com/catamphetamine/react-responsive-ui) – Responsive React UI components.
-* [Mineral UI](https://github.com/mineral-ui/mineral-ui) –
+- [zeit.co/docs](https://github.com/zeit/docs) – Documentation of ZEIT Now and other services.
+- [Selenium IDE](https://github.com/SeleniumHQ/selenium-ide) – An integrated development environment for Selenium scripts.
+- [Box UI Elements](https://github.com/box/box-ui-elements) – Box UI Elements are pre-built UI components that allow developers to add elements of the main Box web application into their own applications.
+- [react-responsive-ui](https://github.com/catamphetamine/react-responsive-ui) – Responsive React UI components.
+- [Mineral UI](https://github.com/mineral-ui/mineral-ui) –
   A design system and React component library for the web that lets you quickly build high-quality, accessible apps.
-* [Covalent](https://github.com/Teradata/covalent) – Teradata UI Platform built on Angular Material.
-* [docs.expo.io](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
-* [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
+- [Covalent](https://github.com/Teradata/covalent) – Teradata UI Platform built on Angular Material.
+- [docs.expo.io](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
+- [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
 [gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
 [size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?label=size&style=flat-square

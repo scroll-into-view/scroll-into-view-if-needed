@@ -6,7 +6,8 @@
     ":automergeRequireAllStatusChecks",
     ":prHourlyLimit4",
     ":semanticCommits",
-    ":pinDigestsDisabled"
+    ":pinDigestsDisabled",
+    ":maintainLockFilesWeekly"
   ],
   "devDependencies": {
     "extends": ":automergeMajor"
