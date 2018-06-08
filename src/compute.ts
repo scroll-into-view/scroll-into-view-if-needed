@@ -263,10 +263,10 @@ export default (
       }
 
       if (frame === viewport) {
-        if (targetRect.bottom > viewportHeight) {
+        if (targetRect.bottom > viewportHeight || targetRect.top < 0) {
           return false
         }
-        if (targetRect.left > viewportWidth) {
+        if (targetRect.left > viewportWidth || targetRect.right < 0) {
           return false
         }
       }
