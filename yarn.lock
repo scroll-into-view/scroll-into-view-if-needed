@@ -151,13 +151,6 @@
   dependencies:
     "@babel/types" "7.0.0-beta.49"
 
-"@babel/helper-module-imports@7.0.0-beta.44":
-  version "7.0.0-beta.44"
-  resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0-beta.44.tgz#60edc68cdf17e13eaca5be813c96127303085133"
-  dependencies:
-    "@babel/types" "7.0.0-beta.44"
-    lodash "^4.2.0"
-
 "@babel/helper-module-imports@7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0-beta.49.tgz#41d7d59891016c493432a46f7464446552890c75"
@@ -3935,11 +3928,11 @@ rimraf@2.6.2, rimraf@^2.2.8, rimraf@^2.6.1:
   dependencies:
     glob "^7.0.5"
 
-rollup-plugin-babel@4.0.0-beta.4:
-  version "4.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-4.0.0-beta.4.tgz#d869646885d6ad73dd10791a261fb92674a80410"
+rollup-plugin-babel@4.0.0-beta.5:
+  version "4.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-4.0.0-beta.5.tgz#1968a72a0be9414a2b073689cf747874cbf0a12b"
   dependencies:
-    "@babel/helper-module-imports" "7.0.0-beta.44"
+    "@babel/helper-module-imports" "7.0.0-beta.49"
     rollup-pluginutils "^2.0.1"
 
 rollup-plugin-commonjs@9.1.3:
