@@ -34,11 +34,11 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@babel/cli": "7.0.0-beta.49",
-    "@babel/core": "7.0.0-beta.49",
-    "@babel/plugin-external-helpers": "7.0.0-beta.49",
-    "@babel/preset-env": "7.0.0-beta.49",
-    "@babel/preset-typescript": "7.0.0-beta.49",
+    "@babel/cli": "7.0.0-beta.50",
+    "@babel/core": "7.0.0-beta.50",
+    "@babel/plugin-external-helpers": "7.0.0-beta.51",
+    "@babel/preset-env": "7.0.0-beta.50",
+    "@babel/preset-typescript": "7.0.0-beta.50",
     "babel-eslint": "8.2.3",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-dev-expression": "0.2.1",
