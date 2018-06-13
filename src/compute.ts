@@ -159,7 +159,6 @@ const alignNearestInline = (
   const elementEdgeD = frame.scrollLeft + targetEnd
   const scrollingEdgeC = frame.scrollLeft
   const scrollingEdgeD = frame.scrollLeft + frame.clientWidth
-  console.log('test')
 
   /**
    *  If element edge C and element edge D are both outside scrolling box edge C and scrolling box edge D
