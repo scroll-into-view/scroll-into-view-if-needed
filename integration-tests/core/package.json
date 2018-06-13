@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "@integration-tests/core",
+  "description": "Ensures the core functionality is correct",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "next build",
+    "dev": "next",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@zeit/next-css": "0.1.5",
+    "next": "5.1.0",
+    "react": "16.3.2",
+    "react-dom": "16.3.2"
+  },
+  "devDependencies": {
+    "cypress": "2.1.0"
+  }
+}

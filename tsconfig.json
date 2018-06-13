@@ -5,13 +5,22 @@
     "moduleResolution": "node",
     "declaration": true,
     "rootDir": "src",
-    "outDir": "./dist",
-    "removeComments": false,
+    "declarationDir": "typings",
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "alwaysStrict": true,
+    "lib": ["es5", "es2015.promise", "dom"]
   },
-  "exclude": ["node_modules", "dist", "example", "**/*-test.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "example",
+    "**/*-test.ts",
+    "typings",
+    "cypress"
+  ]
 }

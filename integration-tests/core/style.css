@@ -1,0 +1,48 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.test-switcher {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.example {
+  font-size: 50px;
+  color: papayawhip;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.is-full-height {
+  height: 100vh;
+}
+
+.test-assertion {
+  --size: 100px;
+  background: #ffeb3b;
+  height: var(--size);
+  width: var(--size);
+}
+
+.test-pass {
+  background: #4caf50;
+}
+.test-fail {
+  background: #f44336;
+}

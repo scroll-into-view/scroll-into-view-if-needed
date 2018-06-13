@@ -1,8 +1,9 @@
-dist
-docs/**/*
-!docs/.nojekyll
 node_modules
-cypress/videos
-cypress/screenshots
-
-test/bundle.js
+lerna-debug.log
+.next
+dist
+es
+typings
+umd
+/compute.js
+/index.js

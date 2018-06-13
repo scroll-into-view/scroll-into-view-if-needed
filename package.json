@@ -1,79 +1,86 @@
 {
   "name": "scroll-into-view-if-needed",
-  "description": "Element.scrollIntoViewIfNeeded ponyfill that can animate the scrolling",
-  "author": "Stian Didriksen",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
   "license": "MIT",
-  "homepage": "https://stipsan.github.io/scroll-into-view-if-needed",
+  "author": "Stian Didriksen",
+  "homepage": "https://scroll-into-view-if-needed.netlify.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
   },
-  "version": "0.0.0-dev",
-  "main": "dist/bundle.js",
+  "version": "2.0.0-dev",
+  "main": "index.js",
+  "files": [
+    "compute.js",
+    "es",
+    "typings",
+    "umd"
+  ],
   "scripts": {
     "prebuild": "yarn clean",
-    "build": "yarn build:tsc && yarn build:rollup",
-    "build:rollup": "rollup -c",
-    "build:tsc": "yarn tsc:main && yarn tsc:example",
-    "changelog:commit": "sr-changelog commit",
-    "changelog:preview": "sr-changelog",
-    "clean": "rimraf dist",
+    "build": "yarn build:d.ts && yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
+    "build:cjs": "BABEL_ENV=cjs babel src -d . --extensions '.ts'",
+    "build:d.ts": "tsc --emitDeclarationOnly",
+    "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
+    "build:umd": "BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o umd/scroll-into-view-if-needed.js",
+    "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
+    "clean": "rimraf 'umd' 'es' 'typings'",
     "precommit": "lint-staged",
-    "predev": "yarn build",
-    "dev": "concurrently \"yarn tsc:main --watch\" \"yarn tsc:example --watch\" \"yarn build:rollup -w\" \"next dev example\"",
-    "docs": "next build example && DOCS=true next export -o ./docs example && npx -p https://gist.github.com/stipsan/bbf4adcdafd9eabfa6a9a42397a1c1b9 -c 'git-update-ghpages'",
+    "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
+    "lint": "eslint ./integration-examples",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "prestart": "yarn build",
-    "start": "next build example && next start example",
-    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'",
-    "tsc:example": "tsc -p example",
-    "tsc:main": "tsc -p ."
-  },
-  "sideEffects": false,
-  "dependencies": {
-    "amator": "1.0.1"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/next": "^2.4.5",
-    "@types/prettier": "^1.8.0",
-    "@types/react": "^16.0.20",
-    "@types/react-dom": "^16.0.2",
-    "babel-cli": "^6.23.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.2.1",
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "concurrently": "^3.5.0",
-    "cypress": "^1.0.3",
-    "husky": "^0.14.3",
-    "lint-staged": "^4.3.0",
-    "next": "^4.1.4",
-    "prettier": "^1.8.2",
-    "prettier-browser": "git://github.com/prettier/prettier.git#1.8.2",
-    "prettier-package-json": "^1.4.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "release-relief": "^1.0.1",
-    "rimraf": "^2.6.1",
-    "rollup": "^0.50.0",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "scroll-into-view-if-needed": "link:.",
-    "system-font-stack": "^1.0.4",
-    "typescript": "^2.6.1",
-    "uglifyjs-webpack-plugin": "^1.0.1"
+    "@babel/cli": "7.0.0-beta.46",
+    "@babel/core": "7.0.0-beta.46",
+    "@babel/plugin-external-helpers": "7.0.0-beta.46",
+    "@babel/preset-env": "7.0.0-beta.46",
+    "@babel/preset-typescript": "7.0.0-beta.46",
+    "babel-eslint": "8.2.3",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-plugin-dev-expression": "0.2.1",
+    "concurrently": "3.5.1",
+    "eslint": "4.19.1",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-import": "2.11.0",
+    "eslint-plugin-react": "7.7.0",
+    "husky": "0.14.3",
+    "lint-staged": "7.0.5",
+    "prettier": "1.12.1",
+    "prettier-package-json": "1.5.1",
+    "rimraf": "2.6.2",
+    "rollup": "0.58.2",
+    "rollup-plugin-babel": "4.0.0-beta.4",
+    "rollup-plugin-commonjs": "9.1.0",
+    "rollup-plugin-node-resolve": "3.3.0",
+    "rollup-plugin-replace": "2.0.0",
+    "rollup-plugin-uglify": "3.0.0",
+    "semantic-release": "15.1.7",
+    "typescript": "2.8.3"
   },
   "keywords": [
+    "behavior-smooth",
+    "if-needed",
+    "polyfill",
     "ponyfill",
     "scroll",
     "scroll-into-view",
     "scrollIntoView",
     "scrollIntoViewIfNeeded",
+    "scrollMode",
     "smooth",
     "smoothscroll",
     "typescript"
   ],
+  "publishConfig": {
+    "tag": "next"
+  },
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
+  },
   "lint-staged": {
     "*.js": [
       "prettier --write",
@@ -87,21 +94,42 @@
       "prettier --write",
       "git add"
     ],
+    "*.css": [
+      "prettier --write",
+      "git add"
+    ],
     "*.md": [
       "prettier --write",
       "git add"
     ],
-    "package.json": [
+    "**/package.json": [
       "prettier-package-json --write",
+      "git add"
+    ],
+    "**/.babelrc": [
+      "prettier --write",
       "git add"
     ]
   },
-  "module": "dist/index.js",
-  "release": {
-    "analyzeCommits": "semantic-release-tamia/analyzeCommits",
-    "verifyConditions": "condition-circle",
-    "generateNotes": "semantic-release-tamia/generateNotes",
-    "verifyRelease": "semantic-release-tamia/verifyRelease"
+  "module": "es/index.js",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": ".babelrc",
+        "options": {
+          "parser": "json"
+        }
+      }
+    ]
   },
-  "typings": "dist/index.d.ts"
+  "release": {
+    "prepare": [
+      "@semantic-release/npm"
+    ]
+  },
+  "sideEffects": false,
+  "typings": "typings/index.d.ts"
 }
