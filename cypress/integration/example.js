@@ -35,9 +35,11 @@ describe('Basic Functionality', function() {
       cy.wrap($el).click({ force: true })
       const key = $el.data('nth')
       cy.wait(300)
-      cy
-        .get(`#list1 li:nth-child(${key})`)
-        .should('have.data', 'visibility', 'visible')
+      cy.get(`#list1 li:nth-child(${key})`).should(
+        'have.data',
+        'visibility',
+        'visible'
+      )
     })
   })
   it('should not scroll beyond boundary', function() {
@@ -51,9 +53,11 @@ describe('Basic Functionality', function() {
     cy.get('#list3 button').each(function($el, index, $list) {
       cy.wrap($el).click({ force: true })
       const key = $el.data('nth')
-      cy
-        .get(`#list3 li:nth-child(${key})`)
-        .should('have.data', 'visibility', 'visible')
+      cy.get(`#list3 li:nth-child(${key})`).should(
+        'have.data',
+        'visibility',
+        'visible'
+      )
     })
   })
 })
