@@ -290,6 +290,22 @@ export default (
       const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
       const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
       const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
+      // The property existance checks for offfset[Width|Height] is because only HTMLElement objects have them, but any Element might pass by here
+      // @TODO find out if the "as HTMLElement" overrides can be dropped
+      const scrollbarWidth =
+        'offsetWidth' in frame
+          ? (frame as HTMLElement).offsetWidth -
+            (frame as HTMLElement).clientWidth -
+            borderLeft -
+            borderRight
+          : 0
+      const scrollbarHeight =
+        'offsetHeight' in frame
+          ? (frame as HTMLElement).offsetHeight -
+            (frame as HTMLElement).clientHeight -
+            borderTop -
+            borderBottom
+          : 0
 
       let blockScroll = 0
       let inlineScroll = 0
@@ -341,7 +357,8 @@ export default (
           const offset =
             0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
 
-          blockScroll = frame.scrollTop + offset + borderBottom
+          blockScroll =
+            frame.scrollTop + offset + borderBottom + scrollbarHeight
         }
       }
 
@@ -356,7 +373,7 @@ export default (
             viewportY + viewportHeight,
             viewportHeight,
             borderTop,
-            borderBottom,
+            borderBottom + scrollbarHeight,
             viewportY + targetBlock,
             viewportY + targetBlock + targetRect.height,
             targetRect.height
@@ -369,7 +386,7 @@ export default (
             frameRect.bottom,
             frameRect.height,
             borderTop,
-            borderBottom,
+            borderBottom + scrollbarHeight,
             targetBlock,
             targetBlock + targetRect.height,
             targetRect.height
@@ -424,7 +441,8 @@ export default (
           const offset =
             0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
-          inlineScroll = frame.scrollLeft + offset + borderRight
+          inlineScroll =
+            frame.scrollLeft + offset + borderRight + scrollbarWidth
         }
       }
 
@@ -439,7 +457,7 @@ export default (
             viewportX + viewportWidth,
             viewportWidth,
             borderLeft,
-            borderRight,
+            borderRight + scrollbarWidth,
             viewportX + targetInline,
             viewportX + targetInline + targetRect.width,
             targetRect.width
@@ -452,7 +470,7 @@ export default (
             frameRect.right,
             frameRect.width,
             borderLeft,
-            borderRight,
+            borderRight + scrollbarWidth,
             targetInline,
             targetInline + targetRect.width,
             targetRect.width
