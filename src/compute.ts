@@ -373,7 +373,7 @@ export default (
             viewportY + viewportHeight,
             viewportHeight,
             borderTop,
-            borderBottom + scrollbarHeight,
+            borderBottom,
             viewportY + targetBlock,
             viewportY + targetBlock + targetRect.height,
             targetRect.height
@@ -457,7 +457,7 @@ export default (
             viewportX + viewportWidth,
             viewportWidth,
             borderLeft,
-            borderRight + scrollbarWidth,
+            borderRight,
             viewportX + targetInline,
             viewportX + targetInline + targetRect.width,
             targetRect.width
