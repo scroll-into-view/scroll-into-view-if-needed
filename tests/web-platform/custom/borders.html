@@ -154,25 +154,34 @@ body.running .outer-scroll-container {
 var tiles = document.querySelectorAll(".scroll-tile");
 var outerContainer = document.querySelector(".outer-scroll-container");
 var innerContainer = document.querySelector(".inner-scroll-container");
+// offsetWidth - borderWidth - clientWidth = scrollbar width!
+var borderWidth = 6;
+var outerOffsetX = outerContainer.offsetWidth - outerContainer.clientWidth - borderWidth;
+var outerOffsetY = outerContainer.offsetHeight - outerContainer.clientHeight - borderWidth;
+var innerOffsetX = innerContainer.offsetWidth - innerContainer.clientWidth - borderWidth;
+var innerOffsetY = innerContainer.offsetHeight - innerContainer.clientHeight - borderWidth;
 
 [
   [0, "start", "start", [{ x: 300, y: 300 }, { x: 55, y: 55 }]],
   [1, "start", "center", [{ x: 200, y: 300 }, { x: 100, y: 55 }]],
-  [2, "start", "end", [{ x: 100, y: 300 }, { x: 145, y: 55 }]],
+  [2, "start", "end", [{ x: 100, y: 300 }, { x: 145 + innerOffsetX, y: 55 }]],
   [3, "center", "start", [{ x: 300, y: 200 }, { x: 55, y: 100 }]],
   [4, "center", "center", [{ x: 200, y: 200 }, { x: 100, y: 100 }]],
-  [5, "center", "end", [{ x: 100, y: 200 }, { x: 145, y: 100 }]],
-  [6, "end", "start", [{ x: 300, y: 100 }, { x: 55, y: 145 }]],
-  [7, "end", "center", [{ x: 200, y: 100 }, { x: 100, y: 145 }]],
-  [8, "end", "end", [{ x: 100, y: 100 }, { x: 145, y: 145 }]],
-  [0, "nearest", "nearest", [{ x: 23, y: 23 }, { x: 0, y: 0 }]],
-  [8, "nearest", undefined, [{ x: 100, y: 100 }, { x: 145, y: 145 }]]
+  [5, "center", "end", [{ x: 100, y: 200 }, { x: 145 + innerOffsetX, y: 100 }]],
+  [6, "end", "start", [{ x: 300, y: 100 }, { x: 55, y: 145 + innerOffsetY }]],
+  [7, "end", "center", [{ x: 200, y: 100 }, { x: 100, y: 145 + innerOffsetY }]],
+  [8, "end", "end", [{ x: 100, y: 100 }, { x: 145 + innerOffsetX, y: 145 + innerOffsetY }]],
+  [0, "nearest", "nearest", [{ x: 23 + outerOffsetX, y: 23 + outerOffsetY }, { x: 0, y: 0 }]],
+  [8, "nearest", undefined, [{ x: 100, y: 100 }, { x: 145 + innerOffsetX, y: 145 + innerOffsetY }]]
+  
 ].forEach(function(suite) {
   var target = suite[0];
   var block = suite[1];
   var inline = suite[2];
+
   var outer = suite[3][0];
   var inner = suite[3][1];
+
   test(function() {
     window.scrollTo(0, 0);
     outerContainer.scrollTop = 0
