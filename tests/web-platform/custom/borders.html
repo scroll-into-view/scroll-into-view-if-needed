@@ -154,6 +154,9 @@ body.running .outer-scroll-container {
 var tiles = document.querySelectorAll(".scroll-tile");
 var outerContainer = document.querySelector(".outer-scroll-container");
 var innerContainer = document.querySelector(".inner-scroll-container");
+// offsetWidth - borderWidth - clientWidth = scrollbar width!
+var borderWidth = 6;
+var handleScrollbarDimensions = window.scrollbars.visible;
 
 [
   [0, "start", "start", [{ x: 300, y: 300 }, { x: 55, y: 55 }]],
@@ -171,8 +174,23 @@ var innerContainer = document.querySelector(".inner-scroll-container");
   var target = suite[0];
   var block = suite[1];
   var inline = suite[2];
+
   var outer = suite[3][0];
   var inner = suite[3][1];
+
+  // Handle scrollbars if they exist
+  if(handleScrollbarDimensions) {
+    var outerOffsetX = outerContainer.offsetWidth - outerContainer.clientWidth - borderWidth;
+    var outerOffsetY = outerContainer.offsetHeight - outerContainer.clientHeight - borderWidth;
+    var innerOffsetX = innerContainer.offsetWidth - innerContainer.clientWidth - borderWidth;
+    var innerOffsetY = innerContainer.offsetHeight - innerContainer.clientHeight - borderWidth;
+
+    outer.x -= outerOffsetX;
+    outer.y -= outerOffsetY;
+    inner.x -= innerOffsetX;
+    inner.y -= innerOffsetY;
+  }
+
   test(function() {
     window.scrollTo(0, 0);
     outerContainer.scrollTop = 0
