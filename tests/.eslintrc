@@ -12,7 +12,7 @@
     "plugin:react/recommended"
   ],
   "rules": {
-    "react/react-jsx-in-scope": false,
-    "react/display-name": false
+    "react/react-jsx-in-scope": 0,
+    "react/display-name": 0
   }
 }
