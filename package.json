@@ -29,7 +29,7 @@
     "clean": "rimraf 'umd' 'es' 'typings'",
     "precommit": "lint-staged",
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
-    "lint": "eslint ./integration-examples",
+    "lint": "eslint ./tests",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "typecheck": "tsc --noEmit"
   },
