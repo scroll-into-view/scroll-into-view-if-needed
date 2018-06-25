@@ -448,36 +448,30 @@ export default (
       }
 
       if (inline === 'nearest') {
-        if (viewport === frame) {
-          // alignToTop
-          // (viewportX + targetInline) - (viewportX) - (borderLeft)
-
-          const offset = alignNearest(
-            viewportX,
-            viewportX + viewportWidth,
-            viewportWidth,
-            borderLeft,
-            borderRight,
-            viewportX + targetInline,
-            viewportX + targetInline + targetRect.width,
-            targetRect.width
-          )
-
-          inlineScroll = viewportX + offset
-        } else {
-          const offset = alignNearest(
-            frameRect.left,
-            frameRect.right,
-            frameRect.width,
-            borderLeft,
-            borderRight + scrollbarWidth,
-            targetInline,
-            targetInline + targetRect.width,
-            targetRect.width
-          )
-
-          inlineScroll = frame.scrollLeft + offset
-        }
+        inlineScroll =
+          viewport === frame
+            ? viewportX +
+              alignNearest(
+                viewportX,
+                viewportX + viewportWidth,
+                viewportWidth,
+                borderLeft,
+                borderRight,
+                viewportX + targetInline,
+                viewportX + targetInline + targetRect.width,
+                targetRect.width
+              )
+            : frame.scrollLeft +
+              alignNearest(
+                frameRect.left,
+                frameRect.right,
+                frameRect.width,
+                borderLeft,
+                borderRight + scrollbarWidth,
+                targetInline,
+                targetInline + targetRect.width,
+                targetRect.width
+              )
       }
 
       // Cache the offset so that parent frames can scroll this into view correctly
