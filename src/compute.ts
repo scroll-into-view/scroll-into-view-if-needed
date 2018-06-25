@@ -33,18 +33,12 @@ function isElement(el: any) {
   )
 }
 
-function hasScrollableSpace(el: Element, axis: 'X' | 'Y') {
-  return axis === 'X'
-    ? el.clientWidth < el.scrollWidth
-    : el.clientHeight < el.scrollHeight
-}
-
 function canOverflow(
   el: Element,
-  axis: 'Y' | 'X',
+  axis: 'overflowY' | 'overflowX',
   skipOverflowHiddenElements?: boolean
 ) {
-  const overflowValue = getComputedStyle(el, null)[('overflow' + axis) as any]
+  const overflowValue = getComputedStyle(el, null)[axis]
 
   if (skipOverflowHiddenElements && overflowValue === 'hidden') {
     return false
@@ -56,10 +50,10 @@ function canOverflow(
 function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
   return (
     el === getViewport() ||
-    (hasScrollableSpace(el, 'Y') &&
-      canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
-    (hasScrollableSpace(el, 'X') &&
-      canOverflow(el, 'X', skipOverflowHiddenElements))
+    (el.clientHeight < el.scrollHeight &&
+      canOverflow(el, 'overflowY', skipOverflowHiddenElements)) ||
+    (el.clientWidth < el.scrollWidth &&
+      canOverflow(el, 'overflowX', skipOverflowHiddenElements))
   )
 }
 
