@@ -28,14 +28,10 @@ function defaultBehavior(
 ) {
   const viewport = getViewport()
 
-  // Wait with checking if native smooth-scrolling exists until scrolling is invoked
-  // This is much more friendly to server side rendering envs, and testing envs like jest
-  const supportsScrollBehavior = 'scrollBehavior' in viewport.style
-
   actions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     // and guard window.scroll with supportsScrollBehavior
-    if (el.scroll && supportsScrollBehavior) {
+    if (el.scroll && 'scrollBehavior' in viewport.style) {
       el.scroll({ top, left, behavior })
     } else {
       if (el === viewport) {
@@ -50,17 +46,16 @@ function defaultBehavior(
 
 function getOptions(options: any): StandardBehaviorOptions {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
-  if (options === undefined || options === true || options === null) {
-    // @TODO merge this with the default return at the end
-    return { block: 'start', inline: 'nearest' }
-  } else if (options === false) {
+  if (options === false) {
     return { block: 'end', inline: 'nearest' }
-  } else if (isOptionsObject<StandardBehaviorOptions>(options)) {
+  }
+
+  if (isOptionsObject<StandardBehaviorOptions>(options)) {
     // compute.ts ensures the defaults are block: 'center' and inline: 'nearest', to conform to the spec
     return options
   }
 
-  // if options = {}, based on w3c web platform test
+  // if options = {}, options = true or options = null, based on w3c web platform test
   return { block: 'start', inline: 'nearest' }
 }
 
