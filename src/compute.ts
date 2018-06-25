@@ -412,13 +412,10 @@ export default (
       }
 
       if (inline === 'start') {
-        if (viewport === frame) {
-          inlineScroll = viewportX + targetInline
-        } else {
-          const offset = targetInline - frameRect.left - borderLeft
-
-          inlineScroll = frame.scrollLeft + offset
-        }
+        inlineScroll =
+          (viewport === frame
+            ? viewportX + targetInline
+            : frame.scrollLeft + (targetInline - frameRect.left)) - borderLeft
       }
 
       if (inline === 'center') {
