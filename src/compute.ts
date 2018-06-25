@@ -247,15 +247,16 @@ export default (
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
   // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
   const viewport = getViewport()
-  const visualViewport = window.visualViewport
+  const win = window
+  const visualViewport = win.visualViewport
   const viewportWidth = visualViewport
     ? visualViewport.width
-    : Math.min(viewport.clientWidth, window.innerWidth)
+    : Math.min(viewport.clientWidth, win.innerWidth)
   const viewportHeight = visualViewport
     ? visualViewport.height
-    : Math.min(viewport.clientHeight, window.innerHeight)
-  const viewportX = window.scrollX || window.pageXOffset
-  const viewportY = window.scrollY || window.pageYOffset
+    : Math.min(viewport.clientHeight, win.innerHeight)
+  const viewportX = win.scrollX || win.pageXOffset
+  const viewportY = win.scrollY || win.pageYOffset
 
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
