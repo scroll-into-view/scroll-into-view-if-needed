@@ -18,13 +18,6 @@ export interface Options<T = any> extends BaseOptions {
   behavior?: ScrollBehavior | CustomScrollBehaviorCallback<T>
 }
 
-// Wait with checking if native smooth-scrolling exists until scrolling is invoked
-// This is much more friendly to server side rendering envs, and testing envs like jest
-
-// tslint:disable-next-line: ban-types
-const isFunction = (arg: any): arg is Function => {
-  return typeof arg === 'function'
-}
 const isOptionsObject = <T>(options: any): options is T => {
   return options === Object(options) && Object.keys(options).length !== 0
 }
@@ -34,7 +27,11 @@ const defaultBehavior = (
   behavior: ScrollBehavior = 'auto'
 ) => {
   const viewport = getViewport()
+
+  // Wait with checking if native smooth-scrolling exists until scrolling is invoked
+  // This is much more friendly to server side rendering envs, and testing envs like jest
   const supportsScrollBehavior = 'scrollBehavior' in viewport.style
+
   actions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     // and guard window.scroll with supportsScrollBehavior
@@ -42,7 +39,7 @@ const defaultBehavior = (
       el.scroll({ top, left, behavior })
     } else {
       if (el === viewport) {
-        window.scrollTo(left, top)
+        scrollTo(left, top)
       } else {
         el.scrollTop = top
         el.scrollLeft = left
@@ -80,7 +77,7 @@ function scrollIntoView<T>(
 ) {
   if (
     isOptionsObject<CustomBehaviorOptions<T>>(options) &&
-    isFunction(options.behavior)
+    typeof options.behavior === 'function'
   ) {
     return options.behavior(compute(target, options))
   }
