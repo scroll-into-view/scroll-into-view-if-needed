@@ -396,16 +396,13 @@ export default (
               (frameRect.left + frameRect.width / 2 - targetInline)
       }
       if (inline === 'end') {
-        if (viewport === frame) {
-          inlineScroll = viewportX + targetInline - viewportWidth
-        } else {
-          // prevent negative scrollLeft values
-          const offset =
-            0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
-
-          inlineScroll =
-            frame.scrollLeft + offset + borderRight + scrollbarWidth
-        }
+        inlineScroll =
+          viewport === frame
+            ? viewportX + (targetInline - viewportWidth)
+            : frame.scrollLeft -
+              (frameRect.right - targetInline) +
+              borderRight +
+              scrollbarWidth
       }
       if (inline === 'nearest') {
         inlineScroll =
