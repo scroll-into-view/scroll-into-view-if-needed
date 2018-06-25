@@ -25,22 +25,22 @@ import { CustomScrollAction, Options } from './types'
 import getViewport from './viewport'
 
 // @TODO better shadowdom test, 11 = document fragment
-const isElement = el =>
+const isElement = (el: any) =>
   el != null &&
   typeof el === 'object' &&
   (el.nodeType === 1 || el.nodeType === 11)
 
-const hasScrollableSpace = (el, axis: 'X' | 'Y') =>
+const hasScrollableSpace = (el: Element, axis: 'X' | 'Y') =>
   axis === 'X'
     ? el.clientWidth < el.scrollWidth
     : el.clientHeight < el.scrollHeight
 
 const canOverflow = (
-  el,
+  el: Element,
   axis: 'Y' | 'X',
   skipOverflowHiddenElements: boolean
 ) => {
-  const overflowValue = getComputedStyle(el, null)['overflow' + axis]
+  const overflowValue = getComputedStyle(el, null)[('overflow' + axis) as any]
 
   if (skipOverflowHiddenElements && overflowValue === 'hidden') {
     return false
@@ -49,7 +49,7 @@ const canOverflow = (
   return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
 
-const isScrollable = (el, skipOverflowHiddenElements: boolean) =>
+const isScrollable = (el: Element, skipOverflowHiddenElements: boolean) =>
   el === getViewport() ||
   (hasScrollableSpace(el, 'Y') &&
     canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
@@ -213,7 +213,7 @@ export default (
   // The default behavior is to check if the current target matches the boundary element or not
   // If undefined it'll check that target is never undefined (can happen as we recurse up the tree)
   const checkBoundary =
-    typeof boundary === 'function' ? boundary : node => node !== boundary
+    typeof boundary === 'function' ? boundary : (node: any) => node !== boundary
 
   if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoView')
@@ -278,8 +278,8 @@ export default (
   }
 
   // These values mutate as we loop through and generate scroll coordinates
-  let targetBlock
-  let targetInline
+  let targetBlock: number
+  let targetInline: number
 
   // Collect new scroll positions
   const computations = frames.map(
