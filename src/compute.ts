@@ -284,6 +284,7 @@ export default (
     }
   }
 
+  // @TODO remove duplicate results
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
     block === 'start'
@@ -292,8 +293,15 @@ export default (
         ? targetRect.bottom
         : block === 'nearest'
           ? targetRect.top
-          : targetRect.top + targetRect.height / 2
-  let targetInline: number
+          : targetRect.top + targetRect.height / 2 // block === 'center
+  let targetInline: number =
+    inline === 'start'
+      ? targetRect.left
+      : inline === 'center'
+        ? targetRect.left + targetRect.width / 2
+        : inline === 'end'
+          ? targetRect.right
+          : targetRect.left // inline === 'nearest
 
   // Collect new scroll positions
   const computations = frames.map(
@@ -322,8 +330,8 @@ export default (
             borderBottom
           : 0
 
-      let blockScroll = 0
-      let inlineScroll = 0
+      let blockScroll: number = 0
+      let inlineScroll: number = 0
 
       // @TODO fix the if else pyramid nightmare
 
@@ -398,9 +406,6 @@ export default (
       }
 
       if (inline === 'start') {
-        if (!targetInline) {
-          targetInline = targetRect.left
-        }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline
         } else {
@@ -414,9 +419,6 @@ export default (
       }
 
       if (inline === 'center') {
-        if (!targetInline) {
-          targetInline = targetRect.left + targetRect.width / 2
-        }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline - viewportWidth / 2
         } else {
@@ -433,9 +435,6 @@ export default (
       }
 
       if (inline === 'end') {
-        if (!targetInline) {
-          targetInline = targetRect.right
-        }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline - viewportWidth
         } else {
@@ -449,10 +448,6 @@ export default (
       }
 
       if (inline === 'nearest') {
-        if (!targetInline) {
-          targetInline = targetRect.left
-        }
-
         if (viewport === frame) {
           const offset = alignNearest(
             viewportX,
