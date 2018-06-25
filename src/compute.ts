@@ -247,16 +247,14 @@ export default (
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
   // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
   const viewport = getViewport()
-  const win = window
-  const visualViewport = win.visualViewport
-  const viewportWidth = visualViewport
-    ? visualViewport.width
-    : Math.min(viewport.clientWidth, win.innerWidth)
-  const viewportHeight = visualViewport
-    ? visualViewport.height
-    : Math.min(viewport.clientHeight, win.innerHeight)
-  const viewportX = win.scrollX || win.pageXOffset
-  const viewportY = win.scrollY || win.pageYOffset
+  const viewportWidth = window.visualViewport
+    ? window.visualViewport.width
+    : Math.min(viewport.clientWidth, window.innerWidth)
+  const viewportHeight = window.visualViewport
+    ? window.visualViewport.height
+    : Math.min(viewport.clientHeight, window.innerHeight)
+  const viewportX = window.scrollX || window.pageXOffset
+  const viewportY = window.scrollY || window.pageYOffset
 
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
@@ -324,9 +322,6 @@ export default (
             borderBottom
           : 0
 
-      const scrollTop = frame.scrollTop
-      const scrollLeft = frame.scrollLeft
-
       let blockScroll = 0
       let inlineScroll = 0
 
@@ -339,9 +334,9 @@ export default (
           // prevent scrollTop values that overflow the scrollHeight
           const offset = Math.min(
             targetBlock - frameRect.top,
-            frame.scrollHeight - frame.clientHeight - scrollTop
+            frame.scrollHeight - frame.clientHeight - frame.scrollTop
           )
-          blockScroll = scrollTop + offset - borderTop
+          blockScroll = frame.scrollTop + offset - borderTop
         }
       }
       if (block === 'center') {
@@ -353,10 +348,10 @@ export default (
             0 -
             Math.min(
               frameRect.top + frameRect.height / 2 - targetBlock,
-              scrollTop
+              frame.scrollTop
             )
 
-          blockScroll = scrollTop + offset
+          blockScroll = frame.scrollTop + offset
         }
       }
 
@@ -365,9 +360,11 @@ export default (
           blockScroll = viewportY + targetBlock - viewportHeight
         } else {
           // prevent negative scrollTop values
-          const offset = 0 - Math.min(frameRect.bottom - targetBlock, scrollTop)
+          const offset =
+            0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
 
-          blockScroll = scrollTop + offset + borderBottom + scrollbarHeight
+          blockScroll =
+            frame.scrollTop + offset + borderBottom + scrollbarHeight
         }
       }
 
@@ -396,7 +393,7 @@ export default (
             targetBlock + targetRect.height,
             targetRect.height
           )
-          blockScroll = scrollTop + offset
+          blockScroll = frame.scrollTop + offset
         }
       }
 
@@ -410,9 +407,9 @@ export default (
           // prevent scrollLeft values that overflow the scrollLeft
           const offset = Math.min(
             targetInline - frameRect.left,
-            frame.scrollHeight - frame.clientLeft - scrollLeft
+            frame.scrollHeight - frame.clientLeft - frame.scrollLeft
           )
-          inlineScroll = scrollLeft + offset - borderLeft
+          inlineScroll = frame.scrollLeft + offset - borderLeft
         }
       }
 
@@ -428,10 +425,10 @@ export default (
             0 -
             Math.min(
               frameRect.left + frameRect.width / 2 - targetInline,
-              scrollLeft
+              frame.scrollLeft
             )
 
-          inlineScroll = scrollLeft + offset
+          inlineScroll = frame.scrollLeft + offset
         }
       }
 
@@ -444,9 +441,10 @@ export default (
         } else {
           // prevent negative scrollLeft values
           const offset =
-            0 - Math.min(frameRect.right - targetInline, scrollLeft)
+            0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
 
-          inlineScroll = scrollLeft + offset + borderRight + scrollbarWidth
+          inlineScroll =
+            frame.scrollLeft + offset + borderRight + scrollbarWidth
         }
       }
 
@@ -480,13 +478,13 @@ export default (
             targetRect.width
           )
 
-          inlineScroll = scrollLeft + offset
+          inlineScroll = frame.scrollLeft + offset
         }
       }
 
       // Cache the offset so that parent frames can scroll this into view correctly
-      targetBlock += scrollTop - blockScroll
-      targetInline += scrollLeft - inlineScroll
+      targetBlock += frame.scrollTop - blockScroll
+      targetInline += frame.scrollLeft - inlineScroll
 
       return { el: frame, top: blockScroll, left: inlineScroll }
     }
