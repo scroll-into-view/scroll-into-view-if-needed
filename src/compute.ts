@@ -247,11 +247,12 @@ export default (
   // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
   // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
   const viewport = getViewport()
-  const viewportWidth = window.visualViewport
-    ? window.visualViewport.width
+  const visualViewport = window.visualViewport
+  const viewportWidth = visualViewport
+    ? visualViewport.width
     : Math.min(viewport.clientWidth, window.innerWidth)
-  const viewportHeight = window.visualViewport
-    ? window.visualViewport.height
+  const viewportHeight = visualViewport
+    ? visualViewport.height
     : Math.min(viewport.clientHeight, window.innerHeight)
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
@@ -292,6 +293,7 @@ export default (
   const computations = frames.map(
     (frame): CustomScrollAction => {
       const frameRect = frame.getBoundingClientRect()
+
       const frameStyle = getComputedStyle(frame)
       const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
       const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
