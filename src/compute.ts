@@ -333,19 +333,11 @@ export default (
       let blockScroll: number = 0
       let inlineScroll: number = 0
 
-      // @TODO fix the if else pyramid nightmare
-
       if (block === 'start') {
-        if (viewport === frame) {
-          blockScroll = viewportY + targetBlock
-        } else {
-          // prevent scrollTop values that overflow the scrollHeight
-          const offset = Math.min(
-            targetBlock - frameRect.top,
-            frame.scrollHeight - frame.clientHeight - frame.scrollTop
-          )
-          blockScroll = frame.scrollTop + offset - borderTop
-        }
+        blockScroll =
+          (viewport === frame
+            ? viewportY + targetBlock
+            : targetBlock - frameRect.top) - borderTop
       }
       if (block === 'center') {
         if (viewport === frame) {
@@ -378,9 +370,6 @@ export default (
 
       if (block === 'nearest') {
         if (viewport === frame) {
-          // alignToTop
-          // (viewportY + targetBlock) - (viewportY) - (borderTop)
-
           const offset = alignNearest(
             viewportY,
             viewportY + viewportHeight,
@@ -394,9 +383,6 @@ export default (
 
           blockScroll = viewportY + offset
         } else {
-          // alignToTOp
-          // (targetBlock) - (frameRect.top) - (borderTop)
-
           const offset = alignNearest(
             frameRect.top,
             frameRect.bottom,
