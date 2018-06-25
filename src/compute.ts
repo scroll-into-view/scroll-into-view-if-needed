@@ -25,21 +25,25 @@ import { CustomScrollAction, Options } from './types'
 import getViewport from './viewport'
 
 // @TODO better shadowdom test, 11 = document fragment
-const isElement = (el: any) =>
-  el != null &&
-  typeof el === 'object' &&
-  (el.nodeType === 1 || el.nodeType === 11)
+function isElement(el: any) {
+  return (
+    el != null &&
+    typeof el === 'object' &&
+    (el.nodeType === 1 || el.nodeType === 11)
+  )
+}
 
-const hasScrollableSpace = (el: Element, axis: 'X' | 'Y') =>
-  axis === 'X'
+function hasScrollableSpace(el: Element, axis: 'X' | 'Y') {
+  return axis === 'X'
     ? el.clientWidth < el.scrollWidth
     : el.clientHeight < el.scrollHeight
+}
 
-const canOverflow = (
+function canOverflow(
   el: Element,
   axis: 'Y' | 'X',
   skipOverflowHiddenElements: boolean
-) => {
+) {
   const overflowValue = getComputedStyle(el, null)[('overflow' + axis) as any]
 
   if (skipOverflowHiddenElements && overflowValue === 'hidden') {
@@ -49,12 +53,15 @@ const canOverflow = (
   return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
 
-const isScrollable = (el: Element, skipOverflowHiddenElements: boolean) =>
-  el === getViewport() ||
-  (hasScrollableSpace(el, 'Y') &&
-    canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
-  (hasScrollableSpace(el, 'X') &&
-    canOverflow(el, 'X', skipOverflowHiddenElements))
+function isScrollable(el: Element, skipOverflowHiddenElements: boolean) {
+  return (
+    el === getViewport() ||
+    (hasScrollableSpace(el, 'Y') &&
+      canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
+    (hasScrollableSpace(el, 'X') &&
+      canOverflow(el, 'X', skipOverflowHiddenElements))
+  )
+}
 
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
@@ -65,7 +72,7 @@ const isScrollable = (el: Element, skipOverflowHiddenElements: boolean) =>
  * │ target │   frame
  * └────────┘ ┗ ━ ━ ━ ┛
  */
-const alignNearest = (
+function alignNearest(
   scrollingEdgeStart: number,
   scrollingEdgeEnd: number,
   scrollingSize: number,
@@ -74,7 +81,7 @@ const alignNearest = (
   elementEdgeStart: number,
   elementEdgeEnd: number,
   elementSize: number
-) => {
+) {
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
    *
