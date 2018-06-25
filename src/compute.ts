@@ -205,14 +205,11 @@ function alignNearest(
   return 0
 }
 
-export default (
-  target: Element,
-  options: Options = {}
-): CustomScrollAction[] => {
+export default (target: Element, options: Options): CustomScrollAction[] => {
   const {
     scrollMode,
     block,
-    inline = 'nearest',
+    inline,
     boundary,
     skipOverflowHiddenElements,
   } = options
