@@ -25,22 +25,20 @@ import { CustomScrollAction, Options } from './types'
 import getViewport from './viewport'
 
 // @TODO better shadowdom test, 11 = document fragment
-const isElement = el =>
-  el != null &&
-  typeof el === 'object' &&
-  (el.nodeType === 1 || el.nodeType === 11)
+function isElement(el: any) {
+  return (
+    el != null &&
+    typeof el === 'object' &&
+    (el.nodeType === 1 || el.nodeType === 11)
+  )
+}
 
-const hasScrollableSpace = (el, axis: 'X' | 'Y') =>
-  axis === 'X'
-    ? el.clientWidth < el.scrollWidth
-    : el.clientHeight < el.scrollHeight
-
-const canOverflow = (
-  el,
-  axis: 'Y' | 'X',
-  skipOverflowHiddenElements: boolean
-) => {
-  const overflowValue = getComputedStyle(el, null)['overflow' + axis]
+function canOverflow(
+  el: Element,
+  axis: 'overflowY' | 'overflowX',
+  skipOverflowHiddenElements?: boolean
+) {
+  const overflowValue = getComputedStyle(el, null)[axis]
 
   if (skipOverflowHiddenElements && overflowValue === 'hidden') {
     return false
@@ -49,12 +47,15 @@ const canOverflow = (
   return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
 
-const isScrollable = (el, skipOverflowHiddenElements: boolean) =>
-  el === getViewport() ||
-  (hasScrollableSpace(el, 'Y') &&
-    canOverflow(el, 'Y', skipOverflowHiddenElements)) ||
-  (hasScrollableSpace(el, 'X') &&
-    canOverflow(el, 'X', skipOverflowHiddenElements))
+function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
+  return (
+    el === getViewport() ||
+    (el.clientHeight < el.scrollHeight &&
+      canOverflow(el, 'overflowY', skipOverflowHiddenElements)) ||
+    (el.clientWidth < el.scrollWidth &&
+      canOverflow(el, 'overflowX', skipOverflowHiddenElements))
+  )
+}
 
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
@@ -65,7 +66,7 @@ const isScrollable = (el, skipOverflowHiddenElements: boolean) =>
  * │ target │   frame
  * └────────┘ ┗ ━ ━ ━ ┛
  */
-const alignNearest = (
+function alignNearest(
   scrollingEdgeStart: number,
   scrollingEdgeEnd: number,
   scrollingSize: number,
@@ -74,7 +75,7 @@ const alignNearest = (
   elementEdgeStart: number,
   elementEdgeEnd: number,
   elementSize: number
-) => {
+) {
   /**
    * If element edge A and element edge B are both outside scrolling box edge A and scrolling box edge B
    *
@@ -198,22 +199,19 @@ const alignNearest = (
   return 0
 }
 
-export default (
-  target: Element,
-  options: Options = {}
-): CustomScrollAction[] => {
+export default (target: Element, options: Options): CustomScrollAction[] => {
   const {
-    scrollMode = 'always',
-    block = 'center',
-    inline = 'nearest',
+    scrollMode,
+    block,
+    inline,
     boundary,
-    skipOverflowHiddenElements = false,
+    skipOverflowHiddenElements,
   } = options
   // Allow using a callback to check the boundary
   // The default behavior is to check if the current target matches the boundary element or not
   // If undefined it'll check that target is never undefined (can happen as we recurse up the tree)
   const checkBoundary =
-    typeof boundary === 'function' ? boundary : node => node !== boundary
+    typeof boundary === 'function' ? boundary : (node: any) => node !== boundary
 
   if (!isElement(target)) {
     throw new Error('Element is required in scrollIntoView')
@@ -277,14 +275,30 @@ export default (
     }
   }
 
+  // @TODO remove duplicate results
   // These values mutate as we loop through and generate scroll coordinates
-  let targetBlock
-  let targetInline
+  let targetBlock: number =
+    block === 'start'
+      ? targetRect.top
+      : block === 'end'
+        ? targetRect.bottom
+        : block === 'nearest'
+          ? targetRect.top
+          : targetRect.top + targetRect.height / 2 // block === 'center
+  let targetInline: number =
+    inline === 'start'
+      ? targetRect.left
+      : inline === 'center'
+        ? targetRect.left + targetRect.width / 2
+        : inline === 'end'
+          ? targetRect.right
+          : targetRect.left // inline === 'nearest
 
   // Collect new scroll positions
   const computations = frames.map(
     (frame): CustomScrollAction => {
       const frameRect = frame.getBoundingClientRect()
+
       const frameStyle = getComputedStyle(frame)
       const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
       const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
@@ -307,177 +321,101 @@ export default (
             borderBottom
           : 0
 
-      let blockScroll = 0
-      let inlineScroll = 0
-
-      // @TODO fix the if else pyramid nightmare
+      let blockScroll: number = 0
+      let inlineScroll: number = 0
 
       if (block === 'start') {
-        if (!targetBlock) {
-          targetBlock = targetRect.top
-        }
-        if (viewport === frame) {
-          blockScroll = viewportY + targetBlock
-        } else {
-          // prevent scrollTop values that overflow the scrollHeight
-          const offset = Math.min(
-            targetBlock - frameRect.top,
-            frame.scrollHeight - frame.clientHeight - frame.scrollTop
-          )
-          blockScroll = frame.scrollTop + offset - borderTop
-        }
-      }
-      if (block === 'center') {
-        if (!targetBlock) {
-          targetBlock = targetRect.top + targetRect.height / 2
-        }
-        if (viewport === frame) {
-          blockScroll = viewportY + targetBlock - viewportHeight / 2
-        } else {
-          // prevent negative scrollTop values
-          const offset =
-            0 -
-            Math.min(
-              frameRect.top + frameRect.height / 2 - targetBlock,
-              frame.scrollTop
-            )
-
-          blockScroll = frame.scrollTop + offset
-        }
-      }
-
-      if (block === 'end') {
-        if (!targetBlock) {
-          targetBlock = targetRect.bottom
-        }
-        if (viewport === frame) {
-          blockScroll = viewportY + targetBlock - viewportHeight
-        } else {
-          // prevent negative scrollTop values
-          const offset =
-            0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
-
-          blockScroll =
-            frame.scrollTop + offset + borderBottom + scrollbarHeight
-        }
-      }
-
-      if (block === 'nearest') {
-        if (!targetBlock) {
-          targetBlock = targetRect.top
-        }
-
-        if (viewport === frame) {
-          const offset = alignNearest(
-            viewportY,
-            viewportY + viewportHeight,
-            viewportHeight,
-            borderTop,
-            borderBottom,
-            viewportY + targetBlock,
-            viewportY + targetBlock + targetRect.height,
-            targetRect.height
-          )
-
-          blockScroll = viewportY + offset
-        } else {
-          const offset = alignNearest(
-            frameRect.top,
-            frameRect.bottom,
-            frameRect.height,
-            borderTop,
-            borderBottom + scrollbarHeight,
-            targetBlock,
-            targetBlock + targetRect.height,
-            targetRect.height
-          )
-          blockScroll = frame.scrollTop + offset
-        }
+        blockScroll =
+          viewport === frame
+            ? viewportY + targetBlock
+            : targetBlock - frameRect.top - borderTop
+      } else if (block === 'end') {
+        blockScroll =
+          viewport === frame
+            ? viewportY + (targetBlock - viewportHeight)
+            : frame.scrollTop -
+              (frameRect.bottom - targetBlock) +
+              borderBottom +
+              scrollbarHeight
+      } else if (block === 'nearest') {
+        blockScroll =
+          viewport === frame
+            ? viewportY +
+              alignNearest(
+                viewportY,
+                viewportY + viewportHeight,
+                viewportHeight,
+                borderTop,
+                borderBottom,
+                viewportY + targetBlock,
+                viewportY + targetBlock + targetRect.height,
+                targetRect.height
+              )
+            : frame.scrollTop +
+              alignNearest(
+                frameRect.top,
+                frameRect.bottom,
+                frameRect.height,
+                borderTop,
+                borderBottom + scrollbarHeight,
+                targetBlock,
+                targetBlock + targetRect.height,
+                targetRect.height
+              )
+      } else {
+        // block === 'center' is the default
+        blockScroll =
+          viewport === frame
+            ? viewportY + targetBlock - viewportHeight / 2
+            : frame.scrollTop -
+              (frameRect.top + frameRect.height / 2 - targetBlock)
       }
 
       if (inline === 'start') {
-        if (!targetInline) {
-          targetInline = targetRect.left
-        }
-        if (viewport === frame) {
-          inlineScroll = viewportX + targetInline
-        } else {
-          // prevent scrollLeft values that overflow the scrollLeft
-          const offset = Math.min(
-            targetInline - frameRect.left,
-            frame.scrollHeight - frame.clientLeft - frame.scrollLeft
-          )
-          inlineScroll = frame.scrollLeft + offset - borderLeft
-        }
-      }
-
-      if (inline === 'center') {
-        if (!targetInline) {
-          targetInline = targetRect.left + targetRect.width / 2
-        }
-        if (viewport === frame) {
-          inlineScroll = viewportX + targetInline - viewportWidth / 2
-        } else {
-          // prevent negative scrollLeft values
-          const offset =
-            0 -
-            Math.min(
-              frameRect.left + frameRect.width / 2 - targetInline,
-              frame.scrollLeft
-            )
-
-          inlineScroll = frame.scrollLeft + offset
-        }
-      }
-
-      if (inline === 'end') {
-        if (!targetInline) {
-          targetInline = targetRect.right
-        }
-        if (viewport === frame) {
-          inlineScroll = viewportX + targetInline - viewportWidth
-        } else {
-          // prevent negative scrollLeft values
-          const offset =
-            0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
-
-          inlineScroll =
-            frame.scrollLeft + offset + borderRight + scrollbarWidth
-        }
-      }
-
-      if (inline === 'nearest') {
-        if (!targetInline) {
-          targetInline = targetRect.left
-        }
-
-        if (viewport === frame) {
-          const offset = alignNearest(
-            viewportX,
-            viewportX + viewportWidth,
-            viewportWidth,
-            borderLeft,
-            borderRight,
-            viewportX + targetInline,
-            viewportX + targetInline + targetRect.width,
-            targetRect.width
-          )
-
-          inlineScroll = viewportX + offset
-        } else {
-          const offset = alignNearest(
-            frameRect.left,
-            frameRect.right,
-            frameRect.width,
-            borderLeft,
-            borderRight + scrollbarWidth,
-            targetInline,
-            targetInline + targetRect.width,
-            targetRect.width
-          )
-
-          inlineScroll = frame.scrollLeft + offset
-        }
+        inlineScroll =
+          viewport === frame
+            ? viewportX + targetInline
+            : frame.scrollLeft + (targetInline - frameRect.left) - borderLeft
+      } else if (inline === 'center') {
+        inlineScroll =
+          viewport === frame
+            ? viewportX + targetInline - viewportWidth / 2
+            : frame.scrollLeft -
+              (frameRect.left + frameRect.width / 2 - targetInline)
+      } else if (inline === 'end') {
+        inlineScroll =
+          viewport === frame
+            ? viewportX + (targetInline - viewportWidth)
+            : frame.scrollLeft -
+              (frameRect.right - targetInline) +
+              borderRight +
+              scrollbarWidth
+      } else {
+        // inline === 'nearest' is the default
+        inlineScroll =
+          viewport === frame
+            ? viewportX +
+              alignNearest(
+                viewportX,
+                viewportX + viewportWidth,
+                viewportWidth,
+                borderLeft,
+                borderRight,
+                viewportX + targetInline,
+                viewportX + targetInline + targetRect.width,
+                targetRect.width
+              )
+            : frame.scrollLeft +
+              alignNearest(
+                frameRect.left,
+                frameRect.right,
+                frameRect.width,
+                borderLeft,
+                borderRight + scrollbarWidth,
+                targetInline,
+                targetInline + targetRect.width,
+                targetRect.width
+              )
       }
 
       // Cache the offset so that parent frames can scroll this into view correctly

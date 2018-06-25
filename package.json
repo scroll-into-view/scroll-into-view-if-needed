@@ -28,10 +28,10 @@
     "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
     "clean": "rimraf 'umd' 'es' 'typings'",
     "precommit": "lint-staged",
-    "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
+    "dev": "concurrently 'tsc --noEmit --watch' 'tsc --noEmit -p tests/typescript --watch' 'yarn build:cjs --watch' 'yarn build:es --watch' 'yarn build:umd --watch' 'yarn build:umd.min --watch'",
     "lint": "eslint ./integration-examples",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.51",

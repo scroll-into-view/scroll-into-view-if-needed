@@ -1,14 +1,16 @@
 // memoize for perf
-let viewport
+let viewport: HTMLElement
 
 // return the current viewport depending on wether quirks mode is active or not
 export default () => {
+  const doc = document
+
   if (!viewport) {
     viewport =
-      document.compatMode === 'CSS1Compat'
-        ? document.documentElement
-        : document.scrollingElement || document.documentElement
+      (doc.compatMode !== 'CSS1Compat' &&
+        (doc.scrollingElement as HTMLElement)) ||
+      doc.documentElement
   }
 
-  return viewport as HTMLElement
+  return viewport
 }
