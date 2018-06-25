@@ -18,14 +18,14 @@ export interface Options<T = any> extends BaseOptions {
   behavior?: ScrollBehavior | CustomScrollBehaviorCallback<T>
 }
 
-const isOptionsObject = <T>(options: any): options is T => {
+function isOptionsObject<T>(options: any): options is T {
   return options === Object(options) && Object.keys(options).length !== 0
 }
 
-const defaultBehavior = (
+function defaultBehavior(
   actions: CustomScrollAction[],
   behavior: ScrollBehavior = 'auto'
-) => {
+) {
   const viewport = getViewport()
 
   // Wait with checking if native smooth-scrolling exists until scrolling is invoked
@@ -48,7 +48,7 @@ const defaultBehavior = (
   })
 }
 
-const getOptions = (options: any = true): StandardBehaviorOptions => {
+function getOptions(options: any = true): StandardBehaviorOptions {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
   if (options === true || options === null) {
     return { block: 'start', inline: 'nearest' }
