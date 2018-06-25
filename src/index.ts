@@ -48,9 +48,10 @@ function defaultBehavior(
   })
 }
 
-function getOptions(options: any = true): StandardBehaviorOptions {
+function getOptions(options: any): StandardBehaviorOptions {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
-  if (options === true || options === null) {
+  if (options === undefined || options === true || options === null) {
+    // @TODO merge this with the default return at the end
     return { block: 'start', inline: 'nearest' }
   } else if (options === false) {
     return { block: 'end', inline: 'nearest' }
@@ -71,10 +72,7 @@ function scrollIntoView<T>(
   options: CustomBehaviorOptions<T>
 ): T
 function scrollIntoView(target: Element, options?: Options | boolean): void
-function scrollIntoView<T>(
-  target: Element,
-  options: Options<T> | boolean = true
-) {
+function scrollIntoView<T>(target: Element, options?: Options<T> | boolean) {
   if (
     isOptionsObject<CustomBehaviorOptions<T>>(options) &&
     typeof options.behavior === 'function'
@@ -82,6 +80,7 @@ function scrollIntoView<T>(
     return options.behavior(compute(target, options))
   }
 
+  // @TODO see if it's possible to avoid this assignment
   const computeOptions = getOptions(options)
   return defaultBehavior(
     compute(target, computeOptions),
