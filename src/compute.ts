@@ -258,24 +258,30 @@ export default (
   const viewportX = win.scrollX || win.pageXOffset
   const viewportY = win.scrollY || win.pageYOffset
 
+  // Cache a few values for better minifying
+  const targetRectTop = targetRect.top
+  const targetRectBottom = targetRect.bottom
+  const targetRectLeft = targetRect.left
+  const targetRectRight = targetRect.right
+
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
     // @TODO optimize, as getBoundingClientRect is also called from computations loop
     const isVisible = frames.every(frame => {
       const frameRect = frame.getBoundingClientRect()
 
-      if (targetRect.top < frameRect.top) {
+      if (targetRectTop < frameRect.top) {
         return false
       }
-      if (targetRect.bottom > frameRect.bottom) {
+      if (targetRectBottom > frameRect.bottom) {
         return false
       }
 
       if (frame === viewport) {
-        if (targetRect.bottom > viewportHeight || targetRect.top < 0) {
+        if (targetRectBottom > viewportHeight || targetRectTop < 0) {
           return false
         }
-        if (targetRect.left > viewportWidth || targetRect.right < 0) {
+        if (targetRectLeft > viewportWidth || targetRectRight < 0) {
           return false
         }
       }
@@ -287,7 +293,14 @@ export default (
   }
 
   // These values mutate as we loop through and generate scroll coordinates
-  let targetBlock: number
+  let targetBlock: number =
+    block === 'start'
+      ? targetRectTop
+      : block === 'end'
+        ? targetRectBottom
+        : block === 'nearest'
+          ? targetRectTop
+          : targetRectTop + targetRect.height / 2
   let targetInline: number
 
   // Collect new scroll positions
@@ -326,9 +339,6 @@ export default (
       // @TODO fix the if else pyramid nightmare
 
       if (block === 'start') {
-        if (!targetBlock) {
-          targetBlock = targetRect.top
-        }
         if (viewport === frame) {
           blockScroll = viewportY + targetBlock
         } else {
@@ -341,9 +351,6 @@ export default (
         }
       }
       if (block === 'center') {
-        if (!targetBlock) {
-          targetBlock = targetRect.top + targetRect.height / 2
-        }
         if (viewport === frame) {
           blockScroll = viewportY + targetBlock - viewportHeight / 2
         } else {
@@ -360,9 +367,6 @@ export default (
       }
 
       if (block === 'end') {
-        if (!targetBlock) {
-          targetBlock = targetRect.bottom
-        }
         if (viewport === frame) {
           blockScroll = viewportY + targetBlock - viewportHeight
         } else {
@@ -374,10 +378,6 @@ export default (
       }
 
       if (block === 'nearest') {
-        if (!targetBlock) {
-          targetBlock = targetRect.top
-        }
-
         if (viewport === frame) {
           const offset = alignNearest(
             viewportY,
@@ -408,7 +408,7 @@ export default (
 
       if (inline === 'start') {
         if (!targetInline) {
-          targetInline = targetRect.left
+          targetInline = targetRectLeft
         }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline
@@ -424,7 +424,7 @@ export default (
 
       if (inline === 'center') {
         if (!targetInline) {
-          targetInline = targetRect.left + targetRect.width / 2
+          targetInline = targetRectLeft + targetRect.width / 2
         }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline - viewportWidth / 2
@@ -443,7 +443,7 @@ export default (
 
       if (inline === 'end') {
         if (!targetInline) {
-          targetInline = targetRect.right
+          targetInline = targetRectRight
         }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline - viewportWidth
@@ -458,7 +458,7 @@ export default (
 
       if (inline === 'nearest') {
         if (!targetInline) {
-          targetInline = targetRect.left
+          targetInline = targetRectLeft
         }
 
         if (viewport === frame) {
