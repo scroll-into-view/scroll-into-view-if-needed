@@ -42,7 +42,7 @@ function hasScrollableSpace(el: Element, axis: 'X' | 'Y') {
 function canOverflow(
   el: Element,
   axis: 'Y' | 'X',
-  skipOverflowHiddenElements: boolean
+  skipOverflowHiddenElements?: boolean
 ) {
   const overflowValue = getComputedStyle(el, null)[('overflow' + axis) as any]
 
@@ -53,7 +53,7 @@ function canOverflow(
   return overflowValue !== 'visible' && overflowValue !== 'clip'
 }
 
-function isScrollable(el: Element, skipOverflowHiddenElements: boolean) {
+function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
   return (
     el === getViewport() ||
     (hasScrollableSpace(el, 'Y') &&
@@ -210,11 +210,11 @@ export default (
   options: Options = {}
 ): CustomScrollAction[] => {
   const {
-    scrollMode = 'always',
-    block = 'center',
+    scrollMode,
+    block,
     inline = 'nearest',
     boundary,
-    skipOverflowHiddenElements = false,
+    skipOverflowHiddenElements,
   } = options
   // Allow using a callback to check the boundary
   // The default behavior is to check if the current target matches the boundary element or not
