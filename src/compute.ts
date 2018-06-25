@@ -378,6 +378,9 @@ export default (
 
       if (block === 'nearest') {
         if (viewport === frame) {
+          // alignToTop
+          // (viewportY + targetBlock) - (viewportY) - (borderTop)
+
           const offset = alignNearest(
             viewportY,
             viewportY + viewportHeight,
@@ -391,6 +394,9 @@ export default (
 
           blockScroll = viewportY + offset
         } else {
+          // alignToTOp
+          // (targetBlock) - (frameRect.top) - (borderTop)
+
           const offset = alignNearest(
             frameRect.top,
             frameRect.bottom,
@@ -409,12 +415,9 @@ export default (
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline
         } else {
-          // prevent scrollLeft values that overflow the scrollLeft
-          const offset = Math.min(
-            targetInline - frameRect.left,
-            frame.scrollHeight - frame.clientLeft - frame.scrollLeft
-          )
-          inlineScroll = frame.scrollLeft + offset - borderLeft
+          const offset = targetInline - frameRect.left - borderLeft
+
+          inlineScroll = frame.scrollLeft + offset
         }
       }
 
@@ -449,6 +452,9 @@ export default (
 
       if (inline === 'nearest') {
         if (viewport === frame) {
+          // alignToTop
+          // (viewportX + targetInline) - (viewportX) - (borderLeft)
+
           const offset = alignNearest(
             viewportX,
             viewportX + viewportWidth,
