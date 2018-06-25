@@ -329,15 +329,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           viewport === frame
             ? viewportY + targetBlock
             : targetBlock - frameRect.top - borderTop
-      }
-      if (block === 'center') {
-        blockScroll =
-          viewport === frame
-            ? viewportY + targetBlock - viewportHeight / 2
-            : frame.scrollTop -
-              (frameRect.top + frameRect.height / 2 - targetBlock)
-      }
-      if (block === 'end') {
+      } else if (block === 'end') {
         blockScroll =
           viewport === frame
             ? viewportY + (targetBlock - viewportHeight)
@@ -345,8 +337,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
               (frameRect.bottom - targetBlock) +
               borderBottom +
               scrollbarHeight
-      }
-      if (block === 'nearest') {
+      } else if (block === 'nearest') {
         blockScroll =
           viewport === frame
             ? viewportY +
@@ -371,6 +362,13 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 targetBlock + targetRect.height,
                 targetRect.height
               )
+      } else {
+        // block === 'center' is the default
+        blockScroll =
+          viewport === frame
+            ? viewportY + targetBlock - viewportHeight / 2
+            : frame.scrollTop -
+              (frameRect.top + frameRect.height / 2 - targetBlock)
       }
 
       if (inline === 'start') {
@@ -378,15 +376,13 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           viewport === frame
             ? viewportX + targetInline
             : frame.scrollLeft + (targetInline - frameRect.left) - borderLeft
-      }
-      if (inline === 'center') {
+      } else if (inline === 'center') {
         inlineScroll =
           viewport === frame
             ? viewportX + targetInline - viewportWidth / 2
             : frame.scrollLeft -
               (frameRect.left + frameRect.width / 2 - targetInline)
-      }
-      if (inline === 'end') {
+      } else if (inline === 'end') {
         inlineScroll =
           viewport === frame
             ? viewportX + (targetInline - viewportWidth)
@@ -394,8 +390,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
               (frameRect.right - targetInline) +
               borderRight +
               scrollbarWidth
-      }
-      if (inline === 'nearest') {
+      } else {
+        // inline === 'nearest' is the default
         inlineScroll =
           viewport === frame
             ? viewportX +
