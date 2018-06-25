@@ -342,23 +342,24 @@ export default (
       }
       if (block === 'center') {
         blockScroll =
-          (viewport === frame
-            ? viewportY + (targetBlock + targetRect.height - viewportHeight / 2)
-            : frame.scrollTop -
+          viewport === frame
+            ? viewportY + targetBlock - viewportHeight / 2
+            : frame.scrollTop +
               (targetBlock +
-                targetRect.height -
-                (frameRect.top + frameRect.height / 2))) +
-          borderBottom +
-          scrollbarHeight
+                (frameRect.top + frameRect.height / 2) +
+                borderBottom +
+                scrollbarHeight)
       }
       if (block === 'end') {
         blockScroll =
-          (viewport === frame
-            ? viewportY + (targetBlock + targetRect.height - viewportHeight)
+          viewport === frame
+            ? viewportY + (targetBlock - viewportHeight)
             : frame.scrollTop -
-              (targetBlock + targetRect.height - frameRect.bottom)) +
-          borderBottom +
-          scrollbarHeight
+              (targetBlock +
+                targetRect.height -
+                frameRect.bottom +
+                borderBottom +
+                scrollbarHeight)
       }
       if (block === 'nearest') {
         blockScroll =
