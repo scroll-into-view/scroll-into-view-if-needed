@@ -258,30 +258,24 @@ export default (
   const viewportX = win.scrollX || win.pageXOffset
   const viewportY = win.scrollY || win.pageYOffset
 
-  // Cache a few values for better minifying
-  const targetRectTop = targetRect.top
-  const targetRectBottom = targetRect.bottom
-  const targetRectLeft = targetRect.left
-  const targetRectRight = targetRect.right
-
   // If the element is already visible we can end it here
   if (scrollMode === 'if-needed') {
     // @TODO optimize, as getBoundingClientRect is also called from computations loop
     const isVisible = frames.every(frame => {
       const frameRect = frame.getBoundingClientRect()
 
-      if (targetRectTop < frameRect.top) {
+      if (targetRect.top < frameRect.top) {
         return false
       }
-      if (targetRectBottom > frameRect.bottom) {
+      if (targetRect.bottom > frameRect.bottom) {
         return false
       }
 
       if (frame === viewport) {
-        if (targetRectBottom > viewportHeight || targetRectTop < 0) {
+        if (targetRect.bottom > viewportHeight || targetRect.top < 0) {
           return false
         }
-        if (targetRectLeft > viewportWidth || targetRectRight < 0) {
+        if (targetRect.left > viewportWidth || targetRect.right < 0) {
           return false
         }
       }
@@ -295,12 +289,12 @@ export default (
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
     block === 'start'
-      ? targetRectTop
+      ? targetRect.top
       : block === 'end'
-        ? targetRectBottom
+        ? targetRect.bottom
         : block === 'nearest'
-          ? targetRectTop
-          : targetRectTop + targetRect.height / 2
+          ? targetRect.top
+          : targetRect.top + targetRect.height / 2
   let targetInline: number
 
   // Collect new scroll positions
@@ -408,7 +402,7 @@ export default (
 
       if (inline === 'start') {
         if (!targetInline) {
-          targetInline = targetRectLeft
+          targetInline = targetRect.left
         }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline
@@ -424,7 +418,7 @@ export default (
 
       if (inline === 'center') {
         if (!targetInline) {
-          targetInline = targetRectLeft + targetRect.width / 2
+          targetInline = targetRect.left + targetRect.width / 2
         }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline - viewportWidth / 2
@@ -443,7 +437,7 @@ export default (
 
       if (inline === 'end') {
         if (!targetInline) {
-          targetInline = targetRectRight
+          targetInline = targetRect.right
         }
         if (viewport === frame) {
           inlineScroll = viewportX + targetInline - viewportWidth
@@ -458,7 +452,7 @@ export default (
 
       if (inline === 'nearest') {
         if (!targetInline) {
-          targetInline = targetRectLeft
+          targetInline = targetRect.left
         }
 
         if (viewport === frame) {
