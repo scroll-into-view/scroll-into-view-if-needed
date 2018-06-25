@@ -31,3 +31,15 @@ scrollIntoView(node, { skipOverflowHiddenElements: false })
 scrollIntoView(node, { boundary: document.documentElement })
 // This test relies on deeper type information, if el is suddenly `any` it'll fail
 scrollIntoView(node, { boundary: el => el.classList.contains('should-scroll') })
+
+// Ensure the custom behavior callback option contains enough type information to be typesafe
+const actionsCount: number = scrollIntoView(node, {
+  behavior: actions => {
+    const scrollframes = actions.length
+    actions.forEach(({ el, left, top }) => {
+      el.scroll({ left, top })
+    })
+    return scrollframes
+  },
+})
+node.title = `Frames that got scrolled: ${actionsCount}`
