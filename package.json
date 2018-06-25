@@ -31,7 +31,7 @@
     "dev": "concurrently 'tsc --watch' 'yarn build:cjs --watch'",
     "lint": "eslint ./integration-examples",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.51",

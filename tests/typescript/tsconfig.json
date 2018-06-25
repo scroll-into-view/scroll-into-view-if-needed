@@ -3,9 +3,6 @@
     "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
-    "declaration": true,
-    "rootDir": "src",
-    "declarationDir": "typings",
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
@@ -14,14 +11,5 @@
     "noUnusedParameters": true,
     "alwaysStrict": true,
     "lib": ["es5", "es2015.promise", "dom"]
-  },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "example",
-    "tests",
-    "**/*-test.ts",
-    "typings",
-    "cypress"
-  ]
+  }
 }
