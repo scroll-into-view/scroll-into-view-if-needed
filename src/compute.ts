@@ -316,6 +316,9 @@ export default (
             borderBottom
           : 0
 
+      const scrollTop = frame.scrollTop
+      const scrollLeft = frame.scrollLeft
+
       let blockScroll = 0
       let inlineScroll = 0
 
@@ -331,9 +334,9 @@ export default (
           // prevent scrollTop values that overflow the scrollHeight
           const offset = Math.min(
             targetBlock - frameRect.top,
-            frame.scrollHeight - frame.clientHeight - frame.scrollTop
+            frame.scrollHeight - frame.clientHeight - scrollTop
           )
-          blockScroll = frame.scrollTop + offset - borderTop
+          blockScroll = scrollTop + offset - borderTop
         }
       }
       if (block === 'center') {
@@ -348,10 +351,10 @@ export default (
             0 -
             Math.min(
               frameRect.top + frameRect.height / 2 - targetBlock,
-              frame.scrollTop
+              scrollTop
             )
 
-          blockScroll = frame.scrollTop + offset
+          blockScroll = scrollTop + offset
         }
       }
 
@@ -363,11 +366,9 @@ export default (
           blockScroll = viewportY + targetBlock - viewportHeight
         } else {
           // prevent negative scrollTop values
-          const offset =
-            0 - Math.min(frameRect.bottom - targetBlock, frame.scrollTop)
+          const offset = 0 - Math.min(frameRect.bottom - targetBlock, scrollTop)
 
-          blockScroll =
-            frame.scrollTop + offset + borderBottom + scrollbarHeight
+          blockScroll = scrollTop + offset + borderBottom + scrollbarHeight
         }
       }
 
@@ -400,7 +401,7 @@ export default (
             targetBlock + targetRect.height,
             targetRect.height
           )
-          blockScroll = frame.scrollTop + offset
+          blockScroll = scrollTop + offset
         }
       }
 
@@ -414,9 +415,9 @@ export default (
           // prevent scrollLeft values that overflow the scrollLeft
           const offset = Math.min(
             targetInline - frameRect.left,
-            frame.scrollHeight - frame.clientLeft - frame.scrollLeft
+            frame.scrollHeight - frame.clientLeft - scrollLeft
           )
-          inlineScroll = frame.scrollLeft + offset - borderLeft
+          inlineScroll = scrollLeft + offset - borderLeft
         }
       }
 
@@ -432,10 +433,10 @@ export default (
             0 -
             Math.min(
               frameRect.left + frameRect.width / 2 - targetInline,
-              frame.scrollLeft
+              scrollLeft
             )
 
-          inlineScroll = frame.scrollLeft + offset
+          inlineScroll = scrollLeft + offset
         }
       }
 
@@ -448,10 +449,9 @@ export default (
         } else {
           // prevent negative scrollLeft values
           const offset =
-            0 - Math.min(frameRect.right - targetInline, frame.scrollLeft)
+            0 - Math.min(frameRect.right - targetInline, scrollLeft)
 
-          inlineScroll =
-            frame.scrollLeft + offset + borderRight + scrollbarWidth
+          inlineScroll = scrollLeft + offset + borderRight + scrollbarWidth
         }
       }
 
@@ -485,13 +485,13 @@ export default (
             targetRect.width
           )
 
-          inlineScroll = frame.scrollLeft + offset
+          inlineScroll = scrollLeft + offset
         }
       }
 
       // Cache the offset so that parent frames can scroll this into view correctly
-      targetBlock += frame.scrollTop - blockScroll
-      targetInline += frame.scrollLeft - inlineScroll
+      targetBlock += scrollTop - blockScroll
+      targetInline += scrollLeft - inlineScroll
 
       return { el: frame, top: blockScroll, left: inlineScroll }
     }
