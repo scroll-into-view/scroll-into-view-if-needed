@@ -341,19 +341,15 @@ export default (
             : targetBlock - frameRect.top) - borderTop
       }
       if (block === 'center') {
-        if (viewport === frame) {
-          blockScroll = viewportY + targetBlock - viewportHeight / 2
-        } else {
-          // prevent negative scrollTop values
-          const offset =
-            0 -
-            Math.min(
-              frameRect.top + frameRect.height / 2 - targetBlock,
-              frame.scrollTop
-            )
-
-          blockScroll = frame.scrollTop + offset
-        }
+        blockScroll =
+          (viewport === frame
+            ? viewportY + (targetBlock + targetRect.height - viewportHeight / 2)
+            : frame.scrollTop -
+              (targetBlock +
+                targetRect.height -
+                (frameRect.top + frameRect.height / 2))) +
+          borderBottom +
+          scrollbarHeight
       }
       if (block === 'end') {
         blockScroll =
