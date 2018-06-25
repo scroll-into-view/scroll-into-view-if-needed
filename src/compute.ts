@@ -72,7 +72,6 @@ function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
  * │ target │   frame
  * └────────┘ ┗ ━ ━ ━ ┛
  */
-// scrollPos + elementEdgeEnd - scrollingEdgeEnd + scrollingBorderEnd
 function alignNearest(
   scrollingEdgeStart: number,
   scrollingEdgeEnd: number,
@@ -336,30 +335,25 @@ export default (
 
       if (block === 'start') {
         blockScroll =
-          (viewport === frame
+          viewport === frame
             ? viewportY + targetBlock
-            : targetBlock - frameRect.top) - borderTop
+            : targetBlock - frameRect.top - borderTop
       }
       if (block === 'center') {
         blockScroll =
           viewport === frame
             ? viewportY + targetBlock - viewportHeight / 2
-            : frame.scrollTop +
-              (targetBlock +
-                (frameRect.top + frameRect.height / 2) +
-                borderBottom +
-                scrollbarHeight)
+            : frame.scrollTop -
+              (frameRect.top + frameRect.height / 2 - targetBlock)
       }
       if (block === 'end') {
         blockScroll =
           viewport === frame
             ? viewportY + (targetBlock - viewportHeight)
             : frame.scrollTop -
-              (targetBlock +
-                targetRect.height -
-                frameRect.bottom +
-                borderBottom +
-                scrollbarHeight)
+              (frameRect.bottom - targetBlock) +
+              borderBottom +
+              scrollbarHeight
       }
       if (block === 'nearest') {
         blockScroll =
@@ -390,24 +384,16 @@ export default (
 
       if (inline === 'start') {
         inlineScroll =
-          (viewport === frame
+          viewport === frame
             ? viewportX + targetInline
-            : frame.scrollLeft + (targetInline - frameRect.left)) - borderLeft
+            : frame.scrollLeft + (targetInline - frameRect.left) - borderLeft
       }
       if (inline === 'center') {
-        if (viewport === frame) {
-          inlineScroll = viewportX + targetInline - viewportWidth / 2
-        } else {
-          // prevent negative scrollLeft values
-          const offset =
-            0 -
-            Math.min(
-              frameRect.left + frameRect.width / 2 - targetInline,
-              frame.scrollLeft
-            )
-
-          inlineScroll = frame.scrollLeft + offset
-        }
+        inlineScroll =
+          viewport === frame
+            ? viewportX + targetInline - viewportWidth / 2
+            : frame.scrollLeft -
+              (frameRect.left + frameRect.width / 2 - targetInline)
       }
       if (inline === 'end') {
         if (viewport === frame) {
