@@ -27,11 +27,12 @@ function defaultBehavior(
   behavior: ScrollBehavior = 'auto'
 ) {
   const viewport = getViewport()
+  const canSmoothScroll = 'scrollBehavior' in document.body.style
 
   actions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     // and guard window.scroll with supportsScrollBehavior
-    if (el.scroll && 'scrollBehavior' in viewport.style) {
+    if (el.scroll && canSmoothScroll) {
       el.scroll({ top, left, behavior })
     } else {
       if (el === viewport) {
