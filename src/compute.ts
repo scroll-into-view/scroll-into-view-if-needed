@@ -22,7 +22,6 @@ declare global {
 }
 
 import { CustomScrollAction, Options } from './types'
-import getViewport from './viewport'
 
 // @TODO better shadowdom test, 11 = document fragment
 function isElement(el: any) {
@@ -217,18 +216,17 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   }
 
   const targetRect = target.getBoundingClientRect()
-  const viewport = getViewport()
+  // Used to handle the top most element that can be scrolled
+  const scrollingElement = document.scrollingElement || document.documentElement
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
-
   let cursor = target
-
   while (isElement(cursor) && checkBoundary(cursor)) {
     // Move cursor to parent or shadow dom host
     cursor = cursor.parentNode || cursor.host
     // Stop when we reach the viewport
-    if (cursor === viewport) {
+    if (cursor === scrollingElement) {
       frames.push(cursor)
       break
     }
@@ -268,7 +266,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         return false
       }
 
-      if (frame === viewport) {
+      if (frame === scrollingElement) {
         if (targetRect.bottom > viewportHeight || targetRect.top < 0) {
           return false
         }
@@ -334,12 +332,15 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
 
       if (block === 'start') {
         blockScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportY + targetBlock
-            : targetBlock - frameRect.top - borderTop
+            : Math.min(
+                frame.scrollTop - (frameRect.top - targetBlock),
+                frame.scrollHeight - frameRect.height
+              ) - borderTop
       } else if (block === 'end') {
         blockScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportY + (targetBlock - viewportHeight)
             : frame.scrollTop -
               (frameRect.bottom - targetBlock) +
@@ -347,7 +348,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
               scrollbarHeight
       } else if (block === 'nearest') {
         blockScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportY +
               alignNearest(
                 viewportY,
@@ -373,7 +374,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       } else {
         // block === 'center' is the default
         blockScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportY + targetBlock - viewportHeight / 2
             : frame.scrollTop -
               (frameRect.top + frameRect.height / 2 - targetBlock)
@@ -381,18 +382,21 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
 
       if (inline === 'start') {
         inlineScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportX + targetInline
-            : frame.scrollLeft + (targetInline - frameRect.left) - borderLeft
+            : Math.min(
+                frame.scrollLeft - (frameRect.left - targetInline),
+                frame.scrollWidth - frameRect.width
+              ) - borderLeft
       } else if (inline === 'center') {
         inlineScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportX + targetInline - viewportWidth / 2
             : frame.scrollLeft -
               (frameRect.left + frameRect.width / 2 - targetInline)
       } else if (inline === 'end') {
         inlineScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportX + (targetInline - viewportWidth)
             : frame.scrollLeft -
               (frameRect.right - targetInline) +
@@ -401,7 +405,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       } else {
         // inline === 'nearest' is the default
         inlineScroll =
-          viewport === frame
+          scrollingElement === frame
             ? viewportX +
               alignNearest(
                 viewportX,
