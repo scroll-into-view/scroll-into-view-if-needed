@@ -15,7 +15,6 @@ exports.config = {
   },
 
   capabilities: [
-    { browser: 'chrome' },
     { browser: 'Safari', browser_version: '11.1' },
     { browser: 'firefox' },
     { browser: 'IE', browser_version: '11.0' },
