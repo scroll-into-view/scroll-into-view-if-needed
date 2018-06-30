@@ -44,7 +44,8 @@ function canOverflow(
 }
 
 function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
-  const style = getComputedStyle(el)
+  // Second argument must be null due to shadow dom elements
+  const style = getComputedStyle(el, null)
   return (
     (el.clientHeight < el.scrollHeight &&
       canOverflow(style.overflowY, skipOverflowHiddenElements)) ||
