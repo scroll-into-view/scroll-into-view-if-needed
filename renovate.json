@@ -11,5 +11,11 @@
   ],
   "devDependencies": {
     "extends": ":automergeMajor"
-  }
+  },
+  "packageRules": [
+    {
+      "paths": ["tests/**"],
+      "extends": [":semanticCommitTypeAll(chore)", ":automergeMajor"]
+    }
+  ]
 }
