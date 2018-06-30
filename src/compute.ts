@@ -278,24 +278,19 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     }
   }
 
-  // @TODO remove duplicate results
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
-    block === 'start'
-      ? targetRect.top
+    block === 'center'
+      ? targetRect.top + targetRect.height / 2
       : block === 'end'
         ? targetRect.bottom
-        : block === 'nearest'
-          ? targetRect.top
-          : targetRect.top + targetRect.height / 2 // block === 'center
+        : targetRect.top // block === 'start' || block === 'nearest'
   let targetInline: number =
-    inline === 'start'
-      ? targetRect.left
-      : inline === 'center'
-        ? targetRect.left + targetRect.width / 2
-        : inline === 'end'
-          ? targetRect.right
-          : targetRect.left // inline === 'nearest
+    inline === 'center'
+      ? targetRect.left + targetRect.width / 2
+      : inline === 'end'
+        ? targetRect.right
+        : targetRect.left // inline === 'start || inline === 'nearest
 
   // Collect new scroll positions
   const computations = frames.map(
