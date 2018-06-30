@@ -241,6 +241,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   // Browsers that don't support visualViewport will report the layout viewport dimensions on document.documentElement.clientWidth/Height
   // and viewport dimensions on window.innerWidth/Height
   // https://www.quirksmode.org/mobile/viewports2.html
+  // https://bokand.github.io/viewport/index.html
   const viewportWidth = window.visualViewport
     ? window.visualViewport.width
     : window.innerWidth

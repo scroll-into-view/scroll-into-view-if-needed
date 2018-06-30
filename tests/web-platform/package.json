@@ -4,7 +4,7 @@
     "browserstack": "wdio ./browserstack.conf.js",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "start": "serve -i cypress/ -p 3000",
-    "test": "cypress run --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
+    "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
   "dependencies": {
     "scroll-into-view-if-needed": "link:../..",
