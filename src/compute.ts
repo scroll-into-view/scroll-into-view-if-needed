@@ -8,13 +8,6 @@
 
 // add support for visualViewport object currently implemented in chrome
 declare global {
-  interface Window {
-    visualViewport?: {
-      height: number
-      width: number
-    }
-  }
-
   // @TODO better declaration of possible shadowdom hosts
   interface Element {
     host: any
@@ -235,15 +228,9 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     target = parent
   }
 
-  // Workaround Chrome's behavior on clientHeight/clientWidth after introducing visualViewport
-  // https://www.quirksmode.org/blog/archives/2016/02/chrome_change_b.html
   const viewport = getViewport()
-  const viewportWidth = window.visualViewport
-    ? window.visualViewport.width
-    : Math.min(viewport.clientWidth, window.innerWidth)
-  const viewportHeight = window.visualViewport
-    ? window.visualViewport.height
-    : Math.min(viewport.clientHeight, window.innerHeight)
+  const viewportWidth = window.innerWidth
+  const viewportHeight = window.innerHeight
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 
