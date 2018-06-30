@@ -281,6 +281,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     }
   }
 
+  const targetHeight = targetRect.height
+  const targetWidth = targetRect.width
   // @TODO remove duplicate results
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
@@ -290,12 +292,12 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         ? targetRect.bottom
         : block === 'nearest'
           ? targetRect.top
-          : targetRect.top + targetRect.height / 2 // block === 'center
+          : targetRect.top + targetHeight / 2 // block === 'center
   let targetInline: number =
     inline === 'start'
       ? targetRect.left
       : inline === 'center'
-        ? targetRect.left + targetRect.width / 2
+        ? targetRect.left + targetWidth / 2
         : inline === 'end'
           ? targetRect.right
           : targetRect.left // inline === 'nearest
@@ -357,8 +359,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 borderTop,
                 borderBottom,
                 viewportY + targetBlock,
-                viewportY + targetBlock + targetRect.height,
-                targetRect.height
+                viewportY + targetBlock + targetHeight,
+                targetHeight
               )
             : frame.scrollTop +
               alignNearest(
@@ -368,8 +370,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 borderTop,
                 borderBottom + scrollbarHeight,
                 targetBlock,
-                targetBlock + targetRect.height,
-                targetRect.height
+                targetBlock + targetHeight,
+                targetHeight
               )
       } else {
         // block === 'center' is the default
@@ -414,8 +416,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 borderLeft,
                 borderRight,
                 viewportX + targetInline,
-                viewportX + targetInline + targetRect.width,
-                targetRect.width
+                viewportX + targetInline + targetWidth,
+                targetWidth
               )
             : frame.scrollLeft +
               alignNearest(
@@ -425,8 +427,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 borderLeft,
                 borderRight + scrollbarWidth,
                 targetInline,
-                targetInline + targetRect.width,
-                targetRect.width
+                targetInline + targetWidth,
+                targetWidth
               )
       }
 
