@@ -33,28 +33,25 @@ function isElement(el: any) {
 }
 
 function canOverflow(
-  el: Element,
-  axis: 'overflowY' | 'overflowX',
+  overflow: string | null,
   skipOverflowHiddenElements?: boolean
 ) {
-  const overflowValue = getComputedStyle(el, null)[axis]
-
-  if (skipOverflowHiddenElements && overflowValue === 'hidden') {
+  if (skipOverflowHiddenElements && overflow === 'hidden') {
     return false
   }
 
-  return overflowValue !== 'visible' && overflowValue !== 'clip'
+  return overflow !== 'visible' && overflow !== 'clip'
 }
 
 function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
+  const style = getComputedStyle(el)
   return (
     (el.clientHeight < el.scrollHeight &&
-      canOverflow(el, 'overflowY', skipOverflowHiddenElements)) ||
+      canOverflow(style.overflowY, skipOverflowHiddenElements)) ||
     (el.clientWidth < el.scrollWidth &&
-      canOverflow(el, 'overflowX', skipOverflowHiddenElements))
+      canOverflow(style.overflowX, skipOverflowHiddenElements))
   )
 }
-
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
  * Interesting fact: "nearest" works similarily to "if-needed", if the element is fully visible it will not scroll it
