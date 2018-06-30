@@ -12,5 +12,10 @@
   "devDependencies": {
     "extends": ":automergeMajor"
   },
-  "includePaths": [".", "./tests/web-platform"]
+  "packageRules": [
+    {
+      "paths": ["tests/**"],
+      "extends": [":semanticCommitTypeAll(chore)", ":automergeMajor"]
+    }
+  ]
 }
