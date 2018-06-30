@@ -257,12 +257,12 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   if (scrollMode === 'if-needed') {
     // @TODO optimize, as getBoundingClientRect is also called from computations loop
     const isVisible = frames.every(frame => {
-      const frameRect = frame.getBoundingClientRect()
+      const rect = frame.getBoundingClientRect()
 
-      if (targetRect.top < frameRect.top) {
+      if (targetRect.top < rect.top) {
         return false
       }
-      if (targetRect.bottom > frameRect.bottom) {
+      if (targetRect.bottom > rect.bottom) {
         return false
       }
 
@@ -281,8 +281,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     }
   }
 
-  const targetHeight = targetRect.height
-  const targetWidth = targetRect.width
+  const { height: targetHeight, width: targetWidth } = targetRect
   // @TODO remove duplicate results
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
@@ -328,6 +327,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
             borderTop -
             borderBottom
           : 0
+      const { scrollTop, scrollHeight, scrollLeft, scrollWidth } = frame
+      const { top, height, bottom, left, width, right } = frameRect
 
       let blockScroll: number = 0
       let inlineScroll: number = 0
@@ -336,16 +337,14 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         blockScroll =
           scrollingElement === frame
             ? viewportY + targetBlock
-            : Math.min(
-                frame.scrollTop - (frameRect.top - targetBlock),
-                frame.scrollHeight - frameRect.height
-              ) - borderTop
+            : Math.min(scrollTop - (top - targetBlock), scrollHeight - height) -
+              borderTop
       } else if (block === 'end') {
         blockScroll =
           scrollingElement === frame
             ? viewportY + (targetBlock - viewportHeight)
-            : frame.scrollTop -
-              (frameRect.bottom - targetBlock) +
+            : scrollTop -
+              (bottom - targetBlock) +
               borderBottom +
               scrollbarHeight
       } else if (block === 'nearest') {
@@ -362,11 +361,11 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 viewportY + targetBlock + targetHeight,
                 targetHeight
               )
-            : frame.scrollTop +
+            : scrollTop +
               alignNearest(
-                frameRect.top,
-                frameRect.bottom,
-                frameRect.height,
+                top,
+                bottom,
+                height,
                 borderTop,
                 borderBottom + scrollbarHeight,
                 targetBlock,
@@ -378,8 +377,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         blockScroll =
           scrollingElement === frame
             ? viewportY + targetBlock - viewportHeight / 2
-            : frame.scrollTop -
-              (frameRect.top + frameRect.height / 2 - targetBlock)
+            : scrollTop - (top + height / 2 - targetBlock)
       }
 
       if (inline === 'start') {
@@ -387,23 +385,19 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           scrollingElement === frame
             ? viewportX + targetInline
             : Math.min(
-                frame.scrollLeft - (frameRect.left - targetInline),
-                frame.scrollWidth - frameRect.width
+                scrollLeft - (left - targetInline),
+                scrollWidth - width
               ) - borderLeft
       } else if (inline === 'center') {
         inlineScroll =
           scrollingElement === frame
             ? viewportX + targetInline - viewportWidth / 2
-            : frame.scrollLeft -
-              (frameRect.left + frameRect.width / 2 - targetInline)
+            : scrollLeft - (left + width / 2 - targetInline)
       } else if (inline === 'end') {
         inlineScroll =
           scrollingElement === frame
             ? viewportX + (targetInline - viewportWidth)
-            : frame.scrollLeft -
-              (frameRect.right - targetInline) +
-              borderRight +
-              scrollbarWidth
+            : scrollLeft - (right - targetInline) + borderRight + scrollbarWidth
       } else {
         // inline === 'nearest' is the default
         inlineScroll =
@@ -419,11 +413,11 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
                 viewportX + targetInline + targetWidth,
                 targetWidth
               )
-            : frame.scrollLeft +
+            : scrollLeft +
               alignNearest(
-                frameRect.left,
-                frameRect.right,
-                frameRect.width,
+                left,
+                right,
+                width,
                 borderLeft,
                 borderRight + scrollbarWidth,
                 targetInline,
@@ -433,8 +427,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       }
 
       // Cache the offset so that parent frames can scroll this into view correctly
-      targetBlock += frame.scrollTop - blockScroll
-      targetInline += frame.scrollLeft - inlineScroll
+      targetBlock += scrollTop - blockScroll
+      targetInline += scrollLeft - inlineScroll
 
       return { el: frame, top: blockScroll, left: inlineScroll }
     }
