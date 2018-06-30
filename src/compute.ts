@@ -8,6 +8,13 @@
 
 // add support for visualViewport object currently implemented in chrome
 declare global {
+  interface Window {
+    visualViewport?: {
+      height: number
+      width: number
+    }
+  }
+
   // @TODO better declaration of possible shadowdom hosts
   interface Element {
     host: any
@@ -229,8 +236,19 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   }
 
   const viewport = getViewport()
-  const viewportWidth = window.innerWidth
-  const viewportHeight = window.innerHeight
+
+  // Support pinch-zooming properly, making sure elements scroll into the visual viewport
+  // Browsers that don't support visualViewport will report the layout viewport dimensions on document.documentElement.clientWidth/Height
+  // and viewport dimensions on window.innerWidth/Height
+  // https://www.quirksmode.org/mobile/viewports2.html
+  const viewportWidth = window.visualViewport
+    ? window.visualViewport.width
+    : window.innerWidth
+  const viewportHeight = window.visualViewport
+    ? window.visualViewport.height
+    : window.innerHeight
+
+  // Newer browsers supports scroll[X|Y], page[X|Y]Offset is
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 

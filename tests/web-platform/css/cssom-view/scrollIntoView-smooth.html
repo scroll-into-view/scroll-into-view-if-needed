@@ -11,8 +11,8 @@
 <script>
 var content_height = 500;
 var content_width = 500;
-var window_height = window.innerHeight;
-var window_width = window.innerWidth;
+var window_height = document.scrollingElement.clientHeight;
+var window_width = document.scrollingElement.clientWidth;
 var content = document.getElementById("content");
 add_completion_callback(() => document.getElementById("container").remove());
 
