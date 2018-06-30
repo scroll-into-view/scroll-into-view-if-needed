@@ -11,5 +11,6 @@
   ],
   "devDependencies": {
     "extends": ":automergeMajor"
-  }
+  },
+  "includePaths": [".", "./tests/web-platform"]
 }
