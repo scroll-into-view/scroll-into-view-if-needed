@@ -1,16 +1,5 @@
-// memoize for perf
-let viewport: HTMLElement
-
 // return the current viewport depending on wether quirks mode is active or not
-export default () => {
-  const doc = document
-
-  if (!viewport) {
-    viewport =
-      (doc.compatMode !== 'CSS1Compat' &&
-        (doc.scrollingElement as HTMLElement)) ||
-      doc.documentElement
-  }
-
-  return viewport
+export default function viewport() {
+  // @TODO add note to README: if using IE and the document is in quirks mode a polyfill for scrollingElement is required
+  return document.scrollingElement || document.documentElement
 }
