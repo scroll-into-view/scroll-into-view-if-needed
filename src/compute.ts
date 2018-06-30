@@ -243,11 +243,11 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   // https://www.quirksmode.org/mobile/viewports2.html
   // https://bokand.github.io/viewport/index.html
   const viewportWidth = window.visualViewport
-    ? window.visualViewport.width
-    : window.innerWidth
-  const viewportHeight = window.visualViewport
-    ? window.visualViewport.height
-    : window.innerHeight
+      ? window.visualViewport.width
+      : window.innerWidth,
+    viewportHeight = window.visualViewport
+      ? window.visualViewport.height
+      : window.innerHeight
 
   // Newer browsers supports scroll[X|Y], page[X|Y]Offset is
   const viewportX = window.scrollX || window.pageXOffset
