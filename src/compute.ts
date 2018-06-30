@@ -49,7 +49,6 @@ function canOverflow(
 
 function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
   return (
-    el === getViewport() ||
     (el.clientHeight < el.scrollHeight &&
       canOverflow(el, 'overflowY', skipOverflowHiddenElements)) ||
     (el.clientWidth < el.scrollWidth &&
@@ -218,24 +217,27 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   }
 
   const targetRect = target.getBoundingClientRect()
+  const viewport = getViewport()
 
   // Collect all the scrolling boxes, as defined in the spec: https://drafts.csswg.org/cssom-view/#scrolling-box
   const frames: Element[] = []
-  let parent
-  // @TODO have a better shadowdom test here
-  while (
-    isElement((parent = target.parentNode || target.host)) &&
-    checkBoundary(target)
-  ) {
-    if (isScrollable(parent, skipOverflowHiddenElements)) {
-      frames.push(parent)
+
+  let cursor = target
+
+  while (isElement(cursor) && checkBoundary(cursor)) {
+    // Move cursor to parent or shadow dom host
+    cursor = cursor.parentNode || cursor.host
+    // Stop when we reach the viewport
+    if (cursor === viewport) {
+      frames.push(cursor)
+      break
     }
 
-    // next tick
-    target = parent
+    // Now we check if the element is scrollable, this code only runs if the loop haven't already hit the viewport or a custom boundary
+    if (isScrollable(cursor, skipOverflowHiddenElements)) {
+      frames.push(cursor)
+    }
   }
-
-  const viewport = getViewport()
 
   // Support pinch-zooming properly, making sure elements scroll into the visual viewport
   // Browsers that don't support visualViewport will report the layout viewport dimensions on document.documentElement.clientWidth/Height
