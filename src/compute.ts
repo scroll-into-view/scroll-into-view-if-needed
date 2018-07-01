@@ -381,7 +381,9 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         } else if (block === 'end') {
           blockScroll =
             frame.scrollTop +
-            (targetBlock - frameRect.bottom - borderBottom - scrollbarHeight)
+            (targetBlock - frameRect.bottom) +
+            borderBottom +
+            scrollbarHeight
         } else if (block === 'nearest') {
           blockScroll =
             frame.scrollTop +
@@ -398,8 +400,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         } else {
           // block === 'center' is the default
           blockScroll =
-            frame.scrollTop -
-            (frameRect.top + frameRect.height / 2 - targetBlock) +
+            frame.scrollTop +
+            (targetBlock - (frameRect.top + frameRect.height / 2)) +
             scrollbarHeight / 2
         }
 
