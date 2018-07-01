@@ -253,8 +253,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 
-  const targetHeight = targetRect.height
-  const targetWidth = targetRect.width
+  const { height: targetHeight, width: targetWidth } = targetRect
 
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
