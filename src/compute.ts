@@ -283,11 +283,11 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
 
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
-    block === 'center'
-      ? targetRect.top + targetRect.height / 2
+    block === 'start' || block === 'nearest'
+      ? targetRect.top
       : block === 'end'
         ? targetRect.bottom
-        : targetRect.top // block === 'start' || block === 'nearest'
+        : targetRect.top + targetRect.height / 2 // block === 'center
   let targetInline: number =
     inline === 'center'
       ? targetRect.left + targetRect.width / 2
@@ -369,7 +369,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           scrollingElement === frame
             ? viewportY + targetBlock - viewportHeight / 2
             : frame.scrollTop -
-              (frameRect.top + frameRect.height / 2 - targetBlock)
+              (frameRect.top + frameRect.height / 2 - targetBlock) +
+              scrollbarHeight / 2
       }
 
       if (inline === 'start') {
@@ -382,7 +383,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           scrollingElement === frame
             ? viewportX + targetInline - viewportWidth / 2
             : frame.scrollLeft -
-              (frameRect.left + frameRect.width / 2 - targetInline)
+              (frameRect.left + frameRect.width / 2 - targetInline) +
+              scrollbarWidth / 2
       } else if (inline === 'end') {
         inlineScroll =
           scrollingElement === frame
@@ -423,11 +425,17 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       if (scrollingElement !== frame) {
         blockScroll = Math.max(
           0,
-          Math.min(blockScroll, frame.scrollHeight - frameRect.height)
+          Math.min(
+            blockScroll,
+            frame.scrollHeight - frameRect.height + scrollbarHeight
+          )
         )
         inlineScroll = Math.max(
           0,
-          Math.min(inlineScroll, frame.scrollWidth - frameRect.width)
+          Math.min(
+            inlineScroll,
+            frame.scrollWidth - frameRect.width + scrollbarWidth
+          )
         )
       }
 
