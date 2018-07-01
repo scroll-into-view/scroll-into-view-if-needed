@@ -253,34 +253,6 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 
-  // If the element is already visible we can end it here
-  if (scrollMode === 'if-needed') {
-    // @TODO optimize, as getBoundingClientRect is also called from computations loop
-    const isVisible = frames.every(frame => {
-      const frameRect = frame.getBoundingClientRect()
-
-      if (targetRect.top < frameRect.top) {
-        return false
-      }
-      if (targetRect.bottom > frameRect.bottom) {
-        return false
-      }
-
-      if (frame === scrollingElement) {
-        if (targetRect.bottom > viewportHeight || targetRect.top < 0) {
-          return false
-        }
-        if (targetRect.left > viewportWidth || targetRect.right < 0) {
-          return false
-        }
-      }
-      return true
-    })
-    if (isVisible) {
-      return []
-    }
-  }
-
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
     block === 'start' || block === 'nearest'
@@ -300,8 +272,22 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   // In chrome there's no longer a difference between caching the `frames.length` to a var or not, so we don't in this case (size > speed anyways)
   for (let index = 0; index < frames.length; index++) {
     const frame = frames[index]
-
     const frameRect = frame.getBoundingClientRect()
+
+    // If the element is already visible we can end it here
+    if (scrollMode === 'if-needed') {
+      if (
+        frame === scrollingElement
+          ? targetRect.bottom <= viewportHeight &&
+            targetRect.top >= 0 &&
+            (targetRect.left <= viewportWidth && targetRect.right >= 0)
+          : targetRect.top >= frameRect.top &&
+            targetRect.bottom <= frameRect.bottom
+      ) {
+        // Break the loop and return the computations for things that are not fully visible
+        return computations
+      }
+    }
 
     const frameStyle = getComputedStyle(frame)
     const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
