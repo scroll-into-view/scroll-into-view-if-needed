@@ -419,6 +419,18 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
               )
       }
 
+      // Ensure scroll coordinates are not out of bounds
+      if (scrollingElement !== frame) {
+        blockScroll = Math.max(
+          0,
+          Math.min(blockScroll, frame.scrollHeight - frameRect.height)
+        )
+        inlineScroll = Math.max(
+          0,
+          Math.min(inlineScroll, frame.scrollWidth - frameRect.width)
+        )
+      }
+
       // Cache the offset so that parent frames can scroll this into view correctly
       targetBlock += frame.scrollTop - blockScroll
       targetInline += frame.scrollLeft - inlineScroll
