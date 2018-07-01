@@ -256,8 +256,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     : innerHeight
 
   // Newer browsers supports scroll[X|Y], page[X|Y]Offset is
-  const viewportX = scrollX || pageXOffset
-  const viewportY = scrollY || pageYOffset
+  const viewportX = window.scrollX || pageXOffset
+  const viewportY = window.scrollY || pageYOffset
 
   const {
     height: targetHeight,
