@@ -376,32 +376,26 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         // Handle each scrolling frame that might exist between the target and the viewport
 
         if (block === 'start') {
-          blockScroll =
-            frame.scrollTop + (targetBlock - frameRect.top - borderTop)
+          blockScroll = targetBlock - frameRect.top - borderTop
         } else if (block === 'end') {
           blockScroll =
-            frame.scrollTop +
-            (targetBlock - frameRect.bottom) +
-            borderBottom +
-            scrollbarHeight
+            targetBlock - frameRect.bottom + borderBottom + scrollbarHeight
         } else if (block === 'nearest') {
-          blockScroll =
-            frame.scrollTop +
-            alignNearest(
-              frameRect.top,
-              frameRect.bottom,
-              frameRect.height,
-              borderTop,
-              borderBottom + scrollbarHeight,
-              targetBlock,
-              targetBlock + targetRect.height,
-              targetRect.height
-            )
+          blockScroll = alignNearest(
+            frameRect.top,
+            frameRect.bottom,
+            frameRect.height,
+            borderTop,
+            borderBottom + scrollbarHeight,
+            targetBlock,
+            targetBlock + targetRect.height,
+            targetRect.height
+          )
         } else {
           // block === 'center' is the default
           blockScroll =
-            frame.scrollTop +
-            (targetBlock - (frameRect.top + frameRect.height / 2)) +
+            targetBlock -
+            (frameRect.top + frameRect.height / 2) +
             scrollbarHeight / 2
         }
 
@@ -435,26 +429,27 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
             )
         }
 
-        // Ensure scroll coordinates are not out of bounds
+        // Ensure scroll coordinates are not out of bounds while applying scroll offsets
         blockScroll = Math.max(
           0,
           Math.min(
-            blockScroll,
+            frame.scrollTop + blockScroll,
             frame.scrollHeight - frameRect.height + scrollbarHeight
           )
         )
         inlineScroll = Math.max(
           0,
           Math.min(
+            // frame.scrollLeft + inlineScroll,
             inlineScroll,
             frame.scrollWidth - frameRect.width + scrollbarWidth
           )
         )
-      }
 
-      // Cache the offset so that parent frames can scroll this into view correctly
-      targetBlock += frame.scrollTop - blockScroll
-      targetInline += frame.scrollLeft - inlineScroll
+        // Cache the offset so that parent frames can scroll this into view correctly
+        targetBlock += frame.scrollTop - blockScroll
+        targetInline += frame.scrollLeft - inlineScroll
+      }
 
       return { el: frame, top: blockScroll, left: inlineScroll }
     }
