@@ -327,6 +327,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           : 0
 
       if (scrollingElement === frame) {
+        // Handle viewport logic (document.documentElement or document.body)
+
         if (block === 'start') {
           blockScroll = viewportY + targetBlock
         } else if (block === 'end') {
@@ -371,6 +373,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
             )
         }
       } else {
+        // Handle each scrolling frame that might exist between the target and the viewport
+
         if (block === 'start') {
           blockScroll =
             frame.scrollTop + (targetBlock - frameRect.top - borderTop)
@@ -430,10 +434,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
               targetRect.width
             )
         }
-      }
 
-      // Ensure scroll coordinates are not out of bounds
-      if (scrollingElement !== frame) {
+        // Ensure scroll coordinates are not out of bounds
         blockScroll = Math.max(
           0,
           Math.min(
