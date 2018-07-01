@@ -330,48 +330,48 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         // Handle viewport logic (document.documentElement or document.body)
 
         if (block === 'start') {
-          blockScroll = viewportY + targetBlock
+          blockScroll = targetBlock
         } else if (block === 'end') {
-          blockScroll = viewportY + (targetBlock - viewportHeight)
+          blockScroll = targetBlock - viewportHeight
         } else if (block === 'nearest') {
-          blockScroll =
-            viewportY +
-            alignNearest(
-              viewportY,
-              viewportY + viewportHeight,
-              viewportHeight,
-              borderTop,
-              borderBottom,
-              viewportY + targetBlock,
-              viewportY + targetBlock + targetRect.height,
-              targetRect.height
-            )
+          blockScroll = alignNearest(
+            viewportY,
+            viewportY + viewportHeight,
+            viewportHeight,
+            borderTop,
+            borderBottom,
+            viewportY + targetBlock,
+            viewportY + targetBlock + targetRect.height,
+            targetRect.height
+          )
         } else {
           // block === 'center' is the default
-          blockScroll = viewportY + targetBlock - viewportHeight / 2
+          blockScroll = targetBlock - viewportHeight / 2
         }
 
         if (inline === 'start') {
-          inlineScroll = viewportX + targetInline
+          inlineScroll = targetInline
         } else if (inline === 'center') {
-          inlineScroll = viewportX + targetInline - viewportWidth / 2
+          inlineScroll = targetInline - viewportWidth / 2
         } else if (inline === 'end') {
-          inlineScroll = viewportX + (targetInline - viewportWidth)
+          inlineScroll = targetInline - viewportWidth
         } else {
           // inline === 'nearest' is the default
-          inlineScroll =
-            viewportX +
-            alignNearest(
-              viewportX,
-              viewportX + viewportWidth,
-              viewportWidth,
-              borderLeft,
-              borderRight,
-              viewportX + targetInline,
-              viewportX + targetInline + targetRect.width,
-              targetRect.width
-            )
+          inlineScroll = alignNearest(
+            viewportX,
+            viewportX + viewportWidth,
+            viewportWidth,
+            borderLeft,
+            borderRight,
+            viewportX + targetInline,
+            viewportX + targetInline + targetRect.width,
+            targetRect.width
+          )
         }
+
+        // Apply scroll position offsets
+        blockScroll += viewportY
+        inlineScroll += viewportX
       } else {
         // Handle each scrolling frame that might exist between the target and the viewport
 
@@ -400,33 +400,27 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         }
 
         if (inline === 'start') {
-          inlineScroll =
-            frame.scrollLeft + (targetInline - frameRect.left - borderLeft)
+          inlineScroll = targetInline - frameRect.left - borderLeft
         } else if (inline === 'center') {
           inlineScroll =
-            frame.scrollLeft -
-            (frameRect.left + frameRect.width / 2 - targetInline) +
+            targetInline -
+            (frameRect.left + frameRect.width / 2) +
             scrollbarWidth / 2
         } else if (inline === 'end') {
           inlineScroll =
-            frame.scrollLeft -
-            (frameRect.right - targetInline) +
-            borderRight +
-            scrollbarWidth
+            targetInline - frameRect.right + borderRight + scrollbarWidth
         } else {
           // inline === 'nearest' is the default
-          inlineScroll =
-            frame.scrollLeft +
-            alignNearest(
-              frameRect.left,
-              frameRect.right,
-              frameRect.width,
-              borderLeft,
-              borderRight + scrollbarWidth,
-              targetInline,
-              targetInline + targetRect.width,
-              targetRect.width
-            )
+          inlineScroll = alignNearest(
+            frameRect.left,
+            frameRect.right,
+            frameRect.width,
+            borderLeft,
+            borderRight + scrollbarWidth,
+            targetInline,
+            targetInline + targetRect.width,
+            targetRect.width
+          )
         }
 
         // Ensure scroll coordinates are not out of bounds while applying scroll offsets
@@ -440,8 +434,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         inlineScroll = Math.max(
           0,
           Math.min(
-            // frame.scrollLeft + inlineScroll,
-            inlineScroll,
+            frame.scrollLeft + inlineScroll,
             frame.scrollWidth - frameRect.width + scrollbarWidth
           )
         )
