@@ -15,8 +15,7 @@
     "compute.js",
     "es",
     "typings",
-    "umd",
-    "viewport.js"
+    "umd"
   ],
   "scripts": {
     "prebuild": "yarn clean",
@@ -86,7 +85,7 @@
   "bundlesize": [
     {
       "path": "./umd/scroll-into-view-if-needed.min.js",
-      "maxSize": "4 kB",
+      "maxSize": "3 kB",
       "compression": "none"
     }
   ],

@@ -4,7 +4,11 @@
   "jsRules": {},
   "rules": {
     "interface-name": [true, "never-prefix"],
-    "no-console": [true]
+    "no-console": [true],
+    "one-variable-per-declaration": [false],
+    "prefer-for-of": [false],
+    "class-name": [false],
+    "interface-over-type-literal": [false]
   },
   "rulesDirectory": []
 }

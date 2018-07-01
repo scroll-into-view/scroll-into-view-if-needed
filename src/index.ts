@@ -5,7 +5,6 @@ import {
   Options as BaseOptions,
   ScrollBehavior,
 } from './types'
-import getViewport from './viewport'
 
 export interface StandardBehaviorOptions extends BaseOptions {
   behavior?: ScrollBehavior
@@ -26,20 +25,16 @@ function defaultBehavior(
   actions: CustomScrollAction[],
   behavior: ScrollBehavior = 'auto'
 ) {
-  const viewport = getViewport()
+  const canSmoothScroll = 'scrollBehavior' in document.body.style
 
   actions.forEach(({ el, top, left }) => {
     // browser implements the new Element.prototype.scroll API that supports `behavior`
     // and guard window.scroll with supportsScrollBehavior
-    if (el.scroll && 'scrollBehavior' in viewport.style) {
+    if (el.scroll && canSmoothScroll) {
       el.scroll({ top, left, behavior })
     } else {
-      if (el === viewport) {
-        scrollTo(left, top)
-      } else {
-        el.scrollTop = top
-        el.scrollLeft = left
-      }
+      el.scrollTop = top
+      el.scrollLeft = left
     }
   })
 }
