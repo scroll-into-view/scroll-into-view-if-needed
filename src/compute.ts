@@ -253,16 +253,19 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 
+  const targetHeight = targetRect.height
+  const targetWidth = targetRect.width
+
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
     block === 'start' || block === 'nearest'
       ? targetRect.top
       : block === 'end'
         ? targetRect.bottom
-        : targetRect.top + targetRect.height / 2 // block === 'center
+        : targetRect.top + targetHeight / 2 // block === 'center
   let targetInline: number =
     inline === 'center'
-      ? targetRect.left + targetRect.width / 2
+      ? targetRect.left + targetWidth / 2
       : inline === 'end'
         ? targetRect.right
         : targetRect.left // inline === 'start || inline === 'nearest
@@ -330,8 +333,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           borderTop,
           borderBottom,
           viewportY + targetBlock,
-          viewportY + targetBlock + targetRect.height,
-          targetRect.height
+          viewportY + targetBlock + targetHeight,
+          targetHeight
         )
       } else {
         // block === 'center' is the default
@@ -353,8 +356,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           borderLeft,
           borderRight,
           viewportX + targetInline,
-          viewportX + targetInline + targetRect.width,
-          targetRect.width
+          viewportX + targetInline + targetWidth,
+          targetWidth
         )
       }
 
@@ -377,8 +380,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           borderTop,
           borderBottom + scrollbarHeight,
           targetBlock,
-          targetBlock + targetRect.height,
-          targetRect.height
+          targetBlock + targetHeight,
+          targetHeight
         )
       } else {
         // block === 'center' is the default
@@ -407,8 +410,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           borderLeft,
           borderRight + scrollbarWidth,
           targetInline,
-          targetInline + targetRect.width,
-          targetRect.width
+          targetInline + targetWidth,
+          targetWidth
         )
       }
 
