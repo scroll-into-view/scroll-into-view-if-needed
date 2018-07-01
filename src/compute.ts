@@ -280,7 +280,14 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   // In chrome there's no longer a difference between caching the `frames.length` to a var or not, so we don't in this case (size > speed anyways)
   for (let index = 0; index < frames.length; index++) {
     const frame = frames[index]
-    const frameRect = frame.getBoundingClientRect()
+    const {
+      height,
+      width,
+      top,
+      right,
+      bottom,
+      left,
+    } = frame.getBoundingClientRect()
 
     // If the element is already visible we can end it here
     if (scrollMode === 'if-needed') {
@@ -289,7 +296,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
           ? targetBottom <= viewportHeight &&
             targetTop >= 0 &&
             (targetLeft <= viewportWidth && targetRight >= 0)
-          : targetTop >= frameRect.top && targetBottom <= frameRect.bottom
+          : targetTop >= top && targetBottom <= bottom
       ) {
         // Break the loop and return the computations for things that are not fully visible
         return computations
@@ -372,15 +379,14 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       // Handle each scrolling frame that might exist between the target and the viewport
 
       if (block === 'start') {
-        blockScroll = targetBlock - frameRect.top - borderTop
+        blockScroll = targetBlock - top - borderTop
       } else if (block === 'end') {
-        blockScroll =
-          targetBlock - frameRect.bottom + borderBottom + scrollbarHeight
+        blockScroll = targetBlock - bottom + borderBottom + scrollbarHeight
       } else if (block === 'nearest') {
         blockScroll = alignNearest(
-          frameRect.top,
-          frameRect.bottom,
-          frameRect.height,
+          top,
+          bottom,
+          height,
           borderTop,
           borderBottom + scrollbarHeight,
           targetBlock,
@@ -389,28 +395,21 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         )
       } else {
         // block === 'center' is the default
-        blockScroll =
-          targetBlock -
-          (frameRect.top + frameRect.height / 2) +
-          scrollbarHeight / 2
+        blockScroll = targetBlock - (top + height / 2) + scrollbarHeight / 2
       }
 
       if (inline === 'start') {
-        inlineScroll = targetInline - frameRect.left - borderLeft
+        inlineScroll = targetInline - left - borderLeft
       } else if (inline === 'center') {
-        inlineScroll =
-          targetInline -
-          (frameRect.left + frameRect.width / 2) +
-          scrollbarWidth / 2
+        inlineScroll = targetInline - (left + width / 2) + scrollbarWidth / 2
       } else if (inline === 'end') {
-        inlineScroll =
-          targetInline - frameRect.right + borderRight + scrollbarWidth
+        inlineScroll = targetInline - right + borderRight + scrollbarWidth
       } else {
         // inline === 'nearest' is the default
         inlineScroll = alignNearest(
-          frameRect.left,
-          frameRect.right,
-          frameRect.width,
+          left,
+          right,
+          width,
           borderLeft,
           borderRight + scrollbarWidth,
           targetInline,
@@ -424,18 +423,19 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         0,
         Math.min(
           frame.scrollTop + blockScroll,
-          frame.scrollHeight - frameRect.height + scrollbarHeight
+          frame.scrollHeight - height + scrollbarHeight
         )
       )
       inlineScroll = Math.max(
         0,
         Math.min(
           frame.scrollLeft + inlineScroll,
-          frame.scrollWidth - frameRect.width + scrollbarWidth
+          frame.scrollWidth - width + scrollbarWidth
         )
       )
 
       // Cache the offset so that parent frames can scroll this into view correctly
+      // @TODO eliminate scrollTop/Left duplicate logic
       targetBlock += frame.scrollTop - blockScroll
       targetInline += frame.scrollLeft - inlineScroll
     }
