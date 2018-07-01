@@ -214,7 +214,6 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     throw new Error('Element is required in scrollIntoView')
   }
 
-  const targetRect = target.getBoundingClientRect()
   // Used to handle the top most element that can be scrolled
   const scrollingElement = document.scrollingElement || document.documentElement
 
@@ -253,21 +252,28 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   const viewportX = window.scrollX || window.pageXOffset
   const viewportY = window.scrollY || window.pageYOffset
 
-  const { height: targetHeight, width: targetWidth } = targetRect
+  const {
+    height: targetHeight,
+    width: targetWidth,
+    top: targetTop,
+    right: targetRight,
+    bottom: targetBottom,
+    left: targetLeft,
+  } = target.getBoundingClientRect()
 
   // These values mutate as we loop through and generate scroll coordinates
   let targetBlock: number =
     block === 'start' || block === 'nearest'
-      ? targetRect.top
+      ? targetTop
       : block === 'end'
-        ? targetRect.bottom
-        : targetRect.top + targetHeight / 2 // block === 'center
+        ? targetBottom
+        : targetTop + targetHeight / 2 // block === 'center
   let targetInline: number =
     inline === 'center'
-      ? targetRect.left + targetWidth / 2
+      ? targetLeft + targetWidth / 2
       : inline === 'end'
-        ? targetRect.right
-        : targetRect.left // inline === 'start || inline === 'nearest
+        ? targetRight
+        : targetLeft // inline === 'start || inline === 'nearest
 
   // Collect new scroll positions
   const computations: CustomScrollAction[] = []
@@ -280,11 +286,10 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
     if (scrollMode === 'if-needed') {
       if (
         frame === scrollingElement
-          ? targetRect.bottom <= viewportHeight &&
-            targetRect.top >= 0 &&
-            (targetRect.left <= viewportWidth && targetRect.right >= 0)
-          : targetRect.top >= frameRect.top &&
-            targetRect.bottom <= frameRect.bottom
+          ? targetBottom <= viewportHeight &&
+            targetTop >= 0 &&
+            (targetLeft <= viewportWidth && targetRight >= 0)
+          : targetTop >= frameRect.top && targetBottom <= frameRect.bottom
       ) {
         // Break the loop and return the computations for things that are not fully visible
         return computations
