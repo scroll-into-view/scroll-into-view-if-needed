@@ -305,6 +305,10 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
       const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
       const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
+
+      let blockScroll: number = 0
+      let inlineScroll: number = 0
+
       // The property existance checks for offfset[Width|Height] is because only HTMLElement objects have them, but any Element might pass by here
       // @TODO find out if the "as HTMLElement" overrides can be dropped
       const scrollbarWidth =
@@ -322,103 +326,110 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
             borderBottom
           : 0
 
-      let blockScroll: number = 0
-      let inlineScroll: number = 0
+      if (scrollingElement === frame) {
+        if (block === 'start') {
+          blockScroll = viewportY + targetBlock
+        } else if (block === 'end') {
+          blockScroll = viewportY + (targetBlock - viewportHeight)
+        } else if (block === 'nearest') {
+          blockScroll =
+            viewportY +
+            alignNearest(
+              viewportY,
+              viewportY + viewportHeight,
+              viewportHeight,
+              borderTop,
+              borderBottom,
+              viewportY + targetBlock,
+              viewportY + targetBlock + targetRect.height,
+              targetRect.height
+            )
+        } else {
+          // block === 'center' is the default
+          blockScroll = viewportY + targetBlock - viewportHeight / 2
+        }
 
-      if (block === 'start') {
-        blockScroll =
-          scrollingElement === frame
-            ? viewportY + targetBlock
-            : frame.scrollTop + (targetBlock - frameRect.top - borderTop)
-      } else if (block === 'end') {
-        blockScroll =
-          scrollingElement === frame
-            ? viewportY + (targetBlock - viewportHeight)
-            : frame.scrollTop -
-              (frameRect.bottom - targetBlock) +
-              borderBottom +
-              scrollbarHeight
-      } else if (block === 'nearest') {
-        blockScroll =
-          scrollingElement === frame
-            ? viewportY +
-              alignNearest(
-                viewportY,
-                viewportY + viewportHeight,
-                viewportHeight,
-                borderTop,
-                borderBottom,
-                viewportY + targetBlock,
-                viewportY + targetBlock + targetRect.height,
-                targetRect.height
-              )
-            : frame.scrollTop +
-              alignNearest(
-                frameRect.top,
-                frameRect.bottom,
-                frameRect.height,
-                borderTop,
-                borderBottom + scrollbarHeight,
-                targetBlock,
-                targetBlock + targetRect.height,
-                targetRect.height
-              )
+        if (inline === 'start') {
+          inlineScroll = viewportX + targetInline
+        } else if (inline === 'center') {
+          inlineScroll = viewportX + targetInline - viewportWidth / 2
+        } else if (inline === 'end') {
+          inlineScroll = viewportX + (targetInline - viewportWidth)
+        } else {
+          // inline === 'nearest' is the default
+          inlineScroll =
+            viewportX +
+            alignNearest(
+              viewportX,
+              viewportX + viewportWidth,
+              viewportWidth,
+              borderLeft,
+              borderRight,
+              viewportX + targetInline,
+              viewportX + targetInline + targetRect.width,
+              targetRect.width
+            )
+        }
       } else {
-        // block === 'center' is the default
-        blockScroll =
-          scrollingElement === frame
-            ? viewportY + targetBlock - viewportHeight / 2
-            : frame.scrollTop -
-              (frameRect.top + frameRect.height / 2 - targetBlock) +
-              scrollbarHeight / 2
-      }
+        if (block === 'start') {
+          blockScroll =
+            frame.scrollTop + (targetBlock - frameRect.top - borderTop)
+        } else if (block === 'end') {
+          blockScroll =
+            frame.scrollTop -
+            (frameRect.bottom - targetBlock) +
+            borderBottom +
+            scrollbarHeight
+        } else if (block === 'nearest') {
+          blockScroll =
+            frame.scrollTop +
+            alignNearest(
+              frameRect.top,
+              frameRect.bottom,
+              frameRect.height,
+              borderTop,
+              borderBottom + scrollbarHeight,
+              targetBlock,
+              targetBlock + targetRect.height,
+              targetRect.height
+            )
+        } else {
+          // block === 'center' is the default
+          blockScroll =
+            frame.scrollTop -
+            (frameRect.top + frameRect.height / 2 - targetBlock) +
+            scrollbarHeight / 2
+        }
 
-      if (inline === 'start') {
-        inlineScroll =
-          scrollingElement === frame
-            ? viewportX + targetInline
-            : frame.scrollLeft + (targetInline - frameRect.left - borderLeft)
-      } else if (inline === 'center') {
-        inlineScroll =
-          scrollingElement === frame
-            ? viewportX + targetInline - viewportWidth / 2
-            : frame.scrollLeft -
-              (frameRect.left + frameRect.width / 2 - targetInline) +
-              scrollbarWidth / 2
-      } else if (inline === 'end') {
-        inlineScroll =
-          scrollingElement === frame
-            ? viewportX + (targetInline - viewportWidth)
-            : frame.scrollLeft -
-              (frameRect.right - targetInline) +
-              borderRight +
-              scrollbarWidth
-      } else {
-        // inline === 'nearest' is the default
-        inlineScroll =
-          scrollingElement === frame
-            ? viewportX +
-              alignNearest(
-                viewportX,
-                viewportX + viewportWidth,
-                viewportWidth,
-                borderLeft,
-                borderRight,
-                viewportX + targetInline,
-                viewportX + targetInline + targetRect.width,
-                targetRect.width
-              )
-            : frame.scrollLeft +
-              alignNearest(
-                frameRect.left,
-                frameRect.right,
-                frameRect.width,
-                borderLeft,
-                borderRight + scrollbarWidth,
-                targetInline,
-                targetInline + targetRect.width,
-                targetRect.width
-              )
+        if (inline === 'start') {
+          inlineScroll =
+            frame.scrollLeft + (targetInline - frameRect.left - borderLeft)
+        } else if (inline === 'center') {
+          inlineScroll =
+            frame.scrollLeft -
+            (frameRect.left + frameRect.width / 2 - targetInline) +
+            scrollbarWidth / 2
+        } else if (inline === 'end') {
+          inlineScroll =
+            frame.scrollLeft -
+            (frameRect.right - targetInline) +
+            borderRight +
+            scrollbarWidth
+        } else {
+          // inline === 'nearest' is the default
+          inlineScroll =
+            frame.scrollLeft +
+            alignNearest(
+              frameRect.left,
+              frameRect.right,
+              frameRect.width,
+              borderLeft,
+              borderRight + scrollbarWidth,
+              targetInline,
+              targetInline + targetRect.width,
+              targetRect.width
+            )
+        }
       }
 
       // Ensure scroll coordinates are not out of bounds
