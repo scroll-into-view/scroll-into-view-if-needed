@@ -375,39 +375,34 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
       } else {
         // Handle each scrolling frame that might exist between the target and the viewport
 
-        switch (block) {
-          case 'start':
-            blockScroll =
-              frame.scrollTop + (targetBlock - frameRect.top - borderTop)
-            break
-          case 'end':
-            blockScroll =
-              frame.scrollTop -
-              (frameRect.bottom - targetBlock) +
-              borderBottom +
-              scrollbarHeight
-            break
-          case 'nearest':
-            blockScroll =
-              frame.scrollTop +
-              alignNearest(
-                frameRect.top,
-                frameRect.bottom,
-                frameRect.height,
-                borderTop,
-                borderBottom + scrollbarHeight,
-                targetBlock,
-                targetBlock + targetRect.height,
-                targetRect.height
-              )
-            break
-          default:
-            // block === 'center' is the default
-            blockScroll =
-              frame.scrollTop -
-              (frameRect.top + frameRect.height / 2 - targetBlock) +
-              scrollbarHeight / 2
-            break
+        if (block === 'start') {
+          blockScroll =
+            frame.scrollTop + (targetBlock - frameRect.top - borderTop)
+        } else if (block === 'end') {
+          blockScroll =
+            frame.scrollTop -
+            (frameRect.bottom - targetBlock) +
+            borderBottom +
+            scrollbarHeight
+        } else if (block === 'nearest') {
+          blockScroll =
+            frame.scrollTop +
+            alignNearest(
+              frameRect.top,
+              frameRect.bottom,
+              frameRect.height,
+              borderTop,
+              borderBottom + scrollbarHeight,
+              targetBlock,
+              targetBlock + targetRect.height,
+              targetRect.height
+            )
+        } else {
+          // block === 'center' is the default
+          blockScroll =
+            frame.scrollTop -
+            (frameRect.top + frameRect.height / 2 - targetBlock) +
+            scrollbarHeight / 2
         }
 
         if (inline === 'start') {
