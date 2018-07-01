@@ -44,14 +44,13 @@ function canOverflow(
 }
 
 function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
-  // Second argument must be null due to shadow dom elements
-  const style = getComputedStyle(el, null)
-  return (
-    (el.clientHeight < el.scrollHeight &&
-      canOverflow(style.overflowY, skipOverflowHiddenElements)) ||
-    (el.clientWidth < el.scrollWidth &&
-      canOverflow(style.overflowX, skipOverflowHiddenElements))
-  )
+  if (el.clientHeight < el.scrollHeight || el.clientWidth < el.scrollWidth) {
+    const style = getComputedStyle(el, null)
+    return (
+      canOverflow(style.overflowY, skipOverflowHiddenElements) ||
+      canOverflow(style.overflowX, skipOverflowHiddenElements)
+    )
+  }
 }
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
@@ -223,6 +222,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   while (isElement(cursor) && checkBoundary(cursor)) {
     // Move cursor to parent or shadow dom host
     cursor = cursor.parentNode || cursor.host
+
     // Stop when we reach the viewport
     if (cursor === scrollingElement) {
       frames.push(cursor)
