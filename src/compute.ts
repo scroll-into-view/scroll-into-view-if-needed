@@ -425,26 +425,26 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         )
       }
 
+      const { scrollLeft, scrollTop } = frame
       // Ensure scroll coordinates are not out of bounds while applying scroll offsets
       blockScroll = Math.max(
         0,
         Math.min(
-          frame.scrollTop + blockScroll,
+          scrollTop + blockScroll,
           frame.scrollHeight - height + scrollbarHeight
         )
       )
       inlineScroll = Math.max(
         0,
         Math.min(
-          frame.scrollLeft + inlineScroll,
+          scrollLeft + inlineScroll,
           frame.scrollWidth - width + scrollbarWidth
         )
       )
 
       // Cache the offset so that parent frames can scroll this into view correctly
-      // @TODO eliminate scrollTop/Left duplicate logic
-      targetBlock += frame.scrollTop - blockScroll
-      targetInline += frame.scrollLeft - inlineScroll
+      targetBlock += scrollTop - blockScroll
+      targetInline += scrollLeft - inlineScroll
     }
 
     computations.push({ el: frame, top: blockScroll, left: inlineScroll })
