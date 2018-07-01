@@ -296,157 +296,159 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         : targetRect.left // inline === 'start || inline === 'nearest
 
   // Collect new scroll positions
-  const computations = frames.map(
-    (frame): CustomScrollAction => {
-      const frameRect = frame.getBoundingClientRect()
+  const computations: CustomScrollAction[] = []
+  // In chrome there's no longer a difference between caching the `frames.length` to a var or not, so we don't in this case (size > speed anyways)
+  for (let index = 0; index < frames.length; index++) {
+    const frame = frames[index]
 
-      const frameStyle = getComputedStyle(frame)
-      const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
-      const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
-      const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
-      const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
+    const frameRect = frame.getBoundingClientRect()
 
-      let blockScroll: number = 0
-      let inlineScroll: number = 0
+    const frameStyle = getComputedStyle(frame)
+    const borderLeft = parseInt(frameStyle.borderLeftWidth as string, 10)
+    const borderTop = parseInt(frameStyle.borderTopWidth as string, 10)
+    const borderRight = parseInt(frameStyle.borderRightWidth as string, 10)
+    const borderBottom = parseInt(frameStyle.borderBottomWidth as string, 10)
 
-      // The property existance checks for offfset[Width|Height] is because only HTMLElement objects have them, but any Element might pass by here
-      // @TODO find out if the "as HTMLElement" overrides can be dropped
-      const scrollbarWidth =
-        'offsetWidth' in frame
-          ? (frame as HTMLElement).offsetWidth -
-            (frame as HTMLElement).clientWidth -
-            borderLeft -
-            borderRight
-          : 0
-      const scrollbarHeight =
-        'offsetHeight' in frame
-          ? (frame as HTMLElement).offsetHeight -
-            (frame as HTMLElement).clientHeight -
-            borderTop -
-            borderBottom
-          : 0
+    let blockScroll: number = 0
+    let inlineScroll: number = 0
 
-      if (scrollingElement === frame) {
-        // Handle viewport logic (document.documentElement or document.body)
+    // The property existance checks for offfset[Width|Height] is because only HTMLElement objects have them, but any Element might pass by here
+    // @TODO find out if the "as HTMLElement" overrides can be dropped
+    const scrollbarWidth =
+      'offsetWidth' in frame
+        ? (frame as HTMLElement).offsetWidth -
+          (frame as HTMLElement).clientWidth -
+          borderLeft -
+          borderRight
+        : 0
+    const scrollbarHeight =
+      'offsetHeight' in frame
+        ? (frame as HTMLElement).offsetHeight -
+          (frame as HTMLElement).clientHeight -
+          borderTop -
+          borderBottom
+        : 0
 
-        if (block === 'start') {
-          blockScroll = targetBlock
-        } else if (block === 'end') {
-          blockScroll = targetBlock - viewportHeight
-        } else if (block === 'nearest') {
-          blockScroll = alignNearest(
-            viewportY,
-            viewportY + viewportHeight,
-            viewportHeight,
-            borderTop,
-            borderBottom,
-            viewportY + targetBlock,
-            viewportY + targetBlock + targetRect.height,
-            targetRect.height
-          )
-        } else {
-          // block === 'center' is the default
-          blockScroll = targetBlock - viewportHeight / 2
-        }
+    if (scrollingElement === frame) {
+      // Handle viewport logic (document.documentElement or document.body)
 
-        if (inline === 'start') {
-          inlineScroll = targetInline
-        } else if (inline === 'center') {
-          inlineScroll = targetInline - viewportWidth / 2
-        } else if (inline === 'end') {
-          inlineScroll = targetInline - viewportWidth
-        } else {
-          // inline === 'nearest' is the default
-          inlineScroll = alignNearest(
-            viewportX,
-            viewportX + viewportWidth,
-            viewportWidth,
-            borderLeft,
-            borderRight,
-            viewportX + targetInline,
-            viewportX + targetInline + targetRect.width,
-            targetRect.width
-          )
-        }
-
-        // Apply scroll position offsets
-        blockScroll += viewportY
-        inlineScroll += viewportX
+      if (block === 'start') {
+        blockScroll = targetBlock
+      } else if (block === 'end') {
+        blockScroll = targetBlock - viewportHeight
+      } else if (block === 'nearest') {
+        blockScroll = alignNearest(
+          viewportY,
+          viewportY + viewportHeight,
+          viewportHeight,
+          borderTop,
+          borderBottom,
+          viewportY + targetBlock,
+          viewportY + targetBlock + targetRect.height,
+          targetRect.height
+        )
       } else {
-        // Handle each scrolling frame that might exist between the target and the viewport
-
-        if (block === 'start') {
-          blockScroll = targetBlock - frameRect.top - borderTop
-        } else if (block === 'end') {
-          blockScroll =
-            targetBlock - frameRect.bottom + borderBottom + scrollbarHeight
-        } else if (block === 'nearest') {
-          blockScroll = alignNearest(
-            frameRect.top,
-            frameRect.bottom,
-            frameRect.height,
-            borderTop,
-            borderBottom + scrollbarHeight,
-            targetBlock,
-            targetBlock + targetRect.height,
-            targetRect.height
-          )
-        } else {
-          // block === 'center' is the default
-          blockScroll =
-            targetBlock -
-            (frameRect.top + frameRect.height / 2) +
-            scrollbarHeight / 2
-        }
-
-        if (inline === 'start') {
-          inlineScroll = targetInline - frameRect.left - borderLeft
-        } else if (inline === 'center') {
-          inlineScroll =
-            targetInline -
-            (frameRect.left + frameRect.width / 2) +
-            scrollbarWidth / 2
-        } else if (inline === 'end') {
-          inlineScroll =
-            targetInline - frameRect.right + borderRight + scrollbarWidth
-        } else {
-          // inline === 'nearest' is the default
-          inlineScroll = alignNearest(
-            frameRect.left,
-            frameRect.right,
-            frameRect.width,
-            borderLeft,
-            borderRight + scrollbarWidth,
-            targetInline,
-            targetInline + targetRect.width,
-            targetRect.width
-          )
-        }
-
-        // Ensure scroll coordinates are not out of bounds while applying scroll offsets
-        blockScroll = Math.max(
-          0,
-          Math.min(
-            frame.scrollTop + blockScroll,
-            frame.scrollHeight - frameRect.height + scrollbarHeight
-          )
-        )
-        inlineScroll = Math.max(
-          0,
-          Math.min(
-            frame.scrollLeft + inlineScroll,
-            frame.scrollWidth - frameRect.width + scrollbarWidth
-          )
-        )
-
-        // Cache the offset so that parent frames can scroll this into view correctly
-        targetBlock += frame.scrollTop - blockScroll
-        targetInline += frame.scrollLeft - inlineScroll
+        // block === 'center' is the default
+        blockScroll = targetBlock - viewportHeight / 2
       }
 
-      return { el: frame, top: blockScroll, left: inlineScroll }
+      if (inline === 'start') {
+        inlineScroll = targetInline
+      } else if (inline === 'center') {
+        inlineScroll = targetInline - viewportWidth / 2
+      } else if (inline === 'end') {
+        inlineScroll = targetInline - viewportWidth
+      } else {
+        // inline === 'nearest' is the default
+        inlineScroll = alignNearest(
+          viewportX,
+          viewportX + viewportWidth,
+          viewportWidth,
+          borderLeft,
+          borderRight,
+          viewportX + targetInline,
+          viewportX + targetInline + targetRect.width,
+          targetRect.width
+        )
+      }
+
+      // Apply scroll position offsets
+      blockScroll += viewportY
+      inlineScroll += viewportX
+    } else {
+      // Handle each scrolling frame that might exist between the target and the viewport
+
+      if (block === 'start') {
+        blockScroll = targetBlock - frameRect.top - borderTop
+      } else if (block === 'end') {
+        blockScroll =
+          targetBlock - frameRect.bottom + borderBottom + scrollbarHeight
+      } else if (block === 'nearest') {
+        blockScroll = alignNearest(
+          frameRect.top,
+          frameRect.bottom,
+          frameRect.height,
+          borderTop,
+          borderBottom + scrollbarHeight,
+          targetBlock,
+          targetBlock + targetRect.height,
+          targetRect.height
+        )
+      } else {
+        // block === 'center' is the default
+        blockScroll =
+          targetBlock -
+          (frameRect.top + frameRect.height / 2) +
+          scrollbarHeight / 2
+      }
+
+      if (inline === 'start') {
+        inlineScroll = targetInline - frameRect.left - borderLeft
+      } else if (inline === 'center') {
+        inlineScroll =
+          targetInline -
+          (frameRect.left + frameRect.width / 2) +
+          scrollbarWidth / 2
+      } else if (inline === 'end') {
+        inlineScroll =
+          targetInline - frameRect.right + borderRight + scrollbarWidth
+      } else {
+        // inline === 'nearest' is the default
+        inlineScroll = alignNearest(
+          frameRect.left,
+          frameRect.right,
+          frameRect.width,
+          borderLeft,
+          borderRight + scrollbarWidth,
+          targetInline,
+          targetInline + targetRect.width,
+          targetRect.width
+        )
+      }
+
+      // Ensure scroll coordinates are not out of bounds while applying scroll offsets
+      blockScroll = Math.max(
+        0,
+        Math.min(
+          frame.scrollTop + blockScroll,
+          frame.scrollHeight - frameRect.height + scrollbarHeight
+        )
+      )
+      inlineScroll = Math.max(
+        0,
+        Math.min(
+          frame.scrollLeft + inlineScroll,
+          frame.scrollWidth - frameRect.width + scrollbarWidth
+        )
+      )
+
+      // Cache the offset so that parent frames can scroll this into view correctly
+      targetBlock += frame.scrollTop - blockScroll
+      targetInline += frame.scrollLeft - inlineScroll
     }
-  )
+
+    computations.push({ el: frame, top: blockScroll, left: inlineScroll })
+  }
 
   return computations
 }
