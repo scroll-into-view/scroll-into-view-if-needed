@@ -7,6 +7,13 @@
 // For a definition on what is "block flow direction" exactly, check this: https://drafts.csswg.org/css-writing-modes-4/#block-flow-direction
 
 // add support for visualViewport object currently implemented in chrome
+interface visualViewport {
+  height: number
+  width: number
+}
+
+declare var visualViewport: visualViewport
+
 declare global {
   interface Window {
     visualViewport?: {
@@ -242,15 +249,15 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
   // https://www.quirksmode.org/mobile/viewports2.html
   // https://bokand.github.io/viewport/index.html
   const viewportWidth = window.visualViewport
-    ? window.visualViewport.width
-    : window.innerWidth
+    ? visualViewport.width
+    : innerWidth
   const viewportHeight = window.visualViewport
-    ? window.visualViewport.height
-    : window.innerHeight
+    ? visualViewport.height
+    : innerHeight
 
   // Newer browsers supports scroll[X|Y], page[X|Y]Offset is
-  const viewportX = window.scrollX || window.pageXOffset
-  const viewportY = window.scrollY || window.pageYOffset
+  const viewportX = scrollX || pageXOffset
+  const viewportY = scrollY || pageYOffset
 
   const {
     height: targetHeight,
