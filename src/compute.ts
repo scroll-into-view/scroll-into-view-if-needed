@@ -380,10 +380,8 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
             frame.scrollTop + (targetBlock - frameRect.top - borderTop)
         } else if (block === 'end') {
           blockScroll =
-            frame.scrollTop -
-            (frameRect.bottom - targetBlock) +
-            borderBottom +
-            scrollbarHeight
+            frame.scrollTop +
+            (targetBlock - frameRect.bottom - borderBottom - scrollbarHeight)
         } else if (block === 'nearest') {
           blockScroll =
             frame.scrollTop +
