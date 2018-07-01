@@ -329,10 +329,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         blockScroll =
           scrollingElement === frame
             ? viewportY + targetBlock
-            : Math.min(
-                frame.scrollTop - (frameRect.top - targetBlock),
-                frame.scrollHeight - frameRect.height
-              ) - borderTop
+            : frame.scrollTop + (targetBlock - frameRect.top - borderTop)
       } else if (block === 'end') {
         blockScroll =
           scrollingElement === frame
@@ -379,10 +376,7 @@ export default (target: Element, options: Options): CustomScrollAction[] => {
         inlineScroll =
           scrollingElement === frame
             ? viewportX + targetInline
-            : Math.min(
-                frame.scrollLeft - (frameRect.left - targetInline),
-                frame.scrollWidth - frameRect.width
-              ) - borderLeft
+            : frame.scrollLeft + (targetInline - frameRect.left - borderLeft)
       } else if (inline === 'center') {
         inlineScroll =
           scrollingElement === frame
