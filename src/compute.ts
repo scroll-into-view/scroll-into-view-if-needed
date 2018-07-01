@@ -51,6 +51,8 @@ function isScrollable(el: Element, skipOverflowHiddenElements?: boolean) {
       canOverflow(style.overflowX, skipOverflowHiddenElements)
     )
   }
+
+  return false
 }
 /**
  * Find out which edge to align against when logical scroll position is "nearest"
