@@ -958,9 +958,9 @@ babel-eslint@8.2.5:
     eslint-scope "~3.7.1"
     eslint-visitor-keys "^1.0.0"
 
-babel-plugin-add-module-exports@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-0.2.1.tgz#9ae9a1f4a8dc67f0cdec4f4aeda1e43a5ff65e25"
+babel-plugin-add-module-exports@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-0.3.1.tgz#fa2f25a4cacac993a0d212341e8f6ed78ad9e0a8"
 
 babel-plugin-dev-expression@0.2.1:
   version "0.2.1"
