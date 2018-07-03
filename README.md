@@ -68,10 +68,10 @@ Put it this way:
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
 // Even if all you do is this
-scrollIntoIntoView(node, { scrollMode: 'if-needed' })
+scrollIntoView(node, { scrollMode: 'if-needed' })
 // You end up with the same bundlesize as people who need
 // smooth scrolling to work in browsers that don't support it natively
-scrollIntoIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 ```
 
 Because of this you need to choose a strategy that matches your priorities: load time, consistency or quality.
