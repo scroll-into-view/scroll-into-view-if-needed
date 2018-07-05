@@ -32,6 +32,9 @@
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
   },
+  "dependencies": {
+    "compute-scroll-into-view": "0.1.0"
+  },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.51",
     "@babel/core": "7.0.0-beta.51",
