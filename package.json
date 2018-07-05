@@ -33,7 +33,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
   },
   "dependencies": {
-    "compute-scroll-into-view": "0.1.0"
+    "compute-scroll-into-view": "1.0.2"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.51",
