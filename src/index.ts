@@ -1,4 +1,4 @@
-import compute from './compute'
+import compute from 'compute-scroll-into-view'
 import {
   CustomScrollAction,
   CustomScrollBehaviorCallback,

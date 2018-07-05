@@ -18,6 +18,5 @@ lerna-debug.log
 dist
 es
 umd
-/compute.js
 /index.js
 /types.js

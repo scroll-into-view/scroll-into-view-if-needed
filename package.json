@@ -12,7 +12,6 @@
   "main": "index.js",
   "module": "es/index.js",
   "files": [
-    "compute.js",
     "es",
     "typings",
     "umd"
@@ -31,6 +30,9 @@
     "lint": "eslint ./integration-examples",
     "prepublishOnly": "unset npm_config_cafile && yarn build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
+  },
+  "dependencies": {
+    "compute-scroll-into-view": "1.0.2"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.51",
