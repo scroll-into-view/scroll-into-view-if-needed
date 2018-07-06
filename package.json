@@ -38,7 +38,7 @@
     "@babel/cli": "7.0.0-beta.52",
     "@babel/core": "7.0.0-beta.51",
     "@babel/plugin-external-helpers": "7.0.0-beta.52",
-    "@babel/preset-env": "7.0.0-beta.52",
+    "@babel/preset-env": "7.0.0-beta.51",
     "@babel/preset-typescript": "7.0.0-beta.52",
     "babel-eslint": "8.2.5",
     "babel-plugin-add-module-exports": "0.3.1",
