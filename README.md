@@ -192,7 +192,7 @@ scrollIntoView(node, {
 })
 ```
 
-Check the demo to see an [example with popmotion and a spring transition](https://scroll-into-view-if-needed.netlify.com/#override-behavior).
+Check the demo to see an [example with popmotion and a spring transition](https://scroll-into-view-if-needed.netlify.com/#custom-transition).
 
 > If you only need the custom behavior you might be better off by using the compute library directly: https://github.com/stipsan/compute-scroll-into-view
 
