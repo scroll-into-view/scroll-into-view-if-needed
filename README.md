@@ -210,7 +210,7 @@ Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
 
 > Introduced in `v2.1.0`
 
-Like `block` this is affected by the [writing-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode). In left-to-right pages `inline: 'start'` will align to the left edge. In right-to-left it should be flipped. This will be supported in a future release.
+[More info.](https://github.com/stipsan/compute-scroll-into-view#inline)
 
 #### [scrollMode](https://scroll-into-view-if-needed.netlify.com/#scrolling-if-needed)
 
@@ -218,10 +218,7 @@ Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
 > Introduced in `v2.1.0`
 
-This is a proposed addition to the spec that you can track here: https://github.com/w3c/csswg-drafts/pull/1805
-
-This library will be updated to reflect any changes to the spec and will provide a migration path.
-To be backwards compatible with `Element.scrollIntoViewIfNeeded` if something is not 100% visible it will count as "needs scrolling". If you need a different visibility ratio your best option would be to implement an [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+[More info.](https://github.com/stipsan/compute-scroll-into-view#scrollmode)
 
 #### [boundary](https://scroll-into-view-if-needed.netlify.com/#limit-propagation)
 
@@ -229,29 +226,7 @@ Type: `Element | Function`
 
 > `Function` introduced in `v2.1.0`, `Element` introduced in `v1.1.0`
 
-By default there is no boundary. All the parent elements of your target is checked until it reaches the viewport (`document.documentElement`) when calculating layout and what to scroll.
-You can use this option to do things like:
-
-- Prevent the browser window from scrolling.
-- Scroll things into view below the fold without scrolling to it.
-- Scroll elements into view in a list, without scrolling container elements.
-- Prematurely optimizing performance instead of code-splitting your app.
-
-You can also pass a function to do more dynamic checks to override the scroll scoping:
-
-```js
-scrollIntoView(target, {
-  boundary: parent => {
-    // By default `overflow: hidden` elements are allowed, only `overflow: visible | clip` is skipped as
-    // this is required by the CSSOM spec
-    if (getComputedStyle(parent)['overflow'] === 'hidden') {
-      return false
-    }
-
-    return true
-  },
-})
-```
+[More info.](https://github.com/stipsan/compute-scroll-into-view#boundary)
 
 #### skipOverflowHiddenElements
 
@@ -259,9 +234,7 @@ Type: `Boolean`<br> Default: `false`
 
 > Introduced in `v2.2.0`
 
-By default the [spec](https://drafts.csswg.org/cssom-view/#scrolling-box) states that `overflow: hidden` elements should be scrollable because it has [been used to allow programatic scrolling](https://drafts.csswg.org/css-overflow-3/#valdef-overflow-hidden). This behavior can sometimes lead to [scrolling issues](https://github.com/stipsan/scroll-into-view-if-needed/pull/225#issue-186419520) when you have a node that is a child of an `overflow: hidden` node.
-
-This package follows the convention [adopted by Firefox](https://hg.mozilla.org/integration/fx-team/rev/c48c3ec05012#l7.18) of setting a boolean option to _not_ scroll all nodes with `overflow: hidden` set.
+[More info.](https://github.com/stipsan/compute-scroll-into-view#skipoverflowhiddenelements)
 
 # TypeScript support
 
