@@ -1312,9 +1312,9 @@ component-emitter@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
 
-compute-scroll-into-view@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.5.tgz#dea9ce0edb17d981ea0d56e52b85c840430b91bf"
+compute-scroll-into-view@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.6.tgz#8c004c1aea703f143c0928c7828eb73580863d4a"
 
 concat-map@0.0.1:
   version "0.0.1"
