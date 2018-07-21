@@ -202,8 +202,7 @@ Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
 
 > Introduced in `v2.1.0`
 
-Control the logical scroll position on the y-axis. The spec states that the `block` direction is related to the [writing-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode), but this is not implemented yet in this library.
-This means that `block: 'start'` aligns to the top edge and `block: 'end'` to the bottom.
+[More info.](https://github.com/stipsan/compute-scroll-into-view#block)
 
 #### inline
 
