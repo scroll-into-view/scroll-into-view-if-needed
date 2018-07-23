@@ -708,8 +708,8 @@
     url-join "^4.0.0"
 
 "@semantic-release/npm@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-4.0.0.tgz#ca16be65bdddece243c7950729c9c2381d76f683"
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-4.0.1.tgz#366a9ed0c36d34e6c6c72d4a751f551a7128ebb6"
   dependencies:
     "@semantic-release/error" "^2.2.0"
     aggregate-error "^1.0.0"
