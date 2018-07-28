@@ -35,7 +35,7 @@
     "compute-scroll-into-view": "1.0.7"
   },
   "devDependencies": {
-    "@babel/cli": "7.0.0-beta.55",
+    "@babel/cli": "7.0.0-beta.54",
     "@babel/core": "7.0.0-beta.54",
     "@babel/plugin-external-helpers": "7.0.0-beta.55",
     "@babel/preset-env": "7.0.0-beta.54",
