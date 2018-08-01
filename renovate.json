@@ -2,7 +2,7 @@
   "extends": [
     "config:js-lib",
     ":automergeDigest",
-    ":automergeMinor",
+    ":automergePatch",
     ":automergeRequireAllStatusChecks",
     ":prHourlyLimit1",
     ":semanticCommits",
