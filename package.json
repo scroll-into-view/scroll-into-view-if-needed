@@ -35,11 +35,11 @@
     "compute-scroll-into-view": "1.0.7"
   },
   "devDependencies": {
-    "@babel/cli": "7.0.0-beta.55",
-    "@babel/core": "7.0.0-beta.55",
-    "@babel/plugin-external-helpers": "7.0.0-beta.55",
-    "@babel/preset-env": "7.0.0-beta.55",
-    "@babel/preset-typescript": "7.0.0-beta.55",
+    "@babel/cli": "7.0.0-beta.56",
+    "@babel/core": "7.0.0-beta.56",
+    "@babel/plugin-external-helpers": "7.0.0-beta.56",
+    "@babel/preset-env": "7.0.0-beta.56",
+    "@babel/preset-typescript": "7.0.0-beta.56",
     "babel-eslint": "8.2.6",
     "babel-plugin-add-module-exports": "0.3.2",
     "babel-plugin-dev-expression": "0.2.1",
