@@ -45,7 +45,7 @@
     "babel-plugin-dev-expression": "0.2.1",
     "concurrently": "3.6.1",
     "eslint": "4.19.1",
-    "eslint-config-prettier": "2.9.0",
+    "eslint-config-prettier": "2.10.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-react": "7.10.0",
     "flowgen": "1.2.2",
