@@ -41,7 +41,7 @@
     "@babel/preset-env": "7.0.0-rc.1",
     "@babel/preset-typescript": "7.0.0-rc.1",
     "babel-eslint": "8.2.6",
-    "babel-plugin-add-module-exports": "0.3.2",
+    "babel-plugin-add-module-exports": "0.3.3",
     "babel-plugin-dev-expression": "0.2.1",
     "concurrently": "3.6.1",
     "eslint": "4.19.1",
