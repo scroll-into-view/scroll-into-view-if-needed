@@ -5167,9 +5167,9 @@ rollup-plugin-replace@2.0.0:
     minimatch "^3.0.2"
     rollup-pluginutils "^2.0.1"
 
-rollup-plugin-terser@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-2.0.1.tgz#a9a5e67520ded44ca3b4fc6d2e1c06105918c53a"
+rollup-plugin-terser@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-2.0.2.tgz#1b59d67c80fc0d499cdc29a6991944b2d671ea03"
   dependencies:
     "@babel/code-frame" "^7.0.0"
     jest-worker "^23.2.0"
