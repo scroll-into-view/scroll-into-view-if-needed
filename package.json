@@ -48,7 +48,7 @@
     "eslint-config-prettier": "3.0.1",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-react": "7.11.1",
-    "flowgen": "1.2.2",
+    "flowgen": "1.2.3",
     "husky": "0.14.3",
     "lint-staged": "7.2.2",
     "prettier": "1.14.2",
