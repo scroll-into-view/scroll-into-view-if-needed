@@ -63,11 +63,21 @@ function scrollIntoView<T>(
 ): T
 function scrollIntoView(target: Element, options?: Options | boolean): void
 function scrollIntoView<T>(target: Element, options?: Options<T> | boolean) {
+  // Browsers treats targets that aren't in the dom as a no-op
+  const scrollingElement = document.scrollingElement || document.documentElement
+  const targetIsDetached =
+    target !== scrollingElement && !scrollingElement.contains(target)
+
   if (
     isOptionsObject<CustomBehaviorOptions<T>>(options) &&
     typeof options.behavior === 'function'
   ) {
-    return options.behavior(compute(target, options))
+    return options.behavior(targetIsDetached ? [] : compute(target, options))
+  }
+
+  // Don't do anything if using a standard behavior on an element that is not in the document
+  if (targetIsDetached) {
+    return
   }
 
   // @TODO see if it's possible to avoid this assignment
