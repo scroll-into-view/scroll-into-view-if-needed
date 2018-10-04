@@ -12,6 +12,7 @@ const config = {
   plugins: [
     babel({
       exclude: 'node_modules/**',
+      extensions: ['.ts', '.js'],
     }),
     resolve({
       extensions: ['.ts', '.js', '.json'],
