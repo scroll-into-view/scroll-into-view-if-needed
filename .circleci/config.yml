@@ -117,8 +117,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      # @TODO re-enable when done with the sequence of fixes
-      #- run: npx semantic-release
+      - run: npx semantic-release
 
 # Workflows enables us to run multiple jobs in parallel
 workflows:
