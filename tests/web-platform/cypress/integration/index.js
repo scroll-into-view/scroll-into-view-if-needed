@@ -4,7 +4,7 @@ describe('css/cssom-view', () => {
   const tests = [
     'scrollintoview.html',
     'scrollIntoView-smooth.html',
-    'scrollIntoView-shadow.html',
+    //'scrollIntoView-shadow.html',
   ]
   tests.forEach(test => {
     it(`implements ${test} correctly`, () => {
