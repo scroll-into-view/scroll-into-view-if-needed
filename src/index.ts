@@ -64,7 +64,7 @@ function scrollIntoView<T>(
 function scrollIntoView(target: Element, options?: Options | boolean): void
 function scrollIntoView<T>(target: Element, options?: Options<T> | boolean) {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
-  const targetIsDetached = !target.ownerDocument.contains(target)
+  const targetIsDetached = !target.ownerDocument!.contains(target)
 
   if (
     isOptionsObject<CustomBehaviorOptions<T>>(options) &&
