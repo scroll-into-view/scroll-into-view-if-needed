@@ -2557,10 +2557,10 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flowgen@1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.2.3.tgz#9a4ff82291fa3b76be5ccad99d7e410562b909c3"
-  integrity sha512-l0OAiyunfyZk9+DPdSg/Ub/bIht5g9+DN78AKqxQkTLQxs0IxttH+mdJJgbGyyCTWPjUasCA3SAixLDLohR+dQ==
+flowgen@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.3.0.tgz#8c58c57fbcc75c5b068cd60ef0012c342569d389"
+  integrity sha512-bT6KF5BrLFaPd1CED2VTdRVYZpn8FQJ0AkssMrCpl0WDtdlI+DNlOHmZj61D4MSHvzKT5sMddaC+KTgqvrH8lQ==
   dependencies:
     commander "^2.11.0"
     lodash "^4.17.4"
