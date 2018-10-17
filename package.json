@@ -60,7 +60,7 @@
     "rollup-plugin-node-resolve": "3.4.0",
     "rollup-plugin-replace": "2.1.0",
     "rollup-plugin-terser": "3.0.0",
-    "semantic-release": "15.9.17",
+    "semantic-release": "15.10.3",
     "tslint": "5.11.0",
     "tslint-config-prettier": "1.15.0",
     "typescript": "3.1.3"
