@@ -1,4 +1,3 @@
-
 aliases:
   - &restore-cache
     keys:
@@ -57,16 +56,16 @@ jobs:
             # Fallback in case checksum fails
             - v5-tests-web-platform-dependencies-{{ .Branch }}-
       - run:
-           command: yarn install --no-progress
-           working_directory: tests/web-platform
+          command: yarn install --no-progress
+          working_directory: tests/web-platform
       - run:
-           command: yarn start
-           background: true
-           working_directory: tests/web-platform
+          command: yarn start
+          background: true
+          working_directory: tests/web-platform
       - run: npx wait-on http://localhost:3000
       - run:
-           command: yarn test
-           working_directory: tests/web-platform
+          command: yarn test
+          working_directory: tests/web-platform
       - store_test_results:
           path: tests/web-platform/junit
       - store_artifacts:
@@ -90,16 +89,16 @@ jobs:
             # Fallback in case checksum fails
             - v5-tests-web-platform-dependencies-{{ .Branch }}-
       - run:
-           command: yarn install --no-progress
-           working_directory: tests/web-platform
+          command: yarn install --no-progress
+          working_directory: tests/web-platform
       - run:
-           command: yarn start
-           background: true
-           working_directory: tests/web-platform
+          command: yarn start
+          background: true
+          working_directory: tests/web-platform
       - run: npx wait-on http://localhost:3000
       - run:
-           command: yarn browserstack
-           working_directory: tests/web-platform
+          command: yarn browserstack
+          working_directory: tests/web-platform
       - store_test_results:
           path: tests/web-platform/tests_output
       - store_artifacts:
@@ -108,7 +107,6 @@ jobs:
           paths:
             - tests/web-platform/node_modules
           key: v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
-
 
   Semantic Release:
     docker:
