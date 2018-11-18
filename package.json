@@ -43,7 +43,7 @@
     "babel-eslint": "10.0.1",
     "babel-plugin-add-module-exports": "1.0.0",
     "babel-plugin-dev-expression": "0.2.1",
-    "concurrently": "4.0.1",
+    "concurrently": "4.1.0",
     "eslint": "4.19.1",
     "eslint-config-prettier": "3.3.0",
     "eslint-plugin-import": "2.14.0",
