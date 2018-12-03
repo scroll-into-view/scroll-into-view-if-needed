@@ -35,10 +35,10 @@
     "compute-scroll-into-view": "1.0.11"
   },
   "devDependencies": {
-    "@babel/cli": "7.1.5",
-    "@babel/core": "7.1.6",
-    "@babel/plugin-external-helpers": "7.0.0",
-    "@babel/preset-env": "7.1.6",
+    "@babel/cli": "7.2.0",
+    "@babel/core": "7.2.0",
+    "@babel/plugin-external-helpers": "7.2.0",
+    "@babel/preset-env": "7.2.0",
     "@babel/preset-typescript": "7.1.0",
     "babel-eslint": "10.0.1",
     "babel-plugin-add-module-exports": "1.0.0",
