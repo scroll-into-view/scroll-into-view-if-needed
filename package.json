@@ -54,7 +54,7 @@
     "prettier": "1.15.3",
     "prettier-package-json": "2.0.1",
     "rimraf": "2.6.3",
-    "rollup": "1.0.1",
+    "rollup": "1.0.2",
     "rollup-plugin-babel": "4.2.0",
     "rollup-plugin-commonjs": "9.2.0",
     "rollup-plugin-node-resolve": "4.0.0",
