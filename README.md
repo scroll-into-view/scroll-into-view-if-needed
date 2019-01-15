@@ -69,12 +69,12 @@ Put it this way:
 import scrollIntoView from 'scroll-into-view-if-needed'
 // Even if all you do is this
 scrollIntoView(node, { scrollMode: 'if-needed' })
-// You end up with the same bundlesize as people who need
+// You would end up with the same bundlesize as people who need
 // smooth scrolling to work in browsers that don't support it natively
 scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 ```
 
-Because of this you need to choose a strategy that matches your priorities: load time, consistency or quality.
+That's why only native smooth scrolling is supported out of the box. There are two common ways you can smooth scroll browsers that don't support it natively. Below is all three, which one is best for you depends on what is the most important to your use case:: load time, consistency or quality.
 
 ##### Load time
 
