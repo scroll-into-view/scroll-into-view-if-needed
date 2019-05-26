@@ -3,12 +3,12 @@
   "scripts": {
     "browserstack": "wdio ./browserstack.conf.js",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "start": "serve -i cypress/ -p 3000",
+    "start": "serve -l 3000 cypress/",
     "test": "cypress run --browser chrome --reporter junit --reporter-options 'mochaFile=junit/test-results.xml'"
   },
   "dependencies": {
     "scroll-into-view-if-needed": "link:../..",
-    "serve": "6.5.6"
+    "serve": "7.1.3"
   },
   "devDependencies": {
     "browserstack-local": "1.3.1",
