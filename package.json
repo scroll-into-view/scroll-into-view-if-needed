@@ -61,7 +61,7 @@
     "rollup-plugin-replace": "2.1.0",
     "rollup-plugin-terser": "4.0.3",
     "semantic-release": "15.13.3",
-    "tslint": "5.12.1",
+    "tslint": "5.20.0",
     "tslint-config-prettier": "1.17.0",
     "typescript": "3.1.6"
   },
