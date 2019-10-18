@@ -2148,10 +2148,10 @@ wdio-dot-reporter@~0.0.8:
   resolved "https://registry.yarnpkg.com/wdio-dot-reporter/-/wdio-dot-reporter-0.0.9.tgz#929b2adafd49d6b0534fda068e87319b47e38fe5"
   integrity sha1-kpsq2v1J1rBTT9oGjocxm0fjj+U=
 
-wdio-junit-reporter@0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/wdio-junit-reporter/-/wdio-junit-reporter-0.4.3.tgz#f8fa4c5a438c437bdb447640fcd54fccb2716a08"
-  integrity sha512-QSPASiXl0Ezo9FDOby8yCRgaZxK5m92jXogTVruRv0uR8z3Om+pfcOIKsLvz+z0A31xPsr73R40VTZcxIEzWfQ==
+wdio-junit-reporter@0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/wdio-junit-reporter/-/wdio-junit-reporter-0.4.4.tgz#bffd65f7390ca2de2e7dce2ba1e11f9288290cfe"
+  integrity sha512-EE5b7dnQ5yOCGVM48ItdJg9KJHpqCk8w0GL2rhwP+K9FPHhIokEAR0zZq5MqW8wRPR0ibWUmQKUN7D4ED85XLA==
   dependencies:
     junit-report-builder "~1.3.0"
     lodash.get "^4.4.2"
