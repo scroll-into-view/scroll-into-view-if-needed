@@ -1,6 +1,7 @@
 {
   "extends": [
     "config:js-lib",
+    "github>finn-no/renovate-presets:js",
     ":automergeDigest",
     ":automergePatch",
     ":automergeRequireAllStatusChecks",
