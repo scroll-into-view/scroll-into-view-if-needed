@@ -30,6 +30,15 @@
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
+"@wdio/browserstack-service@^5.18.1":
+  version "5.18.1"
+  resolved "https://registry.yarnpkg.com/@wdio/browserstack-service/-/browserstack-service-5.18.1.tgz#c3d52224520661947749c4845c858bf90f382190"
+  integrity sha512-i3SehD9es9ydoqZmbmK+5BI+dX3JgrRaNfcSwOntS8IPdeJ5NTBGsJ9hkm5UbI7d7TlRtn19aDLl0pAoBpV3mg==
+  dependencies:
+    "@wdio/logger" "5.16.10"
+    browserstack-local "1.4.3"
+    request "^2.85.0"
+
 "@wdio/cli@^5.18.2":
   version "5.18.2"
   resolved "https://registry.yarnpkg.com/@wdio/cli/-/cli-5.18.2.tgz#c92a11a733a4af67267cd32fe6dbe2afe33d706b"
@@ -2367,7 +2376,7 @@ request-progress@3.0.0:
   dependencies:
     throttleit "^1.0.0"
 
-request@2.88.0, request@^2.83.0:
+request@2.88.0, request@^2.83.0, request@^2.85.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==

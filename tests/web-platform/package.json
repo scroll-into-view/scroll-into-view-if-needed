@@ -11,10 +11,10 @@
     "serve": "11.3.0"
   },
   "devDependencies": {
+    "@wdio/browserstack-service": "^5.18.1",
     "@wdio/cli": "^5.18.2",
     "@wdio/junit-reporter": "5.18.3",
     "@wdio/mocha-framework": "5.16.15",
-    "browserstack-local": "1.4.3",
     "cypress": "3.8.1"
   }
 }

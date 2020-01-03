@@ -1,8 +1,8 @@
-var browserstack = require('browserstack-local')
-
 exports.config = {
+  services: ['browserstack'],
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
+  browserstackLocal: true,
 
   specs: ['./tests/**'],
 
@@ -10,7 +10,6 @@ exports.config = {
   commonCapabilities: {
     name: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
     build: process.env.CIRCLE_BRANCH,
-    'browserstack.local': true,
     project: 'scroll-into-view-if-needed',
   },
 
@@ -41,25 +40,6 @@ exports.config = {
     },
   },
   framework: 'mocha',
-
-  // Code to start browserstack local before start of test
-  onPrepare: function(config, capabilities) {
-    console.log('Connecting local')
-    return new Promise(function(resolve, reject) {
-      exports.bs_local = new browserstack.Local()
-      exports.bs_local.start({ key: exports.config.key }, function(error) {
-        if (error) return reject(error)
-        console.log('Connected. Now testing...')
-
-        resolve()
-      })
-    })
-  },
-
-  // Code to stop browserstack local after end of test
-  onComplete: function(capabilties, specs) {
-    exports.bs_local.stop(function() {})
-  },
 }
 
 // Code to support common capabilities
