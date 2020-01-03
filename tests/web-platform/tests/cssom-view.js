@@ -10,7 +10,7 @@ const {
   os_version = 'latest',
   browser: browserName = device,
   browser_version = os_version,
-} = browser.desiredCapabilities
+} = browser.capabilities
 
 describe(`${browserName}: ${browser_version}`, function() {
   tests.forEach(testName => {
