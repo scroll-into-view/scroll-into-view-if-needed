@@ -20,3 +20,4 @@ es
 umd
 /index.js
 /types.js
+tests/web-platform/local.log

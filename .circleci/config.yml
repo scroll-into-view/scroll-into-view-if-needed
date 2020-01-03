@@ -1,9 +1,9 @@
 aliases:
   - &restore-cache
     keys:
-      - v5-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - v6-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
       # Fallback in case checksum fails
-      - v5-dependencies-{{ .Branch }}-
+      - v6-dependencies-{{ .Branch }}-
 
   - &install
     run: yarn --no-progress
@@ -11,7 +11,7 @@ aliases:
   - &save-cache
     paths:
       - node_modules
-    key: v5-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    key: v6-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
   - &cypress-dependencies-install
     run:
@@ -22,7 +22,7 @@ version: 2
 jobs:
   Typecheck:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - restore-cache: *restore-cache
@@ -32,7 +32,7 @@ jobs:
 
   Build:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - restore-cache: *restore-cache
@@ -43,18 +43,13 @@ jobs:
 
   Web Platform Tests:
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:12-browsers
     steps:
       - checkout
       - restore-cache: *restore-cache
       - *install
       - run: yarn build:umd
       - *cypress-dependencies-install
-      - restore-cache:
-          keys:
-            - v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
-            # Fallback in case checksum fails
-            - v5-tests-web-platform-dependencies-{{ .Branch }}-
       - run:
           command: yarn install --no-progress
           working_directory: tests/web-platform
@@ -70,14 +65,10 @@ jobs:
           path: tests/web-platform/junit
       - store_artifacts:
           path: tests/web-platform/cypress/screenshots
-      - save-cache:
-          paths:
-            - tests/web-platform/node_modules
-          key: v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
 
   Browserstack:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - restore-cache: *restore-cache
@@ -85,9 +76,9 @@ jobs:
       - run: yarn build:umd
       - restore-cache:
           keys:
-            - v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
+            - v6-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
             # Fallback in case checksum fails
-            - v5-tests-web-platform-dependencies-{{ .Branch }}-
+            - v6-tests-web-platform-dependencies-{{ .Branch }}-
       - run:
           command: yarn install --no-progress
           working_directory: tests/web-platform
@@ -106,11 +97,11 @@ jobs:
       - save-cache:
           paths:
             - tests/web-platform/node_modules
-          key: v5-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
+          key: v6-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
 
   Semantic Release:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       - checkout
       - restore-cache: *restore-cache

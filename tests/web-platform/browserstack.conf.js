@@ -1,8 +1,8 @@
-var browserstack = require('browserstack-local')
-
 exports.config = {
+  services: ['browserstack'],
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
+  browserstackLocal: true,
 
   specs: ['./tests/**'],
 
@@ -10,16 +10,17 @@ exports.config = {
   commonCapabilities: {
     name: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
     build: process.env.CIRCLE_BRANCH,
-    'browserstack.local': true,
     project: 'scroll-into-view-if-needed',
   },
 
   capabilities: [
     { browser: 'Safari', browser_version: '11.1' },
     { browser: 'IE', browser_version: '11.0' },
+    { browser: 'firefox' },
     // @TODO investigate how to make iPhone X able to run the tests
-    //{ os_version: '11.0', device: 'iPhone X', real_mobile: 'true' },
-    { os_version: '8.0', device: 'Google Pixel', real_mobile: 'true' },
+    //{ os_version: '11.0', device: 'iPhone X' },
+    // @TODO investigate why android fails on the getHTML step, even though the test itself is successful
+    //{ os_version: '10.0', device: 'Google Pixel 3' },
     // Disabling the devices below as we keep hitting a limit that causes tests to completely time out alltogether
     //{ browser: 'Edge' },
     // { browser: 'firefox' },
@@ -41,25 +42,6 @@ exports.config = {
     },
   },
   framework: 'mocha',
-
-  // Code to start browserstack local before start of test
-  onPrepare: function(config, capabilities) {
-    console.log('Connecting local')
-    return new Promise(function(resolve, reject) {
-      exports.bs_local = new browserstack.Local()
-      exports.bs_local.start({ key: exports.config.key }, function(error) {
-        if (error) return reject(error)
-        console.log('Connected. Now testing...')
-
-        resolve()
-      })
-    })
-  },
-
-  // Code to stop browserstack local after end of test
-  onComplete: function(capabilties, specs) {
-    exports.bs_local.stop(function() {})
-  },
 }
 
 // Code to support common capabilities
