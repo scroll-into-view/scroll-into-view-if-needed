@@ -32,7 +32,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
   },
   "dependencies": {
-    "compute-scroll-into-view": "1.0.11"
+    "compute-scroll-into-view": "^1.0.11"
   },
   "devDependencies": {
     "@babel/cli": "7.7.7",
@@ -87,7 +87,7 @@
   "bundlesize": [
     {
       "path": "./umd/scroll-into-view-if-needed.min.js",
-      "maxSize": "3 kB",
+      "maxSize": "3.2 kB",
       "compression": "none"
     }
   ],
