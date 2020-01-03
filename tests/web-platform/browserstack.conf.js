@@ -18,7 +18,7 @@ exports.config = {
     { browser: 'IE', browser_version: '11.0' },
     // @TODO investigate how to make iPhone X able to run the tests
     //{ os_version: '11.0', device: 'iPhone X', real_mobile: 'true' },
-    { os_version: '8.0', device: 'Google Pixel', real_mobile: 'true' },
+    { os_version: '8.0', device: 'Google Pixel' },
     // Disabling the devices below as we keep hitting a limit that causes tests to completely time out alltogether
     //{ browser: 'Edge' },
     // { browser: 'firefox' },
