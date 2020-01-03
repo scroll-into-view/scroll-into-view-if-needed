@@ -50,11 +50,6 @@ jobs:
       - *install
       - run: yarn build:umd
       - *cypress-dependencies-install
-      - restore-cache:
-          keys:
-            - v6-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
-            # Fallback in case checksum fails
-            - v6-tests-web-platform-dependencies-{{ .Branch }}-
       - run:
           command: yarn install --no-progress
           working_directory: tests/web-platform
@@ -70,10 +65,6 @@ jobs:
           path: tests/web-platform/junit
       - store_artifacts:
           path: tests/web-platform/cypress/screenshots
-      - save-cache:
-          paths:
-            - tests/web-platform/node_modules
-          key: v6-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
 
   Browserstack:
     docker:
