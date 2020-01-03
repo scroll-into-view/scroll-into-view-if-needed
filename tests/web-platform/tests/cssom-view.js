@@ -31,7 +31,7 @@ describe(funName, function() {
       const wrapper = await $('#results')
       await wrapper.waitForDisplayed(5000)
       const results = await $('#__testharness__results__')
-      await results.waitForExist(3000)
+      //await results.waitForExist(3000)
       const testResults = JSON.parse(await results.getHTML(false))
       testResults.tests.forEach(testResult => {
         assert.strictEqual(testResult.message, null)

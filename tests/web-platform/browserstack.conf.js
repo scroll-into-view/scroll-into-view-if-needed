@@ -16,9 +16,11 @@ exports.config = {
   capabilities: [
     { browser: 'Safari', browser_version: '11.1' },
     { browser: 'IE', browser_version: '11.0' },
+    { browser: 'firefox' },
     // @TODO investigate how to make iPhone X able to run the tests
-    //{ os_version: '11.0', device: 'iPhone X', real_mobile: 'true' },
-    { os_version: '8.0', device: 'Google Pixel' },
+    //{ os_version: '11.0', device: 'iPhone X' },
+    // @TODO investigate why android fails on the getHTML step, even though the test itself is successful
+    //{ os_version: '10.0', device: 'Google Pixel 3' },
     // Disabling the devices below as we keep hitting a limit that causes tests to completely time out alltogether
     //{ browser: 'Edge' },
     // { browser: 'firefox' },
