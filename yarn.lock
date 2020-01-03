@@ -2975,17 +2975,19 @@ flat-cache@^1.2.1:
     rimraf "~2.6.2"
     write "^0.2.1"
 
-flowgen@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.3.0.tgz#8c58c57fbcc75c5b068cd60ef0012c342569d389"
-  integrity sha512-bT6KF5BrLFaPd1CED2VTdRVYZpn8FQJ0AkssMrCpl0WDtdlI+DNlOHmZj61D4MSHvzKT5sMddaC+KTgqvrH8lQ==
+flowgen@1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.10.0.tgz#a041ae31d543d22166e7ba7c296b8445deb3c2e4"
+  integrity sha512-3lsoaa1vxGXhnkHuoE4mLPJi/klvpR3ID8R9CFJ/GBNi+cxJXecWQaUPrWMdNI5tGs8Y+7wrIZaCVFKFLQiGOg==
   dependencies:
+    "@babel/code-frame" "^7.0.0"
+    "@babel/highlight" "^7.0.0"
     commander "^2.11.0"
     lodash "^4.17.4"
     paralleljs "^0.2.1"
-    prettier "^1.12.1"
-    shelljs "^0.8.2"
-    typescript "~2.4.2"
+    prettier "^1.16.4"
+    shelljs "^0.8.3"
+    typescript "^3.4"
     typescript-compiler "^1.4.1-2"
 
 flush-write-stream@^1.0.0:
@@ -5943,15 +5945,10 @@ prettier-package-json@2.1.3:
     sort-object-keys "^1.1.2"
     sort-order "^1.0.1"
 
-prettier@1.19.1:
+prettier@1.19.1, prettier@^1.16.4:
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
   integrity sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
-
-prettier@^1.12.1:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.1.tgz#534c2c9d7853f8845e5e078384e71973bd74089f"
-  integrity sha512-XXUITwIkGb3CPJ2hforHah/zTINRyie5006Jd2HKy2qz7snEJXl0KLfsJZW/wst9g6R2rFvqba3VpNYdu1hDcA==
 
 private@^0.1.6:
   version "0.1.8"
@@ -6782,7 +6779,7 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shelljs@^0.8.2:
+shelljs@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.3.tgz#a7f3319520ebf09ee81275b2368adb286659b097"
   integrity sha512-fc0BKlAWiLpwZljmOvAOTE/gXawtCoNrP5oaY7KIaQbbyHeQVg01pSEuEGvGh3HEdBU4baCD7wQBwADmM/7f7A==
@@ -7502,10 +7499,10 @@ typescript@3.1.6:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.1.6.tgz#b6543a83cfc8c2befb3f4c8fba6896f5b0c9be68"
   integrity sha512-tDMYfVtvpb96msS1lDX9MEdHrW4yOuZ4Kdc4Him9oU796XldPYF/t2+uKoX0BBa0hXXwDlqYQbXY5Rzjzc5hBA==
 
-typescript@~2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.2.tgz#f8395f85d459276067c988aa41837a8f82870844"
-  integrity sha1-+DlfhdRZJ2BnyYiqQYN6j4KHCEQ=
+typescript@^3.4:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
+  integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
 
 uglify-js@^3.1.4:
   version "3.7.3"
