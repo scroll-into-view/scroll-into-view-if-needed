@@ -15,7 +15,6 @@ scrollIntoView(node, {})
 // Other misc options
 scrollIntoView(node, { behavior: 'auto' })
 scrollIntoView(node, { behavior: 'smooth' })
-scrollIntoView(node, { behavior: 'instant' })
 
 scrollIntoView(node, { block: 'start', inline: 'start' })
 scrollIntoView(node, { block: 'center', inline: 'center' })
