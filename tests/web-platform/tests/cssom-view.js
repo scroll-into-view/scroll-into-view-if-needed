@@ -10,12 +10,12 @@ const tests = [
 console.log('MARK')
 console.log(browser.capabilities)
 const {
-  platform,
+  platform = '',
   platformName = platform,
   platformVersion = '',
   deviceManufacturer = '',
   deviceModel = '',
-  version,
+  version = '',
   browserName = '',
 } = browser.capabilities
 
