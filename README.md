@@ -124,7 +124,7 @@ Type: `Object`
 
 #### behavior
 
-Type: `'auto' | 'smooth' | 'instant' | Function`<br> Default: `'auto'`
+Type: `'auto' | 'smooth' | Function`<br> Default: `'auto'`
 
 > Introduced in `v2.1.0`
 
@@ -154,15 +154,9 @@ html,
 }
 ```
 
-Quick note, in the CSS property the `auto` keyword equals `behavior: 'instant'`, not `behavior: 'auto'` on `scrollIntoView`. **Yes**, this is confusing.
-
 ##### `'smooth'`
 
 Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it. [More information.](#ponyfill-smooth-scrolling)
-
-##### `'instant'`
-
-This is useful for scenarios where it's certain that smooth scrolling would make an interaction feel sluggish. Like keyboard navigation and other user experiences where the end user expect things to move _instantly_.
 
 ##### `Function`
 
