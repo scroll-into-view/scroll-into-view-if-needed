@@ -46,7 +46,7 @@
     "concurrently": "5.0.2",
     "eslint": "4.19.1",
     "eslint-config-prettier": "4.0.0",
-    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-import": "2.20.0",
     "eslint-plugin-react": "7.17.0",
     "flowgen": "1.10.0",
     "husky": "4.0.6",
