@@ -71,12 +71,12 @@
     deepmerge "^4.0.0"
     glob "^7.1.2"
 
-"@wdio/dot-reporter@^5.16.5":
-  version "5.16.5"
-  resolved "https://registry.yarnpkg.com/@wdio/dot-reporter/-/dot-reporter-5.16.5.tgz#b271b90b1e58519783c545f2258e3b121515825c"
-  integrity sha512-hgyn7OMcF26HMFYdF5Fz33tpRkxX656ALplW8klDKVwCqn2W8rg009Oai24/QnhQYAqMfVcTVhZGXTr6TRdfyQ==
+"@wdio/dot-reporter@^5.18.6":
+  version "5.18.6"
+  resolved "https://registry.yarnpkg.com/@wdio/dot-reporter/-/dot-reporter-5.18.6.tgz#dc7814791b509e15e98c0ea9d6a51660d2f3285c"
+  integrity sha512-pypZFAWmVn7dyp1/ujNkSg6PhjATV+Pqtu21upJBtUggDBoHRZlJwXrhOrL0HyONo1CNs/yfiGPODNsNe9XP6A==
   dependencies:
-    "@wdio/reporter" "5.15.2"
+    "@wdio/reporter" "5.18.6"
     chalk "^3.0.0"
 
 "@wdio/junit-reporter@5.18.6":
@@ -110,13 +110,13 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@5.16.15":
-  version "5.16.15"
-  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-5.16.15.tgz#c464eef3561444d2fde658887e8b859c622f4230"
-  integrity sha512-nWwpghEAgQLh2NDP0dBcqPHONk56MLsAWPfHhOiT1coWsyvKQ60r9jD/8i/iQz+i9hldlAI5Or0pKQx9fTjkBA==
+"@wdio/mocha-framework@5.18.6":
+  version "5.18.6"
+  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-5.18.6.tgz#70d63656c7a8dbbb07d443ae303408219d2c2729"
+  integrity sha512-wmm5uMII3cpLp1bIc1zWWqkKBrnu3m20byM9D9pFQxWusu5/OBgmsrsL2uDkRpm1+vLjjVoJWa0jnZRE2JRekw==
   dependencies:
     "@wdio/logger" "5.16.10"
-    "@wdio/utils" "5.16.15"
+    "@wdio/utils" "5.18.6"
     mocha "^6.1.0"
 
 "@wdio/protocols@5.16.7":
@@ -130,13 +130,6 @@
   integrity sha512-z9UPBk/Uee0l9g0ijnOatU3WP7TcpIyNtRj9AGsJVbYZFwqMWBqPkO4nblldyNQIuqdgXAPsDo8lPGDno12/oA==
   dependencies:
     "@wdio/utils" "5.18.6"
-
-"@wdio/reporter@5.15.2":
-  version "5.15.2"
-  resolved "https://registry.yarnpkg.com/@wdio/reporter/-/reporter-5.15.2.tgz#578a2f99aaa02c5d419230a6b18d759960504478"
-  integrity sha512-M2eBZDvJIfa8ao81hcNbl9tN/pDtflSFFBa9iDcwPdztVplI50ob4xTlrsztv8V3Ox2En1TnfX1bQiV7E7gTiA==
-  dependencies:
-    fs-extra "^8.0.1"
 
 "@wdio/reporter@5.18.6":
   version "5.18.6"
@@ -156,14 +149,6 @@
     deepmerge "^4.0.0"
     gaze "^1.1.2"
     webdriverio "5.18.6"
-
-"@wdio/utils@5.16.15":
-  version "5.16.15"
-  resolved "https://registry.yarnpkg.com/@wdio/utils/-/utils-5.16.15.tgz#c2228dcb196079a2e6c8758506de05d5ba3196e2"
-  integrity sha512-xeZSAeDtzm1+zVRjTuhsEKpcXokOZU1NrnXBacNNwyKIfRMwPUmyOX3WvKtHL+2OuLXjKP9dlRMHbPgX/nsz4w==
-  dependencies:
-    "@wdio/logger" "5.16.10"
-    deepmerge "^4.0.0"
 
 "@wdio/utils@5.18.6":
   version "5.18.6"
