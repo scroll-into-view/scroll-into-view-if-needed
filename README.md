@@ -386,9 +386,10 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 
 # Related packages
 
-- [compute-scroll-into-view](http://npmjs.com/package/compute-scroll-into-view) - the engine used by this library.
-- [smooth-scroll-into-view-if-needed](http://npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
+- [compute-scroll-into-view](https://www.npmjs.com/package/compute-scroll-into-view) - the engine used by this library.
+- [smooth-scroll-into-view-if-needed](https://www.npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
 - [react-scroll-into-view-if-needed](https://www.npmjs.com/package/react-scroll-into-view-if-needed) – A thin wrapper to scroll your component into view.
+- [scroll-polyfill](https://www.npmjs.com/package/scroll-polyfill) – polyfills smooth scrolling.
 - [Don't be shy, add yours!](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
 
 # Who's using this
