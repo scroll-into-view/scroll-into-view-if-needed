@@ -34,7 +34,7 @@
   "sideEffects": false,
   "typings": "typings/index.d.ts",
   "dependencies": {
-    "compute-scroll-into-view": "^1.0.13"
+    "compute-scroll-into-view": "^1.0.14"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
