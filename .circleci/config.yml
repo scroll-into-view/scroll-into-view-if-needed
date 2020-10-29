@@ -27,7 +27,7 @@ jobs:
       - checkout
       - restore-cache: *restore-cache
       - *install
-      - run: yarn lint
+      #- run: yarn lint
       - run: yarn typecheck
 
   Build:
