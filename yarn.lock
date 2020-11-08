@@ -3005,10 +3005,10 @@ flatted@^2.0.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.2.tgz#4575b21e2bcee7434aa9be662f4b7b5f9c2b5138"
   integrity sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==
 
-flowgen@1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.12.0.tgz#e0f02ce0627bc4d0c42df4338a6f3fb88996136f"
-  integrity sha512-gUV8MUzDzPBSgQ2tNtHrPRG6HU9Z23U79YuSLyw9vuCjLRiXZ1zRcUJOAEBuYbiTGG1256HgocluZb5MueYOYg==
+flowgen@1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/flowgen/-/flowgen-1.12.1.tgz#8867bce47f493384035eb90d1fbb289c013f173a"
+  integrity sha512-anmyB6TIo7Y6gpYpQw41g3N1VQ+VECKFcgOlgiUb4727AQfiD/6G73CzCSZlYyjSqLEah7b8baXECSiAuebwBg==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/highlight" "^7.10.4"
