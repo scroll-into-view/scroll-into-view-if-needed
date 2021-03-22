@@ -1,8 +1,7 @@
 exports.config = {
-  services: ['browserstack'],
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
-  browserstackLocal: true,
+  services: [['browserstack', { browserstackLocal: true }]],
 
   specs: ['./tests/**'],
 
@@ -46,7 +45,7 @@ exports.config = {
 
 // Code to support common capabilities
 // @TODO cleanup this messy snippet with an array.map
-exports.config.capabilities.forEach(function(caps) {
+exports.config.capabilities.forEach(function (caps) {
   for (var i in exports.config.commonCapabilities)
     caps[i] = caps[i] || exports.config.commonCapabilities[i]
 })
