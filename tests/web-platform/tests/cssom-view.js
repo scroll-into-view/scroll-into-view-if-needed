@@ -7,30 +7,17 @@ const tests = [
   //'css/cssom-view/scrollIntoView-shadow.html',
   'custom/borders',
 ]
-console.log('MARK')
-console.log(browser.capabilities)
-const { browserVersion = '', browserName = '' } = browser.capabilities
-const { os = '', osVersion = '', deviceName = '' } = browser.capabilities[
-  'bstack:options'
-]
 
-const funName = `${os} ${osVersion} ${deviceName} ${browserName} ${browserVersion}`.replace(
-  '  ',
-  ' '
-)
-
-describe(funName, function () {
-  tests.forEach((testName) => {
-    it(testName, async () => {
-      await browser.url(`/${testName}`)
-      const wrapper = await $('#results')
-      await wrapper.waitForDisplayed(5000)
-      const results = await $('#__testharness__results__')
-      //await results.waitForExist(3000)
-      const testResults = JSON.parse(await results.getHTML(false))
-      testResults.tests.forEach((testResult) => {
-        assert.strictEqual(testResult.message, null)
-      })
+tests.forEach((testName) => {
+  it(testName, async () => {
+    await browser.url(`/${testName}`)
+    const wrapper = await $('#results')
+    await wrapper.waitForDisplayed(5000)
+    const results = await $('#__testharness__results__')
+    //await results.waitForExist(3000)
+    const testResults = JSON.parse(await results.getHTML(false))
+    testResults.tests.forEach((testResult) => {
+      assert.strictEqual(testResult.message, null)
     })
   })
 })
