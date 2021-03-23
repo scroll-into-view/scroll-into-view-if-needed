@@ -5,6 +5,9 @@ const shared = {
   local: 'true',
   userName: process.env.BROWSERSTACK_USERNAME,
   accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
+  debug: 'true',
+  networkLogs: 'true',
+  consoleLogs: 'verbose',
 }
 
 exports.config = {
