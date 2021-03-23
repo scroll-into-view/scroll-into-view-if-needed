@@ -5,7 +5,7 @@ const shared = {
   local: 'true',
   userName: process.env.BROWSERSTACK_USERNAME,
   accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-  consoleLogs: 'error',
+  consoleLogs: 'info',
 }
 
 exports.config = {
@@ -49,13 +49,12 @@ exports.config = {
         osVersion: '10',
       },
     },
-    // @TODO investigate how to make iPhone X able to run the tests
     {
       browserName: 'iPhone',
       'bstack:options': {
         ...shared,
-        osVersion: '11',
-        deviceName: 'iPhone 8 Plus',
+        osVersion: '14',
+        deviceName: 'iPhone 12 Pro Max',
         realMobile: 'true',
       },
     },
