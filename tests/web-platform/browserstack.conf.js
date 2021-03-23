@@ -49,7 +49,8 @@ exports.config = {
         osVersion: '10',
       },
     },
-    {
+    // TODO: find out why iPhones fail to load localhost
+    /* {
       browserName: 'iPhone',
       'bstack:options': {
         ...shared,
@@ -57,7 +58,7 @@ exports.config = {
         deviceName: 'iPhone 12 Pro Max',
         realMobile: 'true',
       },
-    },
+    }, */
     {
       browserName: 'Android',
       'bstack:options': {
