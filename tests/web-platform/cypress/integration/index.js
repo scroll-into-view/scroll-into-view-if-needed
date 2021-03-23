@@ -6,11 +6,11 @@ describe('css/cssom-view', () => {
     'scrollIntoView-smooth.html',
     //'scrollIntoView-shadow.html',
   ]
-  tests.forEach(test => {
+  tests.forEach((test) => {
     it(`implements ${test} correctly`, () => {
       cy.visit(`/css/cssom-view/${test}`)
 
-      cy.get('#summary .pass').should('exist')
+      cy.get('#summary .pass', { timeout: 10000 }).should('exist')
       cy.get('#summary .fail').should('not.exist')
     })
   })
@@ -18,7 +18,7 @@ describe('css/cssom-view', () => {
 
 describe('custom', () => {
   const tests = ['borders.html']
-  tests.forEach(test => {
+  tests.forEach((test) => {
     it(`implements ${test} correctly`, () => {
       cy.visit(`/custom/${test}`)
 
