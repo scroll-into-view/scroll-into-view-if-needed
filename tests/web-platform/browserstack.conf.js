@@ -5,9 +5,7 @@ const shared = {
   local: 'true',
   userName: process.env.BROWSERSTACK_USERNAME,
   accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-  debug: 'true',
-  networkLogs: 'true',
-  consoleLogs: 'verbose',
+  consoleLogs: 'error',
 }
 
 exports.config = {
@@ -57,11 +55,10 @@ exports.config = {
       'bstack:options': {
         ...shared,
         osVersion: '11',
-        deviceName: 'iPhone X',
+        deviceName: 'iPhone 8 Plus',
         realMobile: 'true',
       },
     },
-    // @TODO investigate why android fails on the getHTML step, even though the test itself is successful
     {
       browserName: 'Android',
       'bstack:options': {
@@ -72,6 +69,7 @@ exports.config = {
       },
     },
     // Disabling the devices below as we keep hitting a limit that causes tests to completely time out alltogether
+    /*
     {
       browserName: 'Chrome',
       browserVersion: 'latest',
@@ -101,6 +99,7 @@ exports.config = {
         realMobile: 'true',
       },
     },
+    //*/
   ],
 
   coloredLogs: true,

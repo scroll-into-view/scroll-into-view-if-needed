@@ -9,23 +9,18 @@ const tests = [
 ]
 console.log('MARK')
 console.log(browser.capabilities)
-const {
-  platform = '',
-  platformName = platform,
-  platformVersion = '',
-  deviceManufacturer = '',
-  deviceModel = '',
-  version = '',
-  browserName = '',
-} = browser.capabilities
+const { browserVersion = '', browserName = '' } = browser.capabilities
+const { os = '', osVersion = '', deviceName = '' } = browser.capabilities[
+  'bstack:options'
+]
 
-const funName = `${platformName} ${platformVersion} ${deviceManufacturer} ${deviceModel} ${browserName} ${version}`.replace(
+const funName = `${os} ${osVersion} ${deviceName} ${browserName} ${browserVersion}`.replace(
   '  ',
   ' '
 )
 
-describe(funName, function() {
-  tests.forEach(testName => {
+describe(funName, function () {
+  tests.forEach((testName) => {
     it(testName, async () => {
       await browser.url(`/${testName}`)
       const wrapper = await $('#results')
@@ -33,7 +28,7 @@ describe(funName, function() {
       const results = await $('#__testharness__results__')
       //await results.waitForExist(3000)
       const testResults = JSON.parse(await results.getHTML(false))
-      testResults.tests.forEach(testResult => {
+      testResults.tests.forEach((testResult) => {
         assert.strictEqual(testResult.message, null)
       })
     })
