@@ -1,30 +1,105 @@
+const shared = {
+  projectName: 'scroll-into-view-if-needed',
+  buildName: process.env.CIRCLE_BRANCH,
+  sessionName: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
+  local: 'true',
+  userName: process.env.BROWSERSTACK_USERNAME,
+  accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
+  consoleLogs: 'info',
+}
+
 exports.config = {
-  services: ['browserstack'],
-  user: process.env.BROWSERSTACK_USERNAME,
-  key: process.env.BROWSERSTACK_ACCESS_KEY,
-  browserstackLocal: true,
+  user: shared.userName,
+  key: shared.accessKey,
+  services: [['browserstack', { browserstackLocal: true }]],
 
   specs: ['./tests/**'],
 
   maxInstances: 10,
-  commonCapabilities: {
-    name: `${process.env.CIRCLE_JOB}-${process.env.CIRCLE_BUILD_NUM}`,
-    build: process.env.CIRCLE_BRANCH,
-    project: 'scroll-into-view-if-needed',
-  },
 
   capabilities: [
-    { browser: 'Safari', browser_version: '11.1' },
-    { browser: 'IE', browser_version: '11.0' },
-    { browser: 'firefox' },
-    // @TODO investigate how to make iPhone X able to run the tests
-    //{ os_version: '11.0', device: 'iPhone X' },
-    // @TODO investigate why android fails on the getHTML step, even though the test itself is successful
-    //{ os_version: '10.0', device: 'Google Pixel 3' },
+    // Generated using https://www.browserstack.com/automate/capabilities?tag=selenium-4
+    {
+      browserName: 'Safari',
+      browserVersion: '11.1',
+      'bstack:options': {
+        ...shared,
+        seleniumVersion: '3.5.2',
+        os: 'OS X',
+        osVersion: 'High Sierra',
+      },
+    },
+    {
+      browserName: 'IE',
+      browserVersion: '11.0',
+      'bstack:options': {
+        ...shared,
+        seleniumVersion: '3.5.2',
+        os: 'Windows',
+        osVersion: '10',
+      },
+    },
+    {
+      browserName: 'Firefox',
+      browserVersion: 'latest',
+      'bstack:options': {
+        ...shared,
+        seleniumVersion: '3.10.0',
+        os: 'Windows',
+        osVersion: '10',
+      },
+    },
+    // TODO: find out why iPhones fail to load localhost
+    /* {
+      browserName: 'iPhone',
+      'bstack:options': {
+        ...shared,
+        osVersion: '14',
+        deviceName: 'iPhone 12 Pro Max',
+        realMobile: 'true',
+      },
+    }, */
+    {
+      browserName: 'Android',
+      'bstack:options': {
+        ...shared,
+        osVersion: '10.0',
+        deviceName: 'Google Pixel 3',
+        realMobile: 'true',
+      },
+    },
     // Disabling the devices below as we keep hitting a limit that causes tests to completely time out alltogether
-    //{ browser: 'Edge' },
-    // { browser: 'firefox' },
-    //{ os_version: '7.0', device: 'Samsung Galaxy S8', real_mobile: 'true' },
+    /*
+    {
+      browserName: 'Chrome',
+      browserVersion: 'latest',
+      'bstack:options': {
+        ...shared,
+        os: 'Windows',
+        osVersion: '10',
+        seleniumVersion: '3.14.0',
+      },
+    },
+    {
+      browserName: 'Safari',
+      browserVersion: 'latest',
+      'bstack:options': {
+        ...shared,
+        os: 'OS X',
+        osVersion: 'Big Sur',
+        seleniumVersion: '3.14.0',
+      },
+    },
+    {
+      browserName: 'Android',
+      'bstack:options': {
+        ...shared,
+        osVersion: '7.0',
+        deviceName: 'Samsung Galaxy S8',
+        realMobile: 'true',
+      },
+    },
+    //*/
   ],
 
   coloredLogs: true,
@@ -43,10 +118,3 @@ exports.config = {
   },
   framework: 'mocha',
 }
-
-// Code to support common capabilities
-// @TODO cleanup this messy snippet with an array.map
-exports.config.capabilities.forEach(function(caps) {
-  for (var i in exports.config.commonCapabilities)
-    caps[i] = caps[i] || exports.config.commonCapabilities[i]
-})
