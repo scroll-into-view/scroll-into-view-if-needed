@@ -368,15 +368,15 @@
     "@wdio/types" "7.5.3"
     chalk "^4.0.0"
 
-"@wdio/junit-reporter@7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.3.0.tgz#d5d85547c00fe7218770962584e60ca3cd653c70"
-  integrity sha512-og6yTz7/DhqL40s3zHaPRbVHjdRr4AcdPc2rg1sDEKE9dIeCovW6Fgfm8UucMuu7blSgVnmjbsCHG4CJ+ZfPRA==
+"@wdio/junit-reporter@7.5.3":
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.5.3.tgz#31131a1a3ace0a8b090e2c31c1a5a4aef222e951"
+  integrity sha512-tY0kgymDPNa1aMvmWV0cfWhFJgWJL6ft1p+sACOnkHzlb7mZDVxeSqBLdLbTqM4qNlZoHxoD67FP0mV0109fNA==
   dependencies:
     "@types/json-stringify-safe" "^5.0.0"
     "@types/validator" "^13.1.3"
-    "@wdio/reporter" "7.3.0"
-    "@wdio/types" "7.2.1"
+    "@wdio/reporter" "7.5.3"
+    "@wdio/types" "7.5.3"
     json-stringify-safe "^5.0.1"
     junit-report-builder "^3.0.0"
     validator "^13.0.0"
@@ -394,16 +394,6 @@
     async-exit-hook "^2.0.1"
     stream-buffers "^3.0.2"
 
-"@wdio/logger@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@wdio/logger/-/logger-7.0.0.tgz#d2e7a595b3daf1285da29571cc0fd7cfcc3c1a68"
-  integrity sha512-P3inCmtc0ms1vnx3v25+U6ccD2dkiuBhaJwmIWPwSbQn8cNQ5AcQIbRWMbnzFHbJ/jSrVBnlwmUArW7L02Zpeg==
-  dependencies:
-    chalk "^4.0.0"
-    loglevel "^1.6.0"
-    loglevel-plugin-prefix "^0.8.4"
-    strip-ansi "^6.0.0"
-
 "@wdio/logger@7.5.3":
   version "7.5.3"
   resolved "https://registry.yarnpkg.com/@wdio/logger/-/logger-7.5.3.tgz#50f81cf20b0cfbcbf1ab55d9a4c13d8e1129684e"
@@ -414,15 +404,15 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.3.0.tgz#51a1a6f72858de0e5b34563e70870bfdd0c027fa"
-  integrity sha512-xVbnuYZrLReu5ED1E1vZU6RQ5PjBPgdx5E6FFa66vDG+Cgu5HNd5uZmepcgJMIsr8YDE8GSOag993HrLBiRFxQ==
+"@wdio/mocha-framework@7.5.3":
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.5.3.tgz#2f7a58d6e89c232279db0d014dacd570d8922c52"
+  integrity sha512-96QCVWsiyZxEgOZP3oTq2B2T7zne5dCdehLa2n4q/BLjk96Rj0jifidJZfd/1+vdNPKX0gWWAzpy98Znn8MVMw==
   dependencies:
     "@types/mocha" "^8.0.0"
-    "@wdio/logger" "7.0.0"
-    "@wdio/types" "7.2.1"
-    "@wdio/utils" "7.3.0"
+    "@wdio/logger" "7.5.3"
+    "@wdio/types" "7.5.3"
+    "@wdio/utils" "7.5.3"
     expect-webdriverio "^2.0.0"
     mocha "^8.0.1"
 
@@ -437,15 +427,6 @@
   integrity sha512-jfNJwNoc2nWdnLsFoGHmOJR9zaWfDTBMWM3W1eR5kXIjevD6gAfWsB5ZoA4IdybujCXxdnhlsm4o2jIzp/6f7A==
   dependencies:
     "@wdio/utils" "7.5.3"
-
-"@wdio/reporter@7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@wdio/reporter/-/reporter-7.3.0.tgz#b5826aaf52776349a1acb8c6cc53ba3b3ec39a11"
-  integrity sha512-jkT6slmjPlnisWblqLmmEEB0wlF8q6aND151pAZm81vezuFLbkVPxY0mdSpKQ8iOUUdckOjygLEWC0fnic7yew==
-  dependencies:
-    "@types/cucumber" "^6.0.1"
-    "@wdio/types" "7.2.1"
-    fs-extra "^9.0.0"
 
 "@wdio/reporter@7.5.3":
   version "7.5.3"
@@ -470,27 +451,12 @@
     webdriver "7.5.3"
     webdriverio "7.5.3"
 
-"@wdio/types@7.2.1":
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/@wdio/types/-/types-7.2.1.tgz#fe1070251b524c9215d3211eeefc083b16d2fdae"
-  integrity sha512-05+nxO2I/9asQvjgTT2ZteDi7PguAruoOw1Vu8zAVqE+yP5YQxW1CX3galRost8UlQ6Vft/RgmsYLabdxJzzag==
-  dependencies:
-    got "^11.8.1"
-
 "@wdio/types@7.5.3":
   version "7.5.3"
   resolved "https://registry.yarnpkg.com/@wdio/types/-/types-7.5.3.tgz#9239b00fd2c2ef75f7a6bda965b5be0855d97f7e"
   integrity sha512-jmumhKBhNDABnpmrshYLEcdE9WoP5tmynsDNbDABlb/W8FFiLySQOejukhYIL9CLys4zXerV3/edks0SCzHOiQ==
   dependencies:
     got "^11.8.1"
-
-"@wdio/utils@7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@wdio/utils/-/utils-7.3.0.tgz#3b3d091c33b13b2eb6cbd2f2037e19b1b3315606"
-  integrity sha512-dEQEKsKdnrydzacK26K+XfhL9d/GrJIssw0ert614yqG1F6db8qhGugfSrufVqDgwe6+Pj4EEJsw9AWpKzj3pg==
-  dependencies:
-    "@wdio/logger" "7.0.0"
-    "@wdio/types" "7.2.1"
 
 "@wdio/utils@7.5.3":
   version "7.5.3"
@@ -1221,10 +1187,10 @@ css-value@^0.0.1:
   resolved "https://registry.yarnpkg.com/css-value/-/css-value-0.0.1.tgz#5efd6c2eea5ea1fd6b6ac57ec0427b18452424ea"
   integrity sha1-Xv1sLupeof1rasV+wEJ7GEUkJOo=
 
-cypress@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-7.0.1.tgz#8603f84d828fd4c5462a856f55cef5642e4ce573"
-  integrity sha512-dMZmZDo+x3jslEQiXRGQlMmMVMhe4JpMHQ6g1unMGXTUsapU1EXlnubevmKmqZ1IQpntAlDKmx8dupOTd3oW+g==
+cypress@7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-7.2.0.tgz#6a3364e18972f898fff1fb12c1ff747939e45ddc"
+  integrity sha512-lHHGay+YsffDn4M0bkkwezylBVHUpwwhtqte4LNPrFRCHy77X38+1PUe3neFb3glVTM+rbILtTN6FhO2djcOuQ==
   dependencies:
     "@cypress/listr-verbose-renderer" "^0.4.1"
     "@cypress/request" "^2.88.5"
