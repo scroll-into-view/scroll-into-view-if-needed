@@ -367,15 +367,15 @@
     "@wdio/types" "7.13.2"
     chalk "^4.0.0"
 
-"@wdio/junit-reporter@7.11.1":
-  version "7.11.1"
-  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.11.1.tgz#81639c7a680b1e7e87bbb9f9673885d343bd48a2"
-  integrity sha512-QcPNtGnzRFGk7UxDr9a8X0G8cQkBC1XjKiX3ZcKBBLU7bKvEoYLL1jFPXvUoQ1gLjObUrf3zcFa4ryinzO8hlA==
+"@wdio/junit-reporter@7.13.2":
+  version "7.13.2"
+  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.13.2.tgz#d5a61b23f0351d5c17ae93f25d04e673c61545a5"
+  integrity sha512-oCVYBNOKZJXXG2OrXHzOL6aExDtVMSR2a9F4IDyQYoJOJTWAlOPJ8IJxYcSYPKPmUW/5c6JLoYcAfN4TtboWeA==
   dependencies:
     "@types/json-stringify-safe" "^5.0.0"
     "@types/validator" "^13.1.3"
-    "@wdio/reporter" "7.10.1"
-    "@wdio/types" "7.10.1"
+    "@wdio/reporter" "7.13.2"
+    "@wdio/types" "7.13.2"
     json-stringify-safe "^5.0.1"
     junit-report-builder "^3.0.0"
     validator "^13.0.0"
@@ -404,15 +404,15 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@7.11.1":
-  version "7.11.1"
-  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.11.1.tgz#d70ea0f09dda0430824cf7f01aa05b709bcac60b"
-  integrity sha512-66P2eTOso9W9Y0IMzhHmYZ98bfBDIkwswqJzGCrAbhuFpvOnqboF8wlrfUUADJ3b2rIVmsw02FCECNPS2EnQyQ==
+"@wdio/mocha-framework@7.13.2":
+  version "7.13.2"
+  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.13.2.tgz#59600bc823b249d8cd2cb91d6d00204294a44ded"
+  integrity sha512-NR73KcZrKZYIgly26jTDUIOhC0YvYDdBUgKN/LsIbp63gQsOmx0/QGuh2O58OxMT5Z1ri7vfcnJhf8H73Adu2Q==
   dependencies:
     "@types/mocha" "^9.0.0"
     "@wdio/logger" "7.7.0"
-    "@wdio/types" "7.10.1"
-    "@wdio/utils" "7.11.0"
+    "@wdio/types" "7.13.2"
+    "@wdio/utils" "7.13.2"
     expect-webdriverio "^3.0.0"
     mocha "^9.0.0"
 
@@ -427,21 +427,6 @@
   integrity sha512-gEnC39RANX2lMip95lpCle0hkdQn2qVvLbUFAE3RzkTO8vW3Cs8Rkg905AfJdVUlsnAc3NpzINq+UBWxpk3EQw==
   dependencies:
     "@wdio/utils" "7.13.2"
-
-"@wdio/reporter@7.10.1":
-  version "7.10.1"
-  resolved "https://registry.yarnpkg.com/@wdio/reporter/-/reporter-7.10.1.tgz#ad679d9fc4760293da6263d7aa0291c95c65081e"
-  integrity sha512-zgyHQc6j+GzlOnwlu3yhCQ8yAaTfo0MpNQG1GCiqtSKJ2c50J2HR5d9LYWrM7L8v13X4YWMxhW+3oYT+f35Gjw==
-  dependencies:
-    "@types/diff" "^5.0.0"
-    "@types/node" "^15.12.5"
-    "@types/object-inspect" "^1.8.0"
-    "@types/supports-color" "^8.1.0"
-    "@wdio/types" "7.10.1"
-    diff "^5.0.0"
-    fs-extra "^10.0.0"
-    object-inspect "^1.10.3"
-    supports-color "8.1.1"
 
 "@wdio/reporter@7.13.2":
   version "7.13.2"
@@ -472,14 +457,6 @@
     webdriver "7.13.2"
     webdriverio "7.13.2"
 
-"@wdio/types@7.10.1":
-  version "7.10.1"
-  resolved "https://registry.yarnpkg.com/@wdio/types/-/types-7.10.1.tgz#063d43c807cc27cd912b6aa70b241dce285fd1e5"
-  integrity sha512-wEDmdux2VCGO4wWVj7v9UbVRqQG7liHnDVPYJuQURPj3hJMiQQTIHwRi7EmwYfbJ9/mRoHBOGeZt7nSvtcjeaQ==
-  dependencies:
-    "@types/node" "^15.12.5"
-    got "^11.8.1"
-
 "@wdio/types@7.13.2":
   version "7.13.2"
   resolved "https://registry.yarnpkg.com/@wdio/types/-/types-7.13.2.tgz#7ad775145f3af26225349838ac893ef09008f701"
@@ -487,15 +464,6 @@
   dependencies:
     "@types/node" "^15.12.5"
     got "^11.8.1"
-
-"@wdio/utils@7.11.0":
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/@wdio/utils/-/utils-7.11.0.tgz#29ea610b4e99275f85b49bc0cfe778de567c3433"
-  integrity sha512-0n5mZha2QktV0181nMhw+IQ8MgYrqyvVDjP20P7JEnl6hehSkyXTAYQcYuKaw5AAVqipV3Eh96JBi5CnhpsoKQ==
-  dependencies:
-    "@wdio/logger" "7.7.0"
-    "@wdio/types" "7.10.1"
-    p-iteration "^1.1.8"
 
 "@wdio/utils@7.13.2":
   version "7.13.2"
@@ -1221,10 +1189,10 @@ css-value@^0.0.1:
   resolved "https://registry.yarnpkg.com/css-value/-/css-value-0.0.1.tgz#5efd6c2eea5ea1fd6b6ac57ec0427b18452424ea"
   integrity sha1-Xv1sLupeof1rasV+wEJ7GEUkJOo=
 
-cypress@8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.3.1.tgz#c6760dbb907df2570b0e1ac235fa31c30f9260a6"
-  integrity sha512-1v6pfx+/5cXhaT5T6QKOvnkawmEHWHLiVzm3MYMoQN1fkX2Ma1C32STd3jBStE9qT5qPSTILjGzypVRxCBi40g==
+cypress@8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.5.0.tgz#5712ca170913f8344bf167301205c4217c1eb9bd"
+  integrity sha512-MMkXIS+Ro2KETn4gAlG3tIc/7FiljuuCZP0zpd9QsRG6MZSyZW/l1J3D4iQM6WHsVxuX4rFChn5jPFlC2tNSvQ==
   dependencies:
     "@cypress/request" "^2.88.6"
     "@cypress/xvfb" "^1.2.4"
@@ -1260,6 +1228,7 @@ cypress@8.3.1:
     minimist "^1.2.5"
     ospath "^1.2.2"
     pretty-bytes "^5.6.0"
+    proxy-from-env "1.0.0"
     ramda "~0.27.1"
     request-progress "^3.0.0"
     supports-color "^8.1.1"
@@ -2895,6 +2864,11 @@ progress@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.1.tgz#c9242169342b1c29d275889c95734621b1952e31"
   integrity sha512-OE+a6vzqazc+K6LxJrX5UPyKFvGnL5CYmq2jFGNIBWHpc4QyE49/YOumcrpQFJpfejmvRtbJzgO1zPmMCqlbBg==
+
+proxy-from-env@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.0.0.tgz#33c50398f70ea7eb96d21f7b817630a55791c7ee"
+  integrity sha1-M8UDmPcOp+uW0h97gXYwpVeRx+4=
 
 proxy-from-env@1.1.0:
   version "1.1.0"
