@@ -356,10 +356,10 @@
     "@wdio/types" "7.16.3"
     chalk "^4.0.0"
 
-"@wdio/junit-reporter@7.16.3":
-  version "7.16.3"
-  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.16.3.tgz#5ca91ab86d1546754828c156fa7c11b008642b4a"
-  integrity sha512-KOHmSBZk6qJx95qDLOyyFRO6UK9+jOTCUDExUVOsGYpsaDm/e1rAE031FskOzLdkNVfnI4zjHBb0gxCjT90Ubg==
+"@wdio/junit-reporter@7.16.6":
+  version "7.16.6"
+  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.16.6.tgz#f86de2cd0a348d337d1bfd8bd4e0cafa8670687f"
+  integrity sha512-bLiFa8asEKMWZttw2oaTfAg4hwBi5ZDaTUWHICjBF3Pn0iWGNo6edLz5z2KIL7G09Q66gIfyQzfeIhSHe8qIBQ==
   dependencies:
     "@types/json-stringify-safe" "^5.0.0"
     "@types/validator" "^13.1.3"
@@ -393,10 +393,10 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@7.16.3":
-  version "7.16.3"
-  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.16.3.tgz#cbc7942c818290474f8d2b31f288900c1dd6029f"
-  integrity sha512-vGm8KYfmI+1L+QniXsHdUvfWs3U4d3a6otfpBqFzS2LfSgsRbdUtIFz8NDqpIIm+HXr8noH1qMR8fe0Ay64Now==
+"@wdio/mocha-framework@7.16.6":
+  version "7.16.6"
+  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.16.6.tgz#5ab160002eec48e16dd05e63c8333332ddc2e15f"
+  integrity sha512-7sGvitHg+pYWfQnlk4fGyOKRsDjC4Z5TY942ipAO0GghHlPo0eWxebEUOJVuW64Xdw/bOP4Kp3tX3xb+AbOt/A==
   dependencies:
     "@types/mocha" "^9.0.0"
     "@wdio/logger" "7.16.0"
@@ -705,7 +705,7 @@ blob-util@^2.0.2:
   resolved "https://registry.yarnpkg.com/blob-util/-/blob-util-2.0.2.tgz#3b4e3c281111bb7f11128518006cdc60b403a1eb"
   integrity sha512-T7JQa+zsXXEa6/8ZhHcQEW1UFfVM49Ts65uBkFL6fz2QmrElqmbajIDJvuA0tEhRe5eIjpV9ZF+0RfZR9voJFQ==
 
-bluebird@^3.7.2:
+bluebird@3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -1148,10 +1148,10 @@ css-value@^0.0.1:
   resolved "https://registry.yarnpkg.com/css-value/-/css-value-0.0.1.tgz#5efd6c2eea5ea1fd6b6ac57ec0427b18452424ea"
   integrity sha1-Xv1sLupeof1rasV+wEJ7GEUkJOo=
 
-cypress@9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.0.0.tgz#8c496f7f350e611604cc2f77b663fb81d0c235d2"
-  integrity sha512-/93SWBZTw7BjFZ+I9S8SqkFYZx7VhedDjTtRBmXO0VzTeDbmxgK/snMJm/VFjrqk/caWbI+XY4Qr80myDMQvYg==
+cypress@9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.1.0.tgz#5d23c1b363b7d4853009c74a422a083a8ad2601c"
+  integrity sha512-fyXcCN51vixkPrz/vO/Qy6WL3hKYJzCQFeWofOpGOFewVVXrGfmfSOGFntXpzWBXsIwPn3wzW0HOFw51jZajNQ==
   dependencies:
     "@cypress/request" "^2.88.7"
     "@cypress/xvfb" "^1.2.4"
@@ -1160,7 +1160,7 @@ cypress@9.0.0:
     "@types/sizzle" "^2.3.2"
     arch "^2.2.0"
     blob-util "^2.0.2"
-    bluebird "^3.7.2"
+    bluebird "3.7.2"
     cachedir "^2.3.0"
     chalk "^4.1.0"
     check-more-types "^2.24.0"
