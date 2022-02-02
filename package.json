@@ -89,7 +89,7 @@
   "bundlesize": [
     {
       "path": "./umd/scroll-into-view-if-needed.min.js",
-      "maxSize": "3.2 kB",
+      "maxSize": "3.3 kB",
       "compression": "none"
     }
   ],
