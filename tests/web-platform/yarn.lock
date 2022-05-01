@@ -366,15 +366,15 @@
     "@wdio/types" "7.19.5"
     chalk "^4.0.0"
 
-"@wdio/junit-reporter@7.19.1":
-  version "7.19.1"
-  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.19.1.tgz#48be5179ca8a53add004d4d1080331173f3be15b"
-  integrity sha512-bL2+Y8MeW2Uyv+NM60nBFRLrnMIHhVaIwdYPbGABAxfBw3Uj8W+jT5QGxNt6ROCgFWeomEACJmsBUgx+ApN6mg==
+"@wdio/junit-reporter@7.19.5":
+  version "7.19.5"
+  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-7.19.5.tgz#de3a6bbc5ea8a95f71dc49ae4704147475d06e91"
+  integrity sha512-x9nnhl6mTgOVl6dbd8W8o2Eo5nC6cNaTxGMURWNREh63faweeOddjdwY89N4odobaidhBhlxSPzFNjtfdUC39Q==
   dependencies:
     "@types/json-stringify-safe" "^5.0.0"
     "@types/validator" "^13.1.3"
-    "@wdio/reporter" "7.19.1"
-    "@wdio/types" "7.19.1"
+    "@wdio/reporter" "7.19.5"
+    "@wdio/types" "7.19.5"
     json-stringify-safe "^5.0.1"
     junit-report-builder "^3.0.0"
     validator "^13.0.0"
@@ -403,15 +403,15 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@7.19.3":
-  version "7.19.3"
-  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.19.3.tgz#db126c469ed4fabaae13517a7b9116829c816417"
-  integrity sha512-pT/mgvpFYG4R5QNu/pSdEP01Ae3A3Mt9R99GJcbl36lblvPOY7rRbCuyYEFINH5lQS7VAYk5aXXVVvNMQCrcgQ==
+"@wdio/mocha-framework@7.19.5":
+  version "7.19.5"
+  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.19.5.tgz#33f1965a52e8974ffc45f7ad2dc7ec642e7b6191"
+  integrity sha512-dZ2Xhl1LX/KOz/kAQ0bYcdsfr+rpMeLimwk2t9hPxtLt+xRYQNuJ8MnUyetJ7OqWsqtV/txe+JFxnfjuDg/HXg==
   dependencies:
     "@types/mocha" "^9.0.0"
     "@wdio/logger" "7.19.0"
-    "@wdio/types" "7.19.1"
-    "@wdio/utils" "7.19.3"
+    "@wdio/types" "7.19.5"
+    "@wdio/utils" "7.19.5"
     expect-webdriverio "^3.0.0"
     mocha "^9.0.0"
 
@@ -426,22 +426,6 @@
   integrity sha512-Rej9SrH2DIPQ2342o4ixF48fJYsaeU4rtz+R7wYv6J1RZaNQvINdO21HoODfJ7DIDltVWzvLhCOe4CgzGubRGA==
   dependencies:
     "@wdio/utils" "7.19.5"
-
-"@wdio/reporter@7.19.1":
-  version "7.19.1"
-  resolved "https://registry.yarnpkg.com/@wdio/reporter/-/reporter-7.19.1.tgz#5c996247c0ac33d215a6b596ef1a4a5e9e1a7c69"
-  integrity sha512-sWmBBV4dPCZkGk9Qq0m35T/vHGen0N10nH4osQcVP3IZJqpo2eLIH4w+X6EUbjZ2GdgOA2bLMMzb1bl9JqnGPg==
-  dependencies:
-    "@types/diff" "^5.0.0"
-    "@types/node" "^17.0.4"
-    "@types/object-inspect" "^1.8.0"
-    "@types/supports-color" "^8.1.0"
-    "@types/tmp" "^0.2.0"
-    "@wdio/types" "7.19.1"
-    diff "^5.0.0"
-    fs-extra "^10.0.0"
-    object-inspect "^1.10.3"
-    supports-color "8.1.1"
 
 "@wdio/reporter@7.19.5":
   version "7.19.5"
@@ -473,14 +457,6 @@
     webdriver "7.19.5"
     webdriverio "7.19.5"
 
-"@wdio/types@7.19.1":
-  version "7.19.1"
-  resolved "https://registry.yarnpkg.com/@wdio/types/-/types-7.19.1.tgz#9e7d67cb7b25876f26e20c7c22a8ce78fb294685"
-  integrity sha512-mOodKlmvYxpj8P5BhjggEGpXuiRSlsyn2ClG8QqJ3lfXgOtOVEzFNfv/Ai7TkHr+lHDQNXLjllCjSqoCHhwlqg==
-  dependencies:
-    "@types/node" "^17.0.4"
-    got "^11.8.1"
-
 "@wdio/types@7.19.5":
   version "7.19.5"
   resolved "https://registry.yarnpkg.com/@wdio/types/-/types-7.19.5.tgz#e05790f61dfab54ee6683ac799cb5f96615d1d0f"
@@ -488,15 +464,6 @@
   dependencies:
     "@types/node" "^17.0.4"
     got "^11.8.1"
-
-"@wdio/utils@7.19.3":
-  version "7.19.3"
-  resolved "https://registry.yarnpkg.com/@wdio/utils/-/utils-7.19.3.tgz#1aa9e740d684bcc5f79d458a752fb738243bbf21"
-  integrity sha512-ZchrBeho8cj3lV6z44yiREJcEBm8Uw2mCX8o+P6YiSOrsnEdB9Oivo+6wkU8g9vI/7ZHIHps3w35P7sH9NryzA==
-  dependencies:
-    "@wdio/logger" "7.19.0"
-    "@wdio/types" "7.19.1"
-    p-iteration "^1.1.8"
 
 "@wdio/utils@7.19.5":
   version "7.19.5"
@@ -1199,10 +1166,10 @@ css-value@^0.0.1:
   resolved "https://registry.yarnpkg.com/css-value/-/css-value-0.0.1.tgz#5efd6c2eea5ea1fd6b6ac57ec0427b18452424ea"
   integrity sha1-Xv1sLupeof1rasV+wEJ7GEUkJOo=
 
-cypress@9.5.3:
-  version "9.5.3"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.5.3.tgz#7c56b50fc1f1aa69ef10b271d895aeb4a1d7999e"
-  integrity sha512-ItelIVmqMTnKYbo1JrErhsGgQGjWOxCpHT1TfMvwnIXKXN/OSlPjEK7rbCLYDZhejQL99PmUqul7XORI24Ik0A==
+cypress@9.6.0:
+  version "9.6.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.6.0.tgz#84473b3362255fa8f5e627a596e58575c9e5320f"
+  integrity sha512-nNwt9eBQmSENamwa8LxvggXksfyzpyYaQ7lNBLgks3XZ6dPE/6BCQFBzeAyAPt/bNXfH3tKPkAyhiAZPYkWoEg==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
