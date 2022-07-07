@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "scroll-into-view-if-needed": "link:../..",
-    "serve": "13.0.2"
+    "serve": "13.0.4"
   },
   "devDependencies": {
     "@wdio/browserstack-service": "^7.0.0",
