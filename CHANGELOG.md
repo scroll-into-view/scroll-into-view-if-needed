@@ -1,3 +1,17 @@
+<!-- markdownlint-disable --><!-- textlint-disable -->
+
+# 📓 Changelog
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.2.30](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v2.2.29...v2.2.30) (2022-11-29)
+
+### Bug Fixes
+
+- bump `compute-scroll-into-view` ([b7c235b](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/b7c235bee5fde82f7ee7e8d5b0da28c2fbed580c))
+- setup improved semantic-release ([7a68079](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/7a6807940dc18aeb28810acac4f26d4955be6816))
+
 ## [1.6.0]
 
 ### Added
