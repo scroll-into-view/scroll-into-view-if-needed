@@ -11,7 +11,7 @@ const tests = {
   start: () => (
     <Expect
       options={{ block: 'start' }}
-      toBe={node => {
+      toBe={(node) => {
         const clientRect = node.getBoundingClientRect()
         return clientRect.top === 0
       }}
@@ -28,7 +28,7 @@ const tests = {
   center: () => (
     <Expect
       options={{ block: 'center' }}
-      toBe={node => {
+      toBe={(node) => {
         const clientRect = node.getBoundingClientRect()
         return clientRect.top === Math.round(window.innerHeight / 2 - SIZE / 2)
       }}
@@ -45,7 +45,7 @@ const tests = {
   end: () => (
     <Expect
       options={{ block: 'end' }}
-      toBe={node => {
+      toBe={(node) => {
         const clientRect = node.getBoundingClientRect()
         return clientRect.bottom === window.innerHeight
       }}
@@ -71,7 +71,7 @@ export default class extends Component {
     return (
       <Fragment>
         <navbar className="test-switcher">
-          {buttons.map(name => (
+          {buttons.map((name) => (
             <button
               key={name}
               onClick={() => this.setState({ test: name })}

@@ -5,7 +5,7 @@ const node = document.body
 // Ensuring that the generics support doesn't break
 async function main() {
   const didScroll = await scrollIntoView<Promise<boolean>>(node, {
-    behavior: actions => {
+    behavior: (actions) => {
       actions.forEach(({ el, left, top }) => {
         el.scroll({ left, top })
       })

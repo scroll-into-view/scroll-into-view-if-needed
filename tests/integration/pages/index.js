@@ -11,7 +11,7 @@ export default () => (
       gridAutoRows: 'minmax(150px, auto)',
     }}
   >
-    {suites.map(suite => (
+    {suites.map((suite) => (
       <Link key={suite} href={`/${suite}`}>
         <a>{suite}</a>
       </Link>

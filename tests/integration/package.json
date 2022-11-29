@@ -1,8 +1,8 @@
 {
-  "private": true,
   "name": "@integration-tests/core",
-  "description": "Ensures the core functionality is correct",
   "version": "1.0.0",
+  "private": true,
+  "description": "Ensures the core functionality is correct",
   "main": "index.js",
   "scripts": {
     "build": "next build",

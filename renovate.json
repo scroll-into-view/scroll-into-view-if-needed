@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "github>stipsan/renovate-presets:auto"
-  ],
+  "extends": ["github>stipsan/renovate-presets:auto"],
   "packageRules": [
     {
       "paths": ["tests/**"],
