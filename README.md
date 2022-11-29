@@ -1,4 +1,3 @@
-[![CircleCI Status](https://img.shields.io/circleci/project/github/stipsan/scroll-into-view-if-needed.svg?style=flat-square)](https://circleci.com/gh/stipsan/scroll-into-view-if-needed)
 [![npm stat](https://img.shields.io/npm/dm/scroll-into-view-if-needed.svg?style=flat-square)](https://npm-stat.com/charts.html?package=scroll-into-view-if-needed)
 [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
 [![gzip size][gzip-badge]][unpkg-dist]
@@ -12,12 +11,12 @@
 This used to be a [ponyfill](https://ponyfill.com) for
 `Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one.
 
-## [Demo](https://scroll-into-view-if-needed.netlify.com)
+## [Demo](https://scroll-into-view.dev)
 
 ## Install
 
 ```bash
-yarn add scroll-into-view-if-needed
+npm i scroll-into-view-if-needed
 ```
 
 The UMD build is also available on [unpkg](https://unpkg.com/scroll-into-view-if-needed/umd/):
@@ -60,7 +59,7 @@ scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 
 ### Ponyfill smooth scrolling
 
-What does ponyfilling smooth scrolling mean, and why is it implemented in [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) instead?
+What does ponyfilling smooth scrolling mean, and why is it implemented in [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) instead?
 The answer is bundlesize. If this package adds smooth scrolling to browsers that's missing it then the overall bundlesize increases regardless of wether you use this feature or not.
 
 Put it this way:
@@ -88,7 +87,7 @@ scrollIntoView(node, { behavior: 'smooth' })
 
 ##### Consistency
 
-If a consistent smooth scrolling experience is a priority and you really don't want any surprises between different browsers and enviroments. In other words don't want to be affected by how a vendor might implement native smooth scrolling, then [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) is your best option. It ensures the same smooth scrolling experience for every browser.
+If a consistent smooth scrolling experience is a priority and you really don't want any surprises between different browsers and enviroments. In other words don't want to be affected by how a vendor might implement native smooth scrolling, then [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) is your best option. It ensures the same smooth scrolling experience for every browser.
 
 ```js
 import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
@@ -163,7 +162,7 @@ Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it 
 When given a function then this library will only calculate what should be scrolled and leave it up to you to perform the actual scrolling.
 
 The callback is given an array over actions. Each action contain a reference to an element that should be scrolled, with its top and left scrolling coordinates.
-What you return is passed through, allowing you to implement a Promise interface if you want to (check [`smooth-scroll-into-view-if-needed`](https://github.com/stipsan/smooth-scroll-into-view-if-needed) to see an example of that).
+What you return is passed through, allowing you to implement a Promise interface if you want to (check [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) to see an example of that).
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -171,7 +170,7 @@ const node = document.getElementById('hero')
 
 scrollIntoView(node, {
   // Your scroll actions will always be an array, even if there is nothing to scroll
-  behavior: actions =>
+  behavior: (actions) =>
     // list is sorted from innermost (closest parent to your target) to outermost (often the document.body or viewport)
     actions.forEach(({ el, top, left }) => {
       // implement the scroll anyway you want
@@ -186,41 +185,41 @@ scrollIntoView(node, {
 })
 ```
 
-Check the demo to see an [example with popmotion and a spring transition](https://scroll-into-view-if-needed.netlify.com/#custom-transition).
+Check the demo to see an [example with popmotion and a spring transition](https://scroll-into-view.dev/#custom-transition).
 
-> If you only need the custom behavior you might be better off by using the compute library directly: https://github.com/stipsan/compute-scroll-into-view
+> If you only need the custom behavior you might be better off by using the compute library directly: https://github.com/scroll-into-view/compute-scroll-into-view
 
-#### [block](https://scroll-into-view-if-needed.netlify.com/#scroll-alignment)
+#### [block](https://scroll-into-view.dev/#scroll-alignment)
 
 Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
 
 > Introduced in `v2.1.0`
 
-[More info.](https://github.com/stipsan/compute-scroll-into-view#block)
+[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#block)
 
-#### [inline](https://scroll-into-view-if-needed.netlify.com/#scroll-alignment)
+#### [inline](https://scroll-into-view.dev/#scroll-alignment)
 
 Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
 
 > Introduced in `v2.1.0`
 
-[More info.](https://github.com/stipsan/compute-scroll-into-view#inline)
+[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#inline)
 
-#### [scrollMode](https://scroll-into-view-if-needed.netlify.com/#scrolling-if-needed)
+#### [scrollMode](https://scroll-into-view.dev/#scrolling-if-needed)
 
 Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
 > Introduced in `v2.1.0`
 
-[More info.](https://github.com/stipsan/compute-scroll-into-view#scrollmode)
+[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#scrollmode)
 
-#### [boundary](https://scroll-into-view-if-needed.netlify.com/#limit-propagation)
+#### [boundary](https://scroll-into-view.dev/#limit-propagation)
 
 Type: `Element | Function`
 
 > `Function` introduced in `v2.1.0`, `Element` introduced in `v1.1.0`
 
-[More info.](https://github.com/stipsan/compute-scroll-into-view#boundary)
+[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#boundary)
 
 #### skipOverflowHiddenElements
 
@@ -228,7 +227,7 @@ Type: `Boolean`<br> Default: `false`
 
 > Introduced in `v2.2.0`
 
-[More info.](https://github.com/stipsan/compute-scroll-into-view#skipoverflowhiddenelements)
+[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#skipoverflowhiddenelements)
 
 # TypeScript support
 
@@ -390,7 +389,7 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 - [smooth-scroll-into-view-if-needed](https://www.npmjs.com/package/smooth-scroll-into-view-if-needed) – ponyfills smooth scrolling.
 - [react-scroll-into-view-if-needed](https://www.npmjs.com/package/react-scroll-into-view-if-needed) – A thin wrapper to scroll your component into view.
 - [scroll-polyfill](https://www.npmjs.com/package/scroll-polyfill) – polyfills smooth scrolling.
-- [Don't be shy, add yours!](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
+- [Don't be shy, add yours!](https://github.com/scroll-into-view/scroll-into-view-if-needed/edit/main/README.md)
 
 # Who's using this
 
@@ -402,7 +401,7 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
   A design system and React component library for the web that lets you quickly build high-quality, accessible apps.
 - [Covalent](https://github.com/Teradata/covalent) – Teradata UI Platform built on Angular Material.
 - [docs.expo.io](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
-- [Add yourself to the list 😉](https://github.com/stipsan/scroll-into-view-if-needed/edit/master/README.md)
+- [Add yourself to the list 😉](https://github.com/scroll-into-view/scroll-into-view-if-needed/edit/main/README.md)
 
 [gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
 [size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?label=size&style=flat-square

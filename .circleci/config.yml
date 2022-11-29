@@ -99,15 +99,6 @@ jobs:
             - tests/web-platform/node_modules
           key: v6-tests-web-platform-dependencies-{{ .Branch }}-{{ checksum "tests/web-platform/yarn.lock" }}
 
-  Semantic Release:
-    docker:
-      - image: circleci/node:12
-    steps:
-      - checkout
-      - restore-cache: *restore-cache
-      - *install
-      - run: npx semantic-release
-
 # Workflows enables us to run multiple jobs in parallel
 workflows:
   version: 2
@@ -117,13 +108,3 @@ workflows:
       - Build
       - Web Platform Tests
       - Browserstack
-      - Semantic Release:
-          requires:
-            - Typecheck
-            - Build
-            - Web Platform Tests
-            - Browserstack
-          filters:
-            branches:
-              only:
-                - master

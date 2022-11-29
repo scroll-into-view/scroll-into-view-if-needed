@@ -3,10 +3,10 @@
   "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
   "license": "MIT",
   "author": "Cody Olsen",
-  "homepage": "https://scroll-into-view-if-needed.netlify.com",
+  "homepage": "https://scroll-into-view.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stipsan/scroll-into-view-if-needed.git"
+    "url": "git+https://github.com/scroll-into-view/scroll-into-view-if-needed.git"
   },
   "version": "2.0.0-dev",
   "main": "index.js",
@@ -17,8 +17,8 @@
     "umd"
   ],
   "scripts": {
-    "prebuild": "yarn clean",
-    "build": "yarn build:d.ts && yarn build:cjs && yarn build:es && yarn build:umd && yarn build:umd.min",
+    "prebuild": "npm run clean",
+    "build": "npm run build:d.ts && npm run build:cjs && npm run build:es && npm run build:umd && npm run build:umd.min",
     "build:cjs": "BABEL_ENV=cjs babel src -d . --extensions '.ts'",
     "build:d.ts": "tsc --emitDeclarationOnly",
     "build:es": "BABEL_ENV=es babel src -d es --extensions '.ts'",
@@ -26,9 +26,9 @@
     "build:umd.min": "BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o umd/scroll-into-view-if-needed.min.js",
     "clean": "rimraf 'umd' 'es' 'typings'",
     "precommit": "lint-staged",
-    "dev": "concurrently 'tsc --noEmit --watch' 'tsc --noEmit -p tests/typescript --watch' 'yarn build:cjs --watch' 'yarn build:es --watch' 'yarn build:umd --watch' 'yarn build:umd.min --watch'",
+    "dev": "concurrently 'tsc --noEmit --watch' 'tsc --noEmit -p tests/typescript --watch' 'npm run build:cjs --watch' 'npm run build:es --watch' 'npm run build:umd --watch' 'npm run build:umd.min --watch'",
     "lint": "eslint ./integration-examples",
-    "prepublishOnly": "unset npm_config_cafile && yarn build",
+    "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/typescript"
   },
   "sideEffects": false,
@@ -42,6 +42,7 @@
     "@babel/plugin-external-helpers": "7.16.7",
     "@babel/preset-env": "7.17.10",
     "@babel/preset-typescript": "7.16.7",
+    "@sanity/semantic-release-preset": "^2.0.2",
     "babel-eslint": "10.1.0",
     "babel-plugin-add-module-exports": "1.0.4",
     "babel-plugin-dev-expression": "0.2.3",
@@ -54,7 +55,7 @@
     "husky": "7.0.4",
     "lint-staged": "12.4.1",
     "prettier": "2.6.2",
-    "prettier-package-json": "2.6.3",
+    "prettier-plugin-packagejson": "^2.3.0",
     "rimraf": "3.0.2",
     "rollup": "2.71.1",
     "rollup-plugin-babel": "4.4.0",
@@ -93,36 +94,6 @@
       "compression": "none"
     }
   ],
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.css": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.md": [
-      "prettier --write",
-      "git add"
-    ],
-    "**/package.json": [
-      "prettier-package-json --write",
-      "git add"
-    ],
-    "**/.babelrc": [
-      "prettier --write",
-      "git add"
-    ]
-  },
   "prettier": {
     "semi": false,
     "singleQuote": true,
@@ -134,11 +105,6 @@
           "parser": "json"
         }
       }
-    ]
-  },
-  "release": {
-    "prepare": [
-      "@semantic-release/npm"
     ]
   }
 }
