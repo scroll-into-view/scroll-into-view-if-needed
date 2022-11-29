@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.31](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v2.2.30...v2.2.31) (2022-11-29)
+
+### Bug Fixes
+
+- add `pkg.exports` ([e81272f](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/e81272f6b2287a1ace51be932120f497b00aebe7))
+
 ## [2.2.30](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v2.2.29...v2.2.30) (2022-11-29)
 
 ### Bug Fixes
