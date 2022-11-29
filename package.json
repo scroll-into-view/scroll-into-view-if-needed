@@ -24,14 +24,6 @@
   "license": "MIT",
   "author": "Cody Olsen",
   "sideEffects": false,
-  "main": "index.js",
-  "module": "es/index.js",
-  "typings": "typings/index.d.ts",
-  "files": [
-    "es",
-    "typings",
-    "umd"
-  ],
   "exports": {
     ".": {
       "types": "./typings/index.d.ts",
@@ -42,6 +34,14 @@
     },
     "./package.json": "./package.json"
   },
+  "main": "index.js",
+  "module": "es/index.js",
+  "typings": "typings/index.d.ts",
+  "files": [
+    "es",
+    "typings",
+    "umd"
+  ],
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run build:d.ts && npm run build:cjs && npm run build:es && npm run build:umd && npm run build:umd.min",
