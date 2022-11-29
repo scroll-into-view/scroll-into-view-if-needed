@@ -77,7 +77,7 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-dev-expression": "^0.2.3",
-    "concurrently": "^6.5.1",
+    "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
