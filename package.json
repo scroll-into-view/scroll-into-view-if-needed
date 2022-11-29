@@ -32,6 +32,16 @@
     "typings",
     "umd"
   ],
+  "exports": {
+    ".": {
+      "types": "./typings/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./es/index.js",
+      "require": "./index.js",
+      "default": "./es/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run build:d.ts && npm run build:cjs && npm run build:es && npm run build:umd && npm run build:umd.min",
