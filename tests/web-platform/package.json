@@ -17,6 +17,6 @@
     "@wdio/junit-reporter": "7.26.0",
     "@wdio/local-runner": "^7.27.0",
     "@wdio/mocha-framework": "7.26.0",
-    "cypress": "9.7.0"
+    "cypress": "11.2.0"
   }
 }
