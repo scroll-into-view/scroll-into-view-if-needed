@@ -5,6 +5,17 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v2.2.31...v3.0.0) (2022-12-01)
+
+### ⚠ BREAKING CHANGES
+
+- drops umd builds, and ships more modern syntax with ESM as baseline
+
+### Bug Fixes
+
+- **deps:** update dependency compute-scroll-into-view to v2 ([#1119](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1119)) ([40ccca2](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/40ccca28236feec1453e52e4b9e3e6b28d8d9547))
+- support node ESM ([#1120](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1120)) ([8f48307](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/8f48307c364dfccd2f9cfb3a36dcb3120c07fc08))
+
 ## [2.2.31](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v2.2.30...v2.2.31) (2022-11-29)
 
 ### Bug Fixes
