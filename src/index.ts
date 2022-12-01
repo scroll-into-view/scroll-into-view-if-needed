@@ -1,28 +1,44 @@
 import compute from 'compute-scroll-into-view'
-import {
-  CustomScrollAction,
-  CustomScrollBehaviorCallback,
+import type {
   Options as BaseOptions,
-  ScrollBehavior,
-} from './types'
+  ScrollAction,
+} from 'compute-scroll-into-view'
 
+/** @public */
+export type Options<T> = StandardBehaviorOptions | CustomBehaviorOptions<T>
+
+/** @public */
 export interface StandardBehaviorOptions extends BaseOptions {
   behavior?: ScrollBehavior
 }
+
+/** @public */
 export interface CustomBehaviorOptions<T> extends BaseOptions {
   behavior: CustomScrollBehaviorCallback<T>
 }
 
-export interface Options<T = any> extends BaseOptions {
-  behavior?: ScrollBehavior | CustomScrollBehaviorCallback<T>
-}
+/** @public */
+export type CustomScrollBehaviorCallback<T = unknown> = (
+  actions: ScrollAction[]
+) => T
 
-function isOptionsObject<T>(options: any): options is T {
+function isStandardScrollBehavior(
+  options: any
+): options is StandardBehaviorOptions {
   return options === Object(options) && Object.keys(options).length !== 0
 }
 
+function isCustomScrollBehavior<T>(
+  options: any
+): options is CustomBehaviorOptions<T> {
+  if (typeof options === 'object') {
+    return typeof options.behavior === 'function'
+  }
+  return false
+}
+
 function defaultBehavior(
-  actions: CustomScrollAction[],
+  actions: ScrollAction[],
   behavior: ScrollBehavior = 'auto'
 ) {
   const canSmoothScroll = 'scrollBehavior' in document.body.style
@@ -45,7 +61,7 @@ function getOptions(options: any): StandardBehaviorOptions {
     return { block: 'end', inline: 'nearest' }
   }
 
-  if (isOptionsObject<StandardBehaviorOptions>(options)) {
+  if (isStandardScrollBehavior(options)) {
     // compute.ts ensures the defaults are block: 'center' and inline: 'nearest', to conform to the spec
     return options
   }
@@ -57,21 +73,27 @@ function getOptions(options: any): StandardBehaviorOptions {
 // Some people might use both "auto" and "ponyfill" modes in the same file, so we also provide a named export so
 // that imports in userland code (like if they use native smooth scrolling on some browsers, and the ponyfill for everything else)
 // the named export allows this `import {auto as autoScrollIntoView, ponyfill as smoothScrollIntoView} from ...`
+/** @public */
 function scrollIntoView<T>(
   target: Element,
   options: CustomBehaviorOptions<T>
 ): T
-function scrollIntoView(target: Element, options?: Options | boolean): void
-function scrollIntoView<T>(target: Element, options?: Options<T> | boolean) {
+/** @public */
+function scrollIntoView(
+  target: Element,
+  options?: StandardBehaviorOptions | boolean
+): void
+/** @public */
+function scrollIntoView<T>(
+  target: Element,
+  options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean
+) {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
   const isTargetAttached =
     target.isConnected ||
     target.ownerDocument!.documentElement!.contains(target)
 
-  if (
-    isOptionsObject<CustomBehaviorOptions<T>>(options) &&
-    typeof options.behavior === 'function'
-  ) {
+  if (isCustomScrollBehavior<T>(options)) {
     return options.behavior(isTargetAttached ? compute(target, options) : [])
   }
 

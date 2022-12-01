@@ -17,3 +17,13 @@ async function main() {
 }
 
 main()
+
+// Generics are only allowed if a custom behavior is provided
+// @ts-expect-error
+scrollIntoView<boolean>(node)
+// @ts-expect-error
+scrollIntoView<boolean>(node, true)
+// @ts-expect-error
+scrollIntoView<boolean>(node, {})
+// @ts-expect-error
+scrollIntoView<boolean>(node, { behavior: 'auto' })
