@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-compute-scroll-into-view@^2.0.0:
+compute-scroll-into-view@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-2.0.1.tgz#d1b90c4395c1b54b9e21516e27618aae0cf08822"
   integrity sha512-xEntGdXkP2sptu5LX1ejT8YT9hoE61jgemSv6GtNTfjLSZlHjBaSHGdViDNhi1W7XRCW0Uo+CiKWnKoO3V3Mbw==
@@ -15,4 +15,4 @@ flow-bin@0.194.0:
 "scroll-into-view-if-needed@link:../..":
   version "3.0.0"
   dependencies:
-    compute-scroll-into-view "^2.0.0"
+    compute-scroll-into-view "^2.0.1"
