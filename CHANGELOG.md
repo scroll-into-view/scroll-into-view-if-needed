@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.1...v3.0.2) (2022-12-01)
+
+### Bug Fixes
+
+- **deps:** update dependency compute-scroll-into-view to ^2.0.2 ([#1126](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1126)) ([275d193](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/275d193614fb8e6ffc6986361ca6e1b22b06f1f6))
+- improve typings, reduce bundlesize ([2166404](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/216640426acb0844613b44a025ecc51003a9ba4d))
+
 ## [3.0.1](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.0...v3.0.1) (2022-12-01)
 
 ### Bug Fixes
