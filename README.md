@@ -2,7 +2,7 @@
 [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
 [![gzip size][gzip-badge]][unpkg-dist]
 [![size][size-badge]][unpkg-dist]
-[![module formats: umd, cjs, and es][module-formats-badge]][unpkg-dist]
+[![module formats: cjs, and es][module-formats-badge]][unpkg-dist]
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?style=flat-square&badge_key=ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)](https://www.browserstack.com/automate/public-build/ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)
 
@@ -11,29 +11,63 @@
 This used to be a [ponyfill](https://ponyfill.com) for
 `Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one.
 
-## [Demo](https://scroll-into-view.dev)
+- [Demo](#demo)
+- [Install](#install)
+- [Usage](#usage)
+  - [Ponyfill smooth scrolling](#ponyfill-smooth-scrolling)
+    - [Load time](#load-time)
+    - [Consistency](#consistency)
+    - [Quality](#quality)
+- [API](#api)
+  - [scrollIntoView(target, \[options\])](#scrollintoviewtarget-options)
+  - [options](#options)
+    - [behavior](#behavior)
+      - [`'auto'`](#auto)
+      - [`'smooth'`](#smooth)
+      - [`Function`](#function)
+    - [block](#block)
+    - [inline](#inline)
+    - [scrollMode](#scrollmode)
+    - [boundary](#boundary)
+    - [skipOverflowHiddenElements](#skipoverflowhiddenelements)
+- [TypeScript support](#typescript-support)
+- [Breaking API changes from v1](#breaking-api-changes-from-v1)
+    - [v1](#v1)
+    - [v2](#v2)
+  - [centerIfNeeded](#centerifneeded)
+    - [v1](#v1-1)
+    - [v2](#v2-1)
+  - [duration](#duration)
+    - [v1](#v1-2)
+    - [v2](#v2-2)
+  - [easing](#easing)
+  - [handleScroll](#handlescroll)
+  - [offset](#offset)
+  - [scrollIntoViewIfNeeded(target, \[centerIfNeeded\], \[animateOptions\], \[finalElement\], \[offsetOptions\])](#scrollintoviewifneededtarget-centerifneeded-animateoptions-finalelement-offsetoptions)
+- [Related packages](#related-packages)
+- [Who's using this](#whos-using-this)
+- [Sponsors](#sponsors)
 
-## Install
+# [Demo](https://scroll-into-view.dev)
+
+# Install
 
 ```bash
 npm i scroll-into-view-if-needed
 ```
 
-The UMD build is also available on [unpkg](https://unpkg.com/scroll-into-view-if-needed/umd/):
-
-```html
-<script src="https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js"></script>
-```
-
-You can find the library on `window.scrollIntoView`.
-
-## Usage
+You can also use it from a CDN:
 
 ```js
-// es6 import
+const { default: scrollIntoView } = await import(
+  'https://esm.sh/scroll-into-view-if-needed'
+)
+```
+
+# Usage
+
+```js
 import scrollIntoView from 'scroll-into-view-if-needed'
-// or es5
-const scrollIntoView = require('scroll-into-view-if-needed')
 
 const node = document.getElementById('hero')
 
@@ -57,7 +91,7 @@ scrollIntoView(node, { block: 'center', inline: 'center' })
 scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 ```
 
-### Ponyfill smooth scrolling
+## Ponyfill smooth scrolling
 
 What does ponyfilling smooth scrolling mean, and why is it implemented in [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) instead?
 The answer is bundlesize. If this package adds smooth scrolling to browsers that's missing it then the overall bundlesize increases regardless of wether you use this feature or not.
@@ -75,7 +109,7 @@ scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 
 That's why only native smooth scrolling is supported out of the box. There are two common ways you can smooth scroll browsers that don't support it natively. Below is all three, which one is best for you depends on what is the most important to your use case:: load time, consistency or quality.
 
-##### Load time
+### Load time
 
 In many scenarios smooth scrolling can be used as a progressive enhancement. If the user is on a browser that don't implement smooth scrolling it'll simply scroll instantly and your bundlesize is only as large as it has to be.
 
@@ -85,7 +119,7 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 scrollIntoView(node, { behavior: 'smooth' })
 ```
 
-##### Consistency
+### Consistency
 
 If a consistent smooth scrolling experience is a priority and you really don't want any surprises between different browsers and enviroments. In other words don't want to be affected by how a vendor might implement native smooth scrolling, then [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) is your best option. It ensures the same smooth scrolling experience for every browser.
 
@@ -95,7 +129,7 @@ import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
 smoothScrollIntoView(node, { behavior: 'smooth' })
 ```
 
-##### Quality
+### Quality
 
 If you want to use native smooth scrolling when it's available, and fallback to the smooth scrolling ponyfill:
 
@@ -111,23 +145,23 @@ const scrollIntoViewSmoothly =
 scrollIntoViewSmoothly(node, { behavior: 'smooth' })
 ```
 
-## API
+# API
 
-### scrollIntoView(target, [options])
+## scrollIntoView(target, [options])
 
 > New API introduced in `v1.3.0`
 
-### options
+## options
 
 Type: `Object`
 
-#### behavior
+### behavior
 
 Type: `'auto' | 'smooth' | Function`<br> Default: `'auto'`
 
 > Introduced in `v2.1.0`
 
-##### `'auto'`
+#### `'auto'`
 
 The auto option unlocks a few interesting opportunities.
 The browser will decide based on user preferences wether it should smooth scroll or not.
@@ -153,11 +187,11 @@ html,
 }
 ```
 
-##### `'smooth'`
+#### `'smooth'`
 
 Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it does not require any CSS, just a browser that implements it. [More information.](#ponyfill-smooth-scrolling)
 
-##### `Function`
+#### `Function`
 
 When given a function then this library will only calculate what should be scrolled and leave it up to you to perform the actual scrolling.
 
@@ -189,7 +223,7 @@ Check the demo to see an [example with popmotion and a spring transition](https:
 
 > If you only need the custom behavior you might be better off by using the compute library directly: https://github.com/scroll-into-view/compute-scroll-into-view
 
-#### [block](https://scroll-into-view.dev/#scroll-alignment)
+### [block](https://scroll-into-view.dev/#scroll-alignment)
 
 Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
 
@@ -197,7 +231,7 @@ Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#block)
 
-#### [inline](https://scroll-into-view.dev/#scroll-alignment)
+### [inline](https://scroll-into-view.dev/#scroll-alignment)
 
 Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
 
@@ -205,7 +239,7 @@ Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#inline)
 
-#### [scrollMode](https://scroll-into-view.dev/#scrolling-if-needed)
+### [scrollMode](https://scroll-into-view.dev/#scrolling-if-needed)
 
 Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
@@ -213,7 +247,7 @@ Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#scrollmode)
 
-#### [boundary](https://scroll-into-view.dev/#limit-propagation)
+### [boundary](https://scroll-into-view.dev/#limit-propagation)
 
 Type: `Element | Function`
 
@@ -221,7 +255,7 @@ Type: `Element | Function`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#boundary)
 
-#### skipOverflowHiddenElements
+### skipOverflowHiddenElements
 
 Type: `Boolean`<br> Default: `false`
 
@@ -266,7 +300,7 @@ const scrolling = scrollIntoView<Promise<any>>(document.body, {
 The options are available for you if you are wrapping this libary in another abstraction (like a React component):
 
 ```typescript
-import scrollIntoView, { Options } from 'scroll-into-view-if-needed'
+import scrollIntoView, { type Options } from 'scroll-into-view-if-needed'
 
 interface CustomOptions extends Options {
   useBoundary?: boolean
@@ -284,7 +318,7 @@ Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.s
 
 The biggest difference is that the new behavior follows the spec, so the "if-needed" behavior is **not enabled by default:**
 
-##### v1
+### v1
 
 ```js
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -293,7 +327,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 scrollIntoViewIfNeeded(target)
 ```
 
-##### v2
+### v2
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -302,13 +336,13 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 scrollIntoView(target, { block: 'nearest', scrollMode: 'if-needed' })
 ```
 
-#### centerIfNeeded
+## centerIfNeeded
 
 The old `Element.scrollIntoView` api only had two settings, align to top or bottom. [`Element.scrollIntoViewIfNeeded`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) had two more, align to the center or nearest edge.
 The `Element.scrollIntoView` spec now supports these two modes as `block: 'center'` and `block: 'nearest'`.
 Breaking changes sucks, but on the plus side your code is now more portable and will make this library easier to delete from your codebase on the glorious day browser support is good enough.
 
-##### v1
+### v1
 
 ```js
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -321,7 +355,7 @@ scrollIntoViewIfNeeded(target, true)
 scrollIntoViewIfNeeded(target, false)
 ```
 
-##### v2
+### v2
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -330,11 +364,11 @@ scrollIntoView(target, { block: 'center' })
 scrollIntoView(target, { block: 'nearest' })
 ```
 
-#### duration
+## duration
 
 [More information.](#ponyfill-smooth-scrolling)
 
-##### v1
+### v1
 
 ```js
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -342,7 +376,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 scrollIntoViewIfNeeded(target, { duration: 300 })
 ```
 
-##### v2
+### v2
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -352,11 +386,11 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed'
 scrollIntoView(target, { behavior: 'smooth' })
 ```
 
-#### easing
+## easing
 
 This feature is removed, but you can achieve the same thing by implementing [`behavior: Function`](#function).
 
-#### handleScroll
+## handleScroll
 
 This is replaced with [`behavior: Function`](#function) with one key difference. Instead of firing once per element that should be scrolled, the new API only fire once and instead give you an array so you can much easier batch and scroll multiple elements at the same time. Or sync scrolling with another element if that's the kind of stuff you're into, I don't judge.
 
@@ -374,12 +408,12 @@ This is replaced with [`behavior: Function`](#function) with one key difference.
 +})})
 ```
 
-#### offset
+## offset
 
 This was always a buggy feature and warned against using in v1 as it might get dropped.
 It's much safer to use CSS wrapper elements for this kind of thing.
 
-### scrollIntoViewIfNeeded(target, [centerIfNeeded], [animateOptions], [finalElement], [offsetOptions])
+## scrollIntoViewIfNeeded(target, [centerIfNeeded], [animateOptions], [finalElement], [offsetOptions])
 
 This API signature were warned to be dropped in `v2.0.0`, and it was.
 
@@ -403,12 +437,12 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 - [docs.expo.io](https://github.com/expo/expo-docs) – Documentation for Expo, its SDK, client and services.
 - [Add yourself to the list 😉](https://github.com/scroll-into-view/scroll-into-view-if-needed/edit/main/README.md)
 
-[gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?compression=gzip&label=gzip%20size&style=flat-square
-[size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js?label=size&style=flat-square
-[unpkg-dist]: https://unpkg.com/scroll-into-view-if-needed/umd/
-[module-formats-badge]: https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20es-green.svg?style=flat-square
+[gzip-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/dist/index.js?compression=gzip&label=gzip%20size&style=flat-square
+[size-badge]: http://img.badgesize.io/https://unpkg.com/scroll-into-view-if-needed/dist/index.js?label=size&style=flat-square
+[unpkg-dist]: https://unpkg.com/scroll-into-view-if-needed/dist/
+[module-formats-badge]: https://img.shields.io/badge/module%20formats-cjs%2C%20esm-green.svg?style=flat-square
 
-## Sponsors
+# Sponsors
 
 Thanks to [BrowserStack](https://www.browserstack.com) for sponsoring cross browser and device testing 😄
 
