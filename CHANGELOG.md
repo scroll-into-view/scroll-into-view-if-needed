@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.2...v3.0.3) (2022-12-01)
+
+### Bug Fixes
+
+- make the generic param optional ([1bc73d3](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/1bc73d3b849b985c52b796fae3bf727c7d6386ef))
+
 ## [3.0.2](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.1...v3.0.2) (2022-12-01)
 
 ### Bug Fixes
