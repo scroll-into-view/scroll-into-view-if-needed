@@ -44,3 +44,22 @@ const actionsCount: number = scrollIntoView(node, {
   },
 })
 node.title = `Frames that got scrolled: ${actionsCount}`
+
+// Test cases that should fail
+
+// @ts-expect-error
+scrollIntoView(undefined)
+// @ts-expect-error
+scrollIntoView(node, { unknown: 'option' })
+// @ts-expect-error
+scrollIntoView(node, { block: 'invalid' })
+// @ts-expect-error
+scrollIntoView(node, { inline: 'invalid' })
+// @ts-expect-error
+scrollIntoView(node, { scrollMode: 'invalid' })
+// @ts-expect-error
+scrollIntoView(node, { boundary: 'invalid' })
+// @ts-expect-error
+scrollIntoView(node, { skipOverflowHiddenElements: 'invalid' })
+// @ts-expect-error
+scrollIntoView(node, { behavior: 'invalid' })
