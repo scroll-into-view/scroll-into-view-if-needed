@@ -5,7 +5,9 @@ import type {
 } from 'compute-scroll-into-view'
 
 /** @public */
-export type Options<T> = StandardBehaviorOptions | CustomBehaviorOptions<T>
+export type Options<T = unknown> =
+  | StandardBehaviorOptions
+  | CustomBehaviorOptions<T>
 
 /** @public */
 export interface StandardBehaviorOptions extends BaseOptions {
@@ -16,7 +18,7 @@ export interface StandardBehaviorOptions extends BaseOptions {
 }
 
 /** @public */
-export interface CustomBehaviorOptions<T> extends BaseOptions {
+export interface CustomBehaviorOptions<T = unknown> extends BaseOptions {
   behavior: CustomScrollBehaviorCallback<T>
 }
 
@@ -30,7 +32,7 @@ let isStandardScrollBehavior = (
 ): options is StandardBehaviorOptions =>
   options === Object(options) && Object.keys(options).length !== 0
 
-let isCustomScrollBehavior = <T>(
+let isCustomScrollBehavior = <T = unknown>(
   options: any
 ): options is CustomBehaviorOptions<T> =>
   typeof options === 'object' ? typeof options.behavior === 'function' : false
@@ -64,7 +66,7 @@ export default function scrollIntoView(
   options?: StandardBehaviorOptions | boolean
 ): void
 /** @public */
-export default function scrollIntoView<T>(
+export default function scrollIntoView<T = unknown>(
   target: Element,
   options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean
 ): T | void {
