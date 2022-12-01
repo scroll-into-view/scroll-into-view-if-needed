@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.0...v3.0.1) (2022-12-01)
+
+### Bug Fixes
+
+- **docs:** show correct bundlesizes ([871c02a](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/871c02ae048c87c3fba02d77ee21c26fdae87cc5))
+
 ## [3.0.0](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v2.2.31...v3.0.0) (2022-12-01)
 
 ### ⚠ BREAKING CHANGES
