@@ -9,6 +9,9 @@ export type Options<T> = StandardBehaviorOptions | CustomBehaviorOptions<T>
 
 /** @public */
 export interface StandardBehaviorOptions extends BaseOptions {
+  /**
+   * @defaultValue 'auto
+   */
   behavior?: ScrollBehavior
 }
 
@@ -22,40 +25,17 @@ export type CustomScrollBehaviorCallback<T = unknown> = (
   actions: ScrollAction[]
 ) => T
 
-function isStandardScrollBehavior(
+let isStandardScrollBehavior = (
   options: any
-): options is StandardBehaviorOptions {
-  return options === Object(options) && Object.keys(options).length !== 0
-}
+): options is StandardBehaviorOptions =>
+  options === Object(options) && Object.keys(options).length !== 0
 
-function isCustomScrollBehavior<T>(
+let isCustomScrollBehavior = <T>(
   options: any
-): options is CustomBehaviorOptions<T> {
-  if (typeof options === 'object') {
-    return typeof options.behavior === 'function'
-  }
-  return false
-}
+): options is CustomBehaviorOptions<T> =>
+  typeof options === 'object' ? typeof options.behavior === 'function' : false
 
-function defaultBehavior(
-  actions: ScrollAction[],
-  behavior: ScrollBehavior = 'auto'
-) {
-  const canSmoothScroll = 'scrollBehavior' in document.body.style
-
-  actions.forEach(({ el, top, left }) => {
-    // browser implements the new Element.prototype.scroll API that supports `behavior`
-    // and guard window.scroll with supportsScrollBehavior
-    if (el.scroll && canSmoothScroll) {
-      el.scroll({ top, left, behavior })
-    } else {
-      el.scrollTop = top
-      el.scrollLeft = left
-    }
-  })
-}
-
-function getOptions(options: any): StandardBehaviorOptions {
+let getOptions = (options: any): StandardBehaviorOptions => {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
   if (options === false) {
     return { block: 'end', inline: 'nearest' }
@@ -74,22 +54,22 @@ function getOptions(options: any): StandardBehaviorOptions {
 // that imports in userland code (like if they use native smooth scrolling on some browsers, and the ponyfill for everything else)
 // the named export allows this `import {auto as autoScrollIntoView, ponyfill as smoothScrollIntoView} from ...`
 /** @public */
-function scrollIntoView<T>(
+export default function scrollIntoView<T>(
   target: Element,
   options: CustomBehaviorOptions<T>
 ): T
 /** @public */
-function scrollIntoView(
+export default function scrollIntoView(
   target: Element,
   options?: StandardBehaviorOptions | boolean
 ): void
 /** @public */
-function scrollIntoView<T>(
+export default function scrollIntoView<T>(
   target: Element,
   options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean
-) {
+): T | void {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
-  const isTargetAttached =
+  let isTargetAttached =
     target.isConnected ||
     target.ownerDocument!.documentElement!.contains(target)
 
@@ -103,11 +83,18 @@ function scrollIntoView<T>(
   }
 
   // @TODO see if it's possible to avoid this assignment
-  const computeOptions = getOptions(options)
-  return defaultBehavior(
-    compute(target, computeOptions),
-    computeOptions.behavior
-  )
-}
+  let computeOptions = getOptions(options)
+  let actions = compute(target, computeOptions)
+  let canSmoothScroll = 'scrollBehavior' in document.body.style
 
-export default scrollIntoView
+  actions.forEach(({ el, top, left }) => {
+    // browser implements the new Element.prototype.scroll API that supports `behavior`
+    // and guard window.scroll with supportsScrollBehavior
+    if (el.scroll && canSmoothScroll) {
+      el.scroll({ top, left, behavior: computeOptions.behavior })
+    } else {
+      el.scrollTop = top
+      el.scrollLeft = left
+    }
+  })
+}
