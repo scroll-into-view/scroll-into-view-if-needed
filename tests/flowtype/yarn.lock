@@ -13,6 +13,6 @@ flow-bin@0.193.0:
   integrity sha512-DREsJfNcU94P3rfh8TrydflQTKI5u8INzqCzi/R7iG2fBo+QKiEdNiv9NRlt4cRmOEsVvQ+5ed2U+u/68M8a6Q==
 
 "scroll-into-view-if-needed@link:../..":
-  version "2.0.0-dev"
+  version "2.2.31"
   dependencies:
     compute-scroll-into-view "^1.0.20"
