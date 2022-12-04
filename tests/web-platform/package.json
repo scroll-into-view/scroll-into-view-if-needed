@@ -11,12 +11,12 @@
     "serve": "14.1.2"
   },
   "devDependencies": {
-    "@wdio/browserstack-service": "^7.27.0",
-    "@wdio/cli": "^7.27.0",
-    "@wdio/dot-reporter": "^7.26.0",
-    "@wdio/junit-reporter": "7.26.0",
-    "@wdio/local-runner": "^7.27.0",
-    "@wdio/mocha-framework": "7.26.0",
+    "@wdio/browserstack-service": "^8.0.2",
+    "@wdio/cli": "^8.0.4",
+    "@wdio/dot-reporter": "^8.0.0",
+    "@wdio/junit-reporter": "8.0.0",
+    "@wdio/local-runner": "^8.0.4",
+    "@wdio/mocha-framework": "8.0.2",
     "cypress": "11.2.0"
   }
 }
