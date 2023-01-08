@@ -16,5 +16,5 @@
     "strict": true,
     "lib": ["dom", "dom.iterable", "esnext"]
   },
-  "exclude": ["node_modules", "dist", "tests"]
+  "exclude": ["node_modules", "dist", "tests", "package.config.ts"]
 }
