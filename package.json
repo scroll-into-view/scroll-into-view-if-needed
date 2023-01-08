@@ -64,7 +64,7 @@
     "@sanity/pkg-utils": "^1.20.4",
     "@sanity/semantic-release-preset": "^3.0.0",
     "cross-env": "^7.0.3",
-    "prettier": "^2.8.1",
+    "prettier": "^2.8.2",
     "prettier-plugin-packagejson": "^2.3.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.9.4"
