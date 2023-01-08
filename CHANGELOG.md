@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.3...v3.0.4) (2023-01-08)
+
+### Bug Fixes
+
+- **deps:** update dependencies (non-major) ([#1136](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1136)) ([a72d093](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/a72d093f572f5b2fa8d5151aba0bf2dfa27575ad))
+- **deps:** update dependency compute-scroll-into-view to ^2.0.4 ([#1145](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1145)) ([b839598](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/b8395988770dc06016c0ea6a67a68d7f4746c2d2))
+
 ## [3.0.3](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.2...v3.0.3) (2022-12-01)
 
 ### Bug Fixes
