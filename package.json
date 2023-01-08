@@ -58,7 +58,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "compute-scroll-into-view": "^2.0.2"
+    "compute-scroll-into-view": "^2.0.3"
   },
   "devDependencies": {
     "@sanity/pkg-utils": "^1.20.4",
