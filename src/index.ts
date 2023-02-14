@@ -9,7 +9,26 @@ export type Options<T = unknown> =
   | StandardBehaviorOptions
   | CustomBehaviorOptions<T>
 
-/** @public */
+/**
+ * Only scrolls if the `node` is partially out of view:
+ * ```ts
+ * scrollIntoView(node, { scrollMode: 'if-needed' })
+ * ```
+ * Skips scrolling `overflow: hidden` elements:
+ * ```ts
+ * scrollIntoView(node, { skipOverflowHiddenElements: true })
+ * ```
+ * When scrolling is needed do the least and smoothest scrolling possible:
+ * ```ts
+ * scrollIntoView(node, {
+ *   behavior: 'smooth',
+ *   scrollMode: 'if-needed',
+ *   block: 'nearest',
+ *   inline: 'nearest',
+ * })
+ * ```
+ * @public
+ */
 export interface StandardBehaviorOptions extends BaseOptions {
   /**
    * @defaultValue 'auto
@@ -52,51 +71,56 @@ let getOptions = (options: any): StandardBehaviorOptions => {
   return { block: 'start', inline: 'nearest' }
 }
 
-// Some people might use both "auto" and "ponyfill" modes in the same file, so we also provide a named export so
-// that imports in userland code (like if they use native smooth scrolling on some browsers, and the ponyfill for everything else)
-// the named export allows this `import {auto as autoScrollIntoView, ponyfill as smoothScrollIntoView} from ...`
-/** @public */
-export default function scrollIntoView<T>(
-  target: Element,
-  options: CustomBehaviorOptions<T>
-): T
-/** @public */
-export default function scrollIntoView(
+/**
+ * Scrolls the given element into view, with options for when, and how.
+ * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scrollMode`, `behavior: Function` and `skipOverflowHiddenElements`.
+ * @public
+ */
+function scrollIntoView(
   target: Element,
   options?: StandardBehaviorOptions | boolean
 ): void
-/** @public */
-export default function scrollIntoView<T = unknown>(
+/**
+ * Scrolls the given element into view, with options for when, and how.
+ * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scrollMode`, `behavior: Function` and `skipOverflowHiddenElements`.
+ *
+ * You can set the expected return type for `behavior: Function`:
+ * ```ts
+ * await scrollIntoView<Promise<boolean[]>>(node, {
+ *   behavior: async actions => {
+ *     return Promise.all(actions.map(
+ *       // animate() resolves to `true` if anything was animated, `false` if the element already were in the end state
+ *       ({ el, left, top }) => animate(el, {scroll: {left, top}})
+ *     ))
+ *   }
+ * })
+ * ```
+ * @public
+ */
+function scrollIntoView<T>(
+  target: Element,
+  options: CustomBehaviorOptions<T>
+): T
+function scrollIntoView<T = unknown>(
   target: Element,
   options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean
 ): T | void {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
-  let isTargetAttached =
-    target.isConnected ||
-    target.ownerDocument!.documentElement!.contains(target)
-
-  if (isCustomScrollBehavior<T>(options)) {
-    return options.behavior(isTargetAttached ? compute(target, options) : [])
-  }
-
-  // Don't do anything if using a standard behavior on an element that is not in the document
-  if (!isTargetAttached) {
+  if (
+    !target.isConnected ||
+    !target.ownerDocument!.documentElement!.contains(target)
+  ) {
     return
   }
 
-  // @TODO see if it's possible to avoid this assignment
-  let computeOptions = getOptions(options)
-  let actions = compute(target, computeOptions)
-  let canSmoothScroll = 'scrollBehavior' in document.body.style
+  if (isCustomScrollBehavior<T>(options)) {
+    return options.behavior(compute(target, options))
+  }
 
-  actions.forEach(({ el, top, left }) => {
-    // browser implements the new Element.prototype.scroll API that supports `behavior`
-    // and guard window.scroll with supportsScrollBehavior
-    if (el.scroll && canSmoothScroll) {
-      el.scroll({ top, left, behavior: computeOptions.behavior })
-    } else {
-      el.scrollTop = top
-      el.scrollLeft = left
-    }
-  })
+  let behavior = typeof options === 'boolean' ? undefined : options?.behavior
+  for (let { el, top, left } of compute(target, getOptions(options))) {
+    el.scroll({ top, left, behavior })
+  }
 }
+
+export default scrollIntoView
