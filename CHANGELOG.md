@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.5](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.4...v3.0.5) (2023-02-14)
+
+### Bug Fixes
+
+- always use `el.scroll()` ([6472ede](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/6472edebda21931add5776c04d4e8e1fb0d63947))
+
 ## [3.0.4](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.3...v3.0.4) (2023-01-08)
 
 ### Bug Fixes
