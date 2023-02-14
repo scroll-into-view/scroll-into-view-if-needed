@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.6](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.5...v3.0.6) (2023-02-14)
+
+### Bug Fixes
+
+- **deps:** update dependency compute-scroll-into-view to v3 ([#1157](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1157)) ([d4c36d6](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/d4c36d6bccd3432701085638a0978e3a01303095))
+
 ## [3.0.5](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.4...v3.0.5) (2023-02-14)
 
 ### Bug Fixes
