@@ -1,4 +1,4 @@
-import compute from 'compute-scroll-into-view'
+import { compute } from 'compute-scroll-into-view'
 import type {
   Options as BaseOptions,
   ScrollAction,
