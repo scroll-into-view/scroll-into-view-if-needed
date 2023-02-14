@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@sanity/pkg-utils": "^2.1.1",
-    "@sanity/semantic-release-preset": "^3.0.0",
+    "@sanity/semantic-release-preset": "^4.0.0",
     "cross-env": "^7.0.3",
     "prettier": "^2.8.2",
     "prettier-plugin-packagejson": "^2.3.0",
