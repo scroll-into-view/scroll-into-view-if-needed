@@ -71,6 +71,23 @@ let getOptions = (options: any): StandardBehaviorOptions => {
   return { block: 'start', inline: 'nearest' }
 }
 
+// Determine if the element is part of the document (including shadow dom)
+// Derived from code of Andy Desmarais
+// https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
+const isInDocument = (element: Node) => {
+  var currentElement = element;
+  while(currentElement && currentElement.parentNode) {
+      if(currentElement.parentNode === document) {
+          return true;
+      } else if(currentElement.parentNode instanceof ShadowRoot) {
+          currentElement = (currentElement.parentNode as ShadowRoot).host;
+      } else {
+          currentElement = currentElement.parentNode;
+      }
+  }
+  return false;
+}
+
 /**
  * Scrolls the given element into view, with options for when, and how.
  * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scrollMode`, `behavior: Function` and `skipOverflowHiddenElements`.
@@ -108,7 +125,7 @@ function scrollIntoView<T = unknown>(
   // Browsers treats targets that aren't in the dom as a no-op and so should we
   if (
     !target.isConnected ||
-    !target.ownerDocument!.documentElement!.contains(target)
+    !isInDocument(target)
   ) {
     return
   }
