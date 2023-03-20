@@ -75,17 +75,17 @@ let getOptions = (options: any): StandardBehaviorOptions => {
 // Derived from code of Andy Desmarais
 // https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
 const isInDocument = (element: Node) => {
-  var currentElement = element;
-  while(currentElement && currentElement.parentNode) {
-      if(currentElement.parentNode === document) {
-          return true;
-      } else if(currentElement.parentNode instanceof ShadowRoot) {
-          currentElement = (currentElement.parentNode as ShadowRoot).host;
-      } else {
-          currentElement = currentElement.parentNode;
-      }
+  var currentElement = element
+  while (currentElement && currentElement.parentNode) {
+    if (currentElement.parentNode === document) {
+      return true
+    } else if (currentElement.parentNode instanceof ShadowRoot) {
+      currentElement = (currentElement.parentNode as ShadowRoot).host
+    } else {
+      currentElement = currentElement.parentNode
+    }
   }
-  return false;
+  return false
 }
 
 /**
@@ -123,10 +123,7 @@ function scrollIntoView<T = unknown>(
   options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean
 ): T | void {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
-  if (
-    !target.isConnected ||
-    !isInDocument(target)
-  ) {
+  if (!target.isConnected || !isInDocument(target)) {
     return
   }
 
