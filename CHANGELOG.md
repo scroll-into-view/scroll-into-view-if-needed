@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.7](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.6...v3.0.7) (2023-04-06)
+
+### Bug Fixes
+
+- support `—moduleResolution node16` ([d9053bb](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/d9053bb1fcf4c1aa65ae8391e106b6a4d7dc801b)), closes [#1163](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1163)
+
 ## [3.0.6](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.5...v3.0.6) (2023-02-14)
 
 ### Bug Fixes
