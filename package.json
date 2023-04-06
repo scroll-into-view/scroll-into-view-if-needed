@@ -24,19 +24,20 @@
   "license": "MIT",
   "author": "Cody Olsen",
   "sideEffects": false,
-  "type": "module",
+  "type": "commonjs",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "source": "./src/index.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
   "files": [
     "dist",
