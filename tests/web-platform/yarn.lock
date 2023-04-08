@@ -276,13 +276,13 @@
     expect-webdriverio "^4.0.1"
     webdriverio "8.7.0"
 
-"@wdio/junit-reporter@8.6.8":
-  version "8.6.8"
-  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-8.6.8.tgz#ee7e7b1c5994a3ded2ea4734f5b4fe48ae812559"
-  integrity sha512-c4vYwBC8Y+wc6ZQafHEYGkLJ4MgsJKnIRd1d1COX7VJgCKo2CWL/Dxtbgzq28XG/B8enQkbXfU7MWAr2xsmHBA==
+"@wdio/junit-reporter@8.7.0":
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/@wdio/junit-reporter/-/junit-reporter-8.7.0.tgz#1b3253c9071ff596c6426fc3206bcb5ab26a2442"
+  integrity sha512-iWP3sNzu1QiuQSF1J4FupOUg+KyA9Y8Ftwe2h6Q8ZokBkebp8tHtAYsfDFVlHB8+MLqs1Nb8nlP8SwAaRp+fgg==
   dependencies:
-    "@wdio/reporter" "8.6.8"
-    "@wdio/types" "8.6.8"
+    "@wdio/reporter" "8.7.0"
+    "@wdio/types" "8.7.0"
     json-stringify-safe "^5.0.1"
     junit-report-builder "^3.0.0"
 
@@ -310,16 +310,16 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@8.6.8":
-  version "8.6.8"
-  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-8.6.8.tgz#8b4414afdee336add39c2b5987e6342a3f7ad5f1"
-  integrity sha512-ThyabF0SnvctMLzqqFAwHja5zzXfN+RszXviYo3rvUFpUJT7WP1wIrxBanGsH64UwCWths/vDgpLm5ory6VpTA==
+"@wdio/mocha-framework@8.7.0":
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-8.7.0.tgz#d3be0bb0734b98d2b4c9be18935496f121650418"
+  integrity sha512-PJm74N+8KiYmc3jLFuSwJMi/wvQNJtAmY39/h7ChnniR9oVap9/4L4WOmHbrWLm4v4pN4leWKasik4gEjJpYJQ==
   dependencies:
     "@types/mocha" "^10.0.0"
     "@types/node" "^18.0.0"
     "@wdio/logger" "8.6.6"
-    "@wdio/types" "8.6.8"
-    "@wdio/utils" "8.6.8"
+    "@wdio/types" "8.7.0"
+    "@wdio/utils" "8.7.0"
     mocha "^10.0.0"
 
 "@wdio/protocols@8.6.6":
@@ -333,18 +333,6 @@
   integrity sha512-vyJzqHJ5yOmfVyk5WWo6pRsJ2xhgWl3DVIBdDNR0wKrtFcm/g1jnB+pNf6Eb7NhCDh3oGul25bmhAwWDoxcFYA==
   dependencies:
     "@types/node" "^18.0.0"
-
-"@wdio/reporter@8.6.8":
-  version "8.6.8"
-  resolved "https://registry.yarnpkg.com/@wdio/reporter/-/reporter-8.6.8.tgz#9db642bc6d55ab7978d3b71842353bf561110778"
-  integrity sha512-9x5YD759puJM1rhvbOq9nGA1ztVbKfm3niR4bqqmddyHI5onH+TpIowUJXt8WULdwZoxeWnz/P/E8mKMKNFwXw==
-  dependencies:
-    "@types/node" "^18.0.0"
-    "@wdio/logger" "8.6.6"
-    "@wdio/types" "8.6.8"
-    diff "^5.0.0"
-    object-inspect "^1.12.0"
-    supports-color "9.3.1"
 
 "@wdio/reporter@8.7.0":
   version "8.7.0"
@@ -375,29 +363,12 @@
     webdriver "8.7.0"
     webdriverio "8.7.0"
 
-"@wdio/types@8.6.8":
-  version "8.6.8"
-  resolved "https://registry.yarnpkg.com/@wdio/types/-/types-8.6.8.tgz#5ec623a9559aeeb9863e448340d47321f33cb436"
-  integrity sha512-hwlkQ6E8DNIFL/l8vHve3Zpl1t6Hqle7vtatEkAlrmbnExc7qI6Yw6SI5T/KiBSAi0ez1OypbGhdrbXFfywxng==
-  dependencies:
-    "@types/node" "^18.0.0"
-
 "@wdio/types@8.7.0":
   version "8.7.0"
   resolved "https://registry.yarnpkg.com/@wdio/types/-/types-8.7.0.tgz#d062e18ea092f17ce822c467430b4ac2cc8d6382"
   integrity sha512-baiWFVR28mOdI7gI9802cnicGmlbfSZvhLWjd0cD2ep8BhvdengEWyj4GG+qqjk9ZfraBgHunDT+cB6hdPIPow==
   dependencies:
     "@types/node" "^18.0.0"
-
-"@wdio/utils@8.6.8":
-  version "8.6.8"
-  resolved "https://registry.yarnpkg.com/@wdio/utils/-/utils-8.6.8.tgz#492be51f788477be286d7b45ec79fa28ca6e53a7"
-  integrity sha512-ibhuEGBwkRoy3hqKb7pXGqJkH8vSqSsTyYdxQ8cGJYFfOIvHJR1aTLz+az5zJMLNUUT6WItRBwa5Rad0hlWbFw==
-  dependencies:
-    "@wdio/logger" "8.6.6"
-    "@wdio/types" "8.6.8"
-    import-meta-resolve "^2.2.0"
-    p-iteration "^1.1.8"
 
 "@wdio/utils@8.7.0":
   version "8.7.0"
@@ -1089,7 +1060,7 @@ compression@1.7.4:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
-compute-scroll-into-view@^3.0.0:
+compute-scroll-into-view@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.1.tgz#048447a22865ccc386b091914663589393e1bbdf"
   integrity sha512-Kx5SbIZf1QMCFctNydxTdhIO2lv9h1DJy6ZSuY8ngArCRMh3rfJVb86KsdslWo/FTPgBmnbtfz80CJDEyfIxzA==
@@ -3527,7 +3498,7 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.2, safe-buffer@~5.2.0:
 "scroll-into-view-if-needed@link:../..":
   version "3.0.7"
   dependencies:
-    compute-scroll-into-view "^3.0.0"
+    compute-scroll-into-view "^3.0.1"
 
 "semver@2 || 3 || 4 || 5":
   version "5.7.1"
