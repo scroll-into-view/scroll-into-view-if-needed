@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.8](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.7...v3.0.8) (2023-04-08)
+
+### Bug Fixes
+
+- support `—moduleResolution node16` in `compute-scroll-into-view` ([#1176](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1176)) ([2027698](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/2027698131ddfa9e803d0596f78ff3dcf4bd945d))
+
 ## [3.0.7](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.6...v3.0.7) (2023-04-06)
 
 ### Bug Fixes
