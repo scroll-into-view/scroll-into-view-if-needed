@@ -46,17 +46,17 @@ export type CustomScrollBehaviorCallback<T = unknown> = (
   actions: ScrollAction[]
 ) => T
 
-let isStandardScrollBehavior = (
+const isStandardScrollBehavior = (
   options: any
 ): options is StandardBehaviorOptions =>
   options === Object(options) && Object.keys(options).length !== 0
 
-let isCustomScrollBehavior = <T = unknown>(
+const isCustomScrollBehavior = <T = unknown>(
   options: any
 ): options is CustomBehaviorOptions<T> =>
   typeof options === 'object' ? typeof options.behavior === 'function' : false
 
-let getOptions = (options: any): StandardBehaviorOptions => {
+const getOptions = (options: any): StandardBehaviorOptions => {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
   if (options === false) {
     return { block: 'end', inline: 'nearest' }
@@ -75,7 +75,7 @@ let getOptions = (options: any): StandardBehaviorOptions => {
 // Derived from code of Andy Desmarais
 // https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
 const isInDocument = (element: Node) => {
-  var currentElement = element
+  let currentElement = element
   while (currentElement && currentElement.parentNode) {
     if (currentElement.parentNode === document) {
       return true
@@ -131,8 +131,9 @@ function scrollIntoView<T = unknown>(
     return options.behavior(compute(target, options))
   }
 
-  let behavior = typeof options === 'boolean' ? undefined : options?.behavior
-  for (let { el, top, left } of compute(target, getOptions(options))) {
+  const behavior = typeof options === 'boolean' ? undefined : options?.behavior
+
+  for (const { el, top, left } of compute(target, getOptions(options))) {
     el.scroll({ top, left, behavior })
   }
 }
