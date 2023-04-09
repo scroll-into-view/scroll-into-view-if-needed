@@ -35,9 +35,9 @@
     },
     "./package.json": "./package.json"
   },
-  "source": "./src/index.ts",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "source": "./src/index.ts",
   "typings": "./dist/index.d.ts",
   "files": [
     "dist",
