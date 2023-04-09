@@ -3,9 +3,9 @@
 
 
 compute-scroll-into-view@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.1.tgz#048447a22865ccc386b091914663589393e1bbdf"
-  integrity sha512-Kx5SbIZf1QMCFctNydxTdhIO2lv9h1DJy6ZSuY8ngArCRMh3rfJVb86KsdslWo/FTPgBmnbtfz80CJDEyfIxzA==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.2.tgz#a951468652058f1b5be262ec19dce8af7866ba04"
+  integrity sha512-UCXenIpZspASrI2Jsk/eUoa7zpFaD20xIqnC85c1rRIBVS3mOzPKF72QPZYmtcw24ZGqtyiFceBN/JKKVV4ALg==
 
 flow-bin@0.203.1:
   version "0.203.1"
@@ -13,6 +13,6 @@ flow-bin@0.203.1:
   integrity sha512-W/SX7QnRmBYS0TjfgtGb9ltPZzlsNeTZ7wA1yqwChxbLaQtrxGtO4K5GKtjRwAtucMQSebB7Ao++u21fRmC4TQ==
 
 "scroll-into-view-if-needed@link:../..":
-  version "3.0.7"
+  version "3.0.8"
   dependencies:
     compute-scroll-into-view "^3.0.1"
