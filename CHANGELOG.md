@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.9](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.8...v3.0.9) (2023-04-09)
+
+### Bug Fixes
+
+- revert package.json [#1176](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1176) ([#1183](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1183)) ([03dca46](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/03dca46fa7c79c535be645579f20cf7a4cdeb0e4))
+
 ## [3.0.8](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.7...v3.0.8) (2023-04-08)
 
 ### Bug Fixes
