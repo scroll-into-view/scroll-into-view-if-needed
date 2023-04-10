@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.10](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.9...v3.0.10) (2023-04-10)
+
+### Bug Fixes
+
+- use const replace let ([#1180](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1180)) ([0f00c8b](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/0f00c8b9d4ff05bbce58d99b4ebbe573d5ff4826))
+
 ## [3.0.9](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.8...v3.0.9) (2023-04-09)
 
 ### Bug Fixes
