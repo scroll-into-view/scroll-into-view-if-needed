@@ -4,6 +4,6 @@
     "scroll-into-view-if-needed": "link:../.."
   },
   "devDependencies": {
-    "flow-bin": "0.203.1"
+    "flow-bin": "0.205.0"
   }
 }
