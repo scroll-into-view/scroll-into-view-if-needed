@@ -67,7 +67,7 @@
     "cross-env": "^7.0.3",
     "prettier": "^2.8.4",
     "prettier-plugin-packagejson": "^2.4.3",
-    "rimraf": "^4.1.2",
+    "rimraf": "^5.0.0",
     "typescript": "^5.0.0"
   },
   "bundlesize": [
