@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-compute-scroll-into-view@^3.0.1:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.2.tgz#a951468652058f1b5be262ec19dce8af7866ba04"
-  integrity sha512-UCXenIpZspASrI2Jsk/eUoa7zpFaD20xIqnC85c1rRIBVS3mOzPKF72QPZYmtcw24ZGqtyiFceBN/JKKVV4ALg==
+compute-scroll-into-view@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.3.tgz#c418900a5c56e2b04b885b54995df164535962b1"
+  integrity sha512-nadqwNxghAGTamwIqQSG433W6OADZx2vCo3UXHNrzTRHK/htu+7+L0zhjEoaeaQVNAi3YgqWDv8+tzf0hRfR+A==
 
-flow-bin@0.203.1:
-  version "0.203.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.203.1.tgz#227b5c4c9acef2d0efe4a4a8ee84322c8de05891"
-  integrity sha512-W/SX7QnRmBYS0TjfgtGb9ltPZzlsNeTZ7wA1yqwChxbLaQtrxGtO4K5GKtjRwAtucMQSebB7Ao++u21fRmC4TQ==
+flow-bin@0.205.0:
+  version "0.205.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.205.0.tgz#dd636b03cf12273609b15c9fd219a982c2fcff45"
+  integrity sha512-akmM+++RkcIuFbfhhVfFnHNwdyUVjzZHzA9eeepiXm/NP7HUkOTndlX1o6/vjeOjUbDFcsXhvo209n4ZNK5ceA==
 
 "scroll-into-view-if-needed@link:../..":
-  version "3.0.8"
+  version "3.0.10"
   dependencies:
-    compute-scroll-into-view "^3.0.1"
+    compute-scroll-into-view "^3.0.2"
