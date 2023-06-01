@@ -7,10 +7,10 @@ compute-scroll-into-view@^3.0.2:
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.0.3.tgz#c418900a5c56e2b04b885b54995df164535962b1"
   integrity sha512-nadqwNxghAGTamwIqQSG433W6OADZx2vCo3UXHNrzTRHK/htu+7+L0zhjEoaeaQVNAi3YgqWDv8+tzf0hRfR+A==
 
-flow-bin@0.205.0:
-  version "0.205.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.205.0.tgz#dd636b03cf12273609b15c9fd219a982c2fcff45"
-  integrity sha512-akmM+++RkcIuFbfhhVfFnHNwdyUVjzZHzA9eeepiXm/NP7HUkOTndlX1o6/vjeOjUbDFcsXhvo209n4ZNK5ceA==
+flow-bin@0.207.0:
+  version "0.207.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.207.0.tgz#71c6a21214c57f3e36e03b32033dd0358452499b"
+  integrity sha512-jAet+lhdrvpk4kjonZ6r/v09rkyaPQX+E5gio+HesEBvsOsCWfnuadBRQZihTM4+szjJPWEkITfrCurI/aCqEQ==
 
 "scroll-into-view-if-needed@link:../..":
   version "3.0.10"
