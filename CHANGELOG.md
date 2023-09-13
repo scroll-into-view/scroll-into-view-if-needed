@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.10...v3.1.0) (2023-09-13)
+
+### Features
+
+- account for scroll margin ([#1197](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1197)) ([1c8a3cc](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/1c8a3ccdb0d85584b918d3c78eea847d7f84c2aa))
+
 ## [3.0.10](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.9...v3.0.10) (2023-04-10)
 
 ### Bug Fixes

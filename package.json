@@ -1,6 +1,6 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "3.0.10",
+  "version": "3.1.0",
   "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
   "keywords": [
     "behavior-smooth",
