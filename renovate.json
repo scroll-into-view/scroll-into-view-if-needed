@@ -2,7 +2,7 @@
   "extends": ["github>stipsan/renovate-presets:auto"],
   "packageRules": [
     {
-      "paths": ["tests/**"],
+      "matchFileNames": ["tests/**"],
       "extends": [":semanticCommitTypeAll(chore)", ":automergeMajor"]
     }
   ]
