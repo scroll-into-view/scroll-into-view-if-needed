@@ -71,6 +71,16 @@ const getOptions = (options: any): StandardBehaviorOptions => {
   return { block: 'start', inline: 'nearest' }
 }
 
+const getScrollMargins = (target: Element) => {
+  const computedStyle = window.getComputedStyle(target)
+  return {
+    top: parseFloat(computedStyle.scrollMarginTop) || 0,
+    right: parseFloat(computedStyle.scrollMarginRight) || 0,
+    bottom: parseFloat(computedStyle.scrollMarginBottom) || 0,
+    left: parseFloat(computedStyle.scrollMarginLeft) || 0,
+  }
+}
+
 // Determine if the element is part of the document (including shadow dom)
 // Derived from code of Andy Desmarais
 // https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
@@ -127,6 +137,8 @@ function scrollIntoView<T = unknown>(
     return
   }
 
+  const margins = getScrollMargins(target)
+
   if (isCustomScrollBehavior<T>(options)) {
     return options.behavior(compute(target, options))
   }
@@ -134,7 +146,9 @@ function scrollIntoView<T = unknown>(
   const behavior = typeof options === 'boolean' ? undefined : options?.behavior
 
   for (const { el, top, left } of compute(target, getOptions(options))) {
-    el.scroll({ top, left, behavior })
+    const adjustedTop = top - margins.top + margins.bottom
+    const adjustedLeft = left - margins.left + margins.right
+    el.scroll({ top: adjustedTop, left: adjustedLeft, behavior })
   }
 }
 
