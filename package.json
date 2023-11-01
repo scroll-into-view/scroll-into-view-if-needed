@@ -62,7 +62,7 @@
     "compute-scroll-into-view": "^3.0.2"
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "^2.2.5",
+    "@sanity/pkg-utils": "^3.2.2",
     "@sanity/semantic-release-preset": "^4.0.0",
     "cross-env": "^7.0.3",
     "prettier": "^2.8.4",
