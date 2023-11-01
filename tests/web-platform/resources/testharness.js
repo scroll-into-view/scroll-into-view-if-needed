@@ -134,7 +134,7 @@ policies and contribution forms [3].
   WindowTestEnvironment.prototype._dispatch = function (
     selector,
     callback_args,
-    message_arg
+    message_arg,
   ) {
     this.dispatched_messages.push(message_arg)
     this._forEach_windows(function (w, same_origin) {
@@ -240,7 +240,7 @@ policies and contribution forms [3].
   }
 
   WindowTestEnvironment.prototype.on_new_harness_properties = function (
-    properties
+    properties,
   ) {
     this.output_handler.setup(properties)
     if (properties.hasOwnProperty('message_events')) {
@@ -365,7 +365,7 @@ policies and contribution forms [3].
     this._add_message_port(self)
   }
   DedicatedWorkerTestEnvironment.prototype = Object.create(
-    WorkerTestEnvironment.prototype
+    WorkerTestEnvironment.prototype,
   )
 
   DedicatedWorkerTestEnvironment.prototype.on_tests_ready = function () {
@@ -392,11 +392,11 @@ policies and contribution forms [3].
       function (message_event) {
         this_obj._add_message_port(message_event.source)
       },
-      false
+      false,
     )
   }
   SharedWorkerTestEnvironment.prototype = Object.create(
-    WorkerTestEnvironment.prototype
+    WorkerTestEnvironment.prototype,
   )
 
   SharedWorkerTestEnvironment.prototype.on_tests_ready = function () {
@@ -438,7 +438,7 @@ policies and contribution forms [3].
           }
         }
       },
-      false
+      false,
     )
 
     // The oninstall event is received after the service worker script and
@@ -464,11 +464,11 @@ policies and contribution forms [3].
   }
 
   ServiceWorkerTestEnvironment.prototype = Object.create(
-    WorkerTestEnvironment.prototype
+    WorkerTestEnvironment.prototype,
   )
 
   ServiceWorkerTestEnvironment.prototype.add_on_loaded_callback = function (
-    callback
+    callback,
   ) {
     if (this.all_loaded) {
       callback()
@@ -493,7 +493,7 @@ policies and contribution forms [3].
         if (this.on_loaded_callback) {
           this.on_loaded_callback()
         }
-      }.bind(this)
+      }.bind(this),
     )
     this.message_list = []
     this.message_ports = []
@@ -631,9 +631,9 @@ policies and contribution forms [3].
               'promise_test',
               null,
               'Unhandled rejection with value: ${value}',
-              { value: value }
+              { value: value },
             )
-          })
+          }),
         )
       return donePromise
     })
@@ -648,7 +648,7 @@ policies and contribution forms [3].
           function () {
             throw e
           },
-          description
+          description,
         )
       })
   }
@@ -672,7 +672,7 @@ policies and contribution forms [3].
     var eventHandler = test.step_func(function (evt) {
       assert_true(
         !!waitingFor,
-        'Not expecting event, but got ' + evt.type + ' event'
+        'Not expecting event, but got ' + evt.type + ' event',
       )
       assert_equals(
         evt.type,
@@ -681,7 +681,7 @@ policies and contribution forms [3].
           waitingFor.types[0] +
           ' event, but got ' +
           evt.type +
-          ' event instead'
+          ' event instead',
       )
 
       if (Array.isArray(recordedEvents)) {
@@ -795,7 +795,7 @@ policies and contribution forms [3].
           func.apply(this, x.slice(1))
         },
         name,
-        Array.isArray(properties) ? properties[i] : properties
+        Array.isArray(properties) ? properties[i] : properties,
       )
     })
   }
@@ -1024,7 +1024,7 @@ policies and contribution forms [3].
       'assert_true',
       description,
       'expected true got ${actual}',
-      { actual: actual }
+      { actual: actual },
     )
   }
   expose(assert_true, 'assert_true')
@@ -1035,7 +1035,7 @@ policies and contribution forms [3].
       'assert_false',
       description,
       'expected false got ${actual}',
-      { actual: actual }
+      { actual: actual },
     )
   }
   expose(assert_false, 'assert_false')
@@ -1067,7 +1067,7 @@ policies and contribution forms [3].
           ') ${expected} but got (' +
           typeof actual +
           ') ${actual}',
-        { expected: expected, actual: actual }
+        { expected: expected, actual: actual },
       )
       return
     }
@@ -1076,7 +1076,7 @@ policies and contribution forms [3].
       'assert_equals',
       description,
       'expected ${expected} but got ${actual}',
-      { expected: expected, actual: actual }
+      { expected: expected, actual: actual },
     )
   }
   expose(assert_equals, 'assert_equals')
@@ -1091,7 +1091,7 @@ policies and contribution forms [3].
       'assert_not_equals',
       description,
       'got disallowed value ${actual}',
-      { actual: actual }
+      { actual: actual },
     )
   }
   expose(assert_not_equals, 'assert_not_equals')
@@ -1102,7 +1102,7 @@ policies and contribution forms [3].
       'assert_in_array',
       description,
       'value ${actual} not in array ${expected}',
-      { actual: actual, expected: expected }
+      { actual: actual, expected: expected },
     )
   }
   expose(assert_in_array, 'assert_in_array')
@@ -1119,7 +1119,7 @@ policies and contribution forms [3].
           'assert_object_equals',
           description,
           'unexpected property ${p}',
-          { p: p }
+          { p: p },
         )
 
         if (typeof actual[p] === 'object' && actual[p] !== null) {
@@ -1132,7 +1132,7 @@ policies and contribution forms [3].
             'assert_object_equals',
             description,
             'property ${p} expected ${expected} got ${actual}',
-            { p: p, expected: expected, actual: actual }
+            { p: p, expected: expected, actual: actual },
           )
         }
       }
@@ -1142,7 +1142,7 @@ policies and contribution forms [3].
           'assert_object_equals',
           description,
           'expected property ${p} missing',
-          { p: p }
+          { p: p },
         )
       }
       stack.pop()
@@ -1157,14 +1157,14 @@ policies and contribution forms [3].
       'assert_array_equals',
       description,
       'value is ${actual}, expected array',
-      { actual: actual }
+      { actual: actual },
     )
     assert(
       actual.length === expected.length,
       'assert_array_equals',
       description,
       'lengths differ, expected ${expected} got ${actual}',
-      { expected: expected.length, actual: actual.length }
+      { expected: expected.length, actual: actual.length },
     )
 
     for (var i = 0; i < actual.length; i++) {
@@ -1177,14 +1177,14 @@ policies and contribution forms [3].
           i: i,
           expected: expected.hasOwnProperty(i) ? 'present' : 'missing',
           actual: actual.hasOwnProperty(i) ? 'present' : 'missing',
-        }
+        },
       )
       assert(
         same_value(expected[i], actual[i]),
         'assert_array_equals',
         description,
         'property ${i}, expected ${expected} but got ${actual}',
-        { i: i, expected: expected[i], actual: actual[i] }
+        { i: i, expected: expected[i], actual: actual[i] },
       )
     }
   }
@@ -1199,7 +1199,7 @@ policies and contribution forms [3].
       'assert_array_approx_equals',
       description,
       'lengths differ, expected ${expected} got ${actual}',
-      { expected: expected.length, actual: actual.length }
+      { expected: expected.length, actual: actual.length },
     )
 
     for (var i = 0; i < actual.length; i++) {
@@ -1212,21 +1212,21 @@ policies and contribution forms [3].
           i: i,
           expected: expected.hasOwnProperty(i) ? 'present' : 'missing',
           actual: actual.hasOwnProperty(i) ? 'present' : 'missing',
-        }
+        },
       )
       assert(
         typeof actual[i] === 'number',
         'assert_array_approx_equals',
         description,
         'property ${i}, expected a number but got a ${type_actual}',
-        { i: i, type_actual: typeof actual[i] }
+        { i: i, type_actual: typeof actual[i] },
       )
       assert(
         Math.abs(actual[i] - expected[i]) <= epsilon,
         'assert_array_approx_equals',
         description,
         'property ${i}, expected ${expected} +/- ${epsilon}, expected ${expected} but got ${actual}',
-        { i: i, expected: expected[i], actual: actual[i] }
+        { i: i, expected: expected[i], actual: actual[i] },
       )
     }
   }
@@ -1241,7 +1241,7 @@ policies and contribution forms [3].
       'assert_approx_equals',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1249,7 +1249,7 @@ policies and contribution forms [3].
       'assert_approx_equals',
       description,
       'expected ${expected} +/- ${epsilon} but got ${actual}',
-      { expected: expected, actual: actual, epsilon: epsilon }
+      { expected: expected, actual: actual, epsilon: epsilon },
     )
   }
   expose(assert_approx_equals, 'assert_approx_equals')
@@ -1263,7 +1263,7 @@ policies and contribution forms [3].
       'assert_less_than',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1271,7 +1271,7 @@ policies and contribution forms [3].
       'assert_less_than',
       description,
       'expected a number less than ${expected} but got ${actual}',
-      { expected: expected, actual: actual }
+      { expected: expected, actual: actual },
     )
   }
   expose(assert_less_than, 'assert_less_than')
@@ -1285,7 +1285,7 @@ policies and contribution forms [3].
       'assert_greater_than',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1293,7 +1293,7 @@ policies and contribution forms [3].
       'assert_greater_than',
       description,
       'expected a number greater than ${expected} but got ${actual}',
-      { expected: expected, actual: actual }
+      { expected: expected, actual: actual },
     )
   }
   expose(assert_greater_than, 'assert_greater_than')
@@ -1307,7 +1307,7 @@ policies and contribution forms [3].
       'assert_between_exclusive',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1316,7 +1316,7 @@ policies and contribution forms [3].
       description,
       'expected a number greater than ${lower} ' +
         'and less than ${upper} but got ${actual}',
-      { lower: lower, upper: upper, actual: actual }
+      { lower: lower, upper: upper, actual: actual },
     )
   }
   expose(assert_between_exclusive, 'assert_between_exclusive')
@@ -1330,7 +1330,7 @@ policies and contribution forms [3].
       'assert_less_than_equal',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1338,7 +1338,7 @@ policies and contribution forms [3].
       'assert_less_than_equal',
       description,
       'expected a number less than or equal to ${expected} but got ${actual}',
-      { expected: expected, actual: actual }
+      { expected: expected, actual: actual },
     )
   }
   expose(assert_less_than_equal, 'assert_less_than_equal')
@@ -1352,7 +1352,7 @@ policies and contribution forms [3].
       'assert_greater_than_equal',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1360,7 +1360,7 @@ policies and contribution forms [3].
       'assert_greater_than_equal',
       description,
       'expected a number greater than or equal to ${expected} but got ${actual}',
-      { expected: expected, actual: actual }
+      { expected: expected, actual: actual },
     )
   }
   expose(assert_greater_than_equal, 'assert_greater_than_equal')
@@ -1374,7 +1374,7 @@ policies and contribution forms [3].
       'assert_between_inclusive',
       description,
       'expected a number but got a ${type_actual}',
-      { type_actual: typeof actual }
+      { type_actual: typeof actual },
     )
 
     assert(
@@ -1383,7 +1383,7 @@ policies and contribution forms [3].
       description,
       'expected a number greater than or equal to ${lower} ' +
         'and less than or equal to ${upper} but got ${actual}',
-      { lower: lower, upper: upper, actual: actual }
+      { lower: lower, upper: upper, actual: actual },
     )
   }
   expose(assert_between_inclusive, 'assert_between_inclusive')
@@ -1397,7 +1397,7 @@ policies and contribution forms [3].
       'assert_regexp_match',
       description,
       'expected ${expected} but got ${actual}',
-      { expected: expected, actual: actual }
+      { expected: expected, actual: actual },
     )
   }
   expose(assert_regexp_match, 'assert_regexp_match')
@@ -1406,7 +1406,7 @@ policies and contribution forms [3].
     assert_equals(
       {}.toString.call(object),
       '[object ' + class_string + ']',
-      description
+      description,
     )
   }
   expose(assert_class_string, 'assert_class_string')
@@ -1418,7 +1418,7 @@ policies and contribution forms [3].
         name,
         description,
         'expected property ${p} missing',
-        { p: property_name }
+        { p: property_name },
       )
     }
   }
@@ -1431,7 +1431,7 @@ policies and contribution forms [3].
       'assert_not_exists',
       description,
       'unexpected property ${p} found',
-      { p: property_name }
+      { p: property_name },
     )
   }
   expose(assert_not_exists, 'assert_not_exists')
@@ -1442,14 +1442,14 @@ policies and contribution forms [3].
         typeof object === 'object' || typeof object === 'function',
         name,
         description,
-        'provided value is not an object'
+        'provided value is not an object',
       )
 
       assert(
         'hasOwnProperty' in object,
         name,
         description,
-        'provided value is an object but has no hasOwnProperty method'
+        'provided value is an object but has no hasOwnProperty method',
       )
 
       assert(
@@ -1457,7 +1457,7 @@ policies and contribution forms [3].
         name,
         description,
         'property ${p} found on object expected in prototype chain',
-        { p: property_name }
+        { p: property_name },
       )
 
       assert(
@@ -1465,7 +1465,7 @@ policies and contribution forms [3].
         name,
         description,
         'property ${p} not found in prototype chain',
-        { p: property_name }
+        { p: property_name },
       )
     }
   }
@@ -1483,7 +1483,7 @@ policies and contribution forms [3].
         'assert_readonly',
         description,
         'changing property ${p} succeeded',
-        { p: property_name }
+        { p: property_name },
       )
     } finally {
       object[property_name] = initial_value
@@ -1514,7 +1514,7 @@ policies and contribution forms [3].
         'assert_throws',
         description,
         '${func} threw ${e} with type ${type}, not an object',
-        { func: func, e: e, type: typeof e }
+        { func: func, e: e, type: typeof e },
       )
 
       assert(
@@ -1522,12 +1522,12 @@ policies and contribution forms [3].
         'assert_throws',
         description,
         '${func} threw null, not an object',
-        { func: func }
+        { func: func },
       )
 
       if (code === null) {
         throw new AssertionError(
-          'Test bug: need to pass exception to assert_throws()'
+          'Test bug: need to pass exception to assert_throws()',
         )
       }
       if (typeof code === 'object') {
@@ -1542,7 +1542,7 @@ policies and contribution forms [3].
             actual_name: e.name,
             expected: code,
             expected_name: code.name,
-          }
+          },
         )
         return
       }
@@ -1614,7 +1614,7 @@ policies and contribution forms [3].
         throw new AssertionError(
           'Test bug: unrecognized DOMException code "' +
             code +
-            '" passed to assert_throws()'
+            '" passed to assert_throws()',
         )
       }
 
@@ -1649,7 +1649,7 @@ policies and contribution forms [3].
             prop: prop,
             actual: e[prop],
             expected: required_props[prop],
-          }
+          },
         )
       }
     }
@@ -1741,7 +1741,7 @@ policies and contribution forms [3].
           properties: merge({}, this.properties),
           phases: merge({}, this.phases),
         },
-        Test.statuses
+        Test.statuses,
       )
     }
     this._structured_clone.status = this.status
@@ -1798,7 +1798,7 @@ policies and contribution forms [3].
     return function () {
       return test_this.step.apply(
         test_this,
-        [func, this_obj].concat(Array.prototype.slice.call(arguments))
+        [func, this_obj].concat(Array.prototype.slice.call(arguments)),
       )
     }
   }
@@ -1814,7 +1814,7 @@ policies and contribution forms [3].
       if (func) {
         test_this.step.apply(
           test_this,
-          [func, this_obj].concat(Array.prototype.slice.call(arguments))
+          [func, this_obj].concat(Array.prototype.slice.call(arguments)),
         )
       }
       test_this.done()
@@ -1834,7 +1834,7 @@ policies and contribution forms [3].
       this.step_func(function () {
         return f.apply(test_this, args)
       }),
-      timeout * tests.timeout_multiplier
+      timeout * tests.timeout_multiplier,
     )
   }
 
@@ -1967,7 +1967,7 @@ policies and contribution forms [3].
         } else {
           clone[key] = value
         }
-      }.bind(this)
+      }.bind(this),
     )
     clone.phases = merge({}, this.phases)
     return clone
@@ -2026,7 +2026,7 @@ policies and contribution forms [3].
       ) {
         this_obj.message_handlers[message.data.type].call(
           this_obj,
-          message.data
+          message.data,
         )
       }
     }
@@ -2118,7 +2118,7 @@ policies and contribution forms [3].
           message: msg,
           stack: this.stack,
         },
-        TestsStatus.statuses
+        TestsStatus.statuses,
       )
     }
     return this._structured_clone
@@ -2556,7 +2556,7 @@ policies and contribution forms [3].
       }
       node = output_document.createElementNS(
         'http://www.w3.org/1999/xhtml',
-        'div'
+        'div',
       )
       node.id = 'log'
       if (output_document.body) {
@@ -2577,7 +2577,7 @@ policies and contribution forms [3].
         if (is_svg) {
           var foreignObject = output_document.createElementNS(
             'http://www.w3.org/2000/svg',
-            'foreignObject'
+            'foreignObject',
           )
           foreignObject.setAttribute('width', '100%')
           foreignObject.setAttribute('height', '100%')
@@ -2586,7 +2586,7 @@ policies and contribution forms [3].
         } else if (is_html) {
           var body = output_document.createElementNS(
             'http://www.w3.org/1999/xhtml',
-            'body'
+            'body',
           )
           output_document.documentElement.appendChild(body)
           body.appendChild(node)
@@ -2737,7 +2737,7 @@ policies and contribution forms [3].
     ]
 
     log.appendChild(
-      render(summary_template, { num_tests: tests.length }, output_document)
+      render(summary_template, { num_tests: tests.length }, output_document),
     )
 
     forEach(
@@ -2750,7 +2750,7 @@ policies and contribution forms [3].
           }
           var result_class = element.parentNode.getAttribute('class')
           var style_element = output_document.querySelector(
-            'style#hide-' + result_class
+            'style#hide-' + result_class,
           )
           var input_element = element.querySelector('input')
           if (!style_element && !input_element.checked) {
@@ -2763,7 +2763,7 @@ policies and contribution forms [3].
             style_element.parentNode.removeChild(style_element)
           }
         })
-      }
+      },
     )
 
     // This use of innerHTML plus manual escaping is not recommended in
@@ -2891,7 +2891,7 @@ policies and contribution forms [3].
       }),
       function (x) {
         return x !== null
-      }
+      },
     )
   }
 
@@ -3003,7 +3003,7 @@ policies and contribution forms [3].
     function_name,
     description,
     error,
-    substitutions
+    substitutions,
   ) {
     if (tests.tests.length === 0) {
       tests.set_file_is_test()
@@ -3083,8 +3083,8 @@ policies and contribution forms [3].
           function_name: function_name,
           description: description ? description + ' ' : '',
         },
-        substitutions
-      )
+        substitutions,
+      ),
     )
     return node_form.slice(1).join('')
   }
@@ -3270,7 +3270,7 @@ policies and contribution forms [3].
       function (e) {
         error_handler(e.reason)
       },
-      false
+      false,
     )
   }
 

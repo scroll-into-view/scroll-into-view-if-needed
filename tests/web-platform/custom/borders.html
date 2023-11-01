@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <title>Border widths</title>
 <meta charset="utf-8" />
 <link
@@ -279,42 +279,45 @@
       var outer = suite[3][0]
       var inner = suite[3][1]
 
-      test(function () {
-        window.scrollTo(0, 0)
-        outerContainer.scrollTop = 0
-        outerContainer.scrollLeft = 0
-        innerContainer.scrollTop = 0
-        innerContainer.scrollLeft = 0
-        scrollIntoView(tiles[target], { block: block, inline: inline })
-        //tiles[target].scrollIntoView({block, inline});
+      test(
+        function () {
+          window.scrollTo(0, 0)
+          outerContainer.scrollTop = 0
+          outerContainer.scrollLeft = 0
+          innerContainer.scrollTop = 0
+          innerContainer.scrollLeft = 0
+          scrollIntoView(tiles[target], { block: block, inline: inline })
+          //tiles[target].scrollIntoView({block, inline});
 
-        assert_approx_equals(
-          outerContainer.scrollLeft,
-          outer.x,
-          1,
-          'outerContainer.scrollLeft'
-        )
-        assert_approx_equals(
-          outerContainer.scrollTop,
-          outer.y,
-          1,
-          'outerContainer.scrollTop'
-        )
-        assert_approx_equals(
-          innerContainer.scrollLeft,
-          inner.x,
-          1,
-          'innerContainer.scrollLeft'
-        )
-        assert_approx_equals(
-          innerContainer.scrollTop,
-          inner.y,
-          1,
-          'innerContainer.scrollTop'
-        )
-      }, 'scrollIntoView(' +
-        JSON.stringify({ block: block, inline: inline }) +
-        ')')
+          assert_approx_equals(
+            outerContainer.scrollLeft,
+            outer.x,
+            1,
+            'outerContainer.scrollLeft',
+          )
+          assert_approx_equals(
+            outerContainer.scrollTop,
+            outer.y,
+            1,
+            'outerContainer.scrollTop',
+          )
+          assert_approx_equals(
+            innerContainer.scrollLeft,
+            inner.x,
+            1,
+            'innerContainer.scrollLeft',
+          )
+          assert_approx_equals(
+            innerContainer.scrollTop,
+            inner.y,
+            1,
+            'innerContainer.scrollTop',
+          )
+        },
+        'scrollIntoView(' +
+          JSON.stringify({ block: block, inline: inline }) +
+          ')',
+      )
     })
 
     document.body.classList.remove('running')

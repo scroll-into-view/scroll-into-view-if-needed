@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <title>CSSOM View - scrollIntoView</title>
 <meta charset="utf-8" />
 <meta
@@ -59,81 +59,93 @@
         expectedX = _ref[1],
         expectedY = _ref[2]
 
-      test(function () {
-        window.scrollTo(0, 0)
-        testScrollIntoView(input)
-        var x = expectedX === 'nearest' ? expectedXRight : expectedX
-        var y = expectedY === 'nearest' ? expectedYBottom : expectedY
-        assert_approx_equals(
-          window.scrollX || window.pageXOffset,
-          x,
-          0.5,
-          'scrollX'
-        )
-        assert_approx_equals(
-          window.scrollY || window.pageYOffset,
-          y,
-          0.5,
-          'scrollY'
-        )
-      }, 'scrollIntoView(' + format_input(input) + ') starting at left,top')
+      test(
+        function () {
+          window.scrollTo(0, 0)
+          testScrollIntoView(input)
+          var x = expectedX === 'nearest' ? expectedXRight : expectedX
+          var y = expectedY === 'nearest' ? expectedYBottom : expectedY
+          assert_approx_equals(
+            window.scrollX || window.pageXOffset,
+            x,
+            0.5,
+            'scrollX',
+          )
+          assert_approx_equals(
+            window.scrollY || window.pageYOffset,
+            y,
+            0.5,
+            'scrollY',
+          )
+        },
+        'scrollIntoView(' + format_input(input) + ') starting at left,top',
+      )
 
-      test(function () {
-        window.scrollTo(0, 12000)
-        testScrollIntoView(input)
-        var x = expectedX === 'nearest' ? expectedXRight : expectedX
-        var y = expectedY === 'nearest' ? expectedYTop : expectedY
-        assert_approx_equals(
-          window.scrollX || window.pageXOffset,
-          x,
-          0.5,
-          'scrollX'
-        )
-        assert_approx_equals(
-          window.scrollY || window.pageYOffset,
-          y,
-          0.5,
-          'scrollY'
-        )
-      }, 'scrollIntoView(' + format_input(input) + ') starting at left,bottom')
+      test(
+        function () {
+          window.scrollTo(0, 12000)
+          testScrollIntoView(input)
+          var x = expectedX === 'nearest' ? expectedXRight : expectedX
+          var y = expectedY === 'nearest' ? expectedYTop : expectedY
+          assert_approx_equals(
+            window.scrollX || window.pageXOffset,
+            x,
+            0.5,
+            'scrollX',
+          )
+          assert_approx_equals(
+            window.scrollY || window.pageYOffset,
+            y,
+            0.5,
+            'scrollY',
+          )
+        },
+        'scrollIntoView(' + format_input(input) + ') starting at left,bottom',
+      )
 
-      test(function () {
-        window.scrollTo(12000, 0)
-        testScrollIntoView(input)
-        var x = expectedX === 'nearest' ? expectedXLeft : expectedX
-        var y = expectedY === 'nearest' ? expectedYBottom : expectedY
-        assert_approx_equals(
-          window.scrollX || window.pageXOffset,
-          x,
-          0.5,
-          'scrollX'
-        )
-        assert_approx_equals(
-          window.scrollY || window.pageYOffset,
-          y,
-          0.5,
-          'scrollY'
-        )
-      }, 'scrollIntoView(' + format_input(input) + ') starting at right,top')
+      test(
+        function () {
+          window.scrollTo(12000, 0)
+          testScrollIntoView(input)
+          var x = expectedX === 'nearest' ? expectedXLeft : expectedX
+          var y = expectedY === 'nearest' ? expectedYBottom : expectedY
+          assert_approx_equals(
+            window.scrollX || window.pageXOffset,
+            x,
+            0.5,
+            'scrollX',
+          )
+          assert_approx_equals(
+            window.scrollY || window.pageYOffset,
+            y,
+            0.5,
+            'scrollY',
+          )
+        },
+        'scrollIntoView(' + format_input(input) + ') starting at right,top',
+      )
 
-      test(function () {
-        window.scrollTo(12000, 12000)
-        testScrollIntoView(input)
-        var x = expectedX === 'nearest' ? expectedXLeft : expectedX
-        var y = expectedY === 'nearest' ? expectedYTop : expectedY
-        assert_approx_equals(
-          window.scrollX || window.pageXOffset,
-          x,
-          0.5,
-          'scrollX'
-        )
-        assert_approx_equals(
-          window.scrollY || window.pageYOffset,
-          y,
-          0.5,
-          'scrollY'
-        )
-      }, 'scrollIntoView(' + format_input(input) + ') starting at right,bottom')
+      test(
+        function () {
+          window.scrollTo(12000, 12000)
+          testScrollIntoView(input)
+          var x = expectedX === 'nearest' ? expectedXLeft : expectedX
+          var y = expectedY === 'nearest' ? expectedYTop : expectedY
+          assert_approx_equals(
+            window.scrollX || window.pageXOffset,
+            x,
+            0.5,
+            'scrollX',
+          )
+          assert_approx_equals(
+            window.scrollY || window.pageYOffset,
+            y,
+            0.5,
+            'scrollY',
+          )
+        },
+        'scrollIntoView(' + format_input(input) + ') starting at right,bottom',
+      )
     })
 
     function testScrollIntoView(input) {

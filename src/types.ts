@@ -24,5 +24,5 @@ export interface CustomScrollAction {
   left: number
 }
 export type CustomScrollBehaviorCallback<T> = (
-  actions: CustomScrollAction[]
+  actions: CustomScrollAction[],
 ) => T

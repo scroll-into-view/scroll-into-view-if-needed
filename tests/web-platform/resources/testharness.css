@@ -1,5 +1,9 @@
 html {
-  font-family: DejaVu Sans, Bitstream Vera Sans, Arial, Sans;
+  font-family:
+    DejaVu Sans,
+    Bitstream Vera Sans,
+    Arial,
+    Sans;
 }
 
 #log .warning,
@@ -79,12 +83,18 @@ table#results span {
 }
 
 table#results span.expected {
-  font-family: DejaVu Sans Mono, Bitstream Vera Sans Mono, Monospace;
+  font-family:
+    DejaVu Sans Mono,
+    Bitstream Vera Sans Mono,
+    Monospace;
   white-space: pre;
 }
 
 table#results span.actual {
-  font-family: DejaVu Sans Mono, Bitstream Vera Sans Mono, Monospace;
+  font-family:
+    DejaVu Sans Mono,
+    Bitstream Vera Sans Mono,
+    Monospace;
   white-space: pre;
 }
 

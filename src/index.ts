@@ -43,16 +43,16 @@ export interface CustomBehaviorOptions<T = unknown> extends BaseOptions {
 
 /** @public */
 export type CustomScrollBehaviorCallback<T = unknown> = (
-  actions: ScrollAction[]
+  actions: ScrollAction[],
 ) => T
 
 const isStandardScrollBehavior = (
-  options: any
+  options: any,
 ): options is StandardBehaviorOptions =>
   options === Object(options) && Object.keys(options).length !== 0
 
 const isCustomScrollBehavior = <T = unknown>(
-  options: any
+  options: any,
 ): options is CustomBehaviorOptions<T> =>
   typeof options === 'object' ? typeof options.behavior === 'function' : false
 
@@ -105,7 +105,7 @@ const isInDocument = (element: Node) => {
  */
 function scrollIntoView(
   target: Element,
-  options?: StandardBehaviorOptions | boolean
+  options?: StandardBehaviorOptions | boolean,
 ): void
 /**
  * Scrolls the given element into view, with options for when, and how.
@@ -126,11 +126,11 @@ function scrollIntoView(
  */
 function scrollIntoView<T>(
   target: Element,
-  options: CustomBehaviorOptions<T>
+  options: CustomBehaviorOptions<T>,
 ): T
 function scrollIntoView<T = unknown>(
   target: Element,
-  options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean
+  options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean,
 ): T | void {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
   if (!target.isConnected || !isInDocument(target)) {
