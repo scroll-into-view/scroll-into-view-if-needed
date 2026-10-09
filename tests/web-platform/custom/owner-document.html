@@ -1,0 +1,62 @@
+<!doctype html>
+<title>Connected targets in their owner document</title>
+<meta charset="utf-8" />
+<script src="/node_modules/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.js"></script>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script>
+  function assertBehaviorCalled(target) {
+    var calls = 0
+    var result = scrollIntoView(target, {
+      behavior: function () {
+        calls++
+        return 'called'
+      },
+    })
+    assert_equals(calls, 1)
+    assert_equals(result, 'called')
+  }
+
+  test(function () {
+    var target = document.createElement('div')
+    document.body.appendChild(target)
+    assertBehaviorCalled(target)
+    target.remove()
+  }, 'A connected target in the current document invokes custom behavior')
+
+  ;['light', 'open', 'closed'].forEach(function (mode) {
+    test(
+      function () {
+        var frame = document.createElement('iframe')
+        document.body.appendChild(frame)
+        try {
+          var ownerDocument = frame.contentDocument
+          var host = ownerDocument.createElement('div')
+          ownerDocument.body.appendChild(host)
+          var target = ownerDocument.createElement('div')
+          var parent =
+            mode === 'light' ? host : host.attachShadow({ mode: mode })
+          parent.appendChild(target)
+          assertBehaviorCalled(target)
+        } finally {
+          frame.remove()
+        }
+      },
+      'An iframe target in ' + mode + ' DOM invokes custom behavior',
+    )
+  })
+
+  test(function () {
+    var host = document.createElement('div')
+    var target = document.createElement('div')
+    host.attachShadow({ mode: 'open' }).appendChild(target)
+    var calls = 0
+    scrollIntoView(target, {
+      behavior: function () {
+        calls++
+      },
+    })
+    assert_equals(calls, 0)
+  }, 'A target in a detached shadow tree remains a no-op')
+</script>
