@@ -82,21 +82,8 @@ const getScrollMargins = (target: Element) => {
 }
 
 // Determine if the element is part of the document (including shadow dom)
-// Derived from code of Andy Desmarais
-// https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
-const isInDocument = (element: Node) => {
-  let currentElement = element
-  while (currentElement && currentElement.parentNode) {
-    if (currentElement.parentNode === document) {
-      return true
-    } else if (currentElement.parentNode instanceof ShadowRoot) {
-      currentElement = (currentElement.parentNode as ShadowRoot).host
-    } else {
-      currentElement = currentElement.parentNode
-    }
-  }
-  return false
-}
+const isInDocument = (element: Node) =>
+  element.getRootNode({ composed: true }) === element.ownerDocument
 
 /**
  * Scrolls the given element into view, with options for when, and how.

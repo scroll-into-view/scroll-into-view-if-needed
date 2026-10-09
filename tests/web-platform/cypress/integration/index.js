@@ -17,7 +17,7 @@ describe('css/cssom-view', () => {
 })
 
 describe('custom', () => {
-  const tests = ['borders.html']
+  const tests = ['borders.html', 'owner-document.html']
   tests.forEach((test) => {
     it(`implements ${test} correctly`, () => {
       cy.visit(`/custom/${test}`)
