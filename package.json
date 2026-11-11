@@ -64,7 +64,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
-    "@sanity/pkg-utils": "^3.2.2",
+    "@sanity/pkg-utils": "^4.4.4",
     "cross-env": "^7.0.3",
     "prettier": "^3.0.3",
     "prettier-plugin-packagejson": "^2.4.3",
