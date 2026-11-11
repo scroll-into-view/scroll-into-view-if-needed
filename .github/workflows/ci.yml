@@ -1,54 +1,34 @@
----
-name: CI & Release
-
-# Workflow name based on selected inputs. Fallback to default Github naming when expression evaluates to empty string
-run-name: >-
-  ${{
-    inputs.release && inputs.test && 'Build ➤ Test ➤ Publish to NPM' ||
-    inputs.release && !inputs.test && 'Build ➤ Skip Tests ➤ Publish to NPM' ||
-    github.event_name == 'workflow_dispatch' && inputs.test && 'Build ➤ Test' ||
-    github.event_name == 'workflow_dispatch' && !inputs.test && 'Build ➤ Skip Tests' ||
-    ''
-  }}
+name: CI
 
 on:
   pull_request:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      test:
-        description: 'Run tests'
-        required: true
-        default: true
-        type: boolean
-      release:
-        description: 'Publish new release'
-        required: true
-        default: false
-        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          cache: npm
+          cache: pnpm
           node-version: lts/*
-      - run: npm ci
-      - run: npm run typecheck
-        if: github.event.inputs.test != 'false'
-      - run: npm run prepublishOnly
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm build
 
   test:
     needs: build
-    if: github.event.inputs.test != 'false'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -57,8 +37,6 @@ jobs:
         node: [lts/*]
         include:
           - os: ubuntu-latest
-            node: lts/-2
-          - os: ubuntu-latest
             node: current
     steps:
       - name: Set git to use LF
@@ -66,36 +44,12 @@ jobs:
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          cache: npm
+          cache: pnpm
           node-version: ${{ matrix.node }}
-      - run: npm i
-      - run: npm run build
-      # - run: npm test
-
-  release:
-    needs: [build, test]
-    # only run if opt-in during workflow_dispatch
-    if: always() && github.event.inputs.release == 'true' && needs.build.result != 'failure' && needs.test.result != 'failure' && needs.test.result != 'cancelled'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          # Need to fetch entire commit history to
-          # analyze every commit since last release
-          fetch-depth: 0
-      - uses: actions/setup-node@v6
-        with:
-          cache: npm
-          node-version: lts/*
-      - run: npm ci
-        # Branches that will release new versions are defined in .releaserc.json
-      - run: npx semantic-release
-        # Don't allow interrupting the release step if the job is cancelled, as it can lead to an inconsistent state
-        # e.g. git tags were pushed but it exited before `npm publish`
-        if: always()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      # - run: pnpm test

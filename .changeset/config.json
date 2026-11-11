@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "scroll-into-view/scroll-into-view-if-needed" }
+  ],
+  "commit": false,
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}

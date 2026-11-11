@@ -44,11 +44,11 @@
     "src"
   ],
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "pkg build --strict",
-    "clean": "npx rimraf 'dist'",
-    "prepublishOnly": "npm run build",
-    "typecheck": "tsc && tsc --noEmit -p tests/typescript"
+    "build": "pnpm run clean && pkg build --strict",
+    "clean": "rimraf 'dist'",
+    "prepublishOnly": "pnpm run build",
+    "typecheck": "tsc && tsc --noEmit -p tests/typescript",
+    "release": "pnpm build && changeset publish"
   },
   "browserslist": [
     "> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead and not IE 11",
@@ -62,8 +62,9 @@
     "compute-scroll-into-view": "^3.0.2"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
     "@sanity/pkg-utils": "^3.2.2",
-    "@sanity/semantic-release-preset": "^4.0.0",
     "cross-env": "^7.0.3",
     "prettier": "^3.0.3",
     "prettier-plugin-packagejson": "^2.4.3",
@@ -76,5 +77,13 @@
       "maxSize": "3.3 kB",
       "compression": "none"
     }
-  ]
+  ],
+  "packageManager": "pnpm@12.18.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=26"
+  }
 }

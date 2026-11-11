@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to push version commits, git tags and GitHub releases
+      pull-requests: write # to open the "Version Packages" pull request
+      id-token: write # for npm trusted publishing (OIDC) and provenance
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          cache: pnpm
+          node-version: lts/*
+      - run: pnpm install --frozen-lockfile
+      - name: Create Release Pull Request or Publish to npm
+        uses: changesets/action@v2
+        with:
+          publish-script: pnpm release
