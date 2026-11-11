@@ -54,6 +54,8 @@ This used to be a [ponyfill](https://ponyfill.com) for
 npm i scroll-into-view-if-needed
 ```
 
+The package is ESM-only. CommonJS code can still `require()` it on Node.js 20.19, 22.12 and later, through `require('scroll-into-view-if-needed').default`.
+
 You can also use it from a CDN:
 
 ```js
