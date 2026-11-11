@@ -6,7 +6,23 @@ export default defineConfig({
   },
   lint: {
     jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
-    rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
+    // Listing plugins replaces Oxlint's defaults (eslint, typescript, unicorn, oxc), so they're repeated here
+    plugins: [
+      'eslint',
+      'typescript',
+      'unicorn',
+      'oxc',
+      'import',
+      'promise',
+      'vitest',
+      'jsdoc',
+    ],
+    // Whole categories, so rules that new Vite+/Oxlint releases add to them apply automatically
+    categories: { correctness: 'error', suspicious: 'error', perf: 'error' },
+    rules: {
+      'vite-plus/prefer-vite-plus-imports': 'error',
+      'typescript/switch-exhaustiveness-check': 'error',
+    },
     options: { typeAware: true, typeCheck: true },
     ignorePatterns: [
       // Legacy Cypress/Next.js and vendored web-platform-tests fixtures that are not run
