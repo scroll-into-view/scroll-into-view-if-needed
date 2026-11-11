@@ -1,5 +1,11 @@
 # scroll-into-view-if-needed
 
+## 3.2.0
+
+### Minor Changes
+
+- [#1221](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1221) [`ce383fc`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/ce383fccbd5b469dbf13c68f93b769c419ddcde4) Thanks [@stipsan](https://github.com/stipsan)! - Require Node.js 26 (current LTS) or later, and publish to npm with trusted publishing (OIDC) and provenance
+
 ## [3.1.0](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.10...v3.1.0) (2023-09-13)
 
 ### Features
@@ -234,12 +240,6 @@
 
 - Changelog readme.
 - TypeScript definition file (#73 @forabi)
-
-## 3.2.0
-
-### Minor Changes
-
-- [#1221](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1221) [`ce383fc`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/ce383fccbd5b469dbf13c68f93b769c419ddcde4) Thanks [@stipsan](https://github.com/stipsan)! - Require Node.js 26 (current LTS) or later, and publish to npm with trusted publishing (OIDC) and provenance
 
 ## 1.0.3 - 2016-09-30
 
