@@ -7,7 +7,7 @@
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
 This used to be a [ponyfill](https://ponyfill.com) for
-`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one.
+`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the non-standard one.
 
 - [Demo](#demo)
 - [Install](#install)
@@ -28,6 +28,7 @@ This used to be a [ponyfill](https://ponyfill.com) for
     - [scrollMode](#scrollmode)
     - [boundary](#boundary)
     - [skipOverflowHiddenElements](#skipoverflowhiddenelements)
+  - [scroll-margin](#scroll-margin)
 - [TypeScript support](#typescript-support)
 - [Breaking API changes from v1](#breaking-api-changes-from-v1)
   - [v1](#v1)
@@ -92,7 +93,7 @@ scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 ## Ponyfill smooth scrolling
 
 What does ponyfilling smooth scrolling mean, and why is it implemented in [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) instead?
-The answer is bundlesize. If this package adds smooth scrolling to browsers that's missing it then the overall bundlesize increases regardless of wether you use this feature or not.
+The answer is bundlesize. If this package adds smooth scrolling to browsers that are missing it then the overall bundlesize increases regardless of whether you use this feature or not.
 
 Put it this way:
 
@@ -105,11 +106,11 @@ scrollIntoView(node, { scrollMode: 'if-needed' })
 scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
 ```
 
-That's why only native smooth scrolling is supported out of the box. There are two common ways you can smooth scroll browsers that don't support it natively. Below is all three, which one is best for you depends on what is the most important to your use case:: load time, consistency or quality.
+That's why only native smooth scrolling is supported out of the box. Native smooth scrolling is supported in all modern browsers (Safari added it in 15.4), but the way it animates differs between browsers. Below are three ways to approach it, which one is best for you depends on what is the most important to your use case: load time, consistency or quality.
 
 ### Load time
 
-In many scenarios smooth scrolling can be used as a progressive enhancement. If the user is on a browser that don't implement smooth scrolling it'll simply scroll instantly and your bundlesize is only as large as it has to be.
+In many scenarios smooth scrolling can be used as a progressive enhancement. If the user is on a browser that doesn't implement smooth scrolling it'll simply scroll instantly and your bundlesize is only as large as it has to be.
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -119,7 +120,7 @@ scrollIntoView(node, { behavior: 'smooth' })
 
 ### Consistency
 
-If a consistent smooth scrolling experience is a priority and you really don't want any surprises between different browsers and enviroments. In other words don't want to be affected by how a vendor might implement native smooth scrolling, then [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) is your best option. It ensures the same smooth scrolling experience for every browser.
+If a consistent smooth scrolling experience is a priority and you really don't want any surprises between different browsers and environments. In other words don't want to be affected by how a vendor might implement native smooth scrolling, then [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) is your best option. It ensures the same smooth scrolling experience for every browser.
 
 ```js
 import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
@@ -162,7 +163,7 @@ Type: `'auto' | 'smooth' | Function`<br> Default: `'auto'`
 #### `'auto'`
 
 The auto option unlocks a few interesting opportunities.
-The browser will decide based on user preferences wether it should smooth scroll or not.
+The browser will decide based on user preferences whether it should smooth scroll or not.
 On top of that you can control/override scrolling behavior through the [`scroll-behavior`](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior) CSS property.
 
 Some people get [motion sick from animations](https://css-tricks.com/smooth-scrolling-accessibility/#article-header-id-5). You can use CSS to turn off smooth scrolling in those cases to avoid making them dizzy:
@@ -193,7 +194,7 @@ Using `behavior: 'smooth'` is the easiest way to smooth scroll an element as it 
 
 When given a function then this library will only calculate what should be scrolled and leave it up to you to perform the actual scrolling.
 
-The callback is given an array over actions. Each action contain a reference to an element that should be scrolled, with its top and left scrolling coordinates.
+The callback is given an array of actions. Each action contains a reference to an element that should be scrolled, with its top and left scrolling coordinates.
 What you return is passed through, allowing you to implement a Promise interface if you want to (check [`smooth-scroll-into-view-if-needed`](https://github.com/scroll-into-view/smooth-scroll-into-view-if-needed) to see an example of that).
 
 ```js
@@ -217,7 +218,7 @@ scrollIntoView(node, {
 })
 ```
 
-Check the demo to see an [example with popmotion and a spring transition](https://scroll-into-view.dev/#custom-transition).
+Check the demo to see an [example with a spring transition using Motion](https://scroll-into-view.dev/#custom-transition), and an [example using the browser's built-in `Element.animate()`](https://scroll-into-view.dev/#custom-transition-el-animate) that doesn't need any animation library.
 
 > If you only need the custom behavior you might be better off by using the compute library directly: https://github.com/scroll-into-view/compute-scroll-into-view
 
@@ -226,6 +227,8 @@ Check the demo to see an [example with popmotion and a spring transition](https:
 Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
 
 > Introduced in `v2.1.0`
+
+If `options` is omitted, `true`, or an empty object, then `block: 'start'` is used to match `Element.scrollIntoView()`. If `options` is `false` then `block: 'end'` is used (the legacy `alignToTop` argument).
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#block)
 
@@ -261,6 +264,18 @@ Type: `Boolean`<br> Default: `false`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#skipoverflowhiddenelements)
 
+## scroll-margin
+
+> Introduced in `v3.1.0`
+
+The [`scroll-margin`](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin) CSS property on the target element is respected, just like it is with the native `Element.scrollIntoView()`. This is useful for things like offsetting a sticky header:
+
+```css
+.target {
+  scroll-margin-top: 64px;
+}
+```
+
 # TypeScript support
 
 When the library itself is built on TypeScript there's no excuse for not publishing great library definitions!
@@ -295,7 +310,7 @@ const scrolling = scrollIntoView<Promise<any>>(document.body, {
 // throws if customBehavior does not return a promise
 ```
 
-The options are available for you if you are wrapping this libary in another abstraction (like a React component):
+The options are available for you if you are wrapping this library in another abstraction (like a React component):
 
 ```typescript
 import scrollIntoView, { type Options } from 'scroll-into-view-if-needed'
@@ -304,9 +319,12 @@ interface CustomOptions extends Options {
   useBoundary?: boolean
 }
 
-function scrollToTarget(selector, options: Options = {}) {
+function scrollToTarget(selector: string, options: CustomOptions = {}) {
   const { useBoundary = false, ...scrollOptions } = options
-  return scrollIntoView(document.querySelector(selector), scrollOptions)
+  return scrollIntoView(document.querySelector(selector), {
+    ...scrollOptions,
+    boundary: useBoundary ? document.querySelector('main') : undefined,
+  })
 }
 ```
 
@@ -390,7 +408,7 @@ This feature is removed, but you can achieve the same thing by implementing [`be
 
 ## handleScroll
 
-This is replaced with [`behavior: Function`](#function) with one key difference. Instead of firing once per element that should be scrolled, the new API only fire once and instead give you an array so you can much easier batch and scroll multiple elements at the same time. Or sync scrolling with another element if that's the kind of stuff you're into, I don't judge.
+This is replaced with [`behavior: Function`](#function) with one key difference. Instead of firing once per element that should be scrolled, the new API only fires once and instead give you an array so you can much easier batch and scroll multiple elements at the same time. Or sync scrolling with another element if that's the kind of stuff you're into, I don't judge.
 
 ```diff
 -import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -400,7 +418,7 @@ This is replaced with [`behavior: Function`](#function) with one key difference.
 -  el.scrollTop = scrollTop
 -  el.scrollLeft = scrollLeft
 -}})
-+scrollIntoView(node, {behavior: actions.forEach(({el, top, left}) => {
++scrollIntoView(node, {behavior: actions => actions.forEach(({el, top, left}) => {
 +  el.scrollTop = top
 +  el.scrollLeft = left
 +})})
@@ -413,7 +431,7 @@ It's much safer to use CSS wrapper elements for this kind of thing.
 
 ## scrollIntoViewIfNeeded(target, [centerIfNeeded], [animateOptions], [finalElement], [offsetOptions])
 
-This API signature were warned to be dropped in `v2.0.0`, and it was.
+This API signature was warned to be dropped in `v2.0.0`, and it was.
 
 # Related packages
 
