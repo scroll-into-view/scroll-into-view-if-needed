@@ -24,4 +24,6 @@ jobs:
           cache: true
       # Format, lint, and type check (including the tests/typescript type tests)
       - run: vp check
+      # Unused files, exports, and dependencies
+      - run: vp exec knip
       - run: vp pack
