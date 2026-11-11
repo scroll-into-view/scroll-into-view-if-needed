@@ -1,7 +1,7 @@
 {
   "name": "scroll-into-view-if-needed",
   "version": "3.2.0",
-  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "description": "Ponyfill for Element.scrollIntoView with conditional scrolling and custom behavior",
   "keywords": [
     "behavior-smooth",
     "if-needed",
@@ -48,7 +48,9 @@
     "clean": "rimraf 'dist'",
     "prepublishOnly": "pnpm run build",
     "typecheck": "tsc && tsc --noEmit -p tests/typescript",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "test": "node --experimental-vm-modules --test tests/unit/*.test.mjs",
+    "test:browser": "node --test tests/browser/*.test.mjs"
   },
   "browserslist": [
     "> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead and not IE 11",
@@ -59,7 +61,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "compute-scroll-into-view": "^3.0.2"
+    "compute-scroll-into-view": "^3.1.1"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
@@ -69,7 +71,8 @@
     "prettier": "^3.0.3",
     "prettier-plugin-packagejson": "^2.4.3",
     "rimraf": "^4.1.2",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "puppeteer": "^25.17.0"
   },
   "bundlesize": [
     {
