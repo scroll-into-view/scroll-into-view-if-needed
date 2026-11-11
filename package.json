@@ -26,19 +26,12 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "source": "./src/index.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "source": "./src/index.ts",
-  "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -53,6 +46,7 @@
     "compute-scroll-into-view": "^3.0.2"
   },
   "devDependencies": {
+    "@arethetypeswrong/core": "^0.18.5",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
     "@vitest/browser-playwright": "catalog:",
@@ -60,6 +54,7 @@
     "jsdom": "^31.0.0",
     "knip": "^6.45.0",
     "playwright": "*",
+    "publint": "^0.3.25",
     "vite-plus": "catalog:",
     "vitest": "catalog:"
   },
