@@ -24,7 +24,7 @@ jobs:
           cache: pnpm
           node-version: lts/*
       - run: pnpm install --frozen-lockfile --ignore-scripts
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: node_modules/.cache/prettier/.prettier-cache
           key: prettier-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('.gitignore') }}
