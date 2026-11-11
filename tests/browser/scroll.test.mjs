@@ -64,7 +64,12 @@ before(async () => {
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
   browser = await puppeteer.launch({
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-    args: process.env.PUPPETEER_NO_SANDBOX ? ['--no-sandbox'] : [],
+    // Windows runners disable animations in their system settings. These tests
+    // need real smooth scrolling to exercise completion and interruption.
+    args: [
+      '--enable-smooth-scrolling',
+      ...(process.env.PUPPETEER_NO_SANDBOX ? ['--no-sandbox'] : []),
+    ],
   })
   page = await browser.newPage()
   await page.goto(`http://127.0.0.1:${server.address().port}`)
