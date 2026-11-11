@@ -1,9 +1,4 @@
-<!-- markdownlint-disable --><!-- textlint-disable -->
-
-# 📓 Changelog
-
-All notable changes to this project will be documented in this file. See
-[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+# scroll-into-view-if-needed
 
 ## [3.1.0](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.10...v3.1.0) (2023-09-13)
 
