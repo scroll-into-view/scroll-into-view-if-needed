@@ -31,7 +31,7 @@ export type Options<T = unknown> =
  */
 export interface StandardBehaviorOptions extends BaseOptions {
   /**
-   * @defaultValue 'auto
+   * @default 'auto'
    */
   behavior?: ScrollBehavior
 }
@@ -90,7 +90,7 @@ const isInDocument = (element: Node) => {
     if (currentElement.parentNode === document) {
       return true
     } else if (currentElement.parentNode instanceof ShadowRoot) {
-      currentElement = (currentElement.parentNode as ShadowRoot).host
+      currentElement = currentElement.parentNode.host
     } else {
       currentElement = currentElement.parentNode
     }
