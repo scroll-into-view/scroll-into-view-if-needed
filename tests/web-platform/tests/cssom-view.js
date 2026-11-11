@@ -6,6 +6,7 @@ const tests = [
   //'css/cssom-view/scrollIntoView-smooth.html',
   //'css/cssom-view/scrollIntoView-shadow.html',
   'custom/borders',
+  'custom/owner-document',
 ]
 const { browserVersion = '', browserName = '' } = browser.capabilities
 
