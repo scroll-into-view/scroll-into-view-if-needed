@@ -54,7 +54,7 @@ const isStandardScrollBehavior = (
 const isCustomScrollBehavior = <T = unknown>(
   options: any,
 ): options is CustomBehaviorOptions<T> =>
-  typeof options === 'object' ? typeof options.behavior === 'function' : false
+  typeof options === 'object' && typeof options?.behavior === 'function'
 
 const getOptions = (options: any): StandardBehaviorOptions => {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
