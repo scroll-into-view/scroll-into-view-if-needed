@@ -44,19 +44,10 @@
     "src"
   ],
   "scripts": {
-    "build": "pnpm run clean && pkg build --strict",
-    "clean": "rimraf 'dist'",
-    "prepublishOnly": "pnpm run build",
-    "typecheck": "tsc && tsc --noEmit -p tests/typescript",
-    "release": "pnpm build && changeset publish"
-  },
-  "browserslist": [
-    "> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead and not IE 11",
-    "maintained node versions"
-  ],
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
+    "build": "vp pack",
+    "prepublishOnly": "vp pack",
+    "release": "vp pack && changeset publish",
+    "prepare": "vp config"
   },
   "dependencies": {
     "compute-scroll-into-view": "^3.0.2"
@@ -64,12 +55,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
-    "@sanity/pkg-utils": "^4.4.4",
-    "cross-env": "^7.0.3",
-    "prettier": "^3.0.3",
-    "prettier-plugin-packagejson": "^2.4.3",
-    "rimraf": "^4.1.2",
-    "typescript": "^5.0.0"
+    "vite-plus": "catalog:"
   },
   "bundlesize": [
     {
