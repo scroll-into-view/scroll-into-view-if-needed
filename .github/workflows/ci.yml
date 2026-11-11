@@ -37,8 +37,6 @@ jobs:
         node: [lts/*]
         include:
           - os: ubuntu-latest
-            node: lts/-2
-          - os: ubuntu-latest
             node: current
     steps:
       - name: Set git to use LF
