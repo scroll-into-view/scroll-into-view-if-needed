@@ -15,5 +15,7 @@ src/*.js
 lerna-debug.log
 .next
 tests/web-platform/local.log
-.vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 dist
