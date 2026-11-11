@@ -54,3 +54,6 @@ jobs:
       - run: pnpm build
       - run: pnpm test
       - run: pnpm test:browser
+        env:
+          # Ubuntu runners restrict the user namespaces Chrome's sandbox needs.
+          PUPPETEER_NO_SANDBOX: ${{ runner.os == 'Linux' && '1' || '' }}
