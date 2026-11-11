@@ -16,7 +16,7 @@ async function main() {
   return didScroll === true
 }
 
-main()
+void main()
 
 // Generics are only allowed if a custom behavior is provided
 // @ts-expect-error

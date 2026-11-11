@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "declaration": true,
-    "rootDir": "src",
-    "outDir": "dist",
-    "declarationDir": "dist",
-    "emitDeclarationOnly": true,
+    "isolatedDeclarations": true,
+    "noEmit": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
@@ -17,5 +15,5 @@
     "strict": true,
     "lib": ["dom", "dom.iterable", "esnext"]
   },
-  "exclude": ["node_modules", "dist", "tests", "package.config.ts"]
+  "include": ["src"]
 }
