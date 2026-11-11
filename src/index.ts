@@ -30,14 +30,18 @@ export type Options<T = unknown> =
  * @public
  */
 export interface StandardBehaviorOptions extends BaseOptions {
+  /** Scroll all ancestors (default) or only the nearest scrolling box. */
+  container?: 'all' | 'nearest'
   /**
-   * @defaultValue 'auto
+   * @defaultValue 'auto'
    */
-  behavior?: ScrollBehavior
+  behavior?: ScrollBehavior | 'instant'
 }
 
 /** @public */
 export interface CustomBehaviorOptions<T = unknown> extends BaseOptions {
+  /** Scroll all ancestors (default) or only the nearest scrolling box. */
+  container?: 'all' | 'nearest'
   behavior: CustomScrollBehaviorCallback<T>
 }
 
@@ -46,56 +50,25 @@ export type CustomScrollBehaviorCallback<T = unknown> = (
   actions: ScrollAction[],
 ) => T
 
-const isStandardScrollBehavior = (
-  options: any,
-): options is StandardBehaviorOptions =>
-  options === Object(options) && Object.keys(options).length !== 0
+/** Completion result returned by browsers implementing the current CSSOM View draft. @public */
+export interface ScrollResult {
+  interrupted: boolean
+}
 
 const isCustomScrollBehavior = <T = unknown>(
-  options: any,
+  options: unknown,
 ): options is CustomBehaviorOptions<T> =>
-  typeof options === 'object' ? typeof options.behavior === 'function' : false
+  options != null &&
+  typeof (options as CustomBehaviorOptions<T>).behavior === 'function'
 
-const getOptions = (options: any): StandardBehaviorOptions => {
-  // Handle alignToTop for legacy reasons, to be compatible with the spec
-  if (options === false) {
-    return { block: 'end', inline: 'nearest' }
-  }
-
-  if (isStandardScrollBehavior(options)) {
-    // compute.ts ensures the defaults are block: 'center' and inline: 'nearest', to conform to the spec
-    return options
-  }
-
-  // if options = {}, options = true or options = null, based on w3c web platform test
-  return { block: 'start', inline: 'nearest' }
-}
-
-const getScrollMargins = (target: Element) => {
-  const computedStyle = window.getComputedStyle(target)
+const getOptions = (options?: Options | boolean | null): BaseOptions => {
+  if (options === false) return { block: 'end', inline: 'nearest' }
+  // Dictionary defaults apply even when only behavior or container is supplied.
   return {
-    top: parseFloat(computedStyle.scrollMarginTop) || 0,
-    right: parseFloat(computedStyle.scrollMarginRight) || 0,
-    bottom: parseFloat(computedStyle.scrollMarginBottom) || 0,
-    left: parseFloat(computedStyle.scrollMarginLeft) || 0,
+    ...(typeof options === 'object' ? options : {}),
+    block: (typeof options === 'object' && options?.block) || 'start',
+    inline: (typeof options === 'object' && options?.inline) || 'nearest',
   }
-}
-
-// Determine if the element is part of the document (including shadow dom)
-// Derived from code of Andy Desmarais
-// https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
-const isInDocument = (element: Node) => {
-  let currentElement = element
-  while (currentElement && currentElement.parentNode) {
-    if (currentElement.parentNode === document) {
-      return true
-    } else if (currentElement.parentNode instanceof ShadowRoot) {
-      currentElement = (currentElement.parentNode as ShadowRoot).host
-    } else {
-      currentElement = currentElement.parentNode
-    }
-  }
-  return false
 }
 
 /**
@@ -105,8 +78,8 @@ const isInDocument = (element: Node) => {
  */
 function scrollIntoView(
   target: Element,
-  options?: StandardBehaviorOptions | boolean,
-): void
+  options?: StandardBehaviorOptions | boolean | null,
+): Promise<ScrollResult> | void
 /**
  * Scrolls the given element into view, with options for when, and how.
  * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scrollMode`, `behavior: Function` and `skipOverflowHiddenElements`.
@@ -130,25 +103,42 @@ function scrollIntoView<T>(
 ): T
 function scrollIntoView<T = unknown>(
   target: Element,
-  options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean,
-): T | void {
-  // Browsers treats targets that aren't in the dom as a no-op and so should we
-  if (!target.isConnected || !isInDocument(target)) {
-    return
-  }
-
-  const margins = getScrollMargins(target)
+  options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean | null,
+): T | Promise<ScrollResult> | void {
+  const actions =
+    target.isConnected && target.getClientRects().length > 0
+      ? compute(target, getOptions(options))
+      : []
 
   if (isCustomScrollBehavior<T>(options)) {
-    return options.behavior(compute(target, options))
+    // Invoke even for a no-op so custom promise-returning behaviors can settle.
+    return options.behavior(actions)
   }
 
-  const behavior = typeof options === 'boolean' ? undefined : options?.behavior
-
-  for (const { el, top, left } of compute(target, getOptions(options))) {
-    const adjustedTop = top - margins.top + margins.bottom
-    const adjustedLeft = left - margins.left + margins.right
-    el.scroll({ top: adjustedTop, left: adjustedLeft, behavior })
+  const behavior = typeof options === 'object' ? options?.behavior : undefined
+  const promises: Promise<ScrollResult>[] = []
+  let hasLegacyScroll = false
+  for (const { el, top, left } of actions) {
+    // Older DOM declarations still type scroll() as void. Keep the native
+    // promise, when provided, without claiming legacy smooth scrolling is done.
+    const result: unknown = el.scroll({
+      top,
+      left,
+      behavior: behavior as ScrollBehavior,
+    })
+    if (
+      result &&
+      typeof (result as Promise<ScrollResult>).then === 'function'
+    ) {
+      promises.push(Promise.resolve(result as Promise<ScrollResult>))
+    } else {
+      hasLegacyScroll = true
+    }
+  }
+  if (!hasLegacyScroll) {
+    return Promise.all(promises).then((results) => ({
+      interrupted: results.some((result) => result.interrupted),
+    }))
   }
 }
 
