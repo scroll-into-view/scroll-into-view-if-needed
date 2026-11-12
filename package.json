@@ -44,15 +44,21 @@
     "src"
   ],
   "scripts": {
-    "build": "pnpm run clean && pkg build --strict",
+    "build": "pnpm run clean && pkg build --strict && pnpm run check:es",
+    "check:es": "es-check es2019 dist/index.cjs && es-check es2019 --module dist/index.js",
     "clean": "rimraf 'dist'",
     "prepublishOnly": "pnpm run build",
     "typecheck": "tsc && tsc --noEmit -p tests/typescript",
     "release": "pnpm build && changeset publish"
   },
   "browserslist": [
-    "> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead and not IE 11",
-    "maintained node versions"
+    "chrome 79",
+    "edge 79",
+    "firefox 72",
+    "ios_saf 13",
+    "safari 13",
+    "opera 66",
+    "node 12"
   ],
   "prettier": {
     "semi": false,
@@ -66,6 +72,7 @@
     "@changesets/cli": "^3.0.3",
     "@sanity/pkg-utils": "^4.4.4",
     "cross-env": "^7.0.3",
+    "es-check": "^9.8.1",
     "prettier": "^3.0.3",
     "prettier-plugin-packagejson": "^2.4.3",
     "rimraf": "^4.1.2",
