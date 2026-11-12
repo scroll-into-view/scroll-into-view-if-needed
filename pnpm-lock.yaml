@@ -167,8 +167,8 @@ importers:
   .:
     dependencies:
       compute-scroll-into-view:
-        specifier: ^3.0.2
-        version: 3.0.2
+        specifier: ^3.2.2
+        version: 3.2.2
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^1.0.1
@@ -1002,8 +1002,8 @@ packages:
   commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
 
-  compute-scroll-into-view@3.0.2:
-    resolution: {integrity: sha512-UCXenIpZspASrI2Jsk/eUoa7zpFaD20xIqnC85c1rRIBVS3mOzPKF72QPZYmtcw24ZGqtyiFceBN/JKKVV4ALg==}
+  compute-scroll-into-view@3.2.2:
+    resolution: {integrity: sha512-X+jf3y2j3TbtxA3fq3/kBNiSnD1QlIChiIQdAc2Yo1LtOc0yjO1TzgxWJf8PwtKPGgSvSfWUlVvrb7vGx1eYWA==}
 
   config-chain@1.1.13:
     resolution: {integrity: sha512-qj+f8APARXHrM0hraqXYb2/bOVSV4PvJQlNZ/DVj0QrmNM2q2euizkeuVckQ57J+W0mRH6Hvi+k50M4Jul2VRQ==}
@@ -2667,7 +2667,7 @@ snapshots:
 
   commondir@1.0.1: {}
 
-  compute-scroll-into-view@3.0.2: {}
+  compute-scroll-into-view@3.2.2: {}
 
   config-chain@1.1.13:
     dependencies:

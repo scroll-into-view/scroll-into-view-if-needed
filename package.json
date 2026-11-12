@@ -65,7 +65,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "compute-scroll-into-view": "^3.0.2"
+    "compute-scroll-into-view": "^3.2.2"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
