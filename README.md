@@ -6,7 +6,7 @@
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
 This used to be a [ponyfill](https://ponyfill.com) for
-`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one.
+`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one. The option is called `scroll: 'if-needed'` here.
 
 - [Demo](#demo)
 - [Install](#install)
@@ -24,10 +24,12 @@ This used to be a [ponyfill](https://ponyfill.com) for
       - [`Function`](#function)
     - [block](#block)
     - [inline](#inline)
-    - [scrollMode](#scrollmode)
+    - [container](#container)
+    - [scroll](#scroll)
     - [boundary](#boundary)
     - [skipOverflowHiddenElements](#skipoverflowhiddenelements)
 - [TypeScript support](#typescript-support)
+- [Breaking API changes from v3](#breaking-api-changes-from-v3)
 - [Breaking API changes from v1](#breaking-api-changes-from-v1)
   - [v1](#v1)
   - [v2](#v2)
@@ -76,7 +78,7 @@ const node = document.getElementById('hero')
 // same behavior as Element.scrollIntoViewIfNeeded()
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 scrollIntoView(node, {
-  scrollMode: 'if-needed',
+  scroll: 'if-needed',
   block: 'nearest',
   inline: 'nearest',
 })
@@ -84,10 +86,10 @@ scrollIntoView(node, {
 // same behavior as Element.scrollIntoViewIfNeeded(true) without the "IfNeeded" behavior
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 scrollIntoView(node, { block: 'center', inline: 'center' })
-// scrollMode is "always" by default
+// scroll is "always" by default
 
 // smooth scroll if the browser supports it and if the element isn't visible
-scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+scrollIntoView(node, { behavior: 'smooth', scroll: 'if-needed' })
 ```
 
 ## Ponyfill smooth scrolling
@@ -100,10 +102,10 @@ Put it this way:
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
 // Even if all you do is this
-scrollIntoView(node, { scrollMode: 'if-needed' })
+scrollIntoView(node, { scroll: 'if-needed' })
 // You would end up with the same bundlesize as people who need
 // smooth scrolling to work in browsers that don't support it natively
-scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+scrollIntoView(node, { behavior: 'smooth', scroll: 'if-needed' })
 ```
 
 That's why only native smooth scrolling is supported out of the box. There are two common ways you can smooth scroll browsers that don't support it natively. Below is all three, which one is best for you depends on what is the most important to your use case:: load time, consistency or quality.
@@ -214,7 +216,7 @@ scrollIntoView(node, {
       const offsetTop = el.scrollTop - top
       const offsetLeft = el.scrollLeft - left
     }),
-  // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
+  // all the other options (scroll, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
 })
 ```
 
@@ -238,13 +240,21 @@ Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#inline)
 
-### [scrollMode](https://scroll-into-view.dev/#scrolling-if-needed)
+### container
+
+Type: `'all' | 'nearest'`<br> Default: `'all'`
+
+> Introduced in `v4.0.0`
+
+`'nearest'` only scrolls the nearest scroll container, like the `container` option of `Element.scrollIntoView`.
+
+### [scroll](https://scroll-into-view.dev/#scrolling-if-needed)
 
 Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
-> Introduced in `v2.1.0`
+> Introduced in `v4.0.0`, replacing `scrollMode`
 
-[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#scrollmode)
+`'if-needed'` only scrolls when the target isn't fully visible, by adding the `onlyIfNeeded()` middleware from `compute-scroll-into-view/middleware`, after any other middleware.
 
 ### [boundary](https://scroll-into-view.dev/#limit-propagation)
 
@@ -252,7 +262,7 @@ Type: `Element | Function`
 
 > `Function` introduced in `v2.1.0`, `Element` introduced in `v1.1.0`
 
-[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#boundary)
+Stops scrolling at this element, or at the first parent the function returns `false` for. Adds the `boundary(boundary)` middleware from `compute-scroll-into-view/middleware`.
 
 ### skipOverflowHiddenElements
 
@@ -260,7 +270,7 @@ Type: `Boolean`<br> Default: `false`
 
 > Introduced in `v2.2.0`
 
-[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#skipoverflowhiddenelements)
+Skips scrolling `overflow: hidden` elements. Adds the `skipOverflowHiddenElements()` middleware from `compute-scroll-into-view/middleware`.
 
 # TypeScript support
 
@@ -311,6 +321,15 @@ function scrollToTarget(selector, options: Options = {}) {
 }
 ```
 
+# Breaking API changes from v3
+
+`scrollMode: 'if-needed'` is now `scroll: 'if-needed'`:
+
+```diff
+-scrollIntoView(target, { scrollMode: 'if-needed' })
++scrollIntoView(target, { scroll: 'if-needed' })
+```
+
 # Breaking API changes from v1
 
 Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
@@ -332,7 +351,7 @@ scrollIntoViewIfNeeded(target)
 import scrollIntoView from 'scroll-into-view-if-needed'
 
 // Must provide these options to behave the same way as v1 default
-scrollIntoView(target, { block: 'nearest', scrollMode: 'if-needed' })
+scrollIntoView(target, { block: 'nearest', scroll: 'if-needed' })
 ```
 
 ## centerIfNeeded

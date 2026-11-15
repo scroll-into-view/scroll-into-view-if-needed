@@ -1,13 +1,35 @@
-import { compute, type ScrollAction } from 'compute-scroll-into-view'
+import {
+  compute,
+  type Middleware,
+  type ScrollAction,
+} from 'compute-scroll-into-view'
+import {
+  boundary,
+  onlyIfNeeded,
+  skipOverflowHiddenElements,
+} from 'compute-scroll-into-view/middleware'
 import { afterEach, describe, expect, test, vi } from 'vite-plus/test'
 
 import scrollIntoView from '../../src/index'
 
+const middleware = (name: string): Middleware => ({ name, fn: () => ({}) })
+
 vi.mock('compute-scroll-into-view', () => ({
   compute: vi.fn<typeof compute>(() => []),
 }))
+vi.mock('compute-scroll-into-view/middleware', () => ({
+  boundary: vi.fn<typeof boundary>(() => middleware('boundary')),
+  onlyIfNeeded: vi.fn<typeof onlyIfNeeded>(() => middleware('onlyIfNeeded')),
+  skipOverflowHiddenElements: vi.fn<typeof skipOverflowHiddenElements>(() =>
+    middleware('skipOverflowHiddenElements'),
+  ),
+}))
 
 const computeMock = vi.mocked(compute)
+const boundaryMock = vi.mocked(boundary)
+
+const middlewareNames = () =>
+  computeMock.mock.calls[0]?.[1]?.middleware?.map(({ name }) => name)
 
 const createTarget = (): HTMLDivElement => {
   const target = document.createElement('div')
@@ -69,8 +91,8 @@ describe('targets that are not in the document', () => {
 })
 
 describe('options', () => {
-  const start = { block: 'start', inline: 'nearest' }
-  const end = { block: 'end', inline: 'nearest' }
+  const start = { block: 'start', inline: 'nearest', middleware: [] }
+  const end = { block: 'end', inline: 'nearest', middleware: [] }
 
   test.each([
     ['omitted', () => scrollIntoView(createTarget()), start],
@@ -87,18 +109,87 @@ describe('options', () => {
     expect(computeMock.mock.calls[0]?.[1]).toEqual(expected)
   })
 
-  test('passes standard options through unchanged', () => {
+  test('passes only the spec options and the middleware on to compute', () => {
     const target = createTarget()
-    const options = {
+
+    scrollIntoView(target, {
+      behavior: 'smooth',
       block: 'center',
       inline: 'end',
-      scrollMode: 'if-needed',
+      container: 'nearest',
+      scroll: 'if-needed',
+      boundary: document.body,
       skipOverflowHiddenElements: true,
-    } as const
+    })
 
-    scrollIntoView(target, options)
+    expect(computeMock).toHaveBeenCalledExactlyOnceWith(target, {
+      block: 'center',
+      inline: 'end',
+      container: 'nearest',
+      middleware: [
+        expect.objectContaining({ name: 'boundary' }),
+        expect.objectContaining({ name: 'skipOverflowHiddenElements' }),
+        expect.objectContaining({ name: 'onlyIfNeeded' }),
+      ],
+    })
+  })
+})
 
-    expect(computeMock).toHaveBeenCalledWith(target, options)
+describe('middleware', () => {
+  test('is empty by default', () => {
+    scrollIntoView(createTarget(), {
+      scroll: 'always',
+      boundary: null,
+      skipOverflowHiddenElements: false,
+    })
+
+    expect(middlewareNames()).toEqual([])
+  })
+
+  test("scroll: 'if-needed' adds onlyIfNeeded()", () => {
+    scrollIntoView(createTarget(), { scroll: 'if-needed' })
+
+    expect(middlewareNames()).toEqual(['onlyIfNeeded'])
+  })
+
+  test.each([
+    ['an element', document.documentElement],
+    ['a callback', (parent: Element) => parent !== document.body],
+  ])('boundary as %s adds boundary(boundary)', (_, option) => {
+    scrollIntoView(createTarget(), { boundary: option })
+
+    expect(boundaryMock).toHaveBeenCalledExactlyOnceWith(option)
+    expect(middlewareNames()).toEqual(['boundary'])
+  })
+
+  test('skipOverflowHiddenElements adds skipOverflowHiddenElements()', () => {
+    scrollIntoView(createTarget(), { skipOverflowHiddenElements: true })
+
+    expect(middlewareNames()).toEqual(['skipOverflowHiddenElements'])
+  })
+
+  test('onlyIfNeeded() is last', () => {
+    scrollIntoView(createTarget(), {
+      scroll: 'if-needed',
+      boundary: document.body,
+      skipOverflowHiddenElements: true,
+    })
+
+    expect(middlewareNames()).toEqual([
+      'boundary',
+      'skipOverflowHiddenElements',
+      'onlyIfNeeded',
+    ])
+  })
+
+  test('a custom behavior gets the actions after middleware has run', () => {
+    const { scrollActions } = mockActions()
+    const behavior = vi.fn<(received: ScrollAction[]) => void>()
+
+    scrollIntoView(createTarget(), { behavior, scroll: 'if-needed' })
+
+    expect(middlewareNames()).toEqual(['onlyIfNeeded'])
+    expect(behavior).toHaveBeenCalledExactlyOnceWith(scrollActions)
   })
 })
 
@@ -146,7 +237,10 @@ describe('scrolling', () => {
     const result = scrollIntoView(target, options)
 
     expect(result).toBe(2)
-    expect(computeMock).toHaveBeenCalledWith(target, options)
+    expect(computeMock).toHaveBeenCalledWith(target, {
+      block: 'center',
+      middleware: [],
+    })
     expect(behavior).toHaveBeenCalledExactlyOnceWith(scrollActions)
     for (const scroll of scrolls) {
       expect(scroll).not.toHaveBeenCalled()

@@ -1,5 +1,35 @@
-import { defineConfig } from 'vite-plus'
+import { defineConfig, type Plugin } from 'vite-plus'
 import { playwright } from 'vite-plus/test/browser-playwright'
+
+const middlewareId = 'compute-scroll-into-view/middleware'
+
+// The installed compute-scroll-into-view ^3.2.2 has no `compute-scroll-into-view/middleware`, which 4.0.0
+// adds, so resolving it throws. This stands in until it's installed, and only when it can't be resolved.
+// No browser test uses it. Remove this once 4.0.0 is installed.
+const computeMiddlewarePlaceholder: Plugin = {
+  name: 'compute-scroll-into-view-4-middleware-placeholder',
+  enforce: 'pre',
+  async resolveId(source, importer, options) {
+    if (source !== middlewareId) {
+      return null
+    }
+    try {
+      return await this.resolve(source, importer, {
+        ...options,
+        skipSelf: true,
+      })
+    } catch {
+      return `\0${middlewareId}`
+    }
+  },
+  load(id) {
+    if (id !== `\0${middlewareId}`) {
+      return null
+    }
+    return `const unavailable = () => { throw new Error('Needs compute-scroll-into-view 4.0.0') }
+export { unavailable as boundary, unavailable as onlyIfNeeded, unavailable as skipOverflowHiddenElements }`
+  },
+}
 
 export default defineConfig({
   staged: {
@@ -46,6 +76,7 @@ export default defineConfig({
     },
     projects: [
       {
+        plugins: [computeMiddlewarePlaceholder],
         test: {
           name: 'unit',
           include: ['tests/unit/**/*.test.ts'],
@@ -53,6 +84,7 @@ export default defineConfig({
         },
       },
       {
+        plugins: [computeMiddlewarePlaceholder],
         test: {
           name: 'browser',
           include: ['tests/browser/**/*.test.ts'],
@@ -92,9 +124,8 @@ export default defineConfig({
       'node12',
     ],
     // Oxc generates the declarations (needs `isolatedDeclarations`, see tsconfig.json),
-    // so the package doesn't need its own TypeScript install. Their maps point at the
-    // published src/*.ts files
-    dts: { generator: 'oxc', sourcemap: true },
+    // so the package doesn't need its own TypeScript install. No declaration maps, as `src` isn't published
+    dts: { generator: 'oxc', sourcemap: false },
     sourcemap: true,
     minify: true,
     // tsdown writes `exports`, plus `main`, `module` and `types` for tools that predate `exports`

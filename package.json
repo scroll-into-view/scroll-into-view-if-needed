@@ -1,7 +1,7 @@
 {
   "name": "scroll-into-view-if-needed",
   "version": "3.2.1",
-  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scroll: if-needed, behavior: smooth and block: center",
   "keywords": [
     "behavior-smooth",
     "if-needed",
@@ -33,8 +33,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "vp pack && vp run check:es",

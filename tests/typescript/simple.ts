@@ -21,8 +21,10 @@ scrollIntoView(node, { block: 'center', inline: 'center' })
 scrollIntoView(node, { block: 'end', inline: 'end' })
 scrollIntoView(node, { block: 'nearest', inline: 'nearest' })
 
-scrollIntoView(node, { scrollMode: 'always' })
-scrollIntoView(node, { scrollMode: 'if-needed' })
+scrollIntoView(node, { container: 'nearest' })
+
+scrollIntoView(node, { scroll: 'always' })
+scrollIntoView(node, { scroll: 'if-needed' })
 
 // Non-standard custom options
 scrollIntoView(node, { skipOverflowHiddenElements: true })
@@ -56,7 +58,13 @@ scrollIntoView(node, { block: 'invalid' })
 // @ts-expect-error
 scrollIntoView(node, { inline: 'invalid' })
 // @ts-expect-error
-scrollIntoView(node, { scrollMode: 'invalid' })
+scrollIntoView(node, { scroll: 'invalid' })
+// @ts-expect-error -- replaced by `scroll: 'if-needed'`
+scrollIntoView(node, { scrollMode: 'if-needed' })
+// @ts-expect-error -- built from the other options
+scrollIntoView(node, { middleware: [] })
+// @ts-expect-error
+scrollIntoView(node, { container: 'invalid' })
 // @ts-expect-error
 scrollIntoView(node, { boundary: 'invalid' })
 // @ts-expect-error
