@@ -1,0 +1,8 @@
+{
+  "revision": "57bbaa12ff3515848cc0b3d3791791086a563047",
+  "files": [
+    "element-scroll-promises.html",
+    "element-scroll-promise-interruption.html",
+    "element-scroll-promise-after-removal.html"
+  ]
+}

@@ -7,7 +7,7 @@
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
 This used to be a [ponyfill](https://ponyfill.com) for
-`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the soon to be deprecated one.
+`Element.scrollIntoViewIfNeeded`. It now follows `Element.scrollIntoView` with extensions including `scrollMode: "if-needed"`. The [replacement proposal](https://github.com/w3c/csswg-drafts/pull/5677) remains open and currently proposes a member named `scroll`; `scrollMode` is a library option, not an adopted standard.
 
 - [Demo](#demo)
 - [Install](#install)
@@ -45,6 +45,31 @@ This used to be a [ponyfill](https://ponyfill.com) for
 - [Related packages](#related-packages)
 - [Who's using this](#whos-using-this)
 - [Sponsors](#sponsors)
+
+## Completion and focus
+
+The current [CSSOM View draft](https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview) specifies `Promise<ScrollResult>`, where `ScrollResult` is `{ interrupted: boolean }`. This ponyfill combines native `el.scroll()` promises across ancestors, resolving `interrupted: true` if any native scroll was interrupted. It returns `undefined` when any native scroll call returns void. An empty operation returns a resolved non-interrupted result. `await undefined` does not wait for legacy native smooth scrolling.
+
+```ts
+const completion = scrollIntoView(node, { behavior: 'smooth' })
+if (completion) {
+  const { interrupted } = await completion
+  if (!interrupted) showPopover()
+}
+```
+
+Custom `behavior` callbacks keep their own return type. They receive `[]` for disconnected or boxless targets, allowing their promises to settle. The smooth add-on provides its own animation completion promise when native promise support is unavailable.
+
+`focus()` is defined by HTML and returns undefined. To manage focus and scrolling together:
+
+```js
+node.focus({ preventScroll: true })
+scrollIntoView(node, { scrollMode: 'if-needed', block: 'nearest' })
+```
+
+Proposed `FocusScrollOptions` are not part of the current focus API. For detailed sources and limits, see the engine’s [standards review](https://github.com/scroll-into-view/compute-scroll-into-view/blob/main/docs/cssom-status.md).
+
+The wrapper now consistently defaults `block` to `start` for every options dictionary. Pass `block: 'center'` explicitly if relying on the previous center default for nonempty dictionaries or custom callbacks.
 
 # [Demo](https://scroll-into-view.dev)
 
@@ -221,9 +246,13 @@ Check the demo to see an [example with popmotion and a spring transition](https:
 
 > If you only need the custom behavior you might be better off by using the compute library directly: https://github.com/scroll-into-view/compute-scroll-into-view
 
+### CSS spacing and logical alignment
+
+The engine includes the target’s CSS `scroll-margin` and every scroller’s `scroll-padding`. Use CSS to leave room for sticky headers; apply returned action coordinates directly in custom behaviors. `block` and `inline` follow the target’s `writing-mode` and `direction`, including RTL.
+
 ### [block](https://scroll-into-view.dev/#scroll-alignment)
 
-Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'center'`
+Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'start'`
 
 > Introduced in `v2.1.0`
 
@@ -244,6 +273,12 @@ Type: `'always' | 'if-needed'`<br> Default: `'always'`
 > Introduced in `v2.1.0`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#scrollmode)
+
+### container
+
+Type: `'all' | 'nearest'`<br> Default: `'all'`
+
+The standardized `container: 'nearest'` option stops after the nearest ancestor scrolling box. `boundary` remains an additional library constraint. Full container/spacing support requires the accompanying updated `compute-scroll-into-view` release; publish the engine before releasing this wrapper.
 
 ### [boundary](https://scroll-into-view.dev/#limit-propagation)
 
@@ -444,3 +479,7 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 Thanks to [BrowserStack](https://www.browserstack.com) for sponsoring cross browser and device testing 😄
 
 <a href="https://www.browserstack.com" target="_blank"><img src="https://www.browserstack.com/images/layout/logo.svg"></a>
+
+## Development tests
+
+Run `pnpm install --frozen-lockfile`, `pnpm typecheck`, `pnpm build`, and `pnpm test`. Run `pnpm test:browser` for real browser completion/focus tests and a [pinned upstream promise WPT selection](tests/browser/wpt/README.md). The active unit suite checks option normalization, native completion aggregation, interruption, legacy returns, no-op targets, and custom behavior return values. Browser geometry/WPT coverage lives in [compute-scroll-into-view](https://github.com/scroll-into-view/compute-scroll-into-view/tree/main/integration/web-platform). Release the engine first, then this package, then the smooth add-on.

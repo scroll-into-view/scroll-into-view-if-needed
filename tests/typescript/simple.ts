@@ -63,3 +63,13 @@ scrollIntoView(node, { boundary: 'invalid' })
 scrollIntoView(node, { skipOverflowHiddenElements: 'invalid' })
 // @ts-expect-error
 scrollIntoView(node, { behavior: 'invalid' })
+
+// Standard CSSOM View options and completion results.
+scrollIntoView(node, null)
+scrollIntoView(node, { behavior: 'instant', container: 'nearest' })
+scrollIntoView(node, { container: 'all' })
+const completion: Promise<{ interrupted: boolean }> | void =
+  scrollIntoView(node)
+if (completion) completion.then((result) => result.interrupted)
+// @ts-expect-error
+scrollIntoView(node, { container: 'invalid' })
