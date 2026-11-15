@@ -204,6 +204,9 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: 'catalog:'
         version: 5.1.0(vitest@5.1.0)
+      browserslist:
+        specifier: ^4.29.5
+        version: 4.29.5
       es-check:
         specifier: ^9.8.1
         version: 9.9.0
