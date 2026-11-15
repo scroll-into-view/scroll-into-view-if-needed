@@ -1,3 +1,5 @@
 allowBuilds:
   esbuild: true
   puppeteer: true
+minimumReleaseAgeExclude:
+  - compute-scroll-into-view@3.2.2
