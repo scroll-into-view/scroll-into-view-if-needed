@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
-    "moduleResolution": "node",
+    "target": "es2015",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "lib": ["es5", "es2015.promise", "dom"]
+    "lib": ["es2015", "dom"]
   }
 }

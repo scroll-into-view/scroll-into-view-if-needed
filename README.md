@@ -57,9 +57,8 @@ npm i scroll-into-view-if-needed
 You can also use it from a CDN:
 
 ```js
-const { default: scrollIntoView } = await import(
-  'https://esm.sh/scroll-into-view-if-needed'
-)
+const { default: scrollIntoView } =
+  await import('https://esm.sh/scroll-into-view-if-needed')
 ```
 
 # Usage

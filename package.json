@@ -44,25 +44,11 @@
     "src"
   ],
   "scripts": {
-    "build": "pnpm run clean && pkg build --strict && pnpm run check:es",
+    "build": "vp pack && vp run check:es",
     "check:es": "es-check es2019 dist/index.cjs && es-check es2019 --module dist/index.js",
-    "clean": "rimraf 'dist'",
-    "prepublishOnly": "pnpm run build",
-    "typecheck": "tsc && tsc --noEmit -p tests/typescript",
-    "release": "pnpm build && changeset publish"
-  },
-  "browserslist": [
-    "chrome 79",
-    "edge 79",
-    "firefox 72",
-    "ios_saf 13",
-    "safari 13",
-    "opera 66",
-    "node 12"
-  ],
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
+    "prepublishOnly": "vp run build",
+    "release": "vp run build && changeset publish",
+    "prepare": "vp config"
   },
   "dependencies": {
     "compute-scroll-into-view": "^3.2.2"
@@ -70,13 +56,8 @@
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
-    "@sanity/pkg-utils": "^4.4.4",
-    "cross-env": "^7.0.3",
     "es-check": "^9.8.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-packagejson": "^2.4.3",
-    "rimraf": "^4.1.2",
-    "typescript": "^5.0.0"
+    "vite-plus": "catalog:"
   },
   "bundlesize": [
     {
