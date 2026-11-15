@@ -54,7 +54,7 @@ const isStandardScrollBehavior = (
 const isCustomScrollBehavior = <T = unknown>(
   options: any,
 ): options is CustomBehaviorOptions<T> =>
-  typeof options === 'object' ? typeof options.behavior === 'function' : false
+  typeof options === 'object' && typeof options?.behavior === 'function'
 
 const getOptions = (options: any): StandardBehaviorOptions => {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
@@ -69,16 +69,6 @@ const getOptions = (options: any): StandardBehaviorOptions => {
 
   // if options = {}, options = true or options = null, based on w3c web platform test
   return { block: 'start', inline: 'nearest' }
-}
-
-const getScrollMargins = (target: Element) => {
-  const computedStyle = window.getComputedStyle(target)
-  return {
-    top: parseFloat(computedStyle.scrollMarginTop) || 0,
-    right: parseFloat(computedStyle.scrollMarginRight) || 0,
-    bottom: parseFloat(computedStyle.scrollMarginBottom) || 0,
-    left: parseFloat(computedStyle.scrollMarginLeft) || 0,
-  }
 }
 
 // Determine if the element is part of the document (including shadow dom)
@@ -137,18 +127,15 @@ function scrollIntoView<T = unknown>(
     return
   }
 
-  const margins = getScrollMargins(target)
-
   if (isCustomScrollBehavior<T>(options)) {
     return options.behavior(compute(target, options))
   }
 
   const behavior = typeof options === 'boolean' ? undefined : options?.behavior
 
+  // compute-scroll-into-view (>= 3.1) already accounts for the target's scroll-margin
   for (const { el, top, left } of compute(target, getOptions(options))) {
-    const adjustedTop = top - margins.top + margins.bottom
-    const adjustedLeft = left - margins.left + margins.right
-    el.scroll({ top: adjustedTop, left: adjustedLeft, behavior })
+    el.scroll({ top, left, behavior })
   }
 }
 

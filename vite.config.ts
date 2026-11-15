@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite-plus'
+import { playwright } from 'vite-plus/test/browser-playwright'
 
 export default defineConfig({
   staged: {
@@ -22,12 +23,50 @@ export default defineConfig({
     rules: {
       'vite-plus/prefer-vite-plus-imports': 'error',
       'typescript/switch-exhaustiveness-check': 'error',
+      // The ported web-platform-tests assert through `expectApprox` (tests/browser/utils.ts)
+      'vitest/expect-expect': [
+        'error',
+        { assertFunctionNames: ['expect', 'expectApprox'] },
+      ],
     },
     options: { typeAware: true, typeCheck: true },
-    ignorePatterns: [
-      // Legacy Cypress/Next.js and vendored web-platform-tests fixtures that are not run
-      'tests/integration/**',
-      'tests/web-platform/**',
+  },
+  test: {
+    coverage: {
+      // Istanbul instruments the code, so the unit (Node.js) and browser (Chromium)
+      // projects' results merge reliably
+      provider: 'istanbul',
+      include: ['src/**'],
+      thresholds: {
+        statements: 100,
+        branches: 100,
+        functions: 100,
+        lines: 100,
+      },
+    },
+    projects: [
+      {
+        test: {
+          name: 'unit',
+          include: ['tests/unit/**/*.test.ts'],
+          environment: 'jsdom',
+        },
+      },
+      {
+        test: {
+          name: 'browser',
+          include: ['tests/browser/**/*.test.ts'],
+          browser: {
+            enabled: true,
+            provider: playwright(),
+            headless: true,
+            instances: [{ browser: 'chromium' }],
+            // A desktop-sized window, which the ported web-platform-tests assume
+            // (e.g. "nearest" for an element smaller than the viewport)
+            viewport: { width: 800, height: 600 },
+          },
+        },
+      },
     ],
   },
   fmt: {

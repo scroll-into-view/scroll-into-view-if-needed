@@ -2,10 +2,6 @@
   "extends": ["github>stipsan/renovate-presets:auto"],
   "packageRules": [
     {
-      "matchFileNames": ["tests/**"],
-      "extends": [":semanticCommitTypeAll(chore)", ":automergeMajor"]
-    },
-    {
       "description": "Update Vite+ and its Vite core alias in one PR. CI's `vp migrate` check then flags Vitest pins that need re-syncing",
       "matchPackageNames": ["vite-plus", "@voidzero-dev/vite-plus-core"],
       "groupName": "Vite+"

@@ -1,7 +1,0 @@
-{
-  "baseUrl": "http://localhost:3000",
-  "viewportHeight": 600,
-  "viewportWidth": 800,
-  "waitForAnimations": true,
-  "scrollBehavior": false
-}

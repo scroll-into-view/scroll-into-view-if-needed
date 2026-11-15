@@ -2,7 +2,6 @@
 [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
 [![gzip size][gzip-badge]][unpkg-dist]
 [![size][size-badge]][unpkg-dist]
-[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?style=flat-square&badge_key=ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)](https://www.browserstack.com/automate/public-build/ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)
 
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
@@ -44,6 +43,7 @@ This used to be a [ponyfill](https://ponyfill.com) for
   - [scrollIntoViewIfNeeded(target, \[centerIfNeeded\], \[animateOptions\], \[finalElement\], \[offsetOptions\])](#scrollintoviewifneededtarget-centerifneeded-animateoptions-finalelement-offsetoptions)
 - [Related packages](#related-packages)
 - [Who's using this](#whos-using-this)
+- [Development](#development)
 - [Sponsors](#sponsors)
 
 # [Demo](https://scroll-into-view.dev)
@@ -437,6 +437,15 @@ This API signature were warned to be dropped in `v2.0.0`, and it was.
 [gzip-badge]: https://img.shields.io/bundlephobia/minzip/scroll-into-view-if-needed?label=gzip%20size&style=flat-square
 [size-badge]: https://img.shields.io/bundlephobia/min/scroll-into-view-if-needed?label=size&style=flat-square
 [unpkg-dist]: https://unpkg.com/scroll-into-view-if-needed/dist/
+
+# Development
+
+The project uses [Vite+](https://viteplus.dev). Install dependencies with `vp install`, then:
+
+- `vp test` runs the unit tests (jsdom) and the browser tests (Chromium through Playwright, run `vp exec playwright install chromium` once first). Add `--coverage` for a coverage report.
+- `vp check` formats, lints and type-checks the code, including the type tests in `tests/typescript`.
+- `vp exec knip` reports unused files, exports and dependencies.
+- `vp pack` builds the package into `dist`.
 
 # Sponsors
 
