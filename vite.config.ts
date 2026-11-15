@@ -43,17 +43,16 @@ export default defineConfig({
     // package.json points both conditions at dist/index.d.ts, so skip an unused index.d.cts.
     format: { esm: {}, cjs: { dts: false } },
     platform: 'neutral',
-    // The targets @sanity/pkg-utils resolved from the former package.json browserslist query
-    // ("> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead
-    // and not IE 11", "maintained node versions")
+    // ES2019 output so Webpack 4 and other older toolchains can parse the published bundles
+    // (scroll-into-view/scroll-into-view-if-needed#1235). `vp run check:es` enforces this.
     target: [
-      'chrome109',
-      'edge154',
-      'firefox157',
-      'ios16',
-      'safari17',
-      'opera136',
-      'node22',
+      'chrome79',
+      'edge79',
+      'firefox72',
+      'ios13',
+      'safari13',
+      'opera66',
+      'node12',
     ],
     // Oxc generates the declarations (needs `isolatedDeclarations`, see tsconfig.json),
     // so the package doesn't need its own TypeScript install. Their maps point at the
