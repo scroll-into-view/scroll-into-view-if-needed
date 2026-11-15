@@ -13,7 +13,7 @@ async function main() {
     },
   })
 
-  return didScroll === true
+  return didScroll
 }
 
 void main()
