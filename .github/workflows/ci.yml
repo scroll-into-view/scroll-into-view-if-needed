@@ -29,7 +29,8 @@ jobs:
       - run: vp check
       # Unused files, exports, and dependencies
       - run: vp exec knip
-      - run: vp pack
+      # Build and verify the bundles are ES2019 (es-check)
+      - run: vp run build
 
   test:
     needs: check

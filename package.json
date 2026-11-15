@@ -1,6 +1,6 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
   "keywords": [
     "behavior-smooth",
@@ -37,13 +37,14 @@
     "src"
   ],
   "scripts": {
-    "build": "vp pack",
-    "prepublishOnly": "vp pack",
-    "release": "vp pack && changeset publish",
+    "build": "vp pack && vp run check:es",
+    "check:es": "es-check es2019 --module dist/index.js",
+    "prepublishOnly": "vp run build",
+    "release": "vp run build && changeset publish",
     "prepare": "vp config"
   },
   "dependencies": {
-    "compute-scroll-into-view": "^3.0.2"
+    "compute-scroll-into-view": "^3.2.2"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.5",
@@ -51,6 +52,7 @@
     "@changesets/cli": "^3.0.3",
     "@vitest/browser-playwright": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
+    "es-check": "^9.8.1",
     "jsdom": "^31.0.0",
     "knip": "^6.45.0",
     "playwright": "*",
@@ -69,8 +71,5 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
-  },
-  "engines": {
-    "node": ">=26"
   }
 }
