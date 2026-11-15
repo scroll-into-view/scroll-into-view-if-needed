@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: lts
           cache: true
+      # Fails when Vite+, its Vite core alias, and the Vitest pins drift apart (e.g. in a Renovate PR).
+      # Fix it by running `vp migrate` and committing the result
+      - run: vp migrate --no-interactive && git diff --exit-code
       # Format, lint, and type check (including the tests/typescript type tests)
       - run: vp check
       # Unused files, exports, and dependencies
