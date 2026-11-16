@@ -3,10 +3,6 @@ node_modules
 # Cypress stuff
 **/junit
 
-# Browserstack stuff
-**/tests_output
-selenium-debug.log
-
 # Typescript stuff
 src/*.js
 
