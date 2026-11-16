@@ -29,3 +29,11 @@ release. Add a tool name to select part of the graph. For example, run
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+## Browser failures
+
+If Chrome, Firefox, or Safari fails an integration test, check the same case on
+https://wpt.fyi/results/css/cssom-view?label=experimental&label=master&aligned.
+If that browser fails there too, the browser is wrong and has to fix it. The
+implementation is likely more correct than the browser, so do not change it to
+match the failing browser.
