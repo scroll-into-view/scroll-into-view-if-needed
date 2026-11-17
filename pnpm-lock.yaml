@@ -179,7 +179,7 @@ snapshots:
 			},
 		},
 		"overrides": {
-			"vite@*": "npm:@voidzero-dev/vite-plus-core@1.6.0",
+			"vite@*": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
 			"vitest@*": "5.1.0",
 		},
 	},
@@ -228,7 +228,12 @@ snapshots:
 					"version": "0.3.25",
 				},
 				"vite-plus": "catalog:",
-				"vitest": "5.1.0",
+				"vitest": {
+					"specifier": "5.1.0",
+					"with": {
+						"vite": "@voidzero-dev/vite-plus-core@8.3.8000",
+					},
+				},
 			},
 		},
 	},
@@ -864,6 +869,11 @@ snapshots:
 			"engines": {"node": "^20.19.0 || >=22.12.0"},
 		},
 
+		"@oxc-project/runtime@0.159.0": {
+			"integrity": "sha512-z+wJlHpqB2rsnQ5PbQlWKC7lYISlHrniQ3N5JF4LGaa+kOopx5u5DMT2P7pN12fsXFg1gVcoLdRXPRyIS61OKQ==",
+			"engines": {"node": "^20.19.0 || >=22.12.0"},
+		},
+
 		"@oxc-project/types@0.156.0": {
 			"integrity": "sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw==",
 		},
@@ -874,6 +884,10 @@ snapshots:
 
 		"@oxc-project/types@0.158.0": {
 			"integrity": "sha512-xZ66qA4WmLbTLlxH3mqMd8f9UKbaOzOT0ATwFf4DH/14pMgpUrtqtjyYzOQmgfl2a0iRAAMbQ9G1th/67jRzGw==",
+		},
+
+		"@oxc-project/types@0.159.0": {
+			"integrity": "sha512-QWjWhxheluOJ82kDHNyps00UvRpQCtI34B5A/SzpgQycUD/79FuvT4I0aQIfE/bdPwKmX4QPftnywFBH6FxJhQ==",
 		},
 
 		"@oxc-resolver/binding-android-arm-eabi@11.24.2": {
@@ -1610,12 +1624,15 @@ snapshots:
 					"version": "1.65.0",
 				},
 				"vite": {
-					"version": "@voidzero-dev/vite-plus-core@1.6.0",
+					"version": "@voidzero-dev/vite-plus-core@8.3.8000",
 					"below": true,
 				},
 				"vitest": {
 					"specifier": "5.1.0",
 					"version": "5.1.0",
+					"with": {
+						"vite": "@voidzero-dev/vite-plus-core@8.3.8000",
+					},
 				},
 			},
 			"dependencies": {
@@ -1635,6 +1652,9 @@ snapshots:
 				"vitest": {
 					"specifier": "5.1.0",
 					"version": "5.1.0",
+					"with": {
+						"vite": "@voidzero-dev/vite-plus-core@8.3.8000",
+					},
 				},
 			},
 			"dependencies": {
@@ -1647,13 +1667,12 @@ snapshots:
 		"@vitest/browser@5.1.0": {
 			"integrity": "sha512-2sjGVAC/Rs8Jwv+xxBgklNG2g1LGyNgcFMBw71AcfBstLz25UGv1+fVvvZ+z8IfSuNg3nipERijnFtoEIdRDEA==",
 			"peerDependencies": {
-				"vite": {
-					"version": "@voidzero-dev/vite-plus-core@1.6.0",
-					"below": true,
-				},
 				"vitest": {
 					"specifier": "5.1.0",
 					"version": "5.1.0",
+					"with": {
+						"vite": "@voidzero-dev/vite-plus-core@8.3.8000",
+					},
 				},
 			},
 			"dependencies": {
@@ -1667,14 +1686,39 @@ snapshots:
 				"tinyrainbow": "3.2.0",
 				"ws": "8.22.2",
 			},
+			"snapshots": [
+				{
+					"peerDependencies": {
+						"vite": {
+							"version": "@voidzero-dev/vite-plus-core@1.6.0",
+							"below": true,
+						},
+					},
+				},
+				{
+					"peerDependencies": {
+						"vite": {
+							"version": "@voidzero-dev/vite-plus-core@8.3.8000",
+							"below": true,
+						},
+					},
+				},
+			],
 		},
 
 		"@vitest/coverage-istanbul@5.1.0": {
 			"integrity": "sha512-XRAUYsfdho+Az4K2eEWOVPedtIzUZbCl2eO9pOjNH5L1/niuy8cYwlK2W9RUtfwYZumoqic+4pRGqAvch/JSzg==",
 			"peerDependencies": {
+				"vite": {
+					"version": "@voidzero-dev/vite-plus-core@8.3.8000",
+					"below": true,
+				},
 				"vitest": {
 					"specifier": "5.1.0",
 					"version": "5.1.0",
+					"with": {
+						"vite": "@voidzero-dev/vite-plus-core@8.3.8000",
+					},
 				},
 			},
 			"dependencies": {
@@ -1733,7 +1777,6 @@ snapshots:
 				},
 				"vite": {
 					"specifier": "^6.0.0 || ^7.0.0 || ^8.0.0",
-					"version": "@voidzero-dev/vite-plus-core@1.6.0",
 					"optional": true,
 				},
 			},
@@ -1743,6 +1786,22 @@ snapshots:
 				"estree-walker": "3.0.3",
 				"magic-string": "1.4.5",
 			},
+			"snapshots": [
+				{
+					"peerDependencies": {
+						"vite": {
+							"version": "@voidzero-dev/vite-plus-core@1.6.0",
+						},
+					},
+				},
+				{
+					"peerDependencies": {
+						"vite": {
+							"version": "@voidzero-dev/vite-plus-core@8.3.8000",
+						},
+					},
+				},
+			],
 		},
 
 		"@vitest/pretty-format@5.1.0": {
@@ -1769,9 +1828,16 @@ snapshots:
 		"@vitest/ui@5.1.0": {
 			"integrity": "sha512-00S3x4NRmqIBUiTVWF9/xLaA9EP9KeKv0+1sBO7e2Y4luBISlW+2ttnhlk/zjbTqEvVhJWCCo7MXzu6zNbefqQ==",
 			"peerDependencies": {
+				"vite": {
+					"version": "@voidzero-dev/vite-plus-core@8.3.8000",
+					"below": true,
+				},
 				"vitest": {
 					"specifier": "5.1.0",
 					"version": "5.1.0",
+					"with": {
+						"vite": "@voidzero-dev/vite-plus-core@8.3.8000",
+					},
 				},
 			},
 			"dependencies": {
@@ -1906,8 +1972,129 @@ snapshots:
 			},
 		},
 
+		"@voidzero-dev/vite-plus-core@8.3.8000": {
+			"integrity": "sha512-kWOoI7ut3UE83p87jJxcxxg92pbipmC/aakCm6mfm1nkPyPnEZngNaRjiVRPrvxk3vSgy54A4fdlTeb++dSKfg==",
+			"engines": {"node": "^20.19.0 || ^22.18.0 || >=24.11.0"},
+			"peerDependencies": {
+				"@arethetypeswrong/core": {
+					"specifier": "^0.18.1",
+					"version": "0.18.5",
+					"optional": true,
+				},
+				"@types/node": {
+					"specifier": "^20.19.0 || >=22.12.0",
+					"optional": true,
+				},
+				"@typescript/native-preview": {
+					"specifier": "*",
+					"optional": true,
+				},
+				"@vitejs/devtools": {
+					"specifier": "^0.7.1 || ^0.8.0",
+					"optional": true,
+				},
+				"@volar/typescript": {
+					"specifier": "~2.4.0",
+					"optional": true,
+				},
+				"@vue/language-core": {
+					"specifier": "~3.2.0 || ~3.3.0",
+					"optional": true,
+				},
+				"esbuild": {
+					"specifier": "^0.27.0 || ^0.28.0",
+					"optional": true,
+				},
+				"jiti": {
+					"specifier": ">=1.21.0",
+					"version": "2.7.0",
+					"optional": true,
+				},
+				"less": {
+					"specifier": "^4.0.0",
+					"optional": true,
+				},
+				"publint": {
+					"specifier": "^0.3.8",
+					"version": "0.3.25",
+					"optional": true,
+				},
+				"sass": {
+					"specifier": "^1.70.0",
+					"optional": true,
+				},
+				"sass-embedded": {
+					"specifier": "^1.70.0",
+					"optional": true,
+				},
+				"stylus": {
+					"specifier": ">=0.54.8",
+					"optional": true,
+				},
+				"sugarss": {
+					"specifier": "^5.0.0",
+					"optional": true,
+				},
+				"terser": {
+					"specifier": "^5.16.0",
+					"optional": true,
+				},
+				"tsx": {
+					"specifier": "^4.8.1",
+					"optional": true,
+				},
+				"typescript": {
+					"specifier": "^5.0.0 || ^6.0.0 || ^7.0.0",
+					"optional": true,
+				},
+				"unplugin-unused": {
+					"specifier": ">=0.5.0",
+					"optional": true,
+				},
+				"unrun": {
+					"specifier": "*",
+					"optional": true,
+				},
+				"vue-tsc": {
+					"specifier": "~3.2.0 || ~3.3.0",
+					"optional": true,
+				},
+				"yaml": {
+					"specifier": "^2.4.2",
+					"version": "2.9.1",
+					"optional": true,
+				},
+			},
+			"dependencies": {
+				"@oxc-project/runtime": "0.159.0",
+				"@oxc-project/types": "0.159.0",
+				"lightningcss": "1.33.0",
+				"postcss": "8.5.32",
+				"yuku-parser": "0.19.0",
+			},
+			"optionalDependencies": {
+				"@voidzero-dev/vite-plus-darwin-arm64": "1.7.0",
+				"@voidzero-dev/vite-plus-darwin-x64": "1.7.0",
+				"@voidzero-dev/vite-plus-linux-arm64-gnu": "1.7.0",
+				"@voidzero-dev/vite-plus-linux-arm64-musl": "1.7.0",
+				"@voidzero-dev/vite-plus-linux-x64-gnu": "1.7.0",
+				"@voidzero-dev/vite-plus-linux-x64-musl": "1.7.0",
+				"@voidzero-dev/vite-plus-win32-arm64-msvc": "1.7.0",
+				"@voidzero-dev/vite-plus-win32-x64-msvc": "1.7.0",
+				"fsevents": "2.3.3",
+			},
+		},
+
 		"@voidzero-dev/vite-plus-darwin-arm64@1.6.0": {
 			"integrity": "sha512-1IiE9eXsnLWesaHEI2l1L38+CChaQ82WJd3GpF+Ud7Kuq+T2x8TebUwLCPYatpTSDDs8z2w1yKAl7quoVZhetA==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["arm64"],
+			"os": ["darwin"],
+			"optional": true,
+		},
+
+		"@voidzero-dev/vite-plus-darwin-arm64@1.7.0": {
+			"integrity": "sha512-ozIv7lPzEEfGmNOvHiHublwsLHMUkZBTuSq05FuOvS9yw/4TZYiItESFC0Y2NchaotcSn4MeatxegatjgeRevA==",
 			"engines": {"node": ">=20.0.0"},
 			"cpu": ["arm64"],
 			"os": ["darwin"],
@@ -1922,8 +2109,25 @@ snapshots:
 			"optional": true,
 		},
 
+		"@voidzero-dev/vite-plus-darwin-x64@1.7.0": {
+			"integrity": "sha512-SYEAvMJN0L4VO3brYqCU7aXExVwfIFnMjDLe9BauHedYwoG83BrezBN1wRviZt+SvZs1rpW9ttAwOHoQm7BoHw==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["x64"],
+			"os": ["darwin"],
+			"optional": true,
+		},
+
 		"@voidzero-dev/vite-plus-linux-arm64-gnu@1.6.0": {
 			"integrity": "sha512-6m2vRctdtQDl+ARQwGTF9X6hg+JaVFtj4vkvBLy/dWpqiJzseGebJwKUjys8QuhXgcJocn3a+N6oh27vvfINUQ==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["arm64"],
+			"os": ["linux"],
+			"libc": ["glibc"],
+			"optional": true,
+		},
+
+		"@voidzero-dev/vite-plus-linux-arm64-gnu@1.7.0": {
+			"integrity": "sha512-127UdNRXMZ/tQiNVYX+Hsy/RsodAwIJRdSG2reDdraAbxMWBCcdTJ5fyRTHCqjUl1aEuI/TUyuK35D1+0x7mGQ==",
 			"engines": {"node": ">=20.0.0"},
 			"cpu": ["arm64"],
 			"os": ["linux"],
@@ -1940,8 +2144,26 @@ snapshots:
 			"optional": true,
 		},
 
+		"@voidzero-dev/vite-plus-linux-arm64-musl@1.7.0": {
+			"integrity": "sha512-H1qQM2D49bByh5CNDTo1sJz99sinEGdbqj/7/G/prVhVeCnMQ3xDa7mj8Jr9ObMF1UiARhGznXuWdBd8TBBkwg==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["arm64"],
+			"os": ["linux"],
+			"libc": ["musl"],
+			"optional": true,
+		},
+
 		"@voidzero-dev/vite-plus-linux-x64-gnu@1.6.0": {
 			"integrity": "sha512-de7/qKZN6y7G2OMnsCcmBXeXyS39G4r5uyiz8jRbxbObj2nqxmlNs48aHqOaKzqiJeSqip+z4ALY/AIAl6h4rw==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["x64"],
+			"os": ["linux"],
+			"libc": ["glibc"],
+			"optional": true,
+		},
+
+		"@voidzero-dev/vite-plus-linux-x64-gnu@1.7.0": {
+			"integrity": "sha512-OWee6VlSZbc0SemrqXzs5b2ukGTFNHg29tEAirqqmEYIBf/yOVSamXUL2L4I3fOMTJuT2dsXGc/Q30Z0xdsNjg==",
 			"engines": {"node": ">=20.0.0"},
 			"cpu": ["x64"],
 			"os": ["linux"],
@@ -1958,6 +2180,15 @@ snapshots:
 			"optional": true,
 		},
 
+		"@voidzero-dev/vite-plus-linux-x64-musl@1.7.0": {
+			"integrity": "sha512-htq0rkjaXr755gnq0NKh8JSJuE+sjImzRUZGcMsX35x2X31xrlHurb51du+/VM8YtluvXqatGDHwnQCbcTG16Q==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["x64"],
+			"os": ["linux"],
+			"libc": ["musl"],
+			"optional": true,
+		},
+
 		"@voidzero-dev/vite-plus-win32-arm64-msvc@1.6.0": {
 			"integrity": "sha512-xo4Ha1xDkmWp8LolKUtCsVifenjK3ReQNuJjcMt1PazAdd9QZR/Qn6Z8E3rbFjnWctSkhxR4wTd43z8Bkxb9vA==",
 			"engines": {"node": ">=20.0.0"},
@@ -1966,8 +2197,24 @@ snapshots:
 			"optional": true,
 		},
 
+		"@voidzero-dev/vite-plus-win32-arm64-msvc@1.7.0": {
+			"integrity": "sha512-CO3txOUEnzlncFFRUIKxqBxoEH1F34sOuGhpfBhZLpwLe/Bvuypcrcky2mlpT5g98H+hw/hQHMZukyIArYm7Cg==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["arm64"],
+			"os": ["win32"],
+			"optional": true,
+		},
+
 		"@voidzero-dev/vite-plus-win32-x64-msvc@1.6.0": {
 			"integrity": "sha512-0tC6Bv1FT6Qz9YikQepOibsZa2HE0kxYSIK1jReQh2/3dBUGz2tHib5+G2rQ7ebkHxmwS9gQHAeMmm07XfemSQ==",
+			"engines": {"node": ">=20.0.0"},
+			"cpu": ["x64"],
+			"os": ["win32"],
+			"optional": true,
+		},
+
+		"@voidzero-dev/vite-plus-win32-x64-msvc@1.7.0": {
+			"integrity": "sha512-eA/Lg7eQTLwTiNhGBav9Lik6qiTSv8IPAETIziGgjNjEiTviCcFHNFlUyDOIFTY7uIWraGgMl8THY3zPnikoRg==",
 			"engines": {"node": ">=20.0.0"},
 			"cpu": ["x64"],
 			"os": ["win32"],
@@ -3246,10 +3493,7 @@ snapshots:
 					"version": "31.0.1",
 					"optional": true,
 				},
-				"vite": {
-					"specifier": "^6.4.0 || ^7.0.0 || ^8.0.0",
-					"version": "@voidzero-dev/vite-plus-core@1.6.0",
-				},
+				"vite": "^6.4.0 || ^7.0.0 || ^8.0.0",
 			},
 			"dependencies": {
 				"@types/chai": "5.2.3",
@@ -3266,6 +3510,22 @@ snapshots:
 				"tinyglobby": "0.2.17",
 				"why-is-node-running": "3.2.1",
 			},
+			"snapshots": [
+				{
+					"peerDependencies": {
+						"vite": {
+							"version": "@voidzero-dev/vite-plus-core@1.6.0",
+						},
+					},
+				},
+				{
+					"peerDependencies": {
+						"vite": {
+							"version": "@voidzero-dev/vite-plus-core@8.3.8000",
+						},
+					},
+				},
+			],
 		},
 
 		"w3c-xmlserializer@6.0.0": {
