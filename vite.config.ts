@@ -77,7 +77,7 @@ export default defineConfig({
     ignorePatterns: [],
   },
   pack: {
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/middleware.ts'],
     format: 'esm',
     platform: 'neutral',
     // ES2019 output so Webpack 4 and other older toolchains can parse the published bundles

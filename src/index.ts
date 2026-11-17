@@ -16,12 +16,10 @@ export type Options<T = unknown> =
   | CustomBehaviorOptions<T>
 
 /** @public */
-export interface BaseOptions extends Omit<
-  ComputeOptions,
-  'scrollMode' | 'boundary' | 'skipOverflowHiddenElements' | 'middleware'
-> {
+export interface BaseOptions extends ComputeOptions {
   /**
    * `'if-needed'` only scrolls when the target isn't fully visible, like `Element.scrollIntoViewIfNeeded`.
+   * `onlyIfNeeded()` is added after `middleware`.
    * @default 'always'
    */
   scroll?: 'always' | 'if-needed'
@@ -34,11 +32,13 @@ export interface BaseOptions extends Omit<
   /**
    * Stops scrolling at this element, or at the first parent the callback returns `false` for.
    * The boundary itself is still scrolled, its parents are not.
+   * @deprecated Use `middleware: [boundary(limit)]` from `scroll-into-view-if-needed/middleware` instead. `boundary` will be removed in the next major version.
    * @default null
    */
   boundary?: Element | ((parent: Element) => boolean) | null
   /**
    * Skips scrolling elements that are `overflow: hidden`.
+   * @deprecated Use `middleware: [skipOverflowHiddenElements()]` from `scroll-into-view-if-needed/middleware` instead. `skipOverflowHiddenElements` will be removed in the next major version.
    * @default false
    */
   skipOverflowHiddenElements?: boolean
@@ -117,6 +117,12 @@ const getActions = (
   }
   if (options.skipOverflowHiddenElements) {
     middleware.push(skipOverflowHidden())
+  }
+  // User middleware runs after the deprecated options and before `onlyIfNeeded()`
+  if (options.middleware) {
+    for (const item of options.middleware) {
+      middleware.push(item)
+    }
   }
   // `scroll` wins when both are set. Last, so only the scroll containers that are left decide if scrolling is needed
   const scroll = options.scroll ?? options.scrollMode

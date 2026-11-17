@@ -30,6 +30,10 @@ scrollIntoView(node, { scroll: 'if-needed' })
 scrollIntoView(node, { scrollMode: 'always' })
 scrollIntoView(node, { scrollMode: 'if-needed' })
 
+scrollIntoView(node, {
+  middleware: [{ name: 'custom', fn: () => ({}) }],
+})
+
 // Non-standard custom options
 scrollIntoView(node, { skipOverflowHiddenElements: true })
 scrollIntoView(node, { skipOverflowHiddenElements: false })
@@ -65,8 +69,8 @@ scrollIntoView(node, { inline: 'invalid' })
 scrollIntoView(node, { scroll: 'invalid' })
 // @ts-expect-error
 scrollIntoView(node, { scrollMode: 'invalid' })
-// @ts-expect-error -- built from the other options
-scrollIntoView(node, { middleware: [] })
+// @ts-expect-error
+scrollIntoView(node, { middleware: [{ name: 'custom', fn: 'nope' }] })
 // @ts-expect-error
 scrollIntoView(node, { container: 'invalid' })
 // @ts-expect-error

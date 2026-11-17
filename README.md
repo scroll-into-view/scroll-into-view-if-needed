@@ -253,7 +253,7 @@ Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
 > Introduced in `v4.0.0`
 
-`'if-needed'` only scrolls when the target isn't fully visible, by adding the `onlyIfNeeded()` middleware from `compute-scroll-into-view/middleware`, after any other middleware.
+`'if-needed'` only scrolls when the target isn't fully visible. `onlyIfNeeded()` from `scroll-into-view-if-needed/middleware` is added after `middleware`.
 
 `scrollMode` does the same thing and still works. It is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used.
 
@@ -263,7 +263,9 @@ Type: `Element | Function`
 
 > `Function` introduced in `v2.1.0`, `Element` introduced in `v1.1.0`
 
-Stops scrolling at this element, or at the first parent the function returns `false` for. Adds the `boundary(boundary)` middleware from `compute-scroll-into-view/middleware`.
+Stops scrolling at this element, or at the first parent the function returns `false` for. Adds `boundary(boundary)` before `middleware`.
+
+Deprecated. It will be removed in the next major version. Import `boundary` from `scroll-into-view-if-needed/middleware` and pass `middleware: [boundary(limit)]`.
 
 ### skipOverflowHiddenElements
 
@@ -271,7 +273,9 @@ Type: `Boolean`<br> Default: `false`
 
 > Introduced in `v2.2.0`
 
-Skips scrolling `overflow: hidden` elements. Adds the `skipOverflowHiddenElements()` middleware from `compute-scroll-into-view/middleware`.
+Skips scrolling `overflow: hidden` elements. Adds `skipOverflowHiddenElements()` before `middleware`.
+
+Deprecated. It will be removed in the next major version. Import `skipOverflowHiddenElements` from `scroll-into-view-if-needed/middleware` and pass `middleware: [skipOverflowHiddenElements()]`.
 
 # TypeScript support
 

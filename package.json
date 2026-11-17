@@ -27,6 +27,7 @@
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
+    "./middleware": "./dist/middleware.js",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
@@ -37,7 +38,7 @@
   ],
   "scripts": {
     "build": "vp pack && vp run check:es",
-    "check:es": "es-check es2019 --module dist/index.js",
+    "check:es": "es-check es2019 --module dist/index.js dist/middleware.js",
     "prepublishOnly": "vp run build",
     "release": "vp run build && changeset publish",
     "prepare": "vp config"

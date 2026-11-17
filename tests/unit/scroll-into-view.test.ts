@@ -167,6 +167,24 @@ describe('middleware', () => {
     expect(middlewareNames()).toEqual([])
   })
 
+  test('user middleware runs before onlyIfNeeded()', () => {
+    const custom = { name: 'custom', fn: () => ({}) }
+
+    scrollIntoView(createTarget(), {
+      scroll: 'if-needed',
+      boundary: document.body,
+      skipOverflowHiddenElements: true,
+      middleware: [custom],
+    })
+
+    expect(middlewareNames()).toEqual([
+      'boundary',
+      'skipOverflowHiddenElements',
+      'custom',
+      'onlyIfNeeded',
+    ])
+  })
+
   test.each([
     ['an element', document.documentElement],
     ['a callback', (parent: Element) => parent !== document.body],

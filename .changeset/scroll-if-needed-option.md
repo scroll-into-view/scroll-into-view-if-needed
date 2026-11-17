@@ -2,7 +2,27 @@
 'scroll-into-view-if-needed': major
 ---
 
-`scroll: 'if-needed'` scrolls only when the target isn't fully visible. `scrollMode` still does the same thing, but it is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used. `boundary` and `skipOverflowHiddenElements` work as before.
+`scroll: 'if-needed'` scrolls only when the target isn't fully visible. `scrollMode` still does the same thing, but it is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used.
+
+`boundary` and `skipOverflowHiddenElements` still work, and they are deprecated too. They will be removed in the next major version. Pass them as middleware instead, from `scroll-into-view-if-needed/middleware`:
+
+```ts
+import scrollIntoView from 'scroll-into-view-if-needed'
+import {
+  boundary,
+  onlyIfNeeded,
+  selection,
+  skipOverflowHiddenElements,
+} from 'scroll-into-view-if-needed/middleware'
+
+scrollIntoView(node, {
+  block: 'nearest',
+  scroll: 'if-needed',
+  middleware: [boundary(list), skipOverflowHiddenElements(), selection(range)],
+})
+```
+
+`middleware` is run after the deprecated `boundary` and `skipOverflowHiddenElements` options. `scroll: 'if-needed'` adds `onlyIfNeeded()` after that. `selection()` scrolls a text range instead of the element, which is how an editor keeps the caret in view.
 
 ```diff
 -scrollIntoView(target, { scrollMode: 'if-needed' })
