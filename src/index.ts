@@ -1,18 +1,53 @@
 import { compute } from 'compute-scroll-into-view'
 import type {
-  Options as BaseOptions,
+  Options as ComputeOptions,
+  Middleware,
   ScrollAction,
 } from 'compute-scroll-into-view'
+import {
+  boundary as limitToBoundary,
+  onlyIfNeeded,
+  skipOverflowHiddenElements as skipOverflowHidden,
+} from 'compute-scroll-into-view/middleware'
 
 /** @public */
 export type Options<T = unknown> =
   | StandardBehaviorOptions
   | CustomBehaviorOptions<T>
 
+/** @public */
+export interface BaseOptions extends ComputeOptions {
+  /**
+   * `'if-needed'` only scrolls when the target isn't fully visible, like `Element.scrollIntoViewIfNeeded`.
+   * `onlyIfNeeded()` is added after `middleware`.
+   * @default 'always'
+   */
+  scroll?: 'always' | 'if-needed'
+  /**
+   * Same as `scroll`.
+   * @deprecated Use `scroll` instead. `scrollMode` will be removed in the next major version.
+   * @default 'always'
+   */
+  scrollMode?: 'always' | 'if-needed'
+  /**
+   * Stops scrolling at this element, or at the first parent the callback returns `false` for.
+   * The boundary itself is still scrolled, its parents are not.
+   * @deprecated Use `middleware: [boundary(limit)]` from `scroll-into-view-if-needed/middleware` instead. `boundary` will be removed in the next major version.
+   * @default null
+   */
+  boundary?: Element | ((parent: Element) => boolean) | null
+  /**
+   * Skips scrolling elements that are `overflow: hidden`.
+   * @deprecated Use `middleware: [skipOverflowHiddenElements()]` from `scroll-into-view-if-needed/middleware` instead. `skipOverflowHiddenElements` will be removed in the next major version.
+   * @default false
+   */
+  skipOverflowHiddenElements?: boolean
+}
+
 /**
  * Only scrolls if the `node` is partially out of view:
  * ```ts
- * scrollIntoView(node, { scrollMode: 'if-needed' })
+ * scrollIntoView(node, { scroll: 'if-needed' })
  * ```
  * Skips scrolling `overflow: hidden` elements:
  * ```ts
@@ -22,7 +57,7 @@ export type Options<T = unknown> =
  * ```ts
  * scrollIntoView(node, {
  *   behavior: 'smooth',
- *   scrollMode: 'if-needed',
+ *   scroll: 'if-needed',
  *   block: 'nearest',
  *   inline: 'nearest',
  * })
@@ -71,6 +106,37 @@ const getOptions = (options: any): StandardBehaviorOptions => {
   return { block: 'start', inline: 'nearest' }
 }
 
+// No object rest or spread, which would pull helpers into the Baseline 2019 build
+const getActions = (
+  target: Element,
+  options: StandardBehaviorOptions | CustomBehaviorOptions,
+): ScrollAction[] => {
+  const middleware: Middleware[] = []
+  if (options.boundary) {
+    middleware.push(limitToBoundary(options.boundary))
+  }
+  if (options.skipOverflowHiddenElements) {
+    middleware.push(skipOverflowHidden())
+  }
+  // User middleware runs after the deprecated options and before `onlyIfNeeded()`
+  if (options.middleware) {
+    for (const item of options.middleware) {
+      middleware.push(item)
+    }
+  }
+  // `scroll` wins when both are set. Last, so only the scroll containers that are left decide if scrolling is needed
+  const scroll = options.scroll ?? options.scrollMode
+  if (scroll === 'if-needed') {
+    middleware.push(onlyIfNeeded())
+  }
+  return compute(target, {
+    block: options.block,
+    inline: options.inline,
+    container: options.container,
+    middleware,
+  })
+}
+
 // Determine if the element is part of the document (including shadow dom)
 // Derived from code of Andy Desmarais
 // https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
@@ -90,7 +156,7 @@ const isInDocument = (element: Node) => {
 
 /**
  * Scrolls the given element into view, with options for when, and how.
- * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scrollMode`, `behavior: Function` and `skipOverflowHiddenElements`.
+ * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'`, `behavior: Function` and `skipOverflowHiddenElements`.
  * @public
  */
 function scrollIntoView(
@@ -99,7 +165,7 @@ function scrollIntoView(
 ): void
 /**
  * Scrolls the given element into view, with options for when, and how.
- * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scrollMode`, `behavior: Function` and `skipOverflowHiddenElements`.
+ * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'`, `behavior: Function` and `skipOverflowHiddenElements`.
  *
  * You can set the expected return type for `behavior: Function`:
  * ```ts
@@ -128,13 +194,14 @@ function scrollIntoView<T = unknown>(
   }
 
   if (isCustomScrollBehavior<T>(options)) {
-    return options.behavior(compute(target, options))
+    return options.behavior(getActions(target, options))
   }
 
-  const behavior = typeof options === 'boolean' ? undefined : options?.behavior
+  const standardOptions = getOptions(options)
+  const { behavior } = standardOptions
 
   // compute-scroll-into-view (>= 3.1) already accounts for the target's scroll-margin
-  for (const { el, top, left } of compute(target, getOptions(options))) {
+  for (const { el, top, left } of getActions(target, standardOptions)) {
     el.scroll({ top, left, behavior })
   }
 }

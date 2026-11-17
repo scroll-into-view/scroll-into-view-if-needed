@@ -105,7 +105,7 @@ export default defineConfig({
     ignorePatterns: [],
   },
   pack: {
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/middleware.ts'],
     format: 'esm',
     platform: 'neutral',
     // The browserslist baseline in package.json (Baseline 2019) keeps the published bundles compiling away
@@ -115,10 +115,9 @@ export default defineConfig({
     // es-check's checkBrowser mode can't be used instead, as it treats Edge 18 as ES5
     target,
     // Oxc generates the declarations (needs `isolatedDeclarations`, see tsconfig.json),
-    // so the package doesn't need its own TypeScript install. They have no maps,
-    // as src/ isn't published for them to point at
-    dts: { generator: 'oxc' },
-    // Embeds src/index.ts in its sourcesContent
+    // so the package doesn't need its own TypeScript install. No declaration maps, as `src` isn't published
+    dts: { generator: 'oxc', sourcemap: false },
+    // Embeds the TypeScript source in its sourcesContent
     sourcemap: true,
     plugins: [
       {
