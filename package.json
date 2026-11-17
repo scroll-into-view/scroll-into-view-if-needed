@@ -1,7 +1,7 @@
 {
   "name": "scroll-into-view-if-needed",
   "version": "3.2.1",
-  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scroll: if-needed, behavior: smooth and block: center",
   "keywords": [
     "behavior-smooth",
     "if-needed",
@@ -27,24 +27,24 @@
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
+    "./middleware": "./dist/middleware.js",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "vp pack && vp run check:es",
-    "check:es": "es-check es2019 --module dist/index.js",
+    "check:es": "es-check es2019 --module dist/index.js dist/middleware.js",
     "prepublishOnly": "vp run build",
     "release": "vp run build && changeset publish",
-    "prepare": "vp config"
+    "prepare": "vp config && vp run build"
   },
   "dependencies": {
-    "compute-scroll-into-view": "^3.2.2"
+    "compute-scroll-into-view": "^4.0.0"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.5",
