@@ -46,7 +46,6 @@ This used to be a [ponyfill](https://ponyfill.com) for
 - [Related packages](#related-packages)
 - [Who's using this](#whos-using-this)
 - [Development](#development)
-- [Sponsors](#sponsors)
 
 # [Demo](https://scroll-into-view.dev)
 
@@ -467,9 +466,3 @@ The project uses [Vite+](https://viteplus.dev). Install dependencies with `vp in
 - `vp check` formats, lints and type-checks the code, including the type tests in `tests/typescript`.
 - `vp exec knip` reports unused files, exports and dependencies.
 - `vp pack` builds the package into `dist`.
-
-# Sponsors
-
-Thanks to [BrowserStack](https://www.browserstack.com) for sponsoring cross browser and device testing 😄
-
-<a href="https://www.browserstack.com" target="_blank"><img src="https://www.browserstack.com/images/layout/logo.svg"></a>

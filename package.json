@@ -51,9 +51,9 @@
     "@changesets/cli": "^3.0.3",
     "@vitest/browser-playwright": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "es-check": "^9.8.1",
-    "jsdom": "^31.0.0",
-    "knip": "^6.45.0",
+    "es-check": "^9.9.0",
+    "jsdom": "^31.0.1",
+    "knip": "^6.45.1",
     "playwright": "*",
     "publint": "^0.3.25",
     "vite-plus": "catalog:",
@@ -66,7 +66,7 @@
       "compression": "none"
     }
   ],
-  "packageManager": "pnpm@12.18.0",
+  "packageManager": "pnpm@12.21.0",
   "publishConfig": {
     "access": "public",
     "provenance": true
