@@ -2,7 +2,7 @@ lockfile:
   format: v13
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.6.0
-  vite-plus: 1.6.0
+  vite-plus: 1.7.0
   vitest: 5.1.0
   '@vitest/browser-playwright': 5.1.0
   '@vitest/coverage-istanbul': 5.1.0
