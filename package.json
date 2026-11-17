@@ -41,7 +41,7 @@
     "check:es": "es-check es2019 --module dist/index.js dist/middleware.js",
     "prepublishOnly": "vp run build",
     "release": "vp run build && changeset publish",
-    "prepare": "vp config"
+    "prepare": "vp config && vp run build"
   },
   "dependencies": {
     "compute-scroll-into-view": "^4.0.0"
