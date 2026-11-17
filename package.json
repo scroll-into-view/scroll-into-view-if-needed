@@ -43,7 +43,7 @@
     "prepare": "vp config"
   },
   "dependencies": {
-    "compute-scroll-into-view": "^3.2.2"
+    "compute-scroll-into-view": "^4.0.0"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.5",

@@ -1,35 +1,5 @@
-import { defineConfig, type Plugin } from 'vite-plus'
+import { defineConfig } from 'vite-plus'
 import { playwright } from 'vite-plus/test/browser-playwright'
-
-const middlewareId = 'compute-scroll-into-view/middleware'
-
-// The installed compute-scroll-into-view ^3.2.2 has no `compute-scroll-into-view/middleware`, which 4.0.0
-// adds, so resolving it throws. This stands in until it's installed, and only when it can't be resolved.
-// No browser test uses it. Remove this once 4.0.0 is installed.
-const computeMiddlewarePlaceholder: Plugin = {
-  name: 'compute-scroll-into-view-4-middleware-placeholder',
-  enforce: 'pre',
-  async resolveId(source, importer, options) {
-    if (source !== middlewareId) {
-      return null
-    }
-    try {
-      return await this.resolve(source, importer, {
-        ...options,
-        skipSelf: true,
-      })
-    } catch {
-      return `\0${middlewareId}`
-    }
-  },
-  load(id) {
-    if (id !== `\0${middlewareId}`) {
-      return null
-    }
-    return `const unavailable = () => { throw new Error('Needs compute-scroll-into-view 4.0.0') }
-export { unavailable as boundary, unavailable as onlyIfNeeded, unavailable as skipOverflowHiddenElements }`
-  },
-}
 
 export default defineConfig({
   staged: {
@@ -76,7 +46,6 @@ export default defineConfig({
     },
     projects: [
       {
-        plugins: [computeMiddlewarePlaceholder],
         test: {
           name: 'unit',
           include: ['tests/unit/**/*.test.ts'],
@@ -84,7 +53,6 @@ export default defineConfig({
         },
       },
       {
-        plugins: [computeMiddlewarePlaceholder],
         test: {
           name: 'browser',
           include: ['tests/browser/**/*.test.ts'],

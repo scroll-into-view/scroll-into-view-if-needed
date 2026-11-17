@@ -11,7 +11,5 @@
     "noUnusedParameters": true,
     "strict": true,
     "lib": ["es2015", "dom"]
-  },
-  // The compute-scroll-into-view 4.0.0 types. Remove it once that version is installed
-  "include": ["*.ts", "../../src/compute-scroll-into-view.d.ts"]
+  }
 }

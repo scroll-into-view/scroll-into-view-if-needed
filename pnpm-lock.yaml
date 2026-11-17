@@ -186,8 +186,8 @@ importers:
   .:
     dependencies:
       compute-scroll-into-view:
-        specifier: ^3.2.2
-        version: 3.2.2
+        specifier: ^4.0.0
+        version: 4.0.0
     devDependencies:
       '@arethetypeswrong/core':
         specifier: ^0.18.5
@@ -1396,8 +1396,8 @@ packages:
   cjs-module-lexer@1.4.3:
     resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
 
-  compute-scroll-into-view@3.2.2:
-    resolution: {integrity: sha512-X+jf3y2j3TbtxA3fq3/kBNiSnD1QlIChiIQdAc2Yo1LtOc0yjO1TzgxWJf8PwtKPGgSvSfWUlVvrb7vGx1eYWA==}
+  compute-scroll-into-view@4.0.0:
+    resolution: {integrity: sha512-iqlKRtz6qi/eesmcjIbrqbpvYI4yNAkbCCHah+jLlBETELLoxHX8DUuutzdXku5DGQU1zvvvwQZsBaMHFV7xeg==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -2882,7 +2882,7 @@ snapshots:
 
   cjs-module-lexer@1.4.3: {}
 
-  compute-scroll-into-view@3.2.2: {}
+  compute-scroll-into-view@4.0.0: {}
 
   convert-source-map@2.0.0: {}
 

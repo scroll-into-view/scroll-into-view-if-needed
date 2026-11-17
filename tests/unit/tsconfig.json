@@ -10,6 +10,5 @@
     "strict": true,
     "lib": ["dom", "dom.iterable", "esnext"]
   },
-  // The compute-scroll-into-view 4.0.0 types. Remove it once that version is installed
-  "include": ["*.ts", "../../src/compute-scroll-into-view.d.ts"]
+  "include": ["*.ts"]
 }
