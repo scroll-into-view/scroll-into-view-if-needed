@@ -77,7 +77,7 @@ export default defineConfig({
     ignorePatterns: [],
   },
   pack: {
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/middleware.ts'],
     format: 'esm',
     platform: 'neutral',
     // ES2019 output so Webpack 4 and other older toolchains can parse the published bundles
@@ -92,9 +92,8 @@ export default defineConfig({
       'node12',
     ],
     // Oxc generates the declarations (needs `isolatedDeclarations`, see tsconfig.json),
-    // so the package doesn't need its own TypeScript install. Their maps point at the
-    // published src/*.ts files
-    dts: { generator: 'oxc', sourcemap: true },
+    // so the package doesn't need its own TypeScript install. No declaration maps, as `src` isn't published
+    dts: { generator: 'oxc', sourcemap: false },
     sourcemap: true,
     minify: true,
     // tsdown writes `exports`, plus `main`, `module` and `types` for tools that predate `exports`
