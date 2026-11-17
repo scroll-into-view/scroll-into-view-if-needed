@@ -2,7 +2,7 @@
 'scroll-into-view-if-needed': major
 ---
 
-`scrollMode` is replaced by `scroll`. `scroll: 'if-needed'` scrolls only when the target isn't fully visible. `boundary` and `skipOverflowHiddenElements` work as before.
+`scroll: 'if-needed'` scrolls only when the target isn't fully visible. `scrollMode` still does the same thing, but it is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used. `boundary` and `skipOverflowHiddenElements` work as before.
 
 ```diff
 -scrollIntoView(target, { scrollMode: 'if-needed' })

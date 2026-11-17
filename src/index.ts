@@ -26,6 +26,12 @@ export interface BaseOptions extends Omit<
    */
   scroll?: 'always' | 'if-needed'
   /**
+   * Same as `scroll`.
+   * @deprecated Use `scroll` instead. `scrollMode` will be removed in the next major version.
+   * @default 'always'
+   */
+  scrollMode?: 'always' | 'if-needed'
+  /**
    * Stops scrolling at this element, or at the first parent the callback returns `false` for.
    * The boundary itself is still scrolled, its parents are not.
    * @default null
@@ -112,8 +118,9 @@ const getActions = (
   if (options.skipOverflowHiddenElements) {
     middleware.push(skipOverflowHidden())
   }
-  // Last, so only the scroll containers that are left decide if scrolling is needed
-  if (options.scroll === 'if-needed') {
+  // `scroll` wins when both are set. Last, so only the scroll containers that are left decide if scrolling is needed
+  const scroll = options.scroll ?? options.scrollMode
+  if (scroll === 'if-needed') {
     middleware.push(onlyIfNeeded())
   }
   return compute(target, {

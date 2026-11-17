@@ -152,6 +152,21 @@ describe('middleware', () => {
     expect(middlewareNames()).toEqual(['onlyIfNeeded'])
   })
 
+  test("scrollMode: 'if-needed' adds onlyIfNeeded()", () => {
+    scrollIntoView(createTarget(), { scrollMode: 'if-needed' })
+
+    expect(middlewareNames()).toEqual(['onlyIfNeeded'])
+  })
+
+  test('scroll wins when scrollMode is also set', () => {
+    scrollIntoView(createTarget(), {
+      scroll: 'always',
+      scrollMode: 'if-needed',
+    })
+
+    expect(middlewareNames()).toEqual([])
+  })
+
   test.each([
     ['an element', document.documentElement],
     ['a callback', (parent: Element) => parent !== document.body],

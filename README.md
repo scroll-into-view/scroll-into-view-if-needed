@@ -251,9 +251,11 @@ Type: `'all' | 'nearest'`<br> Default: `'all'`
 
 Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
-> Introduced in `v4.0.0`, replacing `scrollMode`
+> Introduced in `v4.0.0`
 
 `'if-needed'` only scrolls when the target isn't fully visible, by adding the `onlyIfNeeded()` middleware from `compute-scroll-into-view/middleware`, after any other middleware.
+
+`scrollMode` does the same thing and still works. It is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used.
 
 ### [boundary](https://scroll-into-view.dev/#limit-propagation)
 
@@ -322,7 +324,7 @@ function scrollToTarget(selector, options: Options = {}) {
 
 # Breaking API changes from v3
 
-`scrollMode: 'if-needed'` is now `scroll: 'if-needed'`:
+`scrollMode` is deprecated and will be removed in the next major version. Use `scroll: 'if-needed'`:
 
 ```diff
 -scrollIntoView(target, { scrollMode: 'if-needed' })
