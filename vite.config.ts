@@ -119,22 +119,6 @@ export default defineConfig({
     dts: { generator: 'oxc', sourcemap: false },
     // Embeds the TypeScript source in its sourcesContent
     sourcemap: true,
-    plugins: [
-      {
-        // `sourcemap` makes Rolldown link a map from the declarations too, which the dts plugin then drops
-        name: 'strip-dts-sourcemap-url',
-        generateBundle(_options, bundle) {
-          for (const chunk of Object.values(bundle)) {
-            if (chunk.type === 'chunk' && chunk.fileName.endsWith('.d.ts')) {
-              chunk.code = chunk.code.replace(
-                /\n\/\/# sourceMappingURL=\S+\s*$/,
-                '\n',
-              )
-            }
-          }
-        },
-      },
-    ],
     minify: true,
     // tsdown writes `exports`, plus `main`, `module` and `types` for tools that predate `exports`
     exports: { legacy: true },
