@@ -1,5 +1,21 @@
 # scroll-into-view-if-needed
 
+## 3.2.1
+
+### Patch Changes
+
+- [#1236](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1236) [`75c3a8f`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/75c3a8ff16f3c7752eddfc810ffdb46fc107d099) Thanks [@tembo](https://github.com/apps/tembo)! - Require `compute-scroll-into-view@^3.2.2`, which includes the same `engines` and ES2019 fixes
+
+- [#1236](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1236) [`75c3a8f`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/75c3a8ff16f3c7752eddfc810ffdb46fc107d099) Thanks [@tembo](https://github.com/apps/tembo)! - Compile the published bundles to ES2019 syntax again. The previous release shipped optional chaining (`?.`) and nullish coalescing (`??`) because the browserslist targets drifted, which broke Webpack 4 and other older toolchains ([scroll-into-view-if-needed#1235](https://github.com/scroll-into-view/scroll-into-view-if-needed/issues/1235)). The build targets are now pinned and the build fails if the output isn't ES2019-compatible.
+
+- [#1236](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1236) [`75c3a8f`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/75c3a8ff16f3c7752eddfc810ffdb46fc107d099) Thanks [@tembo](https://github.com/apps/tembo)! - Remove the `engines.node` requirement added in the previous release. Requiring Node.js 26 was unintentionally breaking for consumers on older Node.js versions, and as a browser library this package has no Node.js runtime requirement ([compute-scroll-into-view#928](https://github.com/scroll-into-view/compute-scroll-into-view/issues/928))
+
+## 3.2.0
+
+### Minor Changes
+
+- [#1221](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1221) [`ce383fc`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/ce383fccbd5b469dbf13c68f93b769c419ddcde4) Thanks [@stipsan](https://github.com/stipsan)! - Require Node.js 26 (current LTS) or later, and publish to npm with trusted publishing (OIDC) and provenance
+
 ## [3.1.0](https://github.com/scroll-into-view/scroll-into-view-if-needed/compare/v3.0.10...v3.1.0) (2023-09-13)
 
 ### Features

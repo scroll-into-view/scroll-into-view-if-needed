@@ -13,10 +13,10 @@ async function main() {
     },
   })
 
-  return didScroll === true
+  return didScroll
 }
 
-main()
+void main()
 
 // Generics are only allowed if a custom behavior is provided
 // @ts-expect-error

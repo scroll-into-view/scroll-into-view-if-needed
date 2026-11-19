@@ -2,12 +2,13 @@
 [![npm version](https://img.shields.io/npm/v/scroll-into-view-if-needed.svg?style=flat-square)](https://www.npmjs.com/package/scroll-into-view-if-needed)
 [![gzip size][gzip-badge]][unpkg-dist]
 [![size][size-badge]][unpkg-dist]
-[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?style=flat-square&badge_key=ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)](https://www.browserstack.com/automate/public-build/ejZ6OUtTaS9rZFFOYzlkeHlwTzMwSWxpR0FzWFcwOW5TS3ROTmlSdXMrVT0tLVhrVk9La2lCb1o4Y05mcmNXVnAvdkE9PQ==--d17668b8aba5091e4ef3a58927b8209e50b0a788)
 
 ![scroll-into-view-if-needed](https://user-images.githubusercontent.com/81981/39476436-34a4f3ae-4d5c-11e8-9d1c-7fa2fa6288a0.png)
 
 This used to be a [ponyfill](https://ponyfill.com) for
-`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the non-standard one.
+`Element.scrollIntoViewIfNeeded`. Since then the CSS working group have decided to implement its features in `Element.scrollIntoView` as the option `scrollMode: "if-needed"`. Thus this library got rewritten to implement that spec instead of the non-standard one. The option is called `scroll: 'if-needed'` here.
+
+Besides ponyfilling `Element.scrollIntoView`, the [`middleware`](#middleware) option is the escape hatch for everything the spec doesn't cover. It is where features that go beyond ponyfilling official spec proposals live, like `boundary`, `skipOverflowHiddenElements` and scrolling a text range into view, and where your own customizations go.
 
 - [Demo](#demo)
 - [Install](#install)
@@ -25,11 +26,17 @@ This used to be a [ponyfill](https://ponyfill.com) for
       - [`Function`](#function)
     - [block](#block)
     - [inline](#inline)
-    - [scrollMode](#scrollmode)
+    - [container](#container)
+    - [scroll](#scroll)
+    - [middleware](#middleware)
     - [boundary](#boundary)
     - [skipOverflowHiddenElements](#skipoverflowhiddenelements)
   - [scroll-margin](#scroll-margin)
+- [Middleware](#middleware-1)
+  - [Scroll a text range into view](#scroll-a-text-range-into-view)
+  - [Write your own middleware](#write-your-own-middleware)
 - [TypeScript support](#typescript-support)
+- [Breaking API changes from v3](#breaking-api-changes-from-v3)
 - [Breaking API changes from v1](#breaking-api-changes-from-v1)
   - [v1](#v1)
   - [v2](#v2)
@@ -45,7 +52,7 @@ This used to be a [ponyfill](https://ponyfill.com) for
   - [scrollIntoViewIfNeeded(target, \[centerIfNeeded\], \[animateOptions\], \[finalElement\], \[offsetOptions\])](#scrollintoviewifneededtarget-centerifneeded-animateoptions-finalelement-offsetoptions)
 - [Related packages](#related-packages)
 - [Who's using this](#whos-using-this)
-- [Sponsors](#sponsors)
+- [Development](#development)
 
 # [Demo](https://scroll-into-view.dev)
 
@@ -55,13 +62,16 @@ This used to be a [ponyfill](https://ponyfill.com) for
 npm i scroll-into-view-if-needed
 ```
 
+The package is ESM-only. CommonJS code can still `require()` it on Node.js 20.19, 22.12 and later, through `require('scroll-into-view-if-needed').default`.
+
 You can also use it from a CDN:
 
 ```js
-const { default: scrollIntoView } = await import(
-  'https://esm.sh/scroll-into-view-if-needed'
-)
+const { default: scrollIntoView } =
+  await import('https://esm.sh/scroll-into-view-if-needed')
 ```
+
+The published code supports [Baseline 2019](https://web.dev/baseline) browsers (Chrome 66, Edge 18, Firefox 65 and Safari 13, and newer), as declared in the `browserslist` field of `package.json`. It's compiled to ES2017 syntax, without optional chaining or nullish coalescing, so it works in older bundlers like Webpack 4 without transpiling it.
 
 # Usage
 
@@ -76,7 +86,7 @@ const node = document.getElementById('hero')
 // same behavior as Element.scrollIntoViewIfNeeded()
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 scrollIntoView(node, {
-  scrollMode: 'if-needed',
+  scroll: 'if-needed',
   block: 'nearest',
   inline: 'nearest',
 })
@@ -84,10 +94,10 @@ scrollIntoView(node, {
 // same behavior as Element.scrollIntoViewIfNeeded(true) without the "IfNeeded" behavior
 // see: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 scrollIntoView(node, { block: 'center', inline: 'center' })
-// scrollMode is "always" by default
+// scroll is "always" by default
 
 // smooth scroll if the browser supports it and if the element isn't visible
-scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+scrollIntoView(node, { behavior: 'smooth', scroll: 'if-needed' })
 ```
 
 ## Ponyfill smooth scrolling
@@ -100,10 +110,10 @@ Put it this way:
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
 // Even if all you do is this
-scrollIntoView(node, { scrollMode: 'if-needed' })
+scrollIntoView(node, { scroll: 'if-needed' })
 // You would end up with the same bundlesize as people who need
 // smooth scrolling to work in browsers that don't support it natively
-scrollIntoView(node, { behavior: 'smooth', scrollMode: 'if-needed' })
+scrollIntoView(node, { behavior: 'smooth', scroll: 'if-needed' })
 ```
 
 That's why only native smooth scrolling is supported out of the box. Native smooth scrolling is supported in all modern browsers (Safari added it in 15.4), but the way it animates differs between browsers. Below are three ways to approach it, which one is best for you depends on what is the most important to your use case: load time, consistency or quality.
@@ -214,7 +224,7 @@ scrollIntoView(node, {
       const offsetTop = el.scrollTop - top
       const offsetLeft = el.scrollLeft - left
     }),
-  // all the other options (scrollMode, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
+  // all the other options (scroll, block, inline) still work, so you don't need to reimplement them (unless you really really want to)
 })
 ```
 
@@ -240,13 +250,31 @@ Type: `'start' | 'center' | 'end' | 'nearest'`<br> Default: `'nearest'`
 
 [More info.](https://github.com/scroll-into-view/compute-scroll-into-view#inline)
 
-### [scrollMode](https://scroll-into-view.dev/#scrolling-if-needed)
+### container
+
+Type: `'all' | 'nearest'`<br> Default: `'all'`
+
+> Introduced in `v4.0.0`
+
+`'nearest'` only scrolls the nearest scroll container, like the `container` option of `Element.scrollIntoView`.
+
+### [scroll](https://scroll-into-view.dev/#scrolling-if-needed)
 
 Type: `'always' | 'if-needed'`<br> Default: `'always'`
 
-> Introduced in `v2.1.0`
+> Introduced in `v4.0.0`
 
-[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#scrollmode)
+`'if-needed'` only scrolls when the target isn't fully visible, like `Element.scrollIntoViewIfNeeded`. It runs after your [`middleware`](#middleware), so it checks what is left to scroll.
+
+`scrollMode` does the same thing and still works. It is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used.
+
+### middleware
+
+Type: `Middleware[]`<br> Default: `[]`
+
+> Introduced in `v4.0.0`
+
+Change which scroll containers are scrolled, how they are measured, or what is aligned. Import the built-in ones, and the types for your own, from `scroll-into-view-if-needed/middleware`. [More info.](#middleware-1)
 
 ### [boundary](https://scroll-into-view.dev/#limit-propagation)
 
@@ -254,7 +282,15 @@ Type: `Element | Function`
 
 > `Function` introduced in `v2.1.0`, `Element` introduced in `v1.1.0`
 
-[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#boundary)
+Stops scrolling at this element, or at the first parent the function returns `false` for.
+
+Deprecated. It will be removed in the next major version. Use the `boundary` middleware:
+
+```diff
++import { boundary } from 'scroll-into-view-if-needed/middleware'
+-scrollIntoView(node, { boundary: list })
++scrollIntoView(node, { middleware: [boundary(list)] })
+```
 
 ### skipOverflowHiddenElements
 
@@ -262,7 +298,15 @@ Type: `Boolean`<br> Default: `false`
 
 > Introduced in `v2.2.0`
 
-[More info.](https://github.com/scroll-into-view/compute-scroll-into-view#skipoverflowhiddenelements)
+Skips scrolling `overflow: hidden` elements.
+
+Deprecated. It will be removed in the next major version. Use the `skipOverflowHiddenElements` middleware:
+
+```diff
++import { skipOverflowHiddenElements } from 'scroll-into-view-if-needed/middleware'
+-scrollIntoView(node, { skipOverflowHiddenElements: true })
++scrollIntoView(node, { middleware: [skipOverflowHiddenElements()] })
+```
 
 ## scroll-margin
 
@@ -275,6 +319,120 @@ The [`scroll-margin`](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-ma
   scroll-margin-top: 64px;
 }
 ```
+
+# Middleware
+
+The core of this library follows the spec for `Element.scrollIntoView`, plus the `if-needed` proposal. Anything beyond that is middleware. It's the preferred place to extend scrolling, so features that aren't in the spec don't need their own options.
+
+Middleware runs for each ancestor of the target, innermost first, up to the viewport. It can skip a scroll container, stop climbing, or change what is measured. Then the target is aligned with the `block` and `inline` you passed, and `behavior` does the scrolling.
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+import {
+  boundary,
+  skipOverflowHiddenElements,
+} from 'scroll-into-view-if-needed/middleware'
+
+scrollIntoView(node, {
+  block: 'nearest',
+  scroll: 'if-needed',
+  middleware: [boundary(list), skipOverflowHiddenElements()],
+})
+```
+
+They run in the order you list them. The deprecated `boundary` and `skipOverflowHiddenElements` options are added first, and `scroll: 'if-needed'` adds `onlyIfNeeded()` last. That means you never need to import `onlyIfNeeded` yourself, unless you want it somewhere else in the order.
+
+Built in:
+
+- `boundary(limit)` stops at an element, or at the first ancestor a function returns `false` for. The boundary itself is scrolled if it's a scroll container.
+- `skipOverflowHiddenElements()` leaves `overflow: hidden` scroll containers alone, like Firefox's `scrollIntoView` does.
+- `onlyIfNeeded()` is what `scroll: 'if-needed'` adds.
+- `selection(selection, options)` aligns a text selection instead of the target.
+
+## Scroll a text range into view
+
+`selection()` is for editors and anything else that has to keep the caret in view. It takes a `Range` or a `Selection`, and defaults to `document.getSelection()`. A collapsed caret is measured as the character or node next to it, so empty lines and carets next to images work too.
+
+The ancestors that get scrolled are still the target's. Pass an element inside the scroll container, like the parent element of the range, and not the scroll container itself.
+
+```js
+import scrollIntoView from 'scroll-into-view-if-needed'
+import { selection } from 'scroll-into-view-if-needed/middleware'
+
+const range = document.getSelection().getRangeAt(0)
+
+scrollIntoView(range.startContainer.parentElement, {
+  scroll: 'if-needed',
+  block: 'nearest',
+  inline: 'nearest',
+  middleware: [selection(range)],
+})
+```
+
+`scroll: 'if-needed'` runs after `selection()`, so it's the caret that decides if scrolling is needed. `options.align` picks what is aligned. `'focus'` is the default, the end of the selection where the caret is. A `Range` has no direction, so its focus is its end, pass the `Selection` for a backward one. `'bounds'` aligns the box around the whole selection:
+
+```js
+scrollIntoView(element, {
+  block: 'nearest',
+  middleware: [selection(range, { align: 'bounds' })],
+})
+```
+
+## Write your own middleware
+
+A middleware is an object with a `name` and an `fn`. `fn` is called for each ancestor of the target and returns `{}` to change nothing, or what to change:
+
+- `scrollable: false` leaves this container alone. The target is still aligned in the containers outside of it.
+- `stop: true` doesn't look at the ancestors of this container. The container itself is still scrolled.
+- `rects` replaces measurements for the middleware after this one, and for aligning the target.
+
+`fn` gets the `target`, the `container` it's looking at, whether that container is the `viewport`, whether it's `scrollable` so far, the `options`, and the `rects` it was measured with. `rects` has the `scrollport` of the container, the `target` box, and the `scrollPadding` and `scrollMargin` they are aligned with, as `{ top, right, bottom, left }` in pixels.
+
+Stop at the closest element that marks a scroll root, without scrolling anything outside of it:
+
+```ts
+import scrollIntoView from 'scroll-into-view-if-needed'
+import type { Middleware } from 'scroll-into-view-if-needed/middleware'
+
+const stopAtScrollRoot: Middleware = {
+  name: 'stopAtScrollRoot',
+  fn: ({ container }) =>
+    container.matches('[data-scroll-root]') ? { stop: true } : {},
+}
+
+scrollIntoView(node, { middleware: [stopAtScrollRoot] })
+```
+
+Keep the target clear of a sticky header, by adding to the viewport's `scroll-padding`:
+
+```ts
+import scrollIntoView from 'scroll-into-view-if-needed'
+import type { Middleware } from 'scroll-into-view-if-needed/middleware'
+
+const clearHeader = (header: Element): Middleware => ({
+  name: 'clearHeader',
+  fn: ({ viewport, rects }) =>
+    viewport
+      ? {
+          rects: {
+            scrollPadding: {
+              ...rects.scrollPadding,
+              top:
+                rects.scrollPadding.top + header.getBoundingClientRect().bottom,
+            },
+          },
+        }
+      : {},
+})
+
+scrollIntoView(node, {
+  scroll: 'if-needed',
+  block: 'nearest',
+  middleware: [clearHeader(document.querySelector('header'))],
+})
+```
+
+Middleware that returns `rects` should be listed before `onlyIfNeeded()`, which then checks the changed measurements. Reading `viewportRects` calls the earlier middleware for the viewport early, so keep middleware free of side effects.
 
 # TypeScript support
 
@@ -328,6 +486,15 @@ function scrollToTarget(selector: string, options: CustomOptions = {}) {
 }
 ```
 
+# Breaking API changes from v3
+
+`scrollMode` is deprecated and will be removed in the next major version. Use `scroll: 'if-needed'`:
+
+```diff
+-scrollIntoView(target, { scrollMode: 'if-needed' })
++scrollIntoView(target, { scroll: 'if-needed' })
+```
+
 # Breaking API changes from v1
 
 Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
@@ -349,7 +516,7 @@ scrollIntoViewIfNeeded(target)
 import scrollIntoView from 'scroll-into-view-if-needed'
 
 // Must provide these options to behave the same way as v1 default
-scrollIntoView(target, { block: 'nearest', scrollMode: 'if-needed' })
+scrollIntoView(target, { block: 'nearest', scroll: 'if-needed' })
 ```
 
 ## centerIfNeeded
@@ -457,8 +624,11 @@ This API signature was warned to be dropped in `v2.0.0`, and it was.
 [size-badge]: https://img.shields.io/bundlephobia/min/scroll-into-view-if-needed?label=size&style=flat-square
 [unpkg-dist]: https://unpkg.com/scroll-into-view-if-needed/dist/
 
-# Sponsors
+# Development
 
-Thanks to [BrowserStack](https://www.browserstack.com) for sponsoring cross browser and device testing 😄
+The project uses [Vite+](https://viteplus.dev). Install dependencies with `vp install`, then:
 
-<a href="https://www.browserstack.com" target="_blank"><img src="https://www.browserstack.com/images/layout/logo.svg"></a>
+- `vp test` runs the unit tests (jsdom) and the browser tests (Chromium through Playwright, run `vp exec playwright install chromium` once first). Add `--coverage` for a coverage report.
+- `vp check` formats, lints and type-checks the code, including the type tests in `tests/typescript`.
+- `vp exec knip` reports unused files, exports and dependencies.
+- `vp pack` builds the package into `dist`.

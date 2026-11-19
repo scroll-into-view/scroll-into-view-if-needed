@@ -1,0 +1,64 @@
+name: Renovate changeset
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changeset:
+    # Only react to Renovate's own pushes, so the changeset commit doesn't retrigger this job
+    if: github.actor == 'renovate[bot]' && startsWith(github.head_ref, 'renovate/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # fallback: push with GITHUB_TOKEN when no GitHub App is configured
+    steps:
+      # Pushes made with GITHUB_TOKEN don't trigger CI, which leaves the PR without status checks and blocks automerge.
+      # Configure the `CHANGESET_APP_ID` variable and `CHANGESET_APP_PRIVATE_KEY` secret to push with a GitHub App instead.
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        if: vars.CHANGESET_APP_ID != ''
+        with:
+          app-id: ${{ vars.CHANGESET_APP_ID }}
+          private-key: ${{ secrets.CHANGESET_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token || github.token }}
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+      - name: Generate changeset
+        env:
+          BRANCH: ${{ github.head_ref }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          base=$(git merge-base origin/main HEAD)
+          pick='{dependencies, peerDependencies, optionalDependencies}'
+          if [ "$(git show "$base:package.json" | jq -S "$pick")" = "$(jq -S "$pick" package.json)" ]; then
+            echo "No runtime dependency changes, skipping"
+            exit 0
+          fi
+          file=".changeset/$(printf '%s' "$BRANCH" | tr -c 'A-Za-z0-9._-' '-').md"
+          if [ -f "$file" ]; then
+            echo "$file already exists"
+            exit 0
+          fi
+          summary=$(printf '%s' "$TITLE" | sed -E 's/^[a-z]+(\([^)]*\))?!?: //')
+          created=$(pnpm change "$(jq -r .name package.json)" --bump patch --summary "$summary" --yes | sed -n 's/^Recorded change intent //p')
+          mv "$created" "$file"
+          cat "$file"
+          # Renovate lists this author in `gitIgnoredAuthors`, so it keeps rebasing the PR
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$file"
+          git commit -m 'chore: add changeset'
+          git push

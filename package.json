@@ -1,7 +1,7 @@
 {
   "name": "scroll-into-view-if-needed",
-  "version": "3.1.0",
-  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scrollMode: if-needed, behavior: smooth and block: center",
+  "version": "3.2.1",
+  "description": "Ponyfill for upcoming Element.scrollIntoView() APIs like scroll: if-needed, behavior: smooth and block: center",
   "keywords": [
     "behavior-smooth",
     "if-needed",
@@ -26,50 +26,43 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "source": "./src/index.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
+    ".": "./dist/index.js",
+    "./middleware": "./dist/middleware.js",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "source": "./src/index.ts",
-  "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
+  ],
+  "browserslist": [
+    "baseline 2019"
   ],
   "scripts": {
-    "build": "pnpm run clean && pkg build --strict",
-    "clean": "rimraf 'dist'",
-    "prepublishOnly": "pnpm run build",
-    "typecheck": "tsc && tsc --noEmit -p tests/typescript",
-    "release": "pnpm build && changeset publish"
-  },
-  "browserslist": [
-    "> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead and not IE 11",
-    "maintained node versions"
-  ],
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
+    "build": "vp pack && vp run check:es",
+    "check:es": "es-check es2017 --module dist/index.js dist/middleware.js",
+    "prepublishOnly": "vp run build",
+    "release": "vp run build && changeset publish",
+    "prepare": "vp config && vp run build"
   },
   "dependencies": {
-    "compute-scroll-into-view": "^3.0.2"
+    "compute-scroll-into-view": "^4.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/core": "^0.18.5",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
-    "@sanity/pkg-utils": "^4.4.4",
-    "cross-env": "^7.0.3",
-    "prettier": "^3.0.3",
-    "prettier-plugin-packagejson": "^2.4.3",
-    "rimraf": "^4.1.2",
-    "typescript": "^5.0.0"
+    "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "browserslist": "^4.29.5",
+    "es-check": "^9.9.0",
+    "jsdom": "^31.0.1",
+    "knip": "^6.45.1",
+    "playwright": "*",
+    "publint": "^0.3.25",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "bundlesize": [
     {
@@ -78,12 +71,9 @@
       "compression": "none"
     }
   ],
-  "packageManager": "pnpm@12.18.0",
+  "packageManager": "pnpm@12.21.0",
   "publishConfig": {
     "access": "public",
     "provenance": true
-  },
-  "engines": {
-    "node": ">=26"
   }
 }

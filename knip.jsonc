@@ -1,0 +1,7 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  // Type tests, only type-checked by `vp check` (see tests/typescript/tsconfig.json)
+  "entry": ["tests/typescript/*.ts", "src/middleware.ts"],
+  // Loaded by tsdown for the `publint` and `attw` checks in vite.config.ts `pack`
+  "ignoreDependencies": ["@arethetypeswrong/core", "publint"],
+}

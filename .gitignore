@@ -1,19 +1,15 @@
 node_modules
 
 # Cypress stuff
-**/cypress/screenshots
-**/cypress/videos
 **/junit
-
-# Browserstack stuff
-**/tests_output
-selenium-debug.log
 
 # Typescript stuff
 src/*.js
 
 lerna-debug.log
-.next
-tests/web-platform/local.log
-.vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 dist
+.vitest/
+coverage
