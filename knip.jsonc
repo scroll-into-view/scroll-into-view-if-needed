@@ -4,4 +4,6 @@
   "entry": ["tests/typescript/*.ts", "src/middleware.ts"],
   // Loaded by tsdown for the `publint` and `attw` checks in vite.config.ts `pack`
   "ignoreDependencies": ["@arethetypeswrong/core", "publint"],
+  // `pnpm change` in .github/workflows/renovate-changeset.yml is not an installed package binary
+  "ignoreBinaries": ["change"],
 }
