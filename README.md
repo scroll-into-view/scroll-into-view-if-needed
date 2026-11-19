@@ -36,20 +36,25 @@ Besides ponyfilling `Element.scrollIntoView`, the [`middleware`](#middleware) op
   - [Scroll a text range into view](#scroll-a-text-range-into-view)
   - [Write your own middleware](#write-your-own-middleware)
 - [TypeScript support](#typescript-support)
-- [Breaking API changes from v3](#breaking-api-changes-from-v3)
-- [Breaking API changes from v1](#breaking-api-changes-from-v1)
-  - [v1](#v1)
-  - [v2](#v2)
-  - [centerIfNeeded](#centerifneeded)
-    - [v1](#v1-1)
-    - [v2](#v2-1)
-  - [duration](#duration)
-    - [v1](#v1-2)
-    - [v2](#v2-2)
-  - [easing](#easing)
-  - [handleScroll](#handlescroll)
-  - [offset](#offset)
-  - [scrollIntoViewIfNeeded(target, \[centerIfNeeded\], \[animateOptions\], \[finalElement\], \[offsetOptions\])](#scrollintoviewifneededtarget-centerifneeded-animateoptions-finalelement-offsetoptions)
+- [Migrate](#migrate)
+  - [Breaking API changes from v3](#breaking-api-changes-from-v3)
+  - [Breaking API changes from v2](#breaking-api-changes-from-v2)
+    - [UMD build](#umd-build)
+    - [Modern syntax](#modern-syntax)
+    - [TypeScript `Options`](#typescript-options)
+  - [Breaking API changes from v1](#breaking-api-changes-from-v1)
+    - [v1](#v1)
+    - [v2](#v2)
+    - [centerIfNeeded](#centerifneeded)
+      - [v1](#v1-1)
+      - [v2](#v2-1)
+    - [duration](#duration)
+      - [v1](#v1-2)
+      - [v2](#v2-2)
+    - [easing](#easing)
+    - [handleScroll](#handlescroll)
+    - [offset](#offset)
+    - [scrollIntoViewIfNeeded(target, \[centerIfNeeded\], \[animateOptions\], \[finalElement\], \[offsetOptions\])](#scrollintoviewifneededtarget-centerifneeded-animateoptions-finalelement-offsetoptions)
 - [Related packages](#related-packages)
 - [Who's using this](#whos-using-this)
 - [Development](#development)
@@ -486,7 +491,9 @@ function scrollToTarget(selector: string, options: CustomOptions = {}) {
 }
 ```
 
-# Breaking API changes from v3
+# Migrate
+
+## Breaking API changes from v3
 
 `scrollMode` is deprecated and will be removed in the next major version. Use `scroll: 'if-needed'`:
 
@@ -495,13 +502,46 @@ function scrollToTarget(selector: string, options: CustomOptions = {}) {
 +scrollIntoView(target, { scroll: 'if-needed' })
 ```
 
-# Breaking API changes from v1
+## Breaking API changes from v2
+
+v3 changed how the package is built and published, not how `scrollIntoView` behaves at runtime. Your calls keep working, but how you load the package and some type imports may need updating.
+
+### UMD build
+
+The UMD build is removed, and with it the `window.scrollIntoView` global. Use the ESM build from a CDN instead:
+
+```diff
+-<script src="https://unpkg.com/scroll-into-view-if-needed/umd/scroll-into-view-if-needed.min.js"></script>
++<script type="module">
++  import scrollIntoView from 'https://esm.sh/scroll-into-view-if-needed'
++</script>
+```
+
+### Modern syntax
+
+v2 was compiled to ES5. v3 ships modern syntax with ESM as the baseline, and no longer targets Internet Explorer 11. If you still support browsers that don't understand ES modules, transpile the package in your bundler.
+
+### TypeScript `Options`
+
+`Options` is now a union of `StandardBehaviorOptions` and `CustomBehaviorOptions`, instead of an interface. An `interface` can't extend a union, so extend one of the two interfaces instead:
+
+```diff
+-import { Options } from 'scroll-into-view-if-needed'
++import { type StandardBehaviorOptions } from 'scroll-into-view-if-needed'
+
+-interface CustomOptions extends Options {
++interface CustomOptions extends StandardBehaviorOptions {
+   useBoundary?: boolean
+ }
+```
+
+## Breaking API changes from v1
 
 Since v1 ponyfilled Element.scrollIntoViewIfNeeded, while v2 ponyfills Element.scrollIntoView, there are breaking changes from the differences in their APIs.
 
 The biggest difference is that the new behavior follows the spec, so the "if-needed" behavior is **not enabled by default:**
 
-### v1
+#### v1
 
 ```js
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -510,7 +550,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 scrollIntoViewIfNeeded(target)
 ```
 
-### v2
+#### v2
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -519,13 +559,13 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 scrollIntoView(target, { block: 'nearest', scroll: 'if-needed' })
 ```
 
-## centerIfNeeded
+### centerIfNeeded
 
 The old `Element.scrollIntoView` api only had two settings, align to top or bottom. [`Element.scrollIntoViewIfNeeded`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded) had two more, align to the center or nearest edge.
 The `Element.scrollIntoView` spec now supports these two modes as `block: 'center'` and `block: 'nearest'`.
 Breaking changes sucks, but on the plus side your code is now more portable and will make this library easier to delete from your codebase on the glorious day browser support is good enough.
 
-### v1
+#### v1
 
 ```js
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -538,7 +578,7 @@ scrollIntoViewIfNeeded(target, true)
 scrollIntoViewIfNeeded(target, false)
 ```
 
-### v2
+#### v2
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -547,11 +587,11 @@ scrollIntoView(target, { block: 'center' })
 scrollIntoView(target, { block: 'nearest' })
 ```
 
-## duration
+### duration
 
 [More information.](#ponyfill-smooth-scrolling)
 
-### v1
+#### v1
 
 ```js
 import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
@@ -559,7 +599,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 scrollIntoViewIfNeeded(target, { duration: 300 })
 ```
 
-### v2
+#### v2
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -569,11 +609,11 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed'
 scrollIntoView(target, { behavior: 'smooth' })
 ```
 
-## easing
+### easing
 
 This feature is removed, but you can achieve the same thing by implementing [`behavior: Function`](#function).
 
-## handleScroll
+### handleScroll
 
 This is replaced with [`behavior: Function`](#function) with one key difference. Instead of firing once per element that should be scrolled, the new API only fires once and instead give you an array so you can much easier batch and scroll multiple elements at the same time. Or sync scrolling with another element if that's the kind of stuff you're into, I don't judge.
 
@@ -591,12 +631,12 @@ This is replaced with [`behavior: Function`](#function) with one key difference.
 +})})
 ```
 
-## offset
+### offset
 
 This was always a buggy feature and warned against using in v1 as it might get dropped.
 It's much safer to use CSS wrapper elements for this kind of thing.
 
-## scrollIntoViewIfNeeded(target, [centerIfNeeded], [animateOptions], [finalElement], [offsetOptions])
+### scrollIntoViewIfNeeded(target, [centerIfNeeded], [animateOptions], [finalElement], [offsetOptions])
 
 This API signature was warned to be dropped in `v2.0.0`, and it was.
 
