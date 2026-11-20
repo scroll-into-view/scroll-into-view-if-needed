@@ -36,6 +36,10 @@ scrollIntoView(node, {
 
 scrollIntoView(node, { behavior: 'instant' })
 
+// A Range or Selection scrolls its text into view
+scrollIntoView(document.createRange(), { scroll: 'if-needed' })
+scrollIntoView(document.getSelection()!, { block: 'nearest' })
+
 // Test cases that should fail
 
 // Nothing is returned
@@ -50,6 +54,8 @@ scrollIntoView<boolean>(node)
 
 // @ts-expect-error
 scrollIntoView(undefined)
+// @ts-expect-error
+scrollIntoView(document.createTextNode('text'))
 // @ts-expect-error
 scrollIntoView(node, { unknown: 'option' })
 // @ts-expect-error

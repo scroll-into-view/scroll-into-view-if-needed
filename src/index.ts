@@ -74,7 +74,7 @@ const getOptions = (options: any): StandardBehaviorOptions => {
 
 // No object rest or spread, which would pull helpers into the Baseline 2019 build
 const getActions = (
-  target: Element,
+  target: Element | Range | Selection,
   options: StandardBehaviorOptions,
 ): ScrollAction[] => {
   const middleware: Middleware[] = []
@@ -103,18 +103,28 @@ const getActions = (
 const isInDocument = (element: Node) =>
   element.getRootNode({ composed: true }) === element.ownerDocument
 
+// compute() walks from the focus end of a Range or Selection, so that is the node that has to be connected
+const getNode = (target: Element | Range | Selection): Node | null =>
+  'rangeCount' in target
+    ? target.focusNode
+    : 'endContainer' in target
+      ? target.endContainer
+      : target
+
 /**
- * Scrolls the given element into view, with options for when, and how.
+ * Scrolls the given element, or the text in a `Range` or `Selection`, into view, with options for when, and how.
  * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'` and `middleware`.
+ * Add `selection()` from `scroll-into-view-if-needed/middleware` to align the caret of a `Range` or `Selection` instead of the whole text.
  * To scroll with your own animation, call `compute()` from `compute-scroll-into-view` and apply the actions it returns.
  * @public
  */
 function scrollIntoView(
-  target: Element,
+  target: Element | Range | Selection,
   options?: StandardBehaviorOptions | boolean,
 ): void {
+  const node = getNode(target)
   // Browsers treats targets that aren't in the dom as a no-op and so should we
-  if (!target.isConnected || !isInDocument(target)) {
+  if (!node?.isConnected || !isInDocument(node)) {
     return
   }
 

@@ -96,6 +96,44 @@ describe('whether the target is in its document', () => {
   })
 })
 
+describe('Range and Selection targets', () => {
+  test('passes a connected Range on to compute', () => {
+    const range = document.createRange()
+    range.selectNodeContents(createTarget())
+
+    scrollIntoView(range)
+
+    expect(computeMock).toHaveBeenCalledWith(range, expect.any(Object))
+  })
+
+  test('ignores a Range whose end is not connected', () => {
+    const range = document.createRange()
+    range.selectNodeContents(document.createElement('div'))
+
+    scrollIntoView(range)
+
+    expect(computeMock).not.toHaveBeenCalled()
+  })
+
+  test('passes a Selection on to compute', () => {
+    const selected = document.getSelection()!
+    selected.selectAllChildren(createTarget())
+
+    scrollIntoView(selected)
+
+    expect(computeMock).toHaveBeenCalledWith(selected, expect.any(Object))
+  })
+
+  test('ignores a Selection without ranges', () => {
+    const selected = document.getSelection()!
+    selected.removeAllRanges()
+
+    scrollIntoView(selected)
+
+    expect(computeMock).not.toHaveBeenCalled()
+  })
+})
+
 describe('options', () => {
   const start = { block: 'start', inline: 'nearest', middleware: [] }
   const end = { block: 'end', inline: 'nearest', middleware: [] }

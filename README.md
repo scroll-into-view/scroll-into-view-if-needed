@@ -168,6 +168,8 @@ scrollIntoViewSmoothly(node, { behavior: 'smooth' })
 
 > New API introduced in `v1.3.0`
 
+`target` is an `Element`, or a `Range` or `Selection` to [scroll text into view](#scroll-a-text-range-into-view).
+
 ## options
 
 Type: `Object`
@@ -310,13 +312,13 @@ Built in:
 - `boundary(limit)` stops at an element, or at the first ancestor a function returns `false` for. The boundary itself is scrolled if it's a scroll container.
 - `skipOverflowHiddenElements()` leaves `overflow: hidden` scroll containers alone, like Firefox's `scrollIntoView` does.
 - `onlyIfNeeded()` is what `scroll: 'if-needed'` adds.
-- `selection(selection, options)` aligns a text selection instead of the target.
+- `selection(selection, options)` aligns the caret of a `Range` or `Selection` target, or of a text selection instead of an element target.
 
 ## Scroll a text range into view
 
-`selection()` is for editors and anything else that has to keep the caret in view. It takes a `Range` or a `Selection`, and defaults to `document.getSelection()`. A collapsed caret is measured as the character or node next to it, so empty lines and carets next to images work too.
+The target can be a `Range` or a `Selection` instead of an element. Its text is scrolled into view in the scroll containers around the end of the range, the focus of a selection, which is where the caret is. A `Selection` without ranges does nothing.
 
-The ancestors that get scrolled are still the target's. Pass an element inside the scroll container, like the parent element of the range, and not the scroll container itself.
+`selection()` is for editors and anything else that has to keep the caret in view. Without it the box around all of the text is aligned. With it the caret is. A collapsed caret is measured as the character or node next to it, so empty lines and carets next to images work too.
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -324,15 +326,24 @@ import { selection } from 'scroll-into-view-if-needed/middleware'
 
 const range = document.getSelection().getRangeAt(0)
 
-scrollIntoView(range.startContainer.parentElement, {
+scrollIntoView(range, {
   scroll: 'if-needed',
   block: 'nearest',
   inline: 'nearest',
-  middleware: [selection(range)],
+  middleware: [selection()],
 })
 ```
 
-`scroll: 'if-needed'` runs after `selection()`, so it's the caret that decides if scrolling is needed. `options.align` picks what is aligned. `'focus'` is the default, the end of the selection where the caret is. A `Range` has no direction, so its focus is its end, pass the `Selection` for a backward one. `'bounds'` aligns the box around the whole selection:
+`scroll: 'if-needed'` runs after `selection()`, so it's the caret that decides if scrolling is needed. A `Range` has no direction, so its caret is its end. Pass the `Selection` for a backward one:
+
+```js
+scrollIntoView(document.getSelection(), {
+  block: 'nearest',
+  middleware: [selection()],
+})
+```
+
+`selection()` uses the target when it's a `Range` or a `Selection`, and otherwise `document.getSelection()`. To align text while scrolling the ancestors of an element target, pass the `Range` or `Selection` to it: `selection(range)`. `options.align` picks what is aligned. `'focus'` is the default, the caret. `'bounds'` aligns the box around the whole selection, which is what a `Range` or `Selection` target does without `selection()`:
 
 ```js
 scrollIntoView(element, {
