@@ -60,7 +60,7 @@ afterEach(() => {
   document.body.replaceChildren()
 })
 
-describe('targets that are not in the document', () => {
+describe('whether the target is in its document', () => {
   test('ignores targets that are not connected', () => {
     const target = document.createElement('div')
 
@@ -68,25 +68,40 @@ describe('targets that are not in the document', () => {
     expect(computeMock).not.toHaveBeenCalled()
   })
 
-  test('ignores targets that are connected to another document', () => {
+  test('scrolls targets that are connected to another document', () => {
     const otherDocument = document.implementation.createHTMLDocument()
     const target = otherDocument.createElement('div')
     otherDocument.body.append(target)
 
     expect(target.isConnected).toBe(true)
-    expect(scrollIntoView(target)).toBeUndefined()
-    expect(computeMock).not.toHaveBeenCalled()
-  })
-
-  test('scrolls targets inside a shadow root', () => {
-    const host = createTarget()
-    const target = document.createElement('div')
-    host.attachShadow({ mode: 'open' }).append(target)
-
     scrollIntoView(target)
 
     expect(computeMock).toHaveBeenCalledOnce()
     expect(computeMock).toHaveBeenCalledWith(target, expect.any(Object))
+  })
+
+  test.each(['open', 'closed'] as const)(
+    'scrolls targets inside a %s shadow root',
+    (mode) => {
+      const host = createTarget()
+      const target = document.createElement('div')
+      host.attachShadow({ mode }).append(target)
+
+      scrollIntoView(target)
+
+      expect(computeMock).toHaveBeenCalledOnce()
+      expect(computeMock).toHaveBeenCalledWith(target, expect.any(Object))
+    },
+  )
+
+  test('ignores targets in a detached shadow tree', () => {
+    const host = document.createElement('div')
+    const target = document.createElement('div')
+    host.attachShadow({ mode: 'open' }).append(target)
+
+    expect(target.isConnected).toBe(false)
+    expect(scrollIntoView(target)).toBeUndefined()
+    expect(computeMock).not.toHaveBeenCalled()
   })
 })
 

@@ -137,22 +137,11 @@ const getActions = (
   })
 }
 
-// Determine if the element is part of the document (including shadow dom)
-// Derived from code of Andy Desmarais
-// https://terodox.tech/how-to-tell-if-an-element-is-in-the-dom-including-the-shadow-dom/
-const isInDocument = (element: Node) => {
-  let currentElement = element
-  while (currentElement && currentElement.parentNode) {
-    if (currentElement.parentNode === document) {
-      return true
-    } else if (currentElement.parentNode instanceof ShadowRoot) {
-      currentElement = currentElement.parentNode.host
-    } else {
-      currentElement = currentElement.parentNode
-    }
-  }
-  return false
-}
+// Walks out of open and closed shadow trees in the target's own realm, then
+// compares that root with ownerDocument. An iframe target is connected to its
+// own document, so this does not use the caller's document or ShadowRoot.
+const isInDocument = (element: Node) =>
+  element.getRootNode({ composed: true }) === element.ownerDocument
 
 /**
  * Scrolls the given element into view, with options for when, and how.
