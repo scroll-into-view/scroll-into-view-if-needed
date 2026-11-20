@@ -1,4 +1,6 @@
 import scrollIntoView from '../../src/index'
+import { onlyIfNeeded, selection } from '../../src/middleware'
+import type { Middleware } from '../../src/middleware'
 
 const node = document.body
 
@@ -36,6 +38,22 @@ scrollIntoView(node, {
 
 scrollIntoView(node, { behavior: 'instant' })
 
+// An element is fine with or without selection()
+scrollIntoView(node, { middleware: [selection()] })
+scrollIntoView(node, { middleware: [onlyIfNeeded()] })
+
+// A Range or Selection scrolls its text into view, with selection() in the middleware
+const range = document.createRange()
+const selected = document.getSelection()!
+const custom: Middleware = { name: 'custom', fn: () => ({}) }
+scrollIntoView(range, { scroll: 'if-needed', middleware: [selection()] })
+scrollIntoView(selected, { block: 'nearest', middleware: [selection()] })
+scrollIntoView(range, { middleware: [custom, selection(), onlyIfNeeded()] })
+scrollIntoView(range, {
+  behavior: 'smooth',
+  middleware: [selection(undefined, { align: 'bounds' })],
+})
+
 // Test cases that should fail
 
 // Nothing is returned
@@ -50,6 +68,27 @@ scrollIntoView<boolean>(node)
 
 // @ts-expect-error
 scrollIntoView(undefined)
+// A Range or Selection needs selection() in the middleware
+// @ts-expect-error
+scrollIntoView(range)
+// @ts-expect-error
+scrollIntoView(range, true)
+// @ts-expect-error
+scrollIntoView(range, { scroll: 'if-needed' })
+// @ts-expect-error
+scrollIntoView(range, { middleware: [] })
+// @ts-expect-error
+scrollIntoView(range, { middleware: [onlyIfNeeded()] })
+// @ts-expect-error
+scrollIntoView(range, { middleware: [custom] })
+// @ts-expect-error
+scrollIntoView(selected)
+// @ts-expect-error
+scrollIntoView(selected, { block: 'nearest' })
+// @ts-expect-error
+scrollIntoView(selected, { scroll: 'if-needed', middleware: [custom] })
+// @ts-expect-error
+scrollIntoView(document.createTextNode('text'))
 // @ts-expect-error
 scrollIntoView(node, { unknown: 'option' })
 // @ts-expect-error

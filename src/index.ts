@@ -2,9 +2,11 @@ import { compute } from 'compute-scroll-into-view'
 import type {
   Options as ComputeOptions,
   Middleware,
+  RequireSelection,
   ScrollAction,
+  SelectionMiddleware,
 } from 'compute-scroll-into-view'
-import { onlyIfNeeded } from 'compute-scroll-into-view/middleware'
+import { onlyIfNeeded, selection } from 'compute-scroll-into-view/middleware'
 
 /** @public */
 export type Options = StandardBehaviorOptions
@@ -52,6 +54,17 @@ export interface StandardBehaviorOptions extends BaseOptions {
   behavior?: ScrollBehavior
 }
 
+/**
+ * The options for a `Range` or `Selection` target, where `middleware` has to include `selection()`. An element target
+ * doesn't need it.
+ * @public
+ */
+export interface SelectionTargetOptions<
+  M extends readonly Middleware[],
+> extends Omit<StandardBehaviorOptions, 'middleware'> {
+  middleware: M & RequireSelection<M>
+}
+
 const isStandardScrollBehavior = (
   options: any,
 ): options is StandardBehaviorOptions =>
@@ -72,9 +85,15 @@ const getOptions = (options: any): StandardBehaviorOptions => {
   return { block: 'start', inline: 'nearest' }
 }
 
+// The type only says that selection() is in the list, which is all compute() asks for
+const hasSelection = (
+  list: Middleware[],
+): list is [...Middleware[], SelectionMiddleware] =>
+  list.some(({ name }) => name === 'selection')
+
 // No object rest or spread, which would pull helpers into the Baseline 2019 build
 const getActions = (
-  target: Element,
+  target: Element | Range | Selection,
   options: StandardBehaviorOptions,
 ): ScrollAction[] => {
   const middleware: Middleware[] = []
@@ -89,11 +108,19 @@ const getActions = (
   if (scroll === 'if-needed') {
     middleware.push(onlyIfNeeded())
   }
+  const { block, inline, container } = options
+  if ('nodeType' in target) {
+    return compute(target, { block, inline, container, middleware })
+  }
+  // TypeScript only accepts a Range or Selection with selection() in the middleware. Without it, which plain
+  // JavaScript allows, the box around the whole selection is aligned, like compute() does
   return compute(target, {
-    block: options.block,
-    inline: options.inline,
-    container: options.container,
-    middleware,
+    block,
+    inline,
+    container,
+    middleware: hasSelection(middleware)
+      ? middleware
+      : [selection(undefined, { align: 'bounds' }), ...middleware],
   })
 }
 
@@ -103,8 +130,16 @@ const getActions = (
 const isInDocument = (element: Node) =>
   element.getRootNode({ composed: true }) === element.ownerDocument
 
+// compute() walks from the focus end of a Range or Selection, so that is the node that has to be connected
+const getNode = (target: Element | Range | Selection): Node | null =>
+  'rangeCount' in target
+    ? target.focusNode
+    : 'endContainer' in target
+      ? target.endContainer
+      : target
+
 /**
- * Scrolls the given element into view, with options for when, and how.
+ * Scrolls the given element, or the text in a `Range` or `Selection`, into view, with options for when, and how.
  * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'` and `middleware`.
  * To scroll with your own animation, call `compute()` from `compute-scroll-into-view` and apply the actions it returns.
  * @public
@@ -112,9 +147,24 @@ const isInDocument = (element: Node) =>
 function scrollIntoView(
   target: Element,
   options?: StandardBehaviorOptions | boolean,
+): void
+/**
+ * Scrolls the text in a `Range` or `Selection` into view. `middleware` has to include `selection()` from
+ * `scroll-into-view-if-needed/middleware`, which aligns the caret: the end of a `Range`, or the focus of a
+ * `Selection`. To align the whole text, use `selection(undefined, { align: 'bounds' })`.
+ * @public
+ */
+function scrollIntoView<const M extends readonly Middleware[]>(
+  target: Range | Selection,
+  options: SelectionTargetOptions<M>,
+): void
+function scrollIntoView(
+  target: Element | Range | Selection,
+  options?: StandardBehaviorOptions | boolean,
 ): void {
+  const node = getNode(target)
   // Browsers treats targets that aren't in the dom as a no-op and so should we
-  if (!target.isConnected || !isInDocument(target)) {
+  if (!node?.isConnected || !isInDocument(node)) {
     return
   }
 

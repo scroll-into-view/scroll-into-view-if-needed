@@ -9,16 +9,17 @@
 +scrollIntoView(target, { scroll: 'if-needed' })
 ```
 
-`selection()` from `scroll-into-view-if-needed/middleware` scrolls a text range instead of the element, which is how an editor keeps the caret in view. `middleware` runs before `onlyIfNeeded()`, which `scroll: 'if-needed'` adds last:
+The target can be a `Range` or a `Selection`, which scrolls its text into view. Its `middleware` has to include `selection()` from `scroll-into-view-if-needed/middleware`, which aligns the caret, how an editor keeps the caret in view, and it's a type error without it. An element target is accepted with or without `selection()`. `selection(undefined, { align: 'bounds' })` aligns the box around all of the text. `middleware` runs before `onlyIfNeeded()`, which `scroll: 'if-needed'` adds last:
 
 ```ts
 import scrollIntoView from 'scroll-into-view-if-needed'
 import { selection } from 'scroll-into-view-if-needed/middleware'
 
-scrollIntoView(node, {
-  block: 'nearest',
+scrollIntoView(range, {
   scroll: 'if-needed',
-  middleware: [selection(range)],
+  block: 'nearest',
+  inline: 'nearest',
+  middleware: [selection()],
 })
 ```
 

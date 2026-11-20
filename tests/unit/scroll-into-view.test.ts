@@ -2,19 +2,25 @@ import {
   compute,
   type Middleware,
   type ScrollAction,
+  type SelectionMiddleware,
 } from 'compute-scroll-into-view'
-import { onlyIfNeeded } from 'compute-scroll-into-view/middleware'
+import { onlyIfNeeded, selection } from 'compute-scroll-into-view/middleware'
 import { afterEach, describe, expect, test, vi } from 'vite-plus/test'
 
 import scrollIntoView from '../../src/index'
 
 const middleware = (name: string): Middleware => ({ name, fn: () => ({}) })
+const selectionMiddleware = (): SelectionMiddleware => ({
+  name: 'selection',
+  fn: () => ({}),
+})
 
 vi.mock('compute-scroll-into-view', () => ({
   compute: vi.fn<typeof compute>(() => []),
 }))
 vi.mock('compute-scroll-into-view/middleware', () => ({
   onlyIfNeeded: vi.fn<typeof onlyIfNeeded>(() => middleware('onlyIfNeeded')),
+  selection: vi.fn<typeof selection>(() => selectionMiddleware()),
 }))
 
 const computeMock = vi.mocked(compute)
@@ -93,6 +99,97 @@ describe('whether the target is in its document', () => {
     expect(target.isConnected).toBe(false)
     expect(scrollIntoView(target)).toBeUndefined()
     expect(computeMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('Range and Selection targets', () => {
+  test('passes a connected Range on to compute', () => {
+    const range = document.createRange()
+    range.selectNodeContents(createTarget())
+    const own = selectionMiddleware()
+
+    scrollIntoView(range, { middleware: [own] })
+
+    expect(computeMock).toHaveBeenCalledWith(
+      range,
+      expect.objectContaining({ middleware: [own] }),
+    )
+  })
+
+  test('ignores a Range whose end is not connected', () => {
+    const range = document.createRange()
+    range.selectNodeContents(document.createElement('div'))
+
+    scrollIntoView(range, { middleware: [selectionMiddleware()] })
+
+    expect(computeMock).not.toHaveBeenCalled()
+  })
+
+  test('passes a Selection on to compute', () => {
+    const selected = document.getSelection()!
+    selected.selectAllChildren(createTarget())
+    const own = selectionMiddleware()
+
+    scrollIntoView(selected, { middleware: [own] })
+
+    expect(computeMock).toHaveBeenCalledWith(
+      selected,
+      expect.objectContaining({ middleware: [own] }),
+    )
+  })
+
+  test('ignores a Selection without ranges', () => {
+    const selected = document.getSelection()!
+    selected.removeAllRanges()
+
+    scrollIntoView(selected, { middleware: [selectionMiddleware()] })
+
+    expect(computeMock).not.toHaveBeenCalled()
+  })
+
+  test('keeps the selection() middleware of the caller, before onlyIfNeeded()', () => {
+    const range = document.createRange()
+    range.selectNodeContents(createTarget())
+
+    scrollIntoView(range, {
+      scroll: 'if-needed',
+      middleware: [selectionMiddleware(), middleware('custom')],
+    })
+
+    expect(middlewareNames()).toEqual(['selection', 'custom', 'onlyIfNeeded'])
+    expect(selection).not.toHaveBeenCalled()
+  })
+
+  // TypeScript doesn't allow it, but JavaScript callers can leave out selection()
+  test('aligns the whole text of a Range without selection() in middleware', () => {
+    const range = document.createRange()
+    range.selectNodeContents(createTarget())
+
+    scrollIntoView(range, {
+      scroll: 'if-needed',
+      // @ts-expect-error
+      middleware: [middleware('custom')],
+    })
+
+    expect(selection).toHaveBeenCalledWith(undefined, { align: 'bounds' })
+    expect(middlewareNames()).toEqual(['selection', 'custom', 'onlyIfNeeded'])
+  })
+
+  test('aligns the whole text of a Selection without any options', () => {
+    const selected = document.getSelection()!
+    selected.selectAllChildren(createTarget())
+
+    // @ts-expect-error
+    scrollIntoView(selected)
+
+    expect(middlewareNames()).toEqual(['selection'])
+  })
+
+  test('does not add selection() for an element', () => {
+    scrollIntoView(createTarget(), { middleware: [middleware('custom')] })
+
+    expect(selection).not.toHaveBeenCalled()
+    expect(middlewareNames()).toEqual(['custom'])
   })
 })
 

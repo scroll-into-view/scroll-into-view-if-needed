@@ -10,5 +10,6 @@ export type {
   MiddlewareReturn,
   MiddlewareState,
   Rects,
+  SelectionMiddleware,
   SideObject,
 } from 'compute-scroll-into-view'
