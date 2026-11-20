@@ -21,7 +21,7 @@ jobs:
     steps:
       # Pushes made with GITHUB_TOKEN don't trigger CI, which leaves the PR without status checks and blocks automerge.
       # Configure the `CHANGESET_APP_ID` variable and `CHANGESET_APP_PRIVATE_KEY` secret to push with a GitHub App instead.
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@v3
         id: app-token
         if: vars.CHANGESET_APP_ID != ''
         with:
