@@ -4,16 +4,10 @@ import type {
   Middleware,
   ScrollAction,
 } from 'compute-scroll-into-view'
-import {
-  boundary as limitToBoundary,
-  onlyIfNeeded,
-  skipOverflowHiddenElements as skipOverflowHidden,
-} from 'compute-scroll-into-view/middleware'
+import { onlyIfNeeded } from 'compute-scroll-into-view/middleware'
 
 /** @public */
-export type Options<T = unknown> =
-  | StandardBehaviorOptions
-  | CustomBehaviorOptions<T>
+export type Options = StandardBehaviorOptions
 
 /** @public */
 export interface BaseOptions extends ComputeOptions {
@@ -29,19 +23,6 @@ export interface BaseOptions extends ComputeOptions {
    * @default 'always'
    */
   scrollMode?: 'always' | 'if-needed'
-  /**
-   * Stops scrolling at this element, or at the first parent the callback returns `false` for.
-   * The boundary itself is still scrolled, its parents are not.
-   * @deprecated Use `middleware: [boundary(limit)]` from `scroll-into-view-if-needed/middleware` instead. `boundary` will be removed in the next major version.
-   * @default null
-   */
-  boundary?: Element | ((parent: Element) => boolean) | null
-  /**
-   * Skips scrolling elements that are `overflow: hidden`.
-   * @deprecated Use `middleware: [skipOverflowHiddenElements()]` from `scroll-into-view-if-needed/middleware` instead. `skipOverflowHiddenElements` will be removed in the next major version.
-   * @default false
-   */
-  skipOverflowHiddenElements?: boolean
 }
 
 /**
@@ -49,9 +30,9 @@ export interface BaseOptions extends ComputeOptions {
  * ```ts
  * scrollIntoView(node, { scroll: 'if-needed' })
  * ```
- * Skips scrolling `overflow: hidden` elements:
+ * Only scrolls the nearest scroll container:
  * ```ts
- * scrollIntoView(node, { skipOverflowHiddenElements: true })
+ * scrollIntoView(node, { container: 'nearest' })
  * ```
  * When scrolling is needed do the least and smoothest scrolling possible:
  * ```ts
@@ -71,25 +52,10 @@ export interface StandardBehaviorOptions extends BaseOptions {
   behavior?: ScrollBehavior
 }
 
-/** @public */
-export interface CustomBehaviorOptions<T = unknown> extends BaseOptions {
-  behavior: CustomScrollBehaviorCallback<T>
-}
-
-/** @public */
-export type CustomScrollBehaviorCallback<T = unknown> = (
-  actions: ScrollAction[],
-) => T
-
 const isStandardScrollBehavior = (
   options: any,
 ): options is StandardBehaviorOptions =>
   options === Object(options) && Object.keys(options).length !== 0
-
-const isCustomScrollBehavior = <T = unknown>(
-  options: any,
-): options is CustomBehaviorOptions<T> =>
-  typeof options === 'object' && typeof options?.behavior === 'function'
 
 const getOptions = (options: any): StandardBehaviorOptions => {
   // Handle alignToTop for legacy reasons, to be compatible with the spec
@@ -109,16 +75,10 @@ const getOptions = (options: any): StandardBehaviorOptions => {
 // No object rest or spread, which would pull helpers into the Baseline 2019 build
 const getActions = (
   target: Element,
-  options: StandardBehaviorOptions | CustomBehaviorOptions,
+  options: StandardBehaviorOptions,
 ): ScrollAction[] => {
   const middleware: Middleware[] = []
-  if (options.boundary) {
-    middleware.push(limitToBoundary(options.boundary))
-  }
-  if (options.skipOverflowHiddenElements) {
-    middleware.push(skipOverflowHidden())
-  }
-  // User middleware runs after the deprecated options and before `onlyIfNeeded()`
+  // User middleware runs before `onlyIfNeeded()`
   if (options.middleware) {
     for (const item of options.middleware) {
       middleware.push(item)
@@ -145,45 +105,17 @@ const isInDocument = (element: Node) =>
 
 /**
  * Scrolls the given element into view, with options for when, and how.
- * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'`, `behavior: Function` and `skipOverflowHiddenElements`.
+ * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'` and `middleware`.
+ * To scroll with your own animation, call `compute()` from `compute-scroll-into-view` and apply the actions it returns.
  * @public
  */
 function scrollIntoView(
   target: Element,
   options?: StandardBehaviorOptions | boolean,
-): void
-/**
- * Scrolls the given element into view, with options for when, and how.
- * Supports the same `options` as [`Element.prototype.scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) with additions such as `scroll: 'if-needed'`, `behavior: Function` and `skipOverflowHiddenElements`.
- *
- * You can set the expected return type for `behavior: Function`:
- * ```ts
- * await scrollIntoView<Promise<boolean[]>>(node, {
- *   behavior: async actions => {
- *     return Promise.all(actions.map(
- *       // animate() resolves to `true` if anything was animated, `false` if the element already were in the end state
- *       ({ el, left, top }) => animate(el, {scroll: {left, top}})
- *     ))
- *   }
- * })
- * ```
- * @public
- */
-function scrollIntoView<T>(
-  target: Element,
-  options: CustomBehaviorOptions<T>,
-): T
-function scrollIntoView<T = unknown>(
-  target: Element,
-  options?: StandardBehaviorOptions | CustomBehaviorOptions<T> | boolean,
-): T | void {
+): void {
   // Browsers treats targets that aren't in the dom as a no-op and so should we
   if (!target.isConnected || !isInDocument(target)) {
     return
-  }
-
-  if (isCustomScrollBehavior<T>(options)) {
-    return options.behavior(getActions(target, options))
   }
 
   const standardOptions = getOptions(options)

@@ -34,28 +34,19 @@ scrollIntoView(node, {
   middleware: [{ name: 'custom', fn: () => ({}) }],
 })
 
-// Non-standard custom options
-scrollIntoView(node, { skipOverflowHiddenElements: true })
-scrollIntoView(node, { skipOverflowHiddenElements: false })
-scrollIntoView(node, { boundary: document.documentElement })
-// This test relies on deeper type information, if el is suddenly `any` it'll fail
-scrollIntoView(node, {
-  boundary: (el) => el.classList.contains('should-scroll'),
-})
-
-// Ensure the custom behavior callback option contains enough type information to be typesafe
-const actionsCount: number = scrollIntoView(node, {
-  behavior: (actions) => {
-    const scrollframes = actions.length
-    actions.forEach(({ el, left, top }) => {
-      el.scroll({ left, top })
-    })
-    return scrollframes
-  },
-})
-node.title = `Frames that got scrolled: ${actionsCount}`
+scrollIntoView(node, { behavior: 'instant' })
 
 // Test cases that should fail
+
+// Nothing is returned
+// @ts-expect-error
+node.title = scrollIntoView(node)
+
+// `behavior` only takes the standard values, call `compute()` for custom scrolling
+// @ts-expect-error
+scrollIntoView(node, { behavior: () => {} })
+// @ts-expect-error
+scrollIntoView<boolean>(node)
 
 // @ts-expect-error
 scrollIntoView(undefined)
@@ -73,9 +64,10 @@ scrollIntoView(node, { scrollMode: 'invalid' })
 scrollIntoView(node, { middleware: [{ name: 'custom', fn: 'nope' }] })
 // @ts-expect-error
 scrollIntoView(node, { container: 'invalid' })
+// Removed in v4, use `container` or middleware instead
 // @ts-expect-error
-scrollIntoView(node, { boundary: 'invalid' })
+scrollIntoView(node, { boundary: document.documentElement })
 // @ts-expect-error
-scrollIntoView(node, { skipOverflowHiddenElements: 'invalid' })
+scrollIntoView(node, { skipOverflowHiddenElements: true })
 // @ts-expect-error
 scrollIntoView(node, { behavior: 'invalid' })
