@@ -134,7 +134,11 @@ test('a Range target aligns the box around its text', () => {
   const range = document.createRange()
   range.selectNodeContents(caret)
 
-  scrollIntoView(range, { block: 'start', container: 'nearest' })
+  scrollIntoView(range, {
+    block: 'start',
+    container: 'nearest',
+    middleware: [selection(undefined, { align: 'bounds' })],
+  })
 
   const offset =
     range.getBoundingClientRect().top - inner.getBoundingClientRect().top
@@ -143,7 +147,11 @@ test('a Range target aligns the box around its text', () => {
   // From inside the first line to the start of the last, which is taller than `.inner`
   range.setStart(top.firstChild!, 1)
   range.setEnd(caret.firstChild!, 0)
-  scrollIntoView(range, { block: 'start', container: 'nearest' })
+  scrollIntoView(range, {
+    block: 'start',
+    container: 'nearest',
+    middleware: [selection(undefined, { align: 'bounds' })],
+  })
   expect(
     Math.abs(
       top.getBoundingClientRect().top - inner.getBoundingClientRect().top,
@@ -169,8 +177,25 @@ test('a Selection target scrolls its focus with selection(), and an empty one do
 
   selected.removeAllRanges()
   inner.scrollTop = 300
-  expect(() => scrollIntoView(selected)).not.toThrow()
+  expect(() =>
+    scrollIntoView(selected, { middleware: [selection()] }),
+  ).not.toThrow()
   expect(inner.scrollTop).toBe(300)
+})
+
+// TypeScript doesn't allow it, but JavaScript callers can leave out selection()
+test('a Range target without selection() aligns the box around its text', () => {
+  const caret = getElement('#caret')
+  const inner = getElement('.inner')
+  const range = document.createRange()
+  range.selectNodeContents(caret)
+
+  // @ts-expect-error
+  scrollIntoView(range, { block: 'start', container: 'nearest' })
+
+  const offset =
+    range.getBoundingClientRect().top - inner.getBoundingClientRect().top
+  expect(Math.abs(offset)).toBeLessThan(1)
 })
 
 test("a Range in a detached tree doesn't scroll", () => {
@@ -180,6 +205,8 @@ test("a Range in a detached tree doesn't scroll", () => {
   range.selectNodeContents(detached)
   const outer = getElement('.outer')
 
-  expect(() => scrollIntoView(range)).not.toThrow()
+  expect(() =>
+    scrollIntoView(range, { middleware: [selection()] }),
+  ).not.toThrow()
   expect(outer.scrollTop).toBe(0)
 })

@@ -168,7 +168,7 @@ scrollIntoViewSmoothly(node, { behavior: 'smooth' })
 
 > New API introduced in `v1.3.0`
 
-`target` is an `Element`, or a `Range` or `Selection` to [scroll text into view](#scroll-a-text-range-into-view).
+`target` is an `Element`, or a `Range` or `Selection` to [scroll text into view](#scroll-a-text-range-into-view). In TypeScript, a `Range` or `Selection` needs `selection()` in `middleware`, and it's a type error without it. An element is fine with or without it.
 
 ## options
 
@@ -318,7 +318,7 @@ Built in:
 
 The target can be a `Range` or a `Selection` instead of an element. Its text is scrolled into view in the scroll containers around the end of the range, the focus of a selection, which is where the caret is. A `Selection` without ranges does nothing.
 
-`selection()` is for editors and anything else that has to keep the caret in view. Without it the box around all of the text is aligned. With it the caret is. A collapsed caret is measured as the character or node next to it, so empty lines and carets next to images work too.
+`selection()` is for editors and anything else that has to keep the caret in view, and a `Range` or `Selection` target needs it in `middleware`. TypeScript reports an error when it's missing. It aligns the caret, or the box around all of the text with `selection(undefined, { align: 'bounds' })`. A collapsed caret is measured as the character or node next to it, so empty lines and carets next to images work too.
 
 ```js
 import scrollIntoView from 'scroll-into-view-if-needed'
@@ -343,9 +343,22 @@ scrollIntoView(document.getSelection(), {
 })
 ```
 
-`selection()` uses the target when it's a `Range` or a `Selection`, and otherwise `document.getSelection()`. To align text while scrolling the ancestors of an element target, pass the `Range` or `Selection` to it: `selection(range)`. `options.align` picks what is aligned. `'focus'` is the default, the caret. `'bounds'` aligns the box around the whole selection, which is what a `Range` or `Selection` target does without `selection()`:
+An element doesn't need `selection()`, so a `Range` or `Selection` without it is a type error:
+
+```ts
+scrollIntoView(element, { scroll: 'if-needed' }) // Fine
+scrollIntoView(range, { scroll: 'if-needed' }) // Error: selection() is missing from middleware
+scrollIntoView(range, { scroll: 'if-needed', middleware: [selection()] }) // Fine
+```
+
+`selection()` uses the target when it's a `Range` or a `Selection`, and otherwise `document.getSelection()`. To align text while scrolling the ancestors of an element target, pass the `Range` or `Selection` to it: `selection(range)`. `options.align` picks what is aligned. `'focus'` is the default, the caret. `'bounds'` aligns the box around the whole selection. For a `Range` or `Selection` target pass `undefined` to use the target:
 
 ```js
+scrollIntoView(range, {
+  block: 'nearest',
+  middleware: [selection(undefined, { align: 'bounds' })],
+})
+
 scrollIntoView(element, {
   block: 'nearest',
   middleware: [selection(range, { align: 'bounds' })],
