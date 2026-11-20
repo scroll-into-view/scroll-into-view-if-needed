@@ -1,5 +1,115 @@
 # scroll-into-view-if-needed
 
+## 4.0.0
+
+### Major Changes
+
+- [#1234](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1234) [`103a823`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/103a8233728246c4b50c32998ae7e731facbf81b) Thanks [@tembo](https://github.com/apps/tembo)! - Ship ESM only.
+  
+  - The CommonJS build (`dist/index.cjs`) is removed. CommonJS code can still `require()` the package on Node.js 20.19, 22.12 and later, through `require(esm)`. That returns the module namespace, so use `require('scroll-into-view-if-needed').default`.
+  - `exports` now maps `.` straight to `dist/index.js`, with its `dist/index.d.ts` declarations. For tools that don't read `exports`, `main`, `module` and `types` point at the same files.
+  - The `source` export condition and the `source` and `typings` fields are removed.
+
+- [#1253](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1253) [`92cb200`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/92cb2009498dd13634bddee6c8d11a9d381b8daa) Thanks [@stipsan](https://github.com/stipsan)! - Remove `behavior: Function`, and the `boundary` and `skipOverflowHiddenElements` options.
+  
+  - `behavior` is `'auto'`, `'smooth'` or `'instant'`, like `Element.scrollIntoView()`, and `scrollIntoView()` always returns `undefined`. The `CustomBehaviorOptions` and `CustomScrollBehaviorCallback` types are removed, `Options` is no longer generic, and `scrollIntoView` no longer takes a type argument. To do the scrolling yourself, call `compute()` from `compute-scroll-into-view` and apply the actions it returns.
+  - `boundary` is removed. Use `container: 'nearest'` to scroll only the nearest scroll container, or the `boundary()` middleware from `scroll-into-view-if-needed/middleware` to stop further out.
+  - `skipOverflowHiddenElements` is removed. Use the `skipOverflowHiddenElements()` middleware from `scroll-into-view-if-needed/middleware`.
+  
+  ```diff
+  -import scrollIntoView from 'scroll-into-view-if-needed'
+  +import { compute } from 'compute-scroll-into-view'
+  +import { onlyIfNeeded } from 'compute-scroll-into-view/middleware'
+  
+  -scrollIntoView(node, {
+  -  block: 'nearest',
+  -  scroll: 'if-needed',
+  -  behavior: (actions) =>
+  -    actions.forEach(({ el, top, left }) => {
+  -      el.scrollTop = top
+  -      el.scrollLeft = left
+  -    }),
+  -})
+  +if (node.isConnected) {
+  +  compute(node, { block: 'nearest', middleware: [onlyIfNeeded()] }).forEach(
+  +    ({ el, top, left }) => {
+  +      el.scrollTop = top
+  +      el.scrollLeft = left
+  +    },
+  +  )
+  +}
+  ```
+  
+  ```diff
+  +import { skipOverflowHiddenElements } from 'scroll-into-view-if-needed/middleware'
+  -scrollIntoView(node, { boundary: list, skipOverflowHiddenElements: true })
+  +scrollIntoView(node, {
+  +  container: 'nearest',
+  +  middleware: [skipOverflowHiddenElements()],
+  +})
+  ```
+
+- [#1241](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1241) [`bbcb7e6`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/bbcb7e64077422a2dce242807239a2436d8241ee) Thanks [@stipsan](https://github.com/stipsan)! - `scroll: 'if-needed'` scrolls only when the target isn't fully visible. `scrollMode` still does the same thing, but it is deprecated and will be removed in the next major version. Use `scroll` instead. When both are set, `scroll` is used.
+  
+  ```diff
+  -scrollIntoView(target, { scrollMode: 'if-needed' })
+  +scrollIntoView(target, { scroll: 'if-needed' })
+  ```
+  
+  `selection()` from `scroll-into-view-if-needed/middleware` scrolls a text range instead of the element, which is how an editor keeps the caret in view. `middleware` runs before `onlyIfNeeded()`, which `scroll: 'if-needed'` adds last:
+  
+  ```ts
+  import scrollIntoView from 'scroll-into-view-if-needed'
+  import { selection } from 'scroll-into-view-if-needed/middleware'
+  
+  scrollIntoView(node, {
+    block: 'nearest',
+    scroll: 'if-needed',
+    middleware: [selection(range)],
+  })
+  ```
+  
+  ### Features
+  
+  - `container: 'nearest'` scrolls only the target's nearest scroll container, or the viewport when it has none. The default, `'all'`, scrolls every scroll container, as before.
+  
+  ### Fixes
+  
+  Scrolling now follows `Element.scrollIntoView()`:
+  
+  - `scroll-padding` on a scroll container, and on the root element for the viewport, is part of the alignment. Percentage values are supported.
+  - The target's `scroll-margin` works with `block: 'center'` and `'nearest'`, and together with `scroll-padding`.
+  - `scroll: 'if-needed'` treats a target as visible only when its `scroll-margin` box is inside the `scroll-padding`. A target behind a fixed header covered by `scroll-padding-top` is scrolled into view.
+  - `nearest` is measured from the padding edge of a scroll container that has borders.
+  - `block` and `inline` follow the target's `writing-mode` and `direction`. For example, `inline: 'start'` aligns a right-to-left target to its right edge, and `block: 'start'` aligns a `vertical-rl` target to its right edge. Horizontal left-to-right targets are unchanged.
+  - Scroll containers that overflow to the left or the top use the negative `left` and `top` offsets browsers use, and a scrollbar on the left is accounted for.
+  - A target in a same-origin iframe also scrolls the parent document, up to the top-level page. Cross-origin parents are left alone. A `position: fixed` target inside a frame scrolls only the parent document.
+  - In a scroll snap container, the target lands on its own snap position, and outer scroll containers align it from there.
+  - The document body is scrolled when it is the scroll container, including when the root element's overflow is not `visible`.
+  - `overflow: visible` elements inside an iframe are no longer scrolled. Only the frame's viewport is.
+  - Only scroll containers in the target's containing block chain are scrolled. An absolutely or fixed positioned target no longer moves ancestors it isn't laid out in, and the viewport is not scrolled for a fixed target.
+  - The viewport is scrolled when the target is the scrolling element, or the root element in quirks mode.
+  - A slotted target also scrolls the scroll containers in the shadow tree it is laid out in.
+  - A target inside a frame is measured against that frame's viewport, including when the scroll is started from the parent document.
+
+### Patch Changes
+
+- [#1240](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1240) [`18ba72b`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/18ba72b9e1050beba8e2c188acbf399417f4330a) Thanks [@stipsan](https://github.com/stipsan)! - Declare the supported browsers as [Baseline 2019](https://web.dev/baseline) in the `browserslist` field of `package.json`, and build for it. The bundle stays free of optional chaining and nullish coalescing, and is now checked against ES2017, the syntax level of legacy Edge 18. `src/` and `dist/index.d.ts.map` are no longer published. `dist/index.js.map` still embeds the source.
+
+- [#1225](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1225) [`fe3906e`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/fe3906ece61c64dbb5d01dc4e36ebb437a721168) Thanks [@stipsan](https://github.com/stipsan)! - Build with Vite+ (tsdown and Rolldown) instead of `@sanity/pkg-utils`. The entry points, `exports`, and public types are unchanged.
+
+- [#1249](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1249) [`5b60717`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/5b607172fd2b76a5a9e4e129eaa100b8a76b431a) Thanks [@stipsan](https://github.com/stipsan)! - `dist/index.d.ts` keeps the `//# sourceMappingURL=index.d.ts.map` comment Rolldown appends. The declaration map is still not published, and the public types are unchanged.
+
+- [#1232](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1232) [`67049e6`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/67049e6fe45f0054652b8c2f648beb37eb817103) Thanks [@tembo](https://github.com/apps/tembo)! - Fix the documented default of the `behavior` option in the type declarations (`@default 'auto'`).
+
+- [#1233](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1233) [`53cf8aa`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/53cf8aae36e8fced81bb1871bf098d14adf9636b) Thanks [@tembo](https://github.com/apps/tembo)! - Stop applying the target's `scroll-margin` twice. compute-scroll-into-view 3.1+ already accounts for it, so elements with a scroll margin ended up offset by double the margin.
+
+- [#1233](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1233) [`53cf8aa`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/53cf8aae36e8fced81bb1871bf098d14adf9636b) Thanks [@tembo](https://github.com/apps/tembo)! - Fix `scrollIntoView(target, null)` throwing a TypeError. Like the web platform tests expect, `null` now uses the default alignment (`block: 'start'`, `inline: 'nearest'`), the same as omitting the options.
+
+- [#1252](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1252) [`f45752b`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/f45752baef21be7caa5a9e88078b41f4bb5309ce) Thanks [@feritcemkahraman](https://github.com/feritcemkahraman)! - Scroll a target that is connected to another document, such as an iframe, including that document's open and closed shadow trees. The connection check uses the target's owner document. A target in a detached shadow tree still does nothing.
+
+- [#1228](https://github.com/scroll-into-view/scroll-into-view-if-needed/pull/1228) [`6bfa3f2`](https://github.com/scroll-into-view/scroll-into-view-if-needed/commit/6bfa3f275ec6fef79acd72e40b1155ff5f0afcee) Thanks [@tembo](https://github.com/apps/tembo)! - Stop publishing the unused `src/types.ts` file. Nothing imported it, and the package's types are unchanged.
+
 ## 3.2.1
 
 ### Patch Changes
