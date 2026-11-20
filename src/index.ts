@@ -103,13 +103,14 @@ const getActions = (
 const isInDocument = (element: Node) =>
   element.getRootNode({ composed: true }) === element.ownerDocument
 
-// compute() walks from the focus end of a Range or Selection, so that is the node that has to be connected
+// compute() walks from the focus end of a Range or Selection, so that is the node that has to be connected.
+// Nodes first: a form/fieldset can expose named controls as `rangeCount` or `endContainer`.
 const getNode = (target: Element | Range | Selection): Node | null =>
-  'rangeCount' in target
-    ? target.focusNode
-    : 'endContainer' in target
-      ? target.endContainer
-      : target
+  'nodeType' in target
+    ? target
+    : 'rangeCount' in target
+      ? target.focusNode
+      : target.endContainer
 
 /**
  * Scrolls the given element, or the text in a `Range` or `Selection`, into view, with options for when, and how.
