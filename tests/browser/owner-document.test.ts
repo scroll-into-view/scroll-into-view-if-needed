@@ -4,32 +4,35 @@ import { expect, test } from 'vite-plus/test'
 
 import scrollIntoView from '../../src/index'
 
-const invoke = (target: Element): unknown => {
-  let calls = 0
-  const result = scrollIntoView(target, {
-    behavior: () => {
-      calls += 1
-      return 'called'
-    },
-  })
-  expect(calls).toBe(result === 'called' ? 1 : 0)
-  return result
+// `host` becomes a scroll container with the target below its fold, so a
+// scroll shows up as a change to `host.scrollTop`
+const makeScroller = (host: HTMLElement, parent: ParentNode) => {
+  host.style.cssText = 'height: 50px; overflow: auto'
+  const ownerDocument = host.ownerDocument
+  const spacer = ownerDocument.createElement('div')
+  spacer.style.height = '200px'
+  const target = ownerDocument.createElement('div')
+  target.style.height = '10px'
+  parent.append(spacer, target)
+  return target
 }
 
-test('a connected target in the current document invokes custom behavior', () => {
-  const target = document.createElement('div')
-  document.body.append(target)
+test('a connected target in the current document scrolls', () => {
+  const host = document.createElement('div')
+  document.body.append(host)
   try {
-    expect(invoke(target)).toBe('called')
+    const target = makeScroller(host, host)
+    scrollIntoView(target, { block: 'start' })
+    expect(host.scrollTop).toBeGreaterThan(0)
   } finally {
-    target.remove()
+    host.remove()
   }
 })
 
 const iframeModes = ['light', 'open', 'closed'] as const
 
 for (const mode of iframeModes) {
-  test(`an iframe target in ${mode} DOM invokes custom behavior`, () => {
+  test(`an iframe target in ${mode} DOM scrolls`, () => {
     const frame = document.createElement('iframe')
     document.body.append(frame)
     try {
@@ -39,10 +42,10 @@ for (const mode of iframeModes) {
       }
       const host = ownerDocument.createElement('div')
       ownerDocument.body.append(host)
-      const target = ownerDocument.createElement('div')
       const parent = mode === 'light' ? host : host.attachShadow({ mode })
-      parent.append(target)
-      expect(invoke(target)).toBe('called')
+      const target = makeScroller(host, parent)
+      scrollIntoView(target, { block: 'start' })
+      expect(host.scrollTop).toBeGreaterThan(0)
     } finally {
       frame.remove()
     }
@@ -54,5 +57,6 @@ test('a target in a detached shadow tree remains a no-op', () => {
   const target = document.createElement('div')
   host.attachShadow({ mode: 'open' }).append(target)
 
-  expect(invoke(target)).toBeUndefined()
+  expect(() => scrollIntoView(target)).not.toThrow()
+  expect(host.scrollTop).toBe(0)
 })

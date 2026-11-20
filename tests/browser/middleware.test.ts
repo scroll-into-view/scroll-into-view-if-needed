@@ -86,7 +86,7 @@ test("custom middleware can grow a container's scroll-padding", () => {
 
   scrollIntoView(caret, {
     block: 'start',
-    boundary: inner,
+    container: 'nearest',
     middleware: [clearHeader],
   })
 
@@ -107,7 +107,7 @@ test('selection() aligns the caret and `scroll: "if-needed"` runs after it', () 
     scroll: 'if-needed',
     block: 'nearest',
     inline: 'nearest',
-    boundary: inner,
+    container: 'nearest',
     middleware: [selection(range)],
   })
 
@@ -121,7 +121,7 @@ test('selection() aligns the caret and `scroll: "if-needed"` runs after it', () 
   scrollIntoView(caret, {
     scroll: 'if-needed',
     block: 'nearest',
-    boundary: inner,
+    container: 'nearest',
     middleware: [selection(range)],
   })
   expect(inner.scrollTop).toBe(scrollTop)
